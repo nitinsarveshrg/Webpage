@@ -49,8 +49,8 @@ const AnimatedBackground = ({ opacity = 0.15 }) => {
       }
     }
 
-    // Create particles
-    const particleCount = Math.floor((canvas.width * canvas.height) / 15000);
+    // Create particles - increased count for better visibility
+    const particleCount = Math.floor((canvas.width * canvas.height) / 8000);
     for (let i = 0; i < particleCount; i++) {
       particles.push(new Particle());
     }
