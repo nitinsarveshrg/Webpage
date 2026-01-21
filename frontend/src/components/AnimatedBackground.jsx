@@ -65,9 +65,9 @@ const AnimatedBackground = ({ opacity = 0.15 }) => {
           const distance = Math.sqrt(dx * dx + dy * dy);
 
           if (distance < maxDistance) {
-            const opacity = (1 - distance / maxDistance) * 0.2;
+            const opacity = (1 - distance / maxDistance) * 0.4; // Increased line visibility
             ctx.strokeStyle = `rgba(6, 182, 212, ${opacity})`;
-            ctx.lineWidth = 0.5;
+            ctx.lineWidth = 1; // Thicker lines
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
