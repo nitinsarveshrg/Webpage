@@ -6,6 +6,7 @@ import { Textarea } from './ui/textarea';
 import { Mail, Linkedin, Github, MapPin, Phone, Send } from 'lucide-react';
 import { portfolioData } from '../mock';
 import { toast } from '../hooks/use-toast';
+import AnimatedBackground from './AnimatedBackground';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -33,8 +34,9 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-zinc-950">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="contact" className="py-20 bg-zinc-950 relative overflow-hidden">
+      <AnimatedBackground opacity={0.08} />
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Get In Touch
