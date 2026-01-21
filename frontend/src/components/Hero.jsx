@@ -15,7 +15,7 @@ const Hero = () => {
   return (
     <section id="hero" className="min-h-screen flex items-center justify-center bg-zinc-950 relative overflow-hidden">
       {/* Animated network background */}
-      <AnimatedBackground opacity={0.2} />
+      <AnimatedBackground opacity={0.4} />
       
       {/* Gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-blue-500/5"></div>
