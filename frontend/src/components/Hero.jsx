@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from './ui/button';
 import { ArrowRight, Download, Github, Linkedin, Mail } from 'lucide-react';
 import { portfolioData } from '../mock';
+import AnimatedBackground from './AnimatedBackground';
 
 const Hero = () => {
   const scrollToSection = (sectionId) => {
@@ -13,11 +14,11 @@ const Hero = () => {
 
   return (
     <section id="hero" className="min-h-screen flex items-center justify-center bg-zinc-950 relative overflow-hidden">
-      {/* Animated background grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1a1a1a_1px,transparent_1px),linear-gradient(to_bottom,#1a1a1a_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-20"></div>
+      {/* Animated network background */}
+      <AnimatedBackground opacity={0.2} />
       
       {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-blue-500/10"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-blue-500/5"></div>
 
       <div className="max-w-7xl mx-auto px-6 py-20 relative z-10">
         <div className="text-center space-y-8">
