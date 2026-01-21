@@ -2,10 +2,12 @@ import React from 'react';
 import { Card } from './ui/card';
 import { CheckCircle2 } from 'lucide-react';
 import { portfolioData } from '../mock';
+import AnimatedBackground from './AnimatedBackground';
 
 const About = () => {
   return (
-    <section id="about" className="py-20 bg-zinc-900">
+    <section id="about" className="py-20 bg-zinc-900 relative overflow-hidden">
+      <AnimatedBackground opacity={0.08} />
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
