@@ -42,7 +42,7 @@ const AnimatedBackground = ({ opacity = 0.15 }) => {
       }
 
       draw() {
-        ctx.fillStyle = `rgba(6, 182, 212, ${this.opacity})`; // Cyan color
+        ctx.fillStyle = `rgba(6, 182, 212, ${this.opacity * 1.5})`; // Cyan color - increased visibility
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
