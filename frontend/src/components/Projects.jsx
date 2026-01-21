@@ -8,7 +8,7 @@ import AnimatedBackground from './AnimatedBackground';
 const Projects = () => {
   return (
     <section id="projects" className="py-20 bg-zinc-950 relative overflow-hidden">
-      <AnimatedBackground opacity={0.1} />
+      <AnimatedBackground opacity={0.2} />
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
