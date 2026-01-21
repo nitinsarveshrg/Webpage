@@ -2,6 +2,7 @@ import React from 'react';
 import { Card } from './ui/card';
 import { Cloud, Container, Code, Activity } from 'lucide-react';
 import { portfolioData } from '../mock';
+import AnimatedBackground from './AnimatedBackground';
 
 const Skills = () => {
   const skillCategories = [
@@ -12,8 +13,9 @@ const Skills = () => {
   ];
 
   return (
-    <section id="skills" className="py-20 bg-zinc-950">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="skills" className="py-20 bg-zinc-950 relative overflow-hidden">
+      <AnimatedBackground opacity={0.1} />
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Technical Skills
