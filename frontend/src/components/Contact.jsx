@@ -3,7 +3,7 @@ import { Card } from './ui/card';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
-import { Mail, Linkedin, Github, MapPin, Phone, Send, MessageSquare } from 'lucide-react';
+import { Mail, Linkedin, Github, MapPin, Phone, Send } from 'lucide-react';
 import { portfolioData } from '../mock';
 import { toast } from '../hooks/use-toast';
 
@@ -18,8 +18,8 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     toast({
-      title: "Message sent successfully!",
-      description: "Thank you for reaching out. I'll get back to you soon."
+      title: "✓ Message transmitted!",
+      description: "Encrypted message received. Will respond via secure channel."
     });
     setFormData({ name: '', email: '', subject: '', message: '' });
   };
@@ -32,150 +32,164 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-20 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)' }}>
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-10"></div>
-      
+    <section id="contact" className="py-20 bg-black relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="mb-16">
-          <div className="flex items-center gap-3 mb-4">
-            <MessageSquare className="text-blue-400" size={40} />
-            <h2 className="text-4xl md:text-5xl font-bold text-white">
-              Get In Touch
-            </h2>
+        {/* Terminal Header */}
+        <div className="bg-zinc-900 border-2 border-cyan-500/50 rounded-t-lg p-3 mb-0 font-mono">
+          <div className="flex items-center gap-2">
+            <div className="flex gap-2">
+              <div className="w-3 h-3 rounded-full bg-red-500"></div>
+              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+              <div className="w-3 h-3 rounded-full bg-green-500"></div>
+            </div>
+            <span className="text-cyan-400 text-sm ml-4">root@cloud-devops: ~/contact</span>
           </div>
-          <div className="h-1 w-32 bg-gradient-to-r from-blue-500 to-cyan-500 rounded"></div>
-          <p className="text-slate-400 text-lg mt-4">Let's discuss your next cloud infrastructure project</p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12">
-          {/* Contact Information */}
-          <div className="space-y-6">
-            <h3 className="text-2xl font-bold text-white mb-6">Contact Information</h3>
-            
-            <Card className="bg-slate-900/50 border-2 border-blue-500/30 p-6 backdrop-blur-sm">
-              <div className="space-y-4">
+        {/* Terminal Content */}
+        <div className="bg-black/90 border-2 border-t-0 border-cyan-500/50 rounded-b-lg p-8 font-mono">
+          <div className="text-green-400 mb-6">
+            <div className="mb-2"><span className="text-cyan-400">root@cloud-devops:~$</span> ./init_secure_channel.sh</div>
+            <div className="ml-4 text-zinc-400 text-sm">Establishing encrypted communication...</div>
+            <div className="ml-4 text-green-400 text-sm mb-4">[✓] Secure channel ready</div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Contact Info Terminal */}
+            <div>
+              <div className="text-green-400 text-sm mb-4">
+                <span className="text-cyan-400">$</span> cat contact_info.dat
+              </div>
+              
+              <div className="bg-zinc-900/50 border border-cyan-500/30 rounded p-4 space-y-4">
                 <a
                   href={`mailto:${portfolioData.personal.email}`}
-                  className="flex items-center gap-4 text-slate-300 hover:text-blue-400 transition-colors group"
+                  className="flex items-center gap-3 text-zinc-300 hover:text-cyan-400 transition-colors group"
                 >
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center shadow-lg">
-                    <Mail className="text-white" size={20} />
-                  </div>
-                  <div>
-                    <p className="text-sm text-slate-500 font-semibold">Email</p>
-                    <p className="font-semibold group-hover:text-blue-400 text-sm">{portfolioData.personal.email}</p>
+                  <Mail className="text-cyan-400" size={16} />
+                  <div className="text-xs">
+                    <div className="text-zinc-500">EMAIL:</div>
+                    <div className="group-hover:text-cyan-400">{portfolioData.personal.email}</div>
                   </div>
                 </a>
 
                 <a
                   href={`tel:${portfolioData.personal.phone}`}
-                  className="flex items-center gap-4 text-slate-300 hover:text-blue-400 transition-colors group"
+                  className="flex items-center gap-3 text-zinc-300 hover:text-cyan-400 transition-colors group"
                 >
-                  <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-teal-500 rounded-lg flex items-center justify-center shadow-lg">
-                    <Phone className="text-white" size={20} />
-                  </div>
-                  <div>
-                    <p className="text-sm text-slate-500 font-semibold">Phone</p>
-                    <p className="font-semibold group-hover:text-blue-400 text-sm">{portfolioData.personal.phone}</p>
+                  <Phone className="text-cyan-400" size={16} />
+                  <div className="text-xs">
+                    <div className="text-zinc-500">PHONE:</div>
+                    <div className="group-hover:text-cyan-400">{portfolioData.personal.phone}</div>
                   </div>
                 </a>
 
-                <div className="flex items-center gap-4 text-slate-300">
-                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center shadow-lg">
-                    <MapPin className="text-white" size={20} />
-                  </div>
-                  <div>
-                    <p className="text-sm text-slate-500 font-semibold">Location</p>
-                    <p className="font-semibold text-sm">{portfolioData.personal.location}</p>
+                <div className="flex items-center gap-3 text-zinc-300">
+                  <MapPin className="text-cyan-400" size={16} />
+                  <div className="text-xs">
+                    <div className="text-zinc-500">LOCATION:</div>
+                    <div>{portfolioData.personal.location}</div>
                   </div>
                 </div>
               </div>
-            </Card>
 
-            {/* Social Links */}
-            <div className="grid grid-cols-2 gap-4">
-              <a
-                href={portfolioData.personal.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 bg-slate-900/50 border-2 border-blue-500/30 hover:border-blue-500/60 rounded-lg p-4 text-slate-300 hover:text-blue-400 transition-all backdrop-blur-sm"
-              >
-                <Linkedin size={20} />
-                <span className="font-semibold">LinkedIn</span>
-              </a>
-              <a
-                href={portfolioData.personal.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 bg-slate-900/50 border-2 border-blue-500/30 hover:border-blue-500/60 rounded-lg p-4 text-slate-300 hover:text-blue-400 transition-all backdrop-blur-sm"
-              >
-                <Github size={20} />
-                <span className="font-semibold">GitHub</span>
-              </a>
+              {/* Social Links */}
+              <div className="mt-4">
+                <div className="text-green-400 text-sm mb-2">
+                  <span className="text-cyan-400">$</span> ls -la socials/
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <a
+                    href={portfolioData.personal.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 bg-zinc-900/50 border border-cyan-500/30 hover:border-cyan-500 rounded p-3 text-zinc-300 hover:text-cyan-400 transition-all text-xs"
+                  >
+                    <Linkedin size={14} />
+                    <span>LINKEDIN</span>
+                  </a>
+                  <a
+                    href={portfolioData.personal.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 bg-zinc-900/50 border border-cyan-500/30 hover:border-cyan-500 rounded p-3 text-zinc-300 hover:text-cyan-400 transition-all text-xs"
+                  >
+                    <Github size={14} />
+                    <span>GITHUB</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Message Form Terminal */}
+            <div>
+              <div className="text-green-400 text-sm mb-4">
+                <span className="text-cyan-400">$</span> nano message.txt
+              </div>
+              <div className="bg-zinc-900/50 border border-cyan-500/30 rounded p-4">
+                <form onSubmit={handleSubmit} className="space-y-3">
+                  <div>
+                    <label className="text-xs text-cyan-400 mb-1 block">&gt; NAME:</label>
+                    <Input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      className="bg-black border-cyan-500/30 text-white text-xs h-8 font-mono"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs text-cyan-400 mb-1 block">&gt; EMAIL:</label>
+                    <Input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      className="bg-black border-cyan-500/30 text-white text-xs h-8 font-mono"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs text-cyan-400 mb-1 block">&gt; SUBJECT:</label>
+                    <Input
+                      type="text"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      required
+                      className="bg-black border-cyan-500/30 text-white text-xs h-8 font-mono"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs text-cyan-400 mb-1 block">&gt; MESSAGE:</label>
+                    <Textarea
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      required
+                      rows={4}
+                      className="bg-black border-cyan-500/30 text-white text-xs resize-none font-mono"
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    className="w-full bg-cyan-500 hover:bg-cyan-600 text-black font-bold border-2 border-cyan-400 text-xs h-9"
+                  >
+                    <Send className="mr-2" size={14} />
+                    &gt; TRANSMIT_MESSAGE
+                  </Button>
+                </form>
+              </div>
             </div>
           </div>
 
-          {/* Contact Form */}
-          <Card className="bg-slate-900/50 border-2 border-blue-500/30 p-6 backdrop-blur-sm">
-            <h3 className="text-xl font-bold text-white mb-6">Send a Message</h3>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="text-sm font-semibold text-slate-300 mb-2 block">Name</label>
-                <Input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Your name"
-                  required
-                  className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 focus:border-blue-500"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-semibold text-slate-300 mb-2 block">Email</label>
-                <Input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="your.email@example.com"
-                  required
-                  className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 focus:border-blue-500"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-semibold text-slate-300 mb-2 block">Subject</label>
-                <Input
-                  type="text"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  placeholder="What is this about?"
-                  required
-                  className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 focus:border-blue-500"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-semibold text-slate-300 mb-2 block">Message</label>
-                <Textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  placeholder="Your message..."
-                  required
-                  rows={5}
-                  className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 focus:border-blue-500 resize-none"
-                />
-              </div>
-              <Button
-                type="submit"
-                className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white border-0 shadow-lg shadow-blue-500/50"
-              >
-                <Send className="mr-2" size={20} />
-                Send Message
-              </Button>
-            </form>
-          </Card>
+          {/* Command output */}
+          <div className="mt-6 text-green-400 text-sm">
+            <div><span className="text-cyan-400">$</span> echo "Awaiting secure transmission..."</div>
+            <div className="ml-4">Awaiting secure transmission...</div>
+            <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>
+          </div>
         </div>
       </div>
     </section>
