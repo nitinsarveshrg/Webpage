@@ -169,7 +169,7 @@ export const portfolioData = {
       id: 2,
       name: "HashiCorp Certified: Terraform Associate",
       issuer: "HashiCorp",
-      date: "2024",
+      date: "2025",
       credentialId: "HC-TF",
       link: "https://www.credly.com/badges/fc7bd115-3657-4551-9746-c5b3357a12bd/linked_in_profile"
     }
