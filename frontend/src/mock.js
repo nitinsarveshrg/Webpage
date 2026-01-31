@@ -1,56 +1,55 @@
-// Mock data for Cloud/DevOps Portfolio
-// Replace this data with your actual LinkedIn information
+// Real data from Nitin Sarvesh Raajagopal's Resume
 
 export const portfolioData = {
   // Personal Information
   personal: {
     name: "Nitin Sarvesh Raajagopal",
-    title: "Cloud & DevOps Engineer",
+    title: "DevOps Engineer",
     tagline: "Building scalable cloud infrastructure and automating deployment pipelines",
-    email: "nitin.raajagopal@example.com",
+    email: "nitinsarveshrg@hotmail.com",
     linkedin: "https://www.linkedin.com/in/nitin-sarvesh-raajagopal/",
-    github: "https://github.com/yourusername",
-    location: "San Francisco, CA",
-    phone: "+1 (555) 123-4567"
+    github: "https://github.com/nitinsarveshrg/",
+    location: "Toronto, Canada",
+    phone: "+1 (437) 989-8997"
   },
 
   // About Section
   about: {
-    bio: "Experienced Cloud and DevOps Engineer with 5+ years of expertise in designing, implementing, and managing scalable cloud infrastructure. Passionate about automation, CI/CD, and building robust systems that enable teams to deploy with confidence. Proven track record of reducing deployment times by 70% and improving system reliability through infrastructure as code and modern DevOps practices.",
+    bio: "Skilled DevOps Engineer with expertise in cloud infrastructure, automation, CI/CD, and security. Experienced in designing and deploying AWS cloud infrastructures, building automated CI/CD pipelines, and implementing containerization solutions. Proven track record of reducing deployment time by 40% and operational costs by 20% through strategic automation and cloud optimization.",
     highlights: [
-      "5+ years in Cloud & DevOps Engineering",
-      "AWS & Azure Certified Professional",
-      "Expert in Kubernetes & Container Orchestration",
-      "Infrastructure as Code Specialist"
+      "3+ years of DevOps & Cloud Engineering experience",
+      "AWS Certified Solutions Architect – Associate",
+      "Expert in Terraform, Docker, Kubernetes & CI/CD automation",
+      "Reduced deployment time by 40% and costs by 20%"
     ]
   },
 
   // Skills organized by category
   skills: {
     cloud: [
-      { name: "AWS", level: 95, icon: "cloud" },
-      { name: "Azure", level: 85, icon: "cloud" },
-      { name: "Google Cloud Platform", level: 75, icon: "cloud" }
+      { name: "AWS", level: 90, icon: "cloud" },
+      { name: "Azure", level: 80, icon: "cloud" },
+      { name: "GCP", level: 70, icon: "cloud" }
     ],
     devops: [
-      { name: "Docker", level: 95, icon: "container" },
-      { name: "Kubernetes", level: 90, icon: "container" },
+      { name: "Docker", level: 90, icon: "container" },
+      { name: "Kubernetes", level: 85, icon: "container" },
       { name: "Jenkins", level: 85, icon: "workflow" },
       { name: "GitLab CI/CD", level: 90, icon: "git-branch" },
-      { name: "Terraform", level: 95, icon: "file-code" },
+      { name: "Terraform", level: 90, icon: "file-code" },
       { name: "Ansible", level: 85, icon: "settings" }
     ],
     programming: [
-      { name: "Python", level: 90, icon: "code" },
-      { name: "Bash/Shell", level: 95, icon: "terminal" },
-      { name: "Go", level: 75, icon: "code" },
-      { name: "YAML/JSON", level: 95, icon: "file-json" }
+      { name: "Python", level: 85, icon: "code" },
+      { name: "Bash", level: 90, icon: "terminal" },
+      { name: "PowerShell", level: 75, icon: "terminal" },
+      { name: "SQL", level: 80, icon: "database" }
     ],
     monitoring: [
       { name: "Prometheus", level: 85, icon: "activity" },
       { name: "Grafana", level: 85, icon: "bar-chart" },
-      { name: "ELK Stack", level: 80, icon: "search" },
-      { name: "DataDog", level: 75, icon: "eye" }
+      { name: "Nagios", level: 75, icon: "search" },
+      { name: "Zabbix", level: 75, icon: "eye" }
     ]
   },
 
@@ -58,44 +57,53 @@ export const portfolioData = {
   experience: [
     {
       id: 1,
-      title: "Senior Cloud DevOps Engineer",
-      company: "Tech Solutions Inc.",
-      location: "San Francisco, CA",
-      period: "Jan 2022 - Present",
-      description: "Leading cloud infrastructure and DevOps initiatives for enterprise applications.",
+      title: "DevOps Engineer",
+      company: "Viva Tech Solutions",
+      location: "Toronto, Canada",
+      period: "Oct 2022 - Present",
+      description: "Designing and deploying AWS cloud infrastructures with focus on automation, security, and cost optimization.",
       achievements: [
-        "Architected and deployed multi-region AWS infrastructure serving 5M+ users",
-        "Reduced deployment time from 2 hours to 15 minutes using GitLab CI/CD",
-        "Implemented Infrastructure as Code using Terraform, managing 200+ resources",
-        "Led migration of monolithic applications to microservices on Kubernetes"
+        "Designed and deployed AWS cloud infrastructures using EC2, S3, RDS, and VPC, ensuring high availability and resilience",
+        "Automated provisioning and configuration management using Terraform and CloudFormation",
+        "Built GitLab CI/CD pipelines for deployment automation and rollback strategies",
+        "Developed Python scripts for deployment automation, monitoring, and cleanup tasks",
+        "Containerized applications using Docker and deployed via Kubernetes with Helm Charts",
+        "Enhanced cloud security using IAM roles, policies, and monitoring with AWS Config and Security Hub",
+        "Deployed and managed real-time observability with Prometheus and Grafana",
+        "Implemented disaster recovery (DR) strategies, including automated backups and cross-region replication",
+        "Collaborated in Agile teams to reduce deployment time by 40% and operational cost by 20%"
       ]
     },
     {
       id: 2,
-      title: "DevOps Engineer",
-      company: "Cloud Innovations Ltd.",
-      location: "Austin, TX",
-      period: "Mar 2020 - Dec 2021",
-      description: "Managed CI/CD pipelines and cloud infrastructure for SaaS products.",
+      title: "System Engineer",
+      company: "Assistanz Network Pvt Ltd",
+      location: "Remote",
+      period: "Aug 2021 - Oct 2022",
+      description: "Managed and monitored AWS and Azure services for critical business applications.",
       achievements: [
-        "Built automated deployment pipelines for 15+ microservices",
-        "Implemented monitoring and alerting system using Prometheus & Grafana",
-        "Reduced infrastructure costs by 40% through resource optimization",
-        "Automated backup and disaster recovery processes"
+        "Managed and monitored AWS and Azure services for critical business applications",
+        "Automated infrastructure tasks using Ansible and Terraform",
+        "Integrated Docker containers with Jenkins and GitLab pipelines to streamline deployments",
+        "Managed Kubernetes clusters and deployed microservices with Helm Charts",
+        "Supported Agile development teams by enabling CI/CD and improving test feedback loops",
+        "Resolved issues in production environments, reducing system downtime by 25%"
       ]
     },
     {
       id: 3,
-      title: "Junior DevOps Engineer",
-      company: "StartUp Tech",
+      title: "Junior Cloud Engineer (Intern)",
+      company: "Vimana Web Infotech",
       location: "Remote",
-      period: "Jun 2019 - Feb 2020",
-      description: "Supported development teams with CI/CD and infrastructure management.",
+      period: "Jul 2020 - Jul 2021",
+      description: "Supported cloud infrastructure setup and CI/CD pipeline development.",
       achievements: [
-        "Set up Jenkins pipelines for automated testing and deployment",
-        "Managed AWS EC2, RDS, and S3 resources",
-        "Implemented configuration management using Ansible",
-        "Created documentation for deployment procedures"
+        "Supported the setup and administration of Linux-based servers",
+        "Assisted in building CI/CD pipelines with Jenkins, enabling faster deployment cycles",
+        "Worked with Docker to containerize applications and deployed them in test environments",
+        "Developed and tested Terraform modules for provisioning AWS resources (EC2, S3, IAM)",
+        "Monitored system performance using Nagios and Zabbix, contributing to 99.9% uptime",
+        "Collaborated in implementing cloud security best practices, including IAM policies and VPC security groups"
       ]
     }
   ],
@@ -104,46 +112,50 @@ export const portfolioData = {
   projects: [
     {
       id: 1,
-      title: "Multi-Cloud Kubernetes Platform",
-      description: "Designed and implemented a multi-cloud Kubernetes platform supporting AWS and Azure, enabling seamless workload migration and high availability.",
-      technologies: ["Kubernetes", "Terraform", "AWS EKS", "Azure AKS", "Helm"],
+      title: "Automated Deployment of Node.js Microservice on AWS ECS",
+      description: "Designed and implemented a fully automated CI/CD pipeline for a Node.js REST API (Product Catalog Service). Developed modular Terraform configurations to provision AWS infrastructure including VPC, ALB, ECS cluster, task definitions, and CloudWatch logging.",
+      technologies: ["Terraform", "GitHub Actions", "AWS ECS", "Docker", "Node.js", "ALB", "ECR"],
       highlights: [
-        "99.99% uptime across multiple regions",
-        "Automated failover between cloud providers",
-        "Managed 50+ microservices"
+        "Zero-downtime blue/green deployments behind ALB",
+        "Fully automated CI/CD with GitHub Actions",
+        "Infrastructure as Code with modular Terraform",
+        "Eliminated manual deployment steps"
       ]
     },
     {
       id: 2,
-      title: "CI/CD Pipeline Automation",
-      description: "Built comprehensive CI/CD pipeline framework supporting multiple programming languages with automated testing, security scanning, and deployment.",
-      technologies: ["GitLab CI", "Docker", "SonarQube", "Trivy", "ArgoCD"],
+      title: "Scalable AWS Cost Optimization Platform",
+      description: "Designed and developed a cloud-native cost optimization and analytics platform capable of scaling to 10,000+ AWS accounts. Built a FastAPI-based microservice with authentication, caching, structured logging, and circuit-breaker pattern.",
+      technologies: ["FastAPI", "Python", "Terraform", "AWS", "CI/CD", "PostgreSQL"],
       highlights: [
-        "Reduced deployment time by 70%",
-        "Integrated security scanning in pipeline",
-        "Zero-downtime deployments"
+        "Scalable to 10,000+ AWS accounts",
+        "Cost anomaly detection algorithms",
+        "Rightsizing and Reserved Instance planning",
+        "Asynchronous processing for high throughput"
       ]
     },
     {
       id: 3,
-      title: "Infrastructure as Code Framework",
-      description: "Developed reusable Terraform modules for provisioning cloud infrastructure across AWS and Azure with built-in security and compliance.",
-      technologies: ["Terraform", "AWS", "Azure", "Python", "GitHub Actions"],
+      title: "Multi-Cloud Infrastructure Automation",
+      description: "Automated infrastructure provisioning across AWS and Azure using Terraform and Ansible, enabling consistent deployments and configuration management across multiple cloud platforms.",
+      technologies: ["Terraform", "Ansible", "AWS", "Azure", "Python", "GitLab CI"],
       highlights: [
-        "Reduced provisioning time by 80%",
-        "Enforced security best practices",
-        "Used by 10+ development teams"
+        "Consistent multi-cloud deployments",
+        "Reduced provisioning time by 60%",
+        "Automated configuration management",
+        "Cross-platform compatibility"
       ]
     },
     {
       id: 4,
-      title: "Observability Platform",
-      description: "Implemented comprehensive monitoring and observability solution for microservices architecture with custom dashboards and alerting.",
-      technologies: ["Prometheus", "Grafana", "Loki", "Jaeger", "AlertManager"],
+      title: "Kubernetes Monitoring & Observability Stack",
+      description: "Implemented comprehensive monitoring solution for Kubernetes clusters using Prometheus and Grafana with custom dashboards and alerting for proactive incident management.",
+      technologies: ["Prometheus", "Grafana", "Kubernetes", "Helm", "AlertManager"],
       highlights: [
-        "Real-time monitoring of 100+ services",
-        "Custom alerting rules and runbooks",
-        "Reduced MTTR by 60%"
+        "Real-time cluster monitoring",
+        "Custom alerting rules and dashboards",
+        "Reduced MTTR by 50%",
+        "Proactive incident management"
       ]
     }
   ],
@@ -152,31 +164,10 @@ export const portfolioData = {
   certifications: [
     {
       id: 1,
-      name: "AWS Certified Solutions Architect - Professional",
+      name: "AWS Certified Solutions Architect - Associate",
       issuer: "Amazon Web Services",
       date: "2023",
-      credentialId: "ABC123XYZ"
-    },
-    {
-      id: 2,
-      name: "Certified Kubernetes Administrator (CKA)",
-      issuer: "Cloud Native Computing Foundation",
-      date: "2022",
-      credentialId: "LF-123456"
-    },
-    {
-      id: 3,
-      name: "Microsoft Azure DevOps Engineer Expert",
-      issuer: "Microsoft",
-      date: "2022",
-      credentialId: "MS-987654"
-    },
-    {
-      id: 4,
-      name: "HashiCorp Certified: Terraform Associate",
-      issuer: "HashiCorp",
-      date: "2021",
-      credentialId: "HC-456789"
+      credentialId: "Verified"
     }
   ],
 
@@ -184,10 +175,24 @@ export const portfolioData = {
   education: [
     {
       id: 1,
-      degree: "Bachelor of Science in Computer Science",
-      institution: "University of California",
-      period: "2015 - 2019",
-      location: "Berkeley, CA"
+      degree: "Post Graduate Diploma in Information Technology Network Security",
+      institution: "Conestoga College",
+      period: "Expected 08/2024",
+      location: "Ontario, Canada"
+    },
+    {
+      id: 2,
+      degree: "Post Graduate Diploma in Virtualization and Cloud Computing",
+      institution: "Conestoga College",
+      period: "08/2023",
+      location: "Ontario, Canada"
+    },
+    {
+      id: 3,
+      degree: "Bachelor of Engineering in Electronics and Communication",
+      institution: "Sri Ramakrishna Engineering College",
+      period: "05/2021",
+      location: "Tamil Nadu, India"
     }
   ]
 };
