@@ -21,6 +21,17 @@ const About = () => {
 
         {/* Terminal Content */}
         <div className="bg-black/90 border-2 border-t-0 border-cyan-500/50 rounded-b-lg p-8 font-mono">
+          {/* ASCII Art Cloud */}
+          <pre className="text-cyan-400 text-xs mb-4 opacity-50">
+{`
+              .--~~,__
+     :-....,-------\`~~'._.'
+      \`-,,,  ,_      ;'~U'
+       _,-' ,'\ \`-__; '--.
+      (_/'~~      ''''(;
+`}
+          </pre>
+
           <div className="text-green-400 mb-6">
             <div className="mb-2"><span className="text-cyan-400">root@cloud-devops:~$</span> whoami</div>
             <div className="ml-4 text-zinc-300 mb-4">Displaying user information...</div>
