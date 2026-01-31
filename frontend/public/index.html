@@ -33,23 +33,65 @@
             }
         </style>
         <script>
-            // Remove Emergent badge on load
-            window.addEventListener('DOMContentLoaded', function() {
-                const badge = document.getElementById('emergent-badge');
-                if (badge) badge.remove();
-                
-                // Also check for dynamically added badges
-                const observer = new MutationObserver(function(mutations) {
-                    mutations.forEach(function(mutation) {
-                        mutation.addedNodes.forEach(function(node) {
-                            if (node.id === 'emergent-badge' || (node.href && node.href.includes('emergent.sh'))) {
-                                node.remove();
+            // Comprehensive Emergent badge removal
+            (function() {
+                // Remove badge immediately
+                function removeBadge() {
+                    const selectors = [
+                        '#emergent-badge',
+                        'a[href*="emergent.sh"]',
+                        'a[id*="emergent"]',
+                        '[id*="emergent-badge"]'
+                    ];
+                    
+                    selectors.forEach(selector => {
+                        document.querySelectorAll(selector).forEach(el => {
+                            if (el && el.parentNode) {
+                                el.parentNode.removeChild(el);
                             }
                         });
                     });
+                }
+                
+                // Run immediately
+                removeBadge();
+                
+                // Run on DOMContentLoaded
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', removeBadge);
+                } else {
+                    removeBadge();
+                }
+                
+                // Watch for dynamically added badges
+                const observer = new MutationObserver(function(mutations) {
+                    let shouldCheck = false;
+                    mutations.forEach(function(mutation) {
+                        if (mutation.addedNodes.length > 0) {
+                            shouldCheck = true;
+                        }
+                    });
+                    if (shouldCheck) {
+                        removeBadge();
+                    }
                 });
-                observer.observe(document.body, { childList: true, subtree: true });
-            });
+                
+                // Start observing once body is available
+                function startObserver() {
+                    if (document.body) {
+                        observer.observe(document.body, { 
+                            childList: true, 
+                            subtree: true 
+                        });
+                    } else {
+                        setTimeout(startObserver, 10);
+                    }
+                }
+                startObserver();
+                
+                // Also check periodically
+                setInterval(removeBadge, 1000);
+            })();
         </script>
         <!--
         These two scripts have been added for the Visual Edits, please do not edit or remove them
