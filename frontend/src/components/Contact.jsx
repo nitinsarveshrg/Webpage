@@ -201,10 +201,20 @@ const Contact = () => {
                   </div>
                   <Button
                     type="submit"
-                    className="w-full bg-cyan-500 hover:bg-cyan-600 text-black font-bold border-2 border-cyan-400 text-xs h-9"
+                    disabled={isSubmitting}
+                    className="w-full bg-cyan-500 hover:bg-cyan-600 text-black font-bold border-2 border-cyan-400 text-xs h-9 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <Send className="mr-2" size={14} />
-                    &gt; TRANSMIT_MESSAGE
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 animate-spin" size={14} />
+                        &gt; TRANSMITTING...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="mr-2" size={14} />
+                        &gt; TRANSMIT_MESSAGE
+                      </>
+                    )}
                   </Button>
                 </form>
               </div>
