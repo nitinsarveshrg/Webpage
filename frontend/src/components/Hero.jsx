@@ -29,20 +29,6 @@ const Hero = () => {
       <MatrixRain />
       
       <div className="max-w-7xl mx-auto px-6 py-20 relative z-10">
-        {/* ASCII Art Banner */}
-        <div className="bg-black/80 backdrop-blur-sm border border-cyan-500/30 rounded-lg p-6 mb-4 font-mono text-xs overflow-x-auto">
-          <pre className="text-cyan-400 leading-tight">
-{`
-   ██████╗██╗      ██████╗ ██╗   ██╗██████╗     ███████╗███╗   ██╗ ██████╗ ██╗███╗   ██╗███████╗███████╗██████╗ 
-  ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗    ██╔════╝████╗  ██║██╔════╝ ██║████╗  ██║██╔════╝██╔════╝██╔══██╗
-  ██║     ██║     ██║   ██║██║   ██║██║  ██║    █████╗  ██╔██╗ ██║██║  ███╗██║██╔██╗ ██║█████╗  █████╗  ██████╔╝
-  ██║     ██║     ██║   ██║██║   ██║██║  ██║    ██╔══╝  ██║╚██╗██║██║   ██║██║██║╚██╗██║██╔══╝  ██╔══╝  ██╔══██╗
-  ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝    ███████╗██║ ╚████║╚██████╔╝██║██║ ╚████║███████╗███████╗██║  ██║
-   ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝     ╚══════╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝╚═╝  ╚═══╝╚══════╝╚══════╝╚═╝  ╚═╝
-`}
-          </pre>
-        </div>
-
         {/* Terminal Boot Sequence - Cloud/DevOps specific */}
         <div className="bg-black/80 backdrop-blur-sm border border-cyan-500/30 rounded-lg p-6 mb-8 font-mono text-sm shadow-lg shadow-cyan-500/20">
           <div className="flex items-center gap-2 mb-4 text-cyan-400">
