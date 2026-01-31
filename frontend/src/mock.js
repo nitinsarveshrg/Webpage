@@ -124,7 +124,8 @@ export const portfolioData = {
         "Fully automated CI/CD with GitHub Actions",
         "Infrastructure as Code with modular Terraform",
         "Eliminated manual deployment steps"
-      ]
+      ],
+      github: "https://github.com/nitinsarveshrg/Product-Catalog-for-health-applications-using-API"
     },
     {
       id: 2,
@@ -136,31 +137,21 @@ export const portfolioData = {
         "Cost anomaly detection algorithms",
         "Rightsizing and Reserved Instance planning",
         "Asynchronous processing for high throughput"
-      ]
+      ],
+      github: "https://github.com/nitinsarveshrg/Cloud-Cost-Analysis"
     },
     {
       id: 3,
-      title: "Multi-Cloud Kubernetes Platform",
-      description: "Built and managed Kubernetes clusters across AWS EKS and Azure AKS with centralized monitoring, GitOps-based deployments using ArgoCD, and automated scaling policies for production workloads.",
-      technologies: ["Kubernetes", "AWS EKS", "Azure AKS", "ArgoCD", "Helm", "Prometheus", "Grafana"],
+      title: "Multi-Cloud Infrastructure Automation with Azure DevOps",
+      description: "Implemented cross-cloud infrastructure provisioning using Azure DevOps pipelines to manage AWS resources. Built automated CI/CD workflows that provision and configure AWS services including VPC, EC2, RDS, and S3 using Terraform modules. Achieved seamless integration between Azure DevOps and AWS cloud, enabling consistent infrastructure deployment patterns across hybrid cloud environments.",
+      technologies: ["Azure DevOps", "AWS", "Terraform", "CI/CD Pipelines", "YAML", "Infrastructure as Code"],
       highlights: [
-        "99.99% uptime across multiple clusters",
-        "GitOps deployment automation",
-        "Centralized observability platform",
-        "Auto-scaling for production workloads"
-      ]
-    },
-    {
-      id: 4,
-      title: "Infrastructure as Code Framework",
-      description: "Developed comprehensive Terraform module library for AWS and Azure infrastructure provisioning with built-in security controls, compliance checks, and automated testing for multi-environment deployments.",
-      technologies: ["Terraform", "AWS", "Azure", "Python", "GitHub Actions", "Terratest"],
-      highlights: [
-        "Reusable IaC modules for 50+ resources",
-        "Automated security and compliance scanning",
-        "Reduced provisioning time by 85%",
-        "Used by 10+ development teams"
-      ]
+        "Hybrid cloud automation (Azure DevOps + AWS)",
+        "Reusable Terraform modules for AWS services",
+        "Automated infrastructure provisioning",
+        "Cross-platform CI/CD integration"
+      ],
+      github: "https://github.com/nitinsarveshrg/Creation-of-AWS-services-using-Azure-Devops"
     }
   ],
 
