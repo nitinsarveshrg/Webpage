@@ -1,10 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
-import { ArrowRight, Download, Github, Linkedin, Mail } from 'lucide-react';
+import { Terminal, ChevronDown } from 'lucide-react';
 import { portfolioData } from '../mock';
-import AnimatedBackground from './AnimatedBackground';
+import TypingEffect from './TypingEffect';
+import MatrixRain from './MatrixRain';
 
 const Hero = () => {
+  const [bootComplete, setBootComplete] = useState(false);
+  const [showContent, setShowContent] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setBootComplete(true);
+      setTimeout(() => setShowContent(true), 500);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -13,94 +25,116 @@ const Hero = () => {
   };
 
   return (
-    <section id="hero" className="min-h-screen flex items-center justify-center bg-zinc-950 relative overflow-hidden">
-      {/* Animated network background */}
-      <AnimatedBackground opacity={0.4} />
+    <section id="hero" className="min-h-screen flex items-center justify-center bg-black relative overflow-hidden">
+      <MatrixRain />
       
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-blue-500/5"></div>
-
       <div className="max-w-7xl mx-auto px-6 py-20 relative z-10">
-        <div className="text-center space-y-8">
-          {/* Welcome badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-zinc-900/50 border border-zinc-800 rounded-full text-sm text-zinc-300">
-            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-            Available for opportunities
+        {/* Terminal Boot Sequence */}
+        <div className="bg-black/80 backdrop-blur-sm border border-cyan-500/30 rounded-lg p-6 mb-8 font-mono text-sm">
+          <div className="flex items-center gap-2 mb-4 text-cyan-400">
+            <Terminal size={16} />
+            <span>SYSTEM TERMINAL v2.0.1</span>
           </div>
-
-          {/* Main heading */}
-          <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight">
-            Hi, I'm{' '}
-            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 text-transparent bg-clip-text">
-              {portfolioData.personal.name}
-            </span>
-          </h1>
-
-          {/* Title */}
-          <p className="text-2xl md:text-3xl text-zinc-300 font-semibold">
-            {portfolioData.personal.title}
-          </p>
-
-          {/* Tagline */}
-          <p className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto">
-            {portfolioData.personal.tagline}
-          </p>
-
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <Button
-              size="lg"
-              onClick={() => scrollToSection('projects')}
-              className="bg-cyan-500 hover:bg-cyan-600 text-white group"
-            >
-              View My Work
-              <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={() => scrollToSection('contact')}
-              className="border-zinc-700 text-zinc-300 hover:bg-zinc-900 hover:text-white"
-            >
-              <Download className="mr-2" size={20} />
-              Download Resume
-            </Button>
-          </div>
-
-          {/* Social Links */}
-          <div className="flex items-center justify-center gap-6 pt-8">
-            <a
-              href={portfolioData.personal.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-zinc-400 hover:text-cyan-400 transition-colors"
-            >
-              <Linkedin size={24} />
-            </a>
-            <a
-              href={portfolioData.personal.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-zinc-400 hover:text-cyan-400 transition-colors"
-            >
-              <Github size={24} />
-            </a>
-            <a
-              href={`mailto:${portfolioData.personal.email}`}
-              className="text-zinc-400 hover:text-cyan-400 transition-colors"
-            >
-              <Mail size={24} />
-            </a>
+          <div className="space-y-1 text-green-400">
+            <div><TypingEffect text="> Initializing cloud infrastructure..." speed={30} /></div>
+            <div className="ml-4"><TypingEffect text="✓ AWS Systems Online" speed={30} /></div>
+            <div className="ml-4"><TypingEffect text="✓ Kubernetes Cluster Active" speed={30} /></div>
+            <div className="ml-4"><TypingEffect text="✓ CI/CD Pipeline Ready" speed={30} /></div>
+            {bootComplete && (
+              <div className="text-cyan-400 mt-2">
+                <TypingEffect text="> System ready. Loading profile..." speed={30} />
+              </div>
+            )}
           </div>
         </div>
+
+        {/* Main Content */}
+        {showContent && (
+          <div className="text-center space-y-8 animate-fade-in">
+            {/* Status Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 rounded text-sm text-cyan-400 font-mono">
+              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+              <span>&gt; STATUS: ONLINE | AVAILABLE FOR OPPORTUNITIES</span>
+            </div>
+
+            {/* Name with glitch effect */}
+            <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight font-mono">
+              <span className="text-cyan-400">&gt;</span> {portfolioData.personal.name.split(' ')[0]}
+              <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-400 animate-gradient">
+                {portfolioData.personal.name.split(' ').slice(1).join(' ')}
+              </span>
+            </h1>
+
+            {/* Title */}
+            <div className="font-mono">
+              <p className="text-xl md:text-2xl text-cyan-400 mb-2">
+                <span className="text-white">&gt;_</span> {portfolioData.personal.title}
+              </p>
+              <p className="text-base md:text-lg text-zinc-400">
+                [ {portfolioData.personal.tagline} ]
+              </p>
+            </div>
+
+            {/* Command Buttons */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 font-mono">
+              <Button
+                size="lg"
+                onClick={() => scrollToSection('projects')}
+                className="bg-cyan-500 hover:bg-cyan-600 text-black font-bold border-2 border-cyan-400"
+              >
+                &gt; VIEW_PROJECTS
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={() => scrollToSection('contact')}
+                className="border-2 border-cyan-500 text-cyan-400 hover:bg-cyan-500/20 font-bold"
+              >
+                &gt; INIT_CONTACT
+              </Button>
+            </div>
+
+            {/* Quick Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8 max-w-3xl mx-auto">
+              {[
+                { label: 'YEARS_EXP', value: '5+' },
+                { label: 'CLOUD_CERTS', value: '8+' },
+                { label: 'PROJECTS', value: '50+' },
+                { label: 'UPTIME', value: '99.9%' }
+              ].map((stat, idx) => (
+                <div key={idx} className="bg-cyan-500/5 border border-cyan-500/30 rounded p-4">
+                  <div className="text-3xl font-bold text-cyan-400 font-mono">{stat.value}</div>
+                  <div className="text-xs text-zinc-500 mt-1 font-mono">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 border-2 border-zinc-700 rounded-full flex items-start justify-center p-2">
-          <div className="w-1 h-3 bg-cyan-500 rounded-full"></div>
-        </div>
+        <ChevronDown className="text-cyan-400" size={32} />
       </div>
+
+      <style jsx>{`
+        @keyframes fade-in {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+          animation: fade-in 1s ease-out;
+        }
+        @keyframes gradient {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        .animate-gradient {
+          background-size: 200% auto;
+          animation: gradient 3s linear infinite;
+        }
+      `}</style>
     </section>
   );
 };
