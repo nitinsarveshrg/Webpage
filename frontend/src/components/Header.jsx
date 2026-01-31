@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Terminal } from 'lucide-react';
 import { portfolioData } from '../mock';
 
 const Header = () => {
@@ -26,7 +26,7 @@ const Header = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-zinc-950/95 backdrop-blur-sm border-b border-zinc-800' : 'bg-transparent'
+        isScrolled ? 'bg-black/95 backdrop-blur-sm border-b border-cyan-500/30' : 'bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4">
@@ -34,54 +34,55 @@ const Header = () => {
           {/* Logo/Name */}
           <button
             onClick={() => scrollToSection('hero')}
-            className="text-xl font-bold text-white hover:text-cyan-400 transition-colors"
+            className="flex items-center gap-2 text-xl font-bold text-cyan-400 hover:text-cyan-300 transition-colors font-mono"
           >
-            {portfolioData.personal.name.split(' ')[0]}
+            <Terminal size={24} />
+            <span>&gt; {portfolioData.personal.name.split(' ')[0].toUpperCase()}</span>
           </button>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-8 font-mono">
             <button
               onClick={() => scrollToSection('about')}
-              className="text-zinc-300 hover:text-white transition-colors"
+              className="text-zinc-300 hover:text-cyan-400 transition-colors text-sm"
             >
-              About
+              &gt; about
             </button>
             <button
               onClick={() => scrollToSection('skills')}
-              className="text-zinc-300 hover:text-white transition-colors"
+              className="text-zinc-300 hover:text-cyan-400 transition-colors text-sm"
             >
-              Skills
+              &gt; skills
             </button>
             <button
               onClick={() => scrollToSection('experience')}
-              className="text-zinc-300 hover:text-white transition-colors"
+              className="text-zinc-300 hover:text-cyan-400 transition-colors text-sm"
             >
-              Experience
+              &gt; experience
             </button>
             <button
               onClick={() => scrollToSection('projects')}
-              className="text-zinc-300 hover:text-white transition-colors"
+              className="text-zinc-300 hover:text-cyan-400 transition-colors text-sm"
             >
-              Projects
+              &gt; projects
             </button>
             <button
               onClick={() => scrollToSection('certifications')}
-              className="text-zinc-300 hover:text-white transition-colors"
+              className="text-zinc-300 hover:text-cyan-400 transition-colors text-sm"
             >
-              Certifications
+              &gt; certs
             </button>
             <Button
               onClick={() => scrollToSection('contact')}
-              className="bg-cyan-500 hover:bg-cyan-600 text-white"
+              className="bg-cyan-500 hover:bg-cyan-600 text-black font-bold border-2 border-cyan-400"
             >
-              Contact
+              &gt; contact
             </Button>
           </nav>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-white"
+            className="md:hidden text-cyan-400"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -90,48 +91,51 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <nav className="md:hidden mt-4 pb-4 flex flex-col gap-4">
+          <nav className="md:hidden mt-4 pb-4 flex flex-col gap-4 font-mono">
             <button
               onClick={() => scrollToSection('about')}
-              className="text-zinc-300 hover:text-white transition-colors text-left"
+              className="text-zinc-300 hover:text-cyan-400 transition-colors text-left text-sm"
             >
-              About
+              &gt; about
             </button>
             <button
               onClick={() => scrollToSection('skills')}
-              className="text-zinc-300 hover:text-white transition-colors text-left"
+              className="text-zinc-300 hover:text-cyan-400 transition-colors text-left text-sm"
             >
-              Skills
+              &gt; skills
             </button>
             <button
               onClick={() => scrollToSection('experience')}
-              className="text-zinc-300 hover:text-white transition-colors text-left"
+              className="text-zinc-300 hover:text-cyan-400 transition-colors text-left text-sm"
             >
-              Experience
+              &gt; experience
             </button>
             <button
               onClick={() => scrollToSection('projects')}
-              className="text-zinc-300 hover:text-white transition-colors text-left"
+              className="text-zinc-300 hover:text-cyan-400 transition-colors text-left text-sm"
             >
-              Projects
+              &gt; projects
             </button>
             <button
               onClick={() => scrollToSection('certifications')}
-              className="text-zinc-300 hover:text-white transition-colors text-left"
+              className="text-zinc-300 hover:text-cyan-400 transition-colors text-left text-sm"
             >
-              Certifications
+              &gt; certs
             </button>
             <Button
               onClick={() => scrollToSection('contact')}
-              className="bg-cyan-500 hover:bg-cyan-600 text-white w-full"
+              className="bg-cyan-500 hover:bg-cyan-600 text-black font-bold w-full border-2 border-cyan-400"
             >
-              Contact
+              &gt; contact
             </Button>
           </nav>
         )}
       </div>
     </header>
   );
+};
+
+export default Header;
 };
 
 export default Header;
