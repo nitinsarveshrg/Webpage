@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
-import { Menu, X, Terminal } from 'lucide-react';
+import { Menu, X, Cloud } from 'lucide-react';
 import { portfolioData } from '../mock';
 
 const Header = () => {
@@ -26,7 +26,7 @@ const Header = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-black/95 backdrop-blur-sm border-b border-cyan-500/30' : 'bg-transparent'
+        isScrolled ? 'bg-slate-900/95 backdrop-blur-md border-b-2 border-blue-500/30' : 'bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4">
@@ -34,55 +34,55 @@ const Header = () => {
           {/* Logo/Name */}
           <button
             onClick={() => scrollToSection('hero')}
-            className="flex items-center gap-2 text-xl font-bold text-cyan-400 hover:text-cyan-300 transition-colors font-mono"
+            className="flex items-center gap-2 text-xl font-bold text-white hover:text-blue-400 transition-colors"
           >
-            <Terminal size={24} />
-            <span>&gt; {portfolioData.personal.name.split(' ')[0].toUpperCase()}</span>
+            <Cloud size={24} className="text-blue-400" />
+            <span>{portfolioData.personal.name.split(' ')[0]}</span>
           </button>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8 font-mono">
+          <nav className="hidden md:flex items-center gap-8">
             <button
               onClick={() => scrollToSection('about')}
-              className="text-zinc-300 hover:text-cyan-400 transition-colors text-sm"
+              className="text-slate-300 hover:text-blue-400 transition-colors"
             >
-              &gt; about
+              About
             </button>
             <button
               onClick={() => scrollToSection('skills')}
-              className="text-zinc-300 hover:text-cyan-400 transition-colors text-sm"
+              className="text-slate-300 hover:text-blue-400 transition-colors"
             >
-              &gt; skills
+              Skills
             </button>
             <button
               onClick={() => scrollToSection('experience')}
-              className="text-zinc-300 hover:text-cyan-400 transition-colors text-sm"
+              className="text-slate-300 hover:text-blue-400 transition-colors"
             >
-              &gt; experience
+              Experience
             </button>
             <button
               onClick={() => scrollToSection('projects')}
-              className="text-zinc-300 hover:text-cyan-400 transition-colors text-sm"
+              className="text-slate-300 hover:text-blue-400 transition-colors"
             >
-              &gt; projects
+              Projects
             </button>
             <button
               onClick={() => scrollToSection('certifications')}
-              className="text-zinc-300 hover:text-cyan-400 transition-colors text-sm"
+              className="text-slate-300 hover:text-blue-400 transition-colors"
             >
-              &gt; certs
+              Certifications
             </button>
             <Button
               onClick={() => scrollToSection('contact')}
-              className="bg-cyan-500 hover:bg-cyan-600 text-black font-bold border-2 border-cyan-400"
+              className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white border-0"
             >
-              &gt; contact
+              Contact
             </Button>
           </nav>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-cyan-400"
+            className="md:hidden text-blue-400"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -91,42 +91,42 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <nav className="md:hidden mt-4 pb-4 flex flex-col gap-4 font-mono">
+          <nav className="md:hidden mt-4 pb-4 flex flex-col gap-4">
             <button
               onClick={() => scrollToSection('about')}
-              className="text-zinc-300 hover:text-cyan-400 transition-colors text-left text-sm"
+              className="text-slate-300 hover:text-blue-400 transition-colors text-left"
             >
-              &gt; about
+              About
             </button>
             <button
               onClick={() => scrollToSection('skills')}
-              className="text-zinc-300 hover:text-cyan-400 transition-colors text-left text-sm"
+              className="text-slate-300 hover:text-blue-400 transition-colors text-left"
             >
-              &gt; skills
+              Skills
             </button>
             <button
               onClick={() => scrollToSection('experience')}
-              className="text-zinc-300 hover:text-cyan-400 transition-colors text-left text-sm"
+              className="text-slate-300 hover:text-blue-400 transition-colors text-left"
             >
-              &gt; experience
+              Experience
             </button>
             <button
               onClick={() => scrollToSection('projects')}
-              className="text-zinc-300 hover:text-cyan-400 transition-colors text-left text-sm"
+              className="text-slate-300 hover:text-blue-400 transition-colors text-left"
             >
-              &gt; projects
+              Projects
             </button>
             <button
               onClick={() => scrollToSection('certifications')}
-              className="text-zinc-300 hover:text-cyan-400 transition-colors text-left text-sm"
+              className="text-slate-300 hover:text-blue-400 transition-colors text-left"
             >
-              &gt; certs
+              Certifications
             </button>
             <Button
               onClick={() => scrollToSection('contact')}
-              className="bg-cyan-500 hover:bg-cyan-600 text-black font-bold w-full border-2 border-cyan-400"
+              className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white w-full border-0"
             >
-              &gt; contact
+              Contact
             </Button>
           </nav>
         )}
