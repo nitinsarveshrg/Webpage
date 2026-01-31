@@ -6,10 +6,6 @@ import { Textarea } from './ui/textarea';
 import { Mail, Linkedin, Github, MapPin, Phone, Send, Loader2 } from 'lucide-react';
 import { portfolioData } from '../mock';
 import { toast } from '../hooks/use-toast';
-import axios from 'axios';
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -19,38 +15,7 @@ const Contact = () => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      const response = await axios.post(`${API}/contact`, {
-        name: formData.name,
-        email: formData.email,
-        subject: formData.subject,
-        message: formData.message
-      });
-
-      if (response.data.success) {
-        toast({
-          title: "✓ Message transmitted successfully!",
-          description: "Encrypted message received. Will respond via secure channel."
-        });
-        setFormData({ name: '', email: '', subject: '', message: '' });
-      }
-    } catch (error) {
-      console.error('Error sending message:', error);
-      toast({
-        title: "✗ Transmission failed",
-        description: "Unable to send message. Please try again or contact directly.",
-        variant: "destructive"
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
+  
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -154,7 +119,18 @@ const Contact = () => {
                 <span className="text-cyan-400">$</span> nano message.txt
               </div>
               <div className="bg-zinc-900/50 border border-cyan-500/30 rounded p-4">
-                <form onSubmit={handleSubmit} className="space-y-3">
+                <form
+  action="https://formspree.io/f/xbdyerqo"
+  method="POST"
+  className="space-y-3"
+  onSubmit={() => {
+    setIsSubmitting(true);
+    toast({
+      title: "✓ Message transmitted successfully!",
+      description: "Encrypted message sent successfully."
+    });
+  }}
+>
                   <div>
                     <label className="text-xs text-cyan-400 mb-1 block">&gt; NAME:</label>
                     <Input
