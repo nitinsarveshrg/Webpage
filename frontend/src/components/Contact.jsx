@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -7,6 +7,33 @@ import { Mail, Linkedin, Github, MapPin, Phone, Send, Loader2 } from 'lucide-rea
 import { portfolioData } from '../mock';
 
 const Contact = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const form = e.target;
+    const formData = new FormData(form);
+
+    try {
+      const res = await fetch("https://formspree.io/f/xbdyerqo", {
+        method: "POST",
+        body: formData,
+        headers: { "Accept": "application/json" }
+      });
+
+      if (res.ok) {
+        setSubmitted(true);
+        form.reset();
+      }
+    } catch (err) {
+      console.error("Formspree error:", err);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <section id="contact" className="py-20 bg-black relative overflow-hidden">
@@ -104,14 +131,15 @@ const Contact = () => {
                 <span className="text-cyan-400">$</span> nano message.txt
               </div>
               <div className="bg-zinc-900/50 border border-cyan-500/30 rounded p-4">
-                <form
-                action="https://formspree.io/f/xbdyerqo"
-                method="POST"
-                className="space-y-3"
->
+                <form onSubmit={handleSubmit} className="space-y-3">
                   <input type="hidden" name="_replyto" />
                   <input type="hidden" name="_subject" value="New Portfolio Contact Message" />
                   <input type="hidden" name="_template" value="table" />
+                  {submitted && (
+                    <div className="text-green-400 text-xs mb-2">
+                      ✓ Message transmitted successfully
+                    </div>
+                  )}
                   <div>
                     <label className="text-xs text-cyan-400 mb-1 block">&gt; NAME:</label>
                     <Input
@@ -150,12 +178,20 @@ const Contact = () => {
                   </div>
                   <Button
                     type="submit"
-                    className="w-full bg-cyan-500 hover:bg-cyan-600 text-black font-bold border-2 border-cyan-400 text-xs h-9 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={isSubmitting}
+                    className="w-full bg-cyan-500 hover:bg-cyan-600 text-black font-bold border-2 border-cyan-400 text-xs h-9 disabled:opacity-50"
                   >
-                    <>
-                      <Send className="mr-2" size={14} />
-                      &gt; TRANSMIT_MESSAGE
-                    </>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 animate-spin" size={14} />
+                        &gt; TRANSMITTING...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="mr-2" size={14} />
+                        &gt; TRANSMIT_MESSAGE
+                      </>
+                    )}
                   </Button>
                 </form>
               </div>
