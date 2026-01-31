@@ -83,6 +83,51 @@ async def get_status_checks():
     
     return status_checks
 
+@api_router.post("/contact")
+async def create_contact_message(input: ContactMessageCreate):
+    try:
+        contact_dict = input.model_dump()
+        contact_obj = ContactMessage(**contact_dict)
+        
+        # Convert to dict and serialize datetime to ISO string for MongoDB
+        doc = contact_obj.model_dump()
+        doc['timestamp'] = doc['timestamp'].isoformat()
+        
+        # Save to MongoDB
+        result = await db.contact_messages.insert_one(doc)
+        
+        if result.inserted_id:
+            return {
+                "success": True,
+                "message": "Message received successfully",
+                "id": contact_obj.id
+            }
+        else:
+            raise HTTPException(status_code=500, detail="Failed to save message")
+    except Exception as e:
+        logger.error(f"Error saving contact message: {str(e)}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+@api_router.get("/contact")
+async def get_contact_messages():
+    try:
+        # Exclude MongoDB's _id field from the query results
+        messages = await db.contact_messages.find({}, {"_id": 0}).sort("timestamp", -1).to_list(100)
+        
+        # Convert ISO string timestamps back to datetime objects
+        for message in messages:
+            if isinstance(message['timestamp'], str):
+                message['timestamp'] = datetime.fromisoformat(message['timestamp'])
+        
+        return {
+            "success": True,
+            "messages": messages,
+            "count": len(messages)
+        }
+    except Exception as e:
+        logger.error(f"Error fetching contact messages: {str(e)}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
 # Include the router in the main app
 app.include_router(api_router)
 
