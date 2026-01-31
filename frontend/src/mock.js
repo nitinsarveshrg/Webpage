@@ -172,7 +172,7 @@ export const portfolioData = {
       issuer: "Amazon Web Services",
       date: "2023",
       credentialId: "AWS-SAA",
-      link: "https://aws.amazon.com/certification/certified-solutions-architect-associate/"
+      link: "https://www.credly.com/badges/b37d7130-a1fd-4123-9325-ea53260945cd/linked_in_profile"
     },
     {
       id: 2,
@@ -180,7 +180,7 @@ export const portfolioData = {
       issuer: "HashiCorp",
       date: "2023",
       credentialId: "HC-TF",
-      link: "https://www.hashicorp.com/certification/terraform-associate"
+      link: "https://www.credly.com/badges/fc7bd115-3657-4551-9746-c5b3357a12bd/linked_in_profile"
     }
   ],
 
