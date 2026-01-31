@@ -1,27 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { Mail, Linkedin, Github, MapPin, Phone, Send, Loader2 } from 'lucide-react';
 import { portfolioData } from '../mock';
-import { toast } from '../hooks/use-toast';
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
 
   return (
     <section id="contact" className="py-20 bg-black relative overflow-hidden">
@@ -120,24 +105,18 @@ const Contact = () => {
               </div>
               <div className="bg-zinc-900/50 border border-cyan-500/30 rounded p-4">
                 <form
-  action="https://formspree.io/f/xbdyerqo"
-  method="POST"
-  className="space-y-3"
-  onSubmit={() => {
-    setIsSubmitting(true);
-    toast({
-      title: "✓ Message transmitted successfully!",
-      description: "Encrypted message sent successfully."
-    });
-  }}
+                action="https://formspree.io/f/xbdyerqo"
+                method="POST"
+                className="space-y-3"
 >
+                  <input type="hidden" name="_replyto" />
+                  <input type="hidden" name="_subject" value="New Portfolio Contact Message" />
+                  <input type="hidden" name="_template" value="table" />
                   <div>
                     <label className="text-xs text-cyan-400 mb-1 block">&gt; NAME:</label>
                     <Input
                       type="text"
                       name="name"
-                      value={formData.name}
-                      onChange={handleChange}
                       required
                       className="bg-black border-cyan-500/30 text-white text-xs h-8 font-mono"
                     />
@@ -147,8 +126,6 @@ const Contact = () => {
                     <Input
                       type="email"
                       name="email"
-                      value={formData.email}
-                      onChange={handleChange}
                       required
                       className="bg-black border-cyan-500/30 text-white text-xs h-8 font-mono"
                     />
@@ -158,8 +135,6 @@ const Contact = () => {
                     <Input
                       type="text"
                       name="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
                       required
                       className="bg-black border-cyan-500/30 text-white text-xs h-8 font-mono"
                     />
@@ -168,8 +143,6 @@ const Contact = () => {
                     <label className="text-xs text-cyan-400 mb-1 block">&gt; MESSAGE:</label>
                     <Textarea
                       name="message"
-                      value={formData.message}
-                      onChange={handleChange}
                       required
                       rows={4}
                       className="bg-black border-cyan-500/30 text-white text-xs resize-none font-mono"
@@ -177,20 +150,12 @@ const Contact = () => {
                   </div>
                   <Button
                     type="submit"
-                    disabled={isSubmitting}
                     className="w-full bg-cyan-500 hover:bg-cyan-600 text-black font-bold border-2 border-cyan-400 text-xs h-9 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="mr-2 animate-spin" size={14} />
-                        &gt; TRANSMITTING...
-                      </>
-                    ) : (
-                      <>
-                        <Send className="mr-2" size={14} />
-                        &gt; TRANSMIT_MESSAGE
-                      </>
-                    )}
+                    <>
+                      <Send className="mr-2" size={14} />
+                      &gt; TRANSMIT_MESSAGE
+                    </>
                   </Button>
                 </form>
               </div>
