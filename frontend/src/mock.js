@@ -82,7 +82,7 @@ export const portfolioData = {
       id: 2,
       title: "System Engineer",
       company: "Assistanz Network Pvt Ltd",
-      location: "Remote",
+      location: "India",
       period: "Aug 2021 - Oct 2022",
       description: "Managed AWS & Azure production workloads ensuring high availability and performance.",
       achievements: [
@@ -98,7 +98,7 @@ export const portfolioData = {
       id: 3,
       title: "Junior Cloud Engineer (Intern)",
       company: "Vimana Web Infotech",
-      location: "Remote",
+      location: "India",
       period: "May 2020 - Jul 2021",
       description: "Supported cloud infrastructure setup, automation, and CI/CD pipeline development.",
       achievements: [
