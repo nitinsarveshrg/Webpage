@@ -161,7 +161,7 @@ export const portfolioData = {
       id: 1,
       name: "AWS Certified Solutions Architect - Associate",
       issuer: "Amazon Web Services",
-      date: "2023",
+      date: "2024",
       credentialId: "AWS-SAA",
       link: "https://www.credly.com/badges/b37d7130-a1fd-4123-9325-ea53260945cd/linked_in_profile"
     },
@@ -169,7 +169,7 @@ export const portfolioData = {
       id: 2,
       name: "HashiCorp Certified: Terraform Associate",
       issuer: "HashiCorp",
-      date: "2023",
+      date: "2024",
       credentialId: "HC-TF",
       link: "https://www.credly.com/badges/fc7bd115-3657-4551-9746-c5b3357a12bd/linked_in_profile"
     }
@@ -183,7 +183,7 @@ export const portfolioData = {
       institution: "Conestoga College",
       period: "Jan 2024 - Aug 2024",
       location: "Waterloo, Canada",
-      gpa: "3.67/4"
+      gpa: "3.32/4"
     },
     {
       id: 2,
@@ -191,7 +191,7 @@ export const portfolioData = {
       institution: "Conestoga College",
       period: "Jan 2023 - Aug 2023",
       location: "Waterloo, Canada",
-      gpa: "3.32/4"
+      gpa: "3.67/4"
     },
     {
       id: 3,
