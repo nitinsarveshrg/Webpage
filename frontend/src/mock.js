@@ -61,7 +61,7 @@ export const portfolioData = {
   experience: [
     {
       id: 1,
-      title: "Cloud Engineer",
+      title: "Cloud DevOps Engineer",
       company: "Viva Tech Solutions",
       location: "Toronto, Canada",
       period: "Oct 2022 - Present",
