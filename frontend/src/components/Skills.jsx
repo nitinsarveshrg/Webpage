@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from './ui/card';
-import { Cloud, Container, Code, Activity, Terminal } from 'lucide-react';
+import { Cloud, Container, Code, Activity } from 'lucide-react';
 import { portfolioData } from '../mock';
 
 const Skills = () => {
@@ -14,45 +14,63 @@ const Skills = () => {
   return (
     <section id="skills" className="py-20 bg-black relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-cyan-400 mb-4 font-mono">
-            <Terminal className="inline mr-3" size={40} />
-            &gt; ./scan_skills.sh --all
-          </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-cyan-500 to-blue-500 ml-16 mb-4"></div>
-          <p className="text-zinc-400 text-lg font-mono ml-16">[ ANALYZING TECHNICAL CAPABILITIES... ]</p>
+        {/* Terminal Header */}
+        <div className="bg-zinc-900 border-2 border-cyan-500/50 rounded-t-lg p-3 mb-0 font-mono">
+          <div className="flex items-center gap-2">
+            <div className="flex gap-2">
+              <div className="w-3 h-3 rounded-full bg-red-500"></div>
+              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+              <div className="w-3 h-3 rounded-full bg-green-500"></div>
+            </div>
+            <span className="text-cyan-400 text-sm ml-4">root@cloud-devops: ~/skills</span>
+          </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {skillCategories.map((category, index) => {
-            const IconComponent = category.icon;
-            return (
-              <Card key={index} className="bg-black/50 border-cyan-500/30 p-6 hover:border-cyan-500 transition-all duration-300">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 bg-cyan-500/20 border border-cyan-500/50 rounded flex items-center justify-center">
-                    <IconComponent className="text-cyan-400" size={24} />
+        {/* Terminal Content */}
+        <div className="bg-black/90 border-2 border-t-0 border-cyan-500/50 rounded-b-lg p-8 font-mono">
+          <div className="text-green-400 mb-6">
+            <div className="mb-2"><span className="text-cyan-400">root@cloud-devops:~$</span> ./analyze_skills.sh --verbose</div>
+            <div className="ml-4 text-zinc-400 text-sm">Scanning technical capabilities...</div>
+            <div className="ml-4 text-green-400 text-sm">[✓] Skill analysis complete</div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {skillCategories.map((category, index) => {
+              const IconComponent = category.icon;
+              return (
+                <div key={index} className="bg-zinc-900/50 border border-cyan-500/30 rounded p-4">
+                  <div className="flex items-center gap-2 mb-4 text-cyan-400">
+                    <IconComponent size={20} />
+                    <span className="text-sm font-bold">&gt; {category.title.toUpperCase()}</span>
                   </div>
-                  <h3 className="text-xl font-bold text-cyan-400 font-mono">&gt; {category.title}</h3>
-                </div>
-                <div className="space-y-4">
-                  {category.skills.map((skill, skillIndex) => (
-                    <div key={skillIndex}>
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-zinc-300 font-mono text-sm">[{skill.name}]</span>
-                        <span className="text-green-400 text-sm font-semibold font-mono">{skill.level}%</span>
+                  <div className="space-y-3">
+                    {category.skills.map((skill, skillIndex) => (
+                      <div key={skillIndex}>
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-zinc-300 text-xs">[{skill.name}]</span>
+                          <span className="text-green-400 text-xs font-bold">{skill.level}%</span>
+                        </div>
+                        <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden border border-cyan-500/20">
+                          <div
+                            className="h-full bg-gradient-to-r from-cyan-500 to-green-500"
+                            style={{ width: `${skill.level}%` }}
+                          ></div>
+                        </div>
                       </div>
-                      <div className="h-2 bg-zinc-900 rounded-full overflow-hidden border border-cyan-500/20">
-                        <div
-                          className="h-full bg-gradient-to-r from-cyan-500 to-green-500 transition-all duration-1000 ease-out"
-                          style={{ width: `${skill.level}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </Card>
-            );
-          })}        </div>
+              );
+            })}
+          </div>
+
+          {/* Command output */}
+          <div className="mt-6 text-green-400 text-sm">
+            <div><span className="text-cyan-400">$</span> echo "Skills assessment completed"</div>
+            <div className="ml-4">Skills assessment completed</div>
+            <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>
+          </div>
+        </div>
       </div>
     </section>
   );

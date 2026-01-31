@@ -1,45 +1,70 @@
 import React from 'react';
 import { Card } from './ui/card';
-import { CheckCircle2, Terminal } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 import { portfolioData } from '../mock';
 
 const About = () => {
   return (
     <section id="about" className="py-20 bg-zinc-950 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-cyan-400 mb-4 font-mono">
-            <Terminal className="inline mr-3" size={40} />
-            &gt; cat /home/devops/profile.dat
-          </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-cyan-500 to-blue-500 ml-16"></div>
+        {/* Terminal Header */}
+        <div className="bg-zinc-900 border-2 border-cyan-500/50 rounded-t-lg p-3 mb-0 font-mono">
+          <div className="flex items-center gap-2">
+            <div className="flex gap-2">
+              <div className="w-3 h-3 rounded-full bg-red-500"></div>
+              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+              <div className="w-3 h-3 rounded-full bg-green-500"></div>
+            </div>
+            <span className="text-cyan-400 text-sm ml-4">root@cloud-devops: ~/about</span>
+          </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-start">
-          {/* Bio */}
-          <Card className="bg-black/50 border-cyan-500/30 p-8">
-            <div className="text-green-400 font-mono text-sm mb-4">
-              <span className="text-cyan-400">root@cloud-infra:~$</span> cat README.md
-            </div>
-            <p className="text-lg text-zinc-300 leading-relaxed">
-              {portfolioData.about.bio}
-            </p>
-          </Card>
+        {/* Terminal Content */}
+        <div className="bg-black/90 border-2 border-t-0 border-cyan-500/50 rounded-b-lg p-8 font-mono">
+          <div className="text-green-400 mb-6">
+            <div className="mb-2"><span className="text-cyan-400">root@cloud-devops:~$</span> whoami</div>
+            <div className="ml-4 text-zinc-300 mb-4">Displaying user information...</div>
+          </div>
 
-          {/* Highlights */}
-          <Card className="bg-black/50 border-cyan-500/30 p-8">
-            <div className="text-green-400 font-mono text-sm mb-4">
-              <span className="text-cyan-400">root@cloud-infra:~$</span> ls -la highlights/
+          <div className="grid md:grid-cols-2 gap-8 items-start">
+            {/* Bio Terminal Window */}
+            <div className="bg-zinc-900/50 border border-cyan-500/30 rounded p-4">
+              <div className="text-green-400 text-sm mb-3">
+                <span className="text-cyan-400">$</span> cat profile.txt
+              </div>
+              <div className="text-zinc-300 text-sm leading-relaxed">
+                {portfolioData.about.bio}
+              </div>
+              <div className="text-green-400 text-sm mt-3">
+                <span className="text-cyan-400">$</span> <span className="animate-pulse">_</span>
+              </div>
             </div>
-            <div className="space-y-4">
-              {portfolioData.about.highlights.map((highlight, index) => (
-                <div key={index} className="flex items-start gap-3">
-                  <CheckCircle2 className="text-cyan-400 flex-shrink-0 mt-1" size={20} />
-                  <span className="text-zinc-300">{highlight}</span>
-                </div>
-              ))}
+
+            {/* Highlights Terminal Window */}
+            <div className="bg-zinc-900/50 border border-cyan-500/30 rounded p-4">
+              <div className="text-green-400 text-sm mb-3">
+                <span className="text-cyan-400">$</span> ls -la highlights/
+              </div>
+              <div className="space-y-2">
+                {portfolioData.about.highlights.map((highlight, index) => (
+                  <div key={index} className="flex items-start gap-2 text-sm">
+                    <span className="text-green-400">[✓]</span>
+                    <span className="text-zinc-300">{highlight}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="text-green-400 text-sm mt-3">
+                <span className="text-cyan-400">$</span> <span className="animate-pulse">_</span>
+              </div>
             </div>
-          </Card>
+          </div>
+
+          {/* Command output */}
+          <div className="mt-6 text-green-400 text-sm">
+            <div><span className="text-cyan-400">$</span> echo "Profile loaded successfully"</div>
+            <div className="ml-4">Profile loaded successfully</div>
+            <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>
+          </div>
         </div>
       </div>
     </section>
