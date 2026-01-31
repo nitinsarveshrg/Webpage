@@ -50,8 +50,8 @@ const Certifications = () => {
                 <div className="flex items-start gap-3">
                   <ShieldCheck className="text-cyan-400 flex-shrink-0" size={20} />
                   <div className="flex-1">
-                    <div className="text-white font-bold text-sm mb-1">{cert.name}</div>
-                    <div className="text-green-400 text-xs mb-2">&gt; {cert.issuer}</div>
+                    <h3 className="text-white font-bold text-sm mb-1 group-hover:text-cyan-400 transition-colors">{cert.name}</h3>
+                    <p className="text-green-400 text-xs mb-2">&gt; {cert.issuer}</p>
                     <div className="flex items-center gap-2 text-[10px] text-zinc-400">
                       <Badge className="bg-zinc-800 text-zinc-300 border border-zinc-700 text-[9px] px-1.5 py-0">
                         {cert.date}
