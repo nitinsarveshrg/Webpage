@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
-import { Menu, X, Cloud } from 'lucide-react';
+import { Menu, X, Terminal } from 'lucide-react';
 import { portfolioData } from '../mock';
 
 const Header = () => {
@@ -25,108 +25,116 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-slate-900/95 backdrop-blur-md border-b-2 border-blue-500/30' : 'bg-transparent'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-mono ${
+        isScrolled ? 'bg-black/95 backdrop-blur-sm border-b-2 border-cyan-500/50' : 'bg-black/80 border-b border-cyan-500/30'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 py-4">
+      <div className="max-w-7xl mx-auto px-6 py-3">
         <div className="flex items-center justify-between">
-          {/* Logo/Name */}
+          {/* Logo/Name - Terminal Style */}
           <button
             onClick={() => scrollToSection('hero')}
-            className="flex items-center gap-2 text-xl font-bold text-white hover:text-blue-400 transition-colors"
+            className="flex items-center gap-2 text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
           >
-            <Cloud size={24} className="text-blue-400" />
-            <span>{portfolioData.personal.name.split(' ')[0]}</span>
+            <Terminal size={16} />
+            <span className="text-green-400">root@cloud-devops</span>
+            <span className="text-white">:</span>
+            <span className="text-blue-400">~</span>
+            <span className="text-white">$</span>
           </button>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
+          {/* Desktop Navigation - Terminal Commands */}
+          <nav className="hidden md:flex items-center gap-1 text-xs">
             <button
               onClick={() => scrollToSection('about')}
-              className="text-slate-300 hover:text-blue-400 transition-colors"
+              className="text-zinc-400 hover:text-cyan-400 transition-colors px-3 py-1"
             >
-              About
+              ./about
             </button>
+            <span className="text-zinc-700">|</span>
             <button
               onClick={() => scrollToSection('skills')}
-              className="text-slate-300 hover:text-blue-400 transition-colors"
+              className="text-zinc-400 hover:text-cyan-400 transition-colors px-3 py-1"
             >
-              Skills
+              ./skills
             </button>
+            <span className="text-zinc-700">|</span>
             <button
               onClick={() => scrollToSection('experience')}
-              className="text-slate-300 hover:text-blue-400 transition-colors"
+              className="text-zinc-400 hover:text-cyan-400 transition-colors px-3 py-1"
             >
-              Experience
+              ./experience
             </button>
+            <span className="text-zinc-700">|</span>
             <button
               onClick={() => scrollToSection('projects')}
-              className="text-slate-300 hover:text-blue-400 transition-colors"
+              className="text-zinc-400 hover:text-cyan-400 transition-colors px-3 py-1"
             >
-              Projects
+              ./projects
             </button>
+            <span className="text-zinc-700">|</span>
             <button
               onClick={() => scrollToSection('certifications')}
-              className="text-slate-300 hover:text-blue-400 transition-colors"
+              className="text-zinc-400 hover:text-cyan-400 transition-colors px-3 py-1"
             >
-              Certifications
+              ./certs
             </button>
+            <span className="text-zinc-700 mx-2">|</span>
             <Button
               onClick={() => scrollToSection('contact')}
-              className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white border-0"
+              className="bg-cyan-500 hover:bg-cyan-600 text-black font-bold border-2 border-cyan-400 h-7 px-3 text-xs"
             >
-              Contact
+              &gt; contact
             </Button>
           </nav>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-blue-400"
+            className="md:hidden text-cyan-400"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <nav className="md:hidden mt-4 pb-4 flex flex-col gap-4">
+          <nav className="md:hidden mt-4 pb-4 flex flex-col gap-2 text-xs border-t border-cyan-500/30 pt-4">
             <button
               onClick={() => scrollToSection('about')}
-              className="text-slate-300 hover:text-blue-400 transition-colors text-left"
+              className="text-zinc-400 hover:text-cyan-400 transition-colors text-left"
             >
-              About
+              $ ./about
             </button>
             <button
               onClick={() => scrollToSection('skills')}
-              className="text-slate-300 hover:text-blue-400 transition-colors text-left"
+              className="text-zinc-400 hover:text-cyan-400 transition-colors text-left"
             >
-              Skills
+              $ ./skills
             </button>
             <button
               onClick={() => scrollToSection('experience')}
-              className="text-slate-300 hover:text-blue-400 transition-colors text-left"
+              className="text-zinc-400 hover:text-cyan-400 transition-colors text-left"
             >
-              Experience
+              $ ./experience
             </button>
             <button
               onClick={() => scrollToSection('projects')}
-              className="text-slate-300 hover:text-blue-400 transition-colors text-left"
+              className="text-zinc-400 hover:text-cyan-400 transition-colors text-left"
             >
-              Projects
+              $ ./projects
             </button>
             <button
               onClick={() => scrollToSection('certifications')}
-              className="text-slate-300 hover:text-blue-400 transition-colors text-left"
+              className="text-zinc-400 hover:text-cyan-400 transition-colors text-left"
             >
-              Certifications
+              $ ./certs
             </button>
             <Button
               onClick={() => scrollToSection('contact')}
-              className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white w-full border-0"
+              className="bg-cyan-500 hover:bg-cyan-600 text-black font-bold w-full border-2 border-cyan-400 h-8 text-xs mt-2"
             >
-              Contact
+              &gt; contact
             </Button>
           </nav>
         )}
