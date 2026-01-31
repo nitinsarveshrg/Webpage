@@ -56,9 +56,16 @@ const Projects = () => {
                     </span>
                   </div>
                   <div className="flex gap-2">
-                    <button className="text-zinc-500 hover:text-cyan-400 transition-colors">
-                      <Github size={14} />
-                    </button>
+                    {project.github && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-zinc-500 hover:text-cyan-400 transition-colors"
+                      >
+                        <Github size={14} />
+                      </a>
+                    )}
                     <button className="text-zinc-500 hover:text-cyan-400 transition-colors">
                       <ExternalLink size={14} />
                     </button>
