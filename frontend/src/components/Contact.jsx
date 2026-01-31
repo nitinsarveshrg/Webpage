@@ -3,9 +3,13 @@ import { Card } from './ui/card';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
-import { Mail, Linkedin, Github, MapPin, Phone, Send } from 'lucide-react';
+import { Mail, Linkedin, Github, MapPin, Phone, Send, Loader2 } from 'lucide-react';
 import { portfolioData } from '../mock';
 import { toast } from '../hooks/use-toast';
+import axios from 'axios';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -14,14 +18,37 @@ const Contact = () => {
     subject: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    toast({
-      title: "✓ Message transmitted!",
-      description: "Encrypted message received. Will respond via secure channel."
-    });
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    setIsSubmitting(true);
+
+    try {
+      const response = await axios.post(`${API}/contact`, {
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message
+      });
+
+      if (response.data.success) {
+        toast({
+          title: "✓ Message transmitted successfully!",
+          description: "Encrypted message received. Will respond via secure channel."
+        });
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      toast({
+        title: "✗ Transmission failed",
+        description: "Unable to send message. Please try again or contact directly.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e) => {
