@@ -32,7 +32,7 @@ const Certifications = () => {
             {portfolioData.certifications.map((cert, index) => (
               <div
                 key={cert.id}
-                className="bg-zinc-900/50 border border-cyan-500/30 rounded p-4 hover:border-cyan-500 transition-all"
+                className="bg-zinc-900/50 border border-cyan-500/30 rounded p-4 hover:border-cyan-500 transition-all group"
               >
                 {/* Cert header */}
                 <div className="flex items-center justify-between mb-3 pb-2 border-b border-cyan-500/20">
