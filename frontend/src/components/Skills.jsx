@@ -31,6 +31,7 @@ const Skills = () => {
           <div className="text-green-400 mb-6">
             <div className="mb-2"><span className="text-cyan-400">root@cloud-devops:~$</span> ./analyze_skills.sh --verbose</div>
             <div className="ml-4 text-zinc-400 text-sm">Scanning technical capabilities...</div>
+            <div className="ml-4 text-yellow-400 text-sm animate-pulse">███████████░░░░░░░░░ 60% Complete</div>
             <div className="ml-4 text-green-400 text-sm">[✓] Skill analysis complete</div>
           </div>
 
