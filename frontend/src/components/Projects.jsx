@@ -22,6 +22,19 @@ const Projects = () => {
 
         {/* Terminal Content */}
         <div className="bg-black/90 border-2 border-t-0 border-cyan-500/50 rounded-b-lg p-8 font-mono">
+          {/* ASCII Art Server Rack */}
+          <pre className="text-green-400 text-xs mb-4 opacity-40">
+{`
+    ╔══════════════════╗
+    ║ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ ║  SERVER-01 [ACTIVE]
+    ╠══════════════════╣
+    ║ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ ║  SERVER-02 [ACTIVE]
+    ╠══════════════════╣
+    ║ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ ║  SERVER-03 [ACTIVE]
+    ╚══════════════════╝
+`}
+          </pre>
+
           <div className="text-green-400 mb-6">
             <div className="mb-2"><span className="text-cyan-400">root@cloud-devops:~$</span> ls -la projects/ --classified</div>
             <div className="ml-4 text-zinc-400 text-sm">total {portfolioData.projects.length}</div>
