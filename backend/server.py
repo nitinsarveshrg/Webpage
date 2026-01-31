@@ -37,6 +37,23 @@ class StatusCheck(BaseModel):
 class StatusCheckCreate(BaseModel):
     client_name: str
 
+class ContactMessage(BaseModel):
+    model_config = ConfigDict(extra="ignore")  # Ignore MongoDB's _id field
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    email: EmailStr
+    subject: str
+    message: str
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    status: str = "new"
+
+class ContactMessageCreate(BaseModel):
+    name: str
+    email: EmailStr
+    subject: str
+    message: str
+
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():
