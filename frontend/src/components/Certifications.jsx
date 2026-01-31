@@ -42,9 +42,16 @@ const Certifications = () => {
                       ACTIVE
                     </div>
                   </div>
-                  <button className="text-zinc-500 hover:text-cyan-400 transition-colors">
-                    <ExternalLink size={14} />
-                  </button>
+                  {cert.link && (
+                    <a
+                      href={cert.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-zinc-500 hover:text-cyan-400 transition-colors"
+                    >
+                      <ExternalLink size={14} />
+                    </a>
+                  )}
                 </div>
 
                 <div className="flex items-start gap-3">
