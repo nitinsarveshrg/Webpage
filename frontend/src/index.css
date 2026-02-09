@@ -23,8 +23,19 @@ code {
         @apply snap-start relative overflow-x-hidden flex items-start;
         scroll-snap-stop: normal;
         min-height: 100svh;
-        padding-top: 1rem;
+        padding-top: 0.5rem;
         padding-bottom: 0.75rem;
+    }
+
+    .portfolio-section > .section-shell {
+        min-height: calc(100svh - 1.25rem);
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .portfolio-section > .section-shell .terminal-body {
+        flex: 1;
     }
 
     .portfolio-section .terminal-body {
@@ -32,7 +43,7 @@ code {
     }
 
     .section-frame-preroll {
-        transform: translateY(6vh) scale(0.88);
+        transform: scale(0.9);
         opacity: 0.92;
         transform-origin: center center;
     }
@@ -117,15 +128,15 @@ code {
 
 @keyframes section-frame-grow {
     0% {
-        transform: translateY(6vh) scale(0.88);
+        transform: scale(0.9);
         opacity: 0.92;
     }
     62% {
-        transform: translateY(0) scale(1.025);
+        transform: scale(1.02);
         opacity: 1;
     }
     100% {
-        transform: translateY(0) scale(1);
+        transform: scale(1);
         opacity: 1;
     }
 }

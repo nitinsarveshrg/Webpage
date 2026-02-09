@@ -10,7 +10,7 @@ const Experience = () => {
 
   return (
     <section id="experience" className="portfolio-section bg-black">
-      <div className={`max-w-7xl w-full mx-auto px-6 relative z-10 ${frameExpanded ? 'section-frame-grow' : 'section-frame-preroll'}`}>
+      <div className={`section-shell max-w-7xl w-full mx-auto px-6 relative z-10 ${frameExpanded ? 'section-frame-grow' : 'section-frame-preroll'}`}>
         <div className="terminal-header">
           <div className="flex items-center gap-2">
             <div className="flex gap-2">

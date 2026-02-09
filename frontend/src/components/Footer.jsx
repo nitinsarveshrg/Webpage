@@ -12,7 +12,8 @@ const Footer = () => {
     if (element) {
       const header = document.querySelector('header');
       const headerOffset = (header ? header.getBoundingClientRect().height : 80) + 4;
-      const y = element.getBoundingClientRect().top + window.scrollY - headerOffset;
+      const target = element.querySelector('.terminal-header') || element;
+      const y = target.getBoundingClientRect().top + window.scrollY - headerOffset;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
