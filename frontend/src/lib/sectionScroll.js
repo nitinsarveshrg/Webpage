@@ -1,20 +1,3 @@
-let snapPauseTimer = null;
-
-const pauseSnap = (durationMs = 850) => {
-  if (typeof document === 'undefined') return;
-  const root = document.documentElement;
-  root.classList.add('snap-paused');
-
-  if (snapPauseTimer) {
-    window.clearTimeout(snapPauseTimer);
-  }
-
-  snapPauseTimer = window.setTimeout(() => {
-    root.classList.remove('snap-paused');
-    snapPauseTimer = null;
-  }, durationMs);
-};
-
 export const scrollToSectionById = (sectionId, options = {}) => {
   if (typeof window === 'undefined' || typeof document === 'undefined') return false;
 
@@ -23,12 +6,12 @@ export const scrollToSectionById = (sectionId, options = {}) => {
   if (!section) return false;
 
   const header = document.querySelector('header');
-  const headerOffset = (header ? header.getBoundingClientRect().height : 80) + 8;
   const target = section.querySelector('.terminal-header') || section;
-  const y = Math.max(0, Math.round(target.getBoundingClientRect().top + window.scrollY - headerOffset));
 
-  pauseSnap(900);
+  const headerBottom = header ? header.getBoundingClientRect().bottom : 0;
+  const targetTop = target.getBoundingClientRect().top;
+  const y = Math.max(0, Math.round(window.scrollY + targetTop - headerBottom - 2));
+
   window.scrollTo({ top: y, behavior });
   return true;
 };
-

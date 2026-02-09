@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
@@ -8,31 +8,103 @@ import ScrollTypingLine from './ScrollTypingLine';
 import TerminalCommand from './TerminalCommand';
 
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xbdyerqo';
+const RECAPTCHA_SITE_KEY = process.env.REACT_APP_RECAPTCHA_SITE_KEY || '';
 
 const Contact = () => {
+  const recaptchaLoaderRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   const [showContent, setShowContent] = useState(false);
   const [frameExpanded, setFrameExpanded] = useState(false);
-  const returnUrl =
-    typeof window !== 'undefined'
-      ? `${window.location.origin}${window.location.pathname}?contact=sent#contact`
-      : '';
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('contact') === 'sent') {
-      setSubmitted(true);
-      params.delete('contact');
-      const nextQuery = params.toString();
-      const nextUrl = `${window.location.pathname}${nextQuery ? `?${nextQuery}` : ''}${window.location.hash}`;
-      window.history.replaceState({}, '', nextUrl);
+  const loadRecaptcha = () => {
+    if (!RECAPTCHA_SITE_KEY) return Promise.resolve(null);
+    if (window.grecaptcha && window.grecaptcha.execute) return Promise.resolve(window.grecaptcha);
+
+    if (!recaptchaLoaderRef.current) {
+      recaptchaLoaderRef.current = new Promise((resolve, reject) => {
+        const existingScript = document.querySelector(`script[data-recaptcha-key="${RECAPTCHA_SITE_KEY}"]`);
+        if (existingScript) {
+          if (window.grecaptcha && window.grecaptcha.execute) {
+            resolve(window.grecaptcha);
+            return;
+          }
+          existingScript.addEventListener('load', () => resolve(window.grecaptcha), { once: true });
+          existingScript.addEventListener('error', () => reject(new Error('Failed to load reCAPTCHA script.')), { once: true });
+          return;
+        }
+
+        const script = document.createElement('script');
+        script.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`;
+        script.async = true;
+        script.defer = true;
+        script.dataset.recaptchaKey = RECAPTCHA_SITE_KEY;
+        script.onload = () => resolve(window.grecaptcha);
+        script.onerror = () => reject(new Error('Failed to load reCAPTCHA script.'));
+        document.head.appendChild(script);
+      });
     }
-  }, []);
 
-  const handleSubmit = () => {
+    return recaptchaLoaderRef.current;
+  };
+
+  const getRecaptchaToken = async () => {
+    if (!RECAPTCHA_SITE_KEY) return null;
+    const grecaptcha = await loadRecaptcha();
+    if (!grecaptcha) return null;
+
+    return new Promise((resolve, reject) => {
+      grecaptcha.ready(() => {
+        grecaptcha
+          .execute(RECAPTCHA_SITE_KEY, { action: 'submit' })
+          .then(resolve)
+          .catch(() => reject(new Error('Unable to verify reCAPTCHA. Please try again.')));
+      });
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitError('');
+    setSubmitted(false);
     setIsSubmitting(true);
+
+    const form = e.target;
+    const formData = new FormData(form);
+    formData.set('_replyto', String(formData.get('email') || ''));
+
+    try {
+      const recaptchaToken = await getRecaptchaToken();
+      if (recaptchaToken) {
+        formData.set('g-recaptcha-response', String(recaptchaToken));
+      }
+
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        body: formData,
+        headers: { Accept: 'application/json' },
+      });
+
+      const payload = await res.json().catch(() => null);
+      if (!res.ok) {
+        const detailedError = payload?.errors?.map((item) => item.message).filter(Boolean).join(' ');
+        if (detailedError?.includes('submit via AJAX')) {
+          throw new Error(
+            'Formspree default CAPTCHA cannot run inline with AJAX. To keep submission on this page, either add custom reCAPTCHA keys in Formspree, or disable CAPTCHA for this form.'
+          );
+        }
+        throw new Error(detailedError || payload?.error || 'Message transmission failed. Please try again.');
+      }
+
+      setSubmitted(true);
+      form.reset();
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Message transmission failed. Please try again.';
+      setSubmitError(message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -126,12 +198,16 @@ const Contact = () => {
                 <div className="terminal-stagger-reveal" style={{ '--reveal-delay': '260ms' }}>
                   <ScrollTypingLine className="text-green-400 text-sm mb-4" prompt="$" text="nano message.txt" speed={24} />
                   <div className="terminal-panel">
-                    <form action={FORMSPREE_ENDPOINT} method="POST" onSubmit={handleSubmit} className="space-y-3">
+                    <form onSubmit={handleSubmit} className="space-y-3">
                       <input type="hidden" name="_subject" value="New Portfolio Contact Message" />
                       <input type="hidden" name="_template" value="table" />
-                      <input type="hidden" name="_next" value={returnUrl} />
                       <input type="text" name="_gotcha" className="hidden" tabIndex={-1} autoComplete="off" />
                       {submitted && <div className="text-green-400 text-xs mb-2">✓ Message transmitted successfully</div>}
+                      {submitError && (
+                        <div className="text-red-400 text-xs mb-2" role="alert">
+                          {submitError}
+                        </div>
+                      )}
 
                       <div>
                         <label className="text-xs text-cyan-400 mb-1 block">&gt; NAME:</label>

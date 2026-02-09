@@ -6,12 +6,8 @@
 
 html {
     scroll-behavior: smooth;
-    scroll-snap-type: y proximity;
+    scroll-snap-type: none;
     scroll-padding-top: 0;
-}
-
-html.snap-paused {
-    scroll-snap-type: none !important;
 }
 
 body {
