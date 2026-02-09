@@ -8,6 +8,11 @@ import TerminalCommand from './TerminalCommand';
 const Projects = () => {
   const [showContent, setShowContent] = useState(false);
   const [frameExpanded, setFrameExpanded] = useState(false);
+  const serverNodes = [
+    { name: 'SERVER-01', load: 96 },
+    { name: 'SERVER-02', load: 91 },
+    { name: 'SERVER-03', load: 94 },
+  ];
 
   return (
     <section id="projects" className="portfolio-section bg-zinc-950">
@@ -24,17 +29,28 @@ const Projects = () => {
         </div>
 
         <div className="terminal-body terminal-overlay">
-          <pre className="text-green-400 text-xs mb-4 opacity-40">
-{`
-    ╔══════════════════╗
-    ║ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ ║  SERVER-01 [ACTIVE]
-    ╠══════════════════╣
-    ║ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ ║  SERVER-02 [ACTIVE]
-    ╠══════════════════╣
-    ║ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ ║  SERVER-03 [ACTIVE]
-    ╚══════════════════╝
-`}
-          </pre>
+          <div className="server-rack mb-4 terminal-stagger-reveal" style={{ '--reveal-delay': '70ms' }}>
+            <div className="server-rack-cap">╔══════════════════╗</div>
+            {serverNodes.map((node, index) => (
+              <React.Fragment key={node.name}>
+                <div className="server-rack-line" style={{ '--rack-delay': `${index * 130}ms` }}>
+                  <span className="server-rack-glyph">║</span>
+                  <span className="server-rack-blocks">
+                    <span className="server-rack-blocks-dim">▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓</span>
+                    <span className="server-rack-blocks-live" style={{ '--rack-load': `${node.load}%` }}>
+                      ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+                    </span>
+                  </span>
+                  <span className="server-rack-glyph">║</span>
+                  <span className="server-rack-label">
+                    {node.name} <span className="server-rack-state">[ACTIVE]</span>
+                  </span>
+                </div>
+                {index < serverNodes.length - 1 && <div className="server-rack-divider">╠══════════════════╣</div>}
+              </React.Fragment>
+            ))}
+            <div className="server-rack-cap">╚══════════════════╝</div>
+          </div>
 
           <div className="text-green-400 mb-6">
             <TerminalCommand

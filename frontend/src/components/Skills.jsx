@@ -1,8 +1,41 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Cloud, Container, Code, Activity } from 'lucide-react';
 import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
 import TerminalCommand from './TerminalCommand';
+
+const SkillLevelCounter = ({ value, delay = 0 }) => {
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    let rafId = null;
+    let timeoutId = null;
+    let start = null;
+    const duration = 900;
+
+    timeoutId = window.setTimeout(() => {
+      const tick = (timestamp) => {
+        if (start === null) start = timestamp;
+        const progress = Math.min((timestamp - start) / duration, 1);
+        const eased = 1 - (1 - progress) ** 3;
+        setDisplayValue(Math.round(value * eased));
+
+        if (progress < 1) {
+          rafId = window.requestAnimationFrame(tick);
+        }
+      };
+
+      rafId = window.requestAnimationFrame(tick);
+    }, delay);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+      if (rafId) window.cancelAnimationFrame(rafId);
+    };
+  }, [value, delay]);
+
+  return <span className="text-green-400 text-xs font-bold skills-level-value">{displayValue}%</span>;
+};
 
 const Skills = () => {
   const [showContent, setShowContent] = useState(false);
@@ -84,7 +117,10 @@ const Skills = () => {
                           >
                             <div className="flex items-center justify-between mb-1">
                               <span className="text-zinc-300 text-xs">[{skill.name}]</span>
-                              <span className="text-green-400 text-xs font-bold skills-level-value">{skill.level}%</span>
+                              <SkillLevelCounter
+                                value={skill.level}
+                                delay={280 + index * 160 + skillIndex * 110}
+                              />
                             </div>
                             <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden border border-cyan-500/20">
                               <div className="skills-meter-fill" style={{ '--skill-width': `${skill.level}%` }}></div>
