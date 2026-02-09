@@ -38,15 +38,16 @@ const SkillLevelCounter = ({ value, delay = 0 }) => {
 };
 
 const SkillMeterRow = ({ name, level, revealDelay = '0ms', countDelay = 0 }) => {
-
   return (
-    <div className="terminal-stagger-reveal" style={{ '--reveal-delay': revealDelay }}>
+    <div className="terminal-stagger-reveal skills-row-boot" style={{ '--reveal-delay': revealDelay }}>
       <div className="flex items-center justify-between mb-1">
         <span className="text-zinc-300 text-xs">[{name}]</span>
         <SkillLevelCounter value={level} delay={countDelay} />
       </div>
-      <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden border border-cyan-500/20">
-        <div className="skills-meter-fill" style={{ '--skill-width': `${level}%` }}></div>
+      <div className="skills-meter-track">
+        <div className="skills-meter-fill" style={{ '--skill-width': `${level}%`, '--meter-delay': `${countDelay}ms` }}>
+          <span className="skills-meter-hotspot"></span>
+        </div>
       </div>
     </div>
   );
@@ -118,13 +119,30 @@ const Skills = () => {
                   return (
                     <div
                       key={index}
-                      className="terminal-panel skills-panel terminal-stagger-reveal"
+                      className="terminal-panel skills-panel skills-card-boot terminal-stagger-reveal"
                       style={{ '--reveal-delay': `${120 + index * 160}ms` }}
                     >
-                      <div className="flex items-center gap-2 mb-4 text-cyan-400">
-                        <IconComponent size={20} />
-                        <span className="text-sm font-bold">&gt; {category.title.toUpperCase()}</span>
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-2 text-cyan-400">
+                          <IconComponent size={20} />
+                          <span className="text-sm font-bold">&gt; {category.title.toUpperCase()}</span>
+                        </div>
+                        <div className="skills-card-status">
+                          <span className="skills-card-status-dot"></span>
+                          <span>SYNCED</span>
+                        </div>
                       </div>
+
+                      <div className="skills-card-graph" aria-hidden="true">
+                        {Array.from({ length: 18 }).map((_, graphIndex) => (
+                          <span
+                            key={`${category.title}-${graphIndex}`}
+                            className="skills-card-graph-bar"
+                            style={{ '--graph-index': graphIndex }}
+                          ></span>
+                        ))}
+                      </div>
+
                       <div className="space-y-3">
                         {category.skills.map((skill, skillIndex) => (
                           <SkillMeterRow

@@ -226,6 +226,57 @@ code {
         overflow: hidden;
     }
 
+    .skills-card-boot {
+        animation: skills-card-boot 0.82s cubic-bezier(0.22, 1, 0.36, 1) both;
+        animation-delay: var(--reveal-delay, 0ms);
+    }
+
+    .skills-card-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.32rem;
+        color: #4ade80;
+        border: 1px solid rgba(74, 222, 128, 0.35);
+        border-radius: 9999px;
+        background: rgba(20, 83, 45, 0.2);
+        padding: 0.1rem 0.42rem;
+        font-size: 0.58rem;
+        letter-spacing: 0.1em;
+    }
+
+    .skills-card-status-dot {
+        width: 0.35rem;
+        height: 0.35rem;
+        border-radius: 9999px;
+        background: #4ade80;
+        box-shadow: 0 0 8px rgba(74, 222, 128, 0.7);
+        animation: skills-ping 1.6s ease-in-out infinite;
+    }
+
+    .skills-card-graph {
+        height: 0.95rem;
+        border: 1px solid rgba(34, 211, 238, 0.18);
+        border-radius: 0.4rem;
+        background: rgba(2, 6, 23, 0.45);
+        display: flex;
+        align-items: flex-end;
+        gap: 2px;
+        padding: 0.18rem 0.28rem;
+        margin-bottom: 0.72rem;
+        overflow: hidden;
+    }
+
+    .skills-card-graph-bar {
+        width: 3px;
+        flex: 1;
+        border-radius: 9999px;
+        background: linear-gradient(to top, #22d3ee 0%, #4ade80 100%);
+        transform-origin: bottom center;
+        animation: skills-graph-wave 1.9s ease-in-out infinite;
+        animation-delay: calc(var(--graph-index) * 90ms);
+        opacity: 0.8;
+    }
+
     .skills-panel::after {
         content: "";
         position: absolute;
@@ -237,6 +288,14 @@ code {
         animation: skills-panel-scan 2.8s linear infinite;
     }
 
+    .skills-meter-track {
+        height: 0.4rem;
+        background: rgba(39, 39, 42, 0.65);
+        border: 1px solid rgba(34, 211, 238, 0.22);
+        border-radius: 9999px;
+        overflow: hidden;
+    }
+
     .skills-meter-fill {
         height: 100%;
         width: var(--skill-width);
@@ -244,6 +303,7 @@ code {
         position: relative;
         transform-origin: left center;
         animation: skills-meter-boot 0.95s cubic-bezier(0.2, 0.9, 0.2, 1) both;
+        animation-delay: var(--meter-delay, 0ms);
         box-shadow: 0 0 12px rgba(34, 211, 238, 0.22);
     }
 
@@ -255,12 +315,40 @@ code {
         animation: skills-progress-sweep 2.2s linear infinite;
     }
 
+    .skills-meter-hotspot {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        width: 0.48rem;
+        height: 0.48rem;
+        border-radius: 9999px;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.85) 0%, rgba(34, 211, 238, 0.6) 42%, rgba(34, 211, 238, 0) 100%);
+        transform: translate(34%, -50%);
+        filter: blur(0.2px);
+        animation: skills-hotspot-breathe 1.6s ease-in-out infinite;
+    }
+
     .skills-level-value {
         text-shadow: 0 0 7px rgba(74, 222, 128, 0.4);
         animation: skills-level-pulse 1.2s ease-out both;
         transition: color 0.4s ease;
         min-width: 2.15rem;
         text-align: right;
+    }
+
+    .skills-row-boot {
+        position: relative;
+        padding-left: 0.42rem;
+    }
+
+    .skills-row-boot::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.2rem;
+        bottom: 0.1rem;
+        width: 1px;
+        background: linear-gradient(to bottom, rgba(34, 211, 238, 0), rgba(34, 211, 238, 0.45), rgba(34, 211, 238, 0));
     }
 
     .server-rack {
@@ -428,12 +516,51 @@ code {
     }
 }
 
+@keyframes skills-card-boot {
+    from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.975);
+    }
+    60% {
+        opacity: 1;
+        transform: translateY(0) scale(1.01);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes skills-graph-wave {
+    0%,
+    100% {
+        transform: scaleY(0.35);
+        opacity: 0.56;
+    }
+    50% {
+        transform: scaleY(1);
+        opacity: 1;
+    }
+}
+
 @keyframes skills-panel-scan {
     0% {
         transform: translateX(0);
     }
     100% {
         transform: translateX(190%);
+    }
+}
+
+@keyframes skills-hotspot-breathe {
+    0%,
+    100% {
+        opacity: 0.7;
+        transform: translate(34%, -50%) scale(0.9);
+    }
+    50% {
+        opacity: 1;
+        transform: translate(34%, -50%) scale(1.1);
     }
 }
 
