@@ -59,6 +59,21 @@ code {
     }
 }
 
+@keyframes terminal-line-enter {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.terminal-line-enter {
+    animation: terminal-line-enter 0.34s ease-out;
+}
+
 @keyframes terminal-flicker {
     0%,
     100% {

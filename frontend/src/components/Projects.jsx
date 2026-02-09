@@ -76,12 +76,12 @@ const Projects = () => {
                     </div>
 
                     <div className="mb-3">
-                      <ScrollTypingLine className="text-green-400 text-xs mb-1" prompt="$" text="cat README.md" speed={12} />
+                      <ScrollTypingLine className="text-green-400 text-xs mb-1" prompt="$" text="cat README.md" speed={20} />
                       <p className="text-zinc-300 text-xs leading-relaxed ml-2">{project.description}</p>
                     </div>
 
                     <div className="mb-3">
-                      <ScrollTypingLine className="text-green-400 text-xs mb-1" prompt="$" text="ls tech_stack/" speed={12} />
+                      <ScrollTypingLine className="text-green-400 text-xs mb-1" prompt="$" text="ls tech_stack/" speed={20} />
                       <div className="flex flex-wrap gap-1 ml-2">
                         {project.technologies.map((tech, techIndex) => (
                           <Badge key={techIndex} className="bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-[10px] px-2 py-0">
@@ -92,7 +92,7 @@ const Projects = () => {
                     </div>
 
                     <div className="pt-3 border-t border-cyan-500/20">
-                      <ScrollTypingLine className="text-green-400 text-xs mb-1" prompt="$" text="cat metrics.log" speed={12} />
+                      <ScrollTypingLine className="text-green-400 text-xs mb-1" prompt="$" text="cat metrics.log" speed={20} />
                       <div className="space-y-1 ml-2">
                         {project.highlights.map((highlight, idx) => (
                           <div key={idx} className="flex items-start gap-1 text-[10px] text-zinc-400">
@@ -107,7 +107,7 @@ const Projects = () => {
               </div>
 
               <div className="mt-6 text-green-400 text-sm">
-                <ScrollTypingLine prompt="$" text={`echo "Displayed ${portfolioData.projects.length} projects"`} speed={14} />
+                <ScrollTypingLine prompt="$" text={`echo "Displayed ${portfolioData.projects.length} projects"`} speed={24} />
                 <div className="ml-4">Displayed {portfolioData.projects.length} projects</div>
                 <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>
               </div>

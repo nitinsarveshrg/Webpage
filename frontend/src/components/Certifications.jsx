@@ -73,7 +73,7 @@ const Certifications = () => {
 
               <div className="mt-8 pt-6 border-t border-cyan-500/30">
                 <div className="text-green-400 mb-4">
-                  <ScrollTypingLine prompt="$" text="cat education.log" speed={14} />
+                  <ScrollTypingLine prompt="$" text="cat education.log" speed={24} />
                 </div>
                 {portfolioData.education.map((edu) => (
                   <div key={edu.id} className="terminal-panel max-w-2xl mx-auto">
@@ -94,7 +94,7 @@ const Certifications = () => {
               </div>
 
               <div className="mt-6 text-green-400 text-sm">
-                <ScrollTypingLine prompt="$" text={`echo "All credentials verified and active"`} speed={14} />
+                <ScrollTypingLine prompt="$" text={`echo "All credentials verified and active"`} speed={24} />
                 <div className="ml-4">All credentials verified and active</div>
                 <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>
               </div>

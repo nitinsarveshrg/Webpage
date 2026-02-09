@@ -56,12 +56,12 @@ const Experience = () => {
                     </div>
 
                     <div className="mb-3">
-                      <ScrollTypingLine className="text-green-400 text-xs mb-1" prompt="$" text="cat description.txt" speed={12} />
+                      <ScrollTypingLine className="text-green-400 text-xs mb-1" prompt="$" text="cat description.txt" speed={20} />
                       <p className="text-zinc-300 text-xs ml-2">{job.description}</p>
                     </div>
 
                     <div>
-                      <ScrollTypingLine className="text-green-400 text-xs mb-1" prompt="$" text={`grep "achievement" logs/*.log`} speed={12} />
+                      <ScrollTypingLine className="text-green-400 text-xs mb-1" prompt="$" text={`grep "achievement" logs/*.log`} speed={20} />
                       <div className="space-y-1 ml-2">
                         {job.achievements.map((achievement, idx) => (
                           <div key={idx} className="flex items-start gap-1 text-xs text-zinc-400">
@@ -76,7 +76,7 @@ const Experience = () => {
               </div>
 
               <div className="mt-6 text-green-400 text-sm">
-                <ScrollTypingLine prompt="$" text="wc -l career.log" speed={14} />
+                <ScrollTypingLine prompt="$" text="wc -l career.log" speed={24} />
                 <div className="ml-4">{portfolioData.experience.length} positions listed</div>
                 <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>
               </div>

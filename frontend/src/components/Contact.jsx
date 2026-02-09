@@ -72,7 +72,7 @@ const Contact = () => {
             <>
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
-                  <ScrollTypingLine className="text-green-400 text-sm mb-4" prompt="$" text="cat contact_info.dat" speed={14} />
+                  <ScrollTypingLine className="text-green-400 text-sm mb-4" prompt="$" text="cat contact_info.dat" speed={24} />
 
                   <div className="terminal-panel space-y-4">
                     <a href={`mailto:${portfolioData.personal.email}`} className="flex items-center gap-3 text-zinc-300 hover:text-cyan-400 transition-colors group">
@@ -107,7 +107,7 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <ScrollTypingLine className="text-green-400 text-sm mb-4" prompt="$" text="nano message.txt" speed={14} />
+                  <ScrollTypingLine className="text-green-400 text-sm mb-4" prompt="$" text="nano message.txt" speed={24} />
                   <div className="terminal-panel">
                     <form onSubmit={handleSubmit} className="space-y-3">
                       <input type="hidden" name="_replyto" />
@@ -151,7 +151,7 @@ const Contact = () => {
               </div>
 
               <div className="mt-6 text-green-400 text-sm">
-                <ScrollTypingLine prompt="$" text={`echo "Awaiting secure transmission..."`} speed={14} />
+                <ScrollTypingLine prompt="$" text={`echo "Awaiting secure transmission..."`} speed={24} />
                 <div className="ml-4">Awaiting secure transmission...</div>
                 <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>
               </div>

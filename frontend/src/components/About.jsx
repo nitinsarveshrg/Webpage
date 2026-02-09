@@ -48,7 +48,7 @@ const About = () => {
             <>
               <div className="grid md:grid-cols-2 gap-8 items-start">
                 <div className="terminal-panel">
-                  <ScrollTypingLine className="text-green-400 text-sm mb-3" prompt="$" text="cat profile.txt" speed={14} />
+                  <ScrollTypingLine className="text-green-400 text-sm mb-3" prompt="$" text="cat profile.txt" speed={24} />
                   <div className="text-zinc-300 text-sm leading-relaxed">{portfolioData.about.bio}</div>
                   <div className="text-green-400 text-sm mt-3">
                     <span className="text-cyan-400">$</span> <span className="animate-pulse">_</span>
@@ -56,7 +56,7 @@ const About = () => {
                 </div>
 
                 <div className="terminal-panel">
-                  <ScrollTypingLine className="text-green-400 text-sm mb-3" prompt="$" text="ls -la highlights/" speed={14} />
+                  <ScrollTypingLine className="text-green-400 text-sm mb-3" prompt="$" text="ls -la highlights/" speed={24} />
                   <div className="space-y-2">
                     {portfolioData.about.highlights.map((highlight, index) => (
                       <div key={index} className="flex items-start gap-2 text-sm">
@@ -72,7 +72,7 @@ const About = () => {
               </div>
 
               <div className="mt-6 text-green-400 text-sm">
-                <ScrollTypingLine prompt="$" text={`echo "Profile loaded successfully"`} speed={14} />
+                <ScrollTypingLine prompt="$" text={`echo "Profile loaded successfully"`} speed={24} />
                 <div className="ml-4">Profile loaded successfully</div>
                 <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>
               </div>

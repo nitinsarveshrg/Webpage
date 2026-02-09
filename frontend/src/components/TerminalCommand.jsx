@@ -4,11 +4,11 @@ import TypingEffect from './TypingEffect';
 const TerminalCommand = ({
   prompt = 'root@cloud-devops:~$',
   command,
-  speed = 32,
+  speed = 42,
   className = '',
   outputClassName = 'ml-4 text-zinc-400 text-sm',
   outputLines = [],
-  outputLineDelay = 420,
+  outputLineDelay = 680,
   once = true,
   onRunStart,
   onCompleteChange,
@@ -110,7 +110,7 @@ const TerminalCommand = ({
       {commandDone && outputLines.length > 0 && (
         <div className={outputClassName}>
           {outputLines.slice(0, visibleOutputCount).map((line, index) => (
-            <div key={`${line}-${index}`}>{line}</div>
+            <div key={`${line}-${index}`} className="terminal-line-enter">{line}</div>
           ))}
         </div>
       )}
