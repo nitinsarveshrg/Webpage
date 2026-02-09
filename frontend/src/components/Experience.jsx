@@ -37,7 +37,11 @@ const Experience = () => {
             <>
               <div className="space-y-6">
                 {portfolioData.experience.map((job, index) => (
-                  <div key={job.id} className="terminal-panel">
+                  <div
+                    key={job.id}
+                    className="terminal-panel terminal-stagger-reveal"
+                    style={{ '--reveal-delay': `${120 + index * 180}ms` }}
+                  >
                     <div className="flex items-start gap-3 mb-3 pb-3 border-b border-cyan-500/20">
                       <Briefcase className="text-cyan-400 flex-shrink-0 mt-1" size={20} />
                       <div className="flex-1">
@@ -62,7 +66,11 @@ const Experience = () => {
                       <ScrollTypingLine className="text-green-400 text-xs mb-1" prompt="$" text={`grep "achievement" logs/*.log`} speed={20} />
                       <div className="space-y-1 ml-2">
                         {job.achievements.map((achievement, idx) => (
-                          <div key={idx} className="flex items-start gap-1 text-xs text-zinc-400">
+                          <div
+                            key={idx}
+                            className="flex items-start gap-1 text-xs text-zinc-400 terminal-stagger-reveal"
+                            style={{ '--reveal-delay': `${240 + index * 180 + idx * 90}ms` }}
+                          >
                             <span className="text-green-400">[✓]</span>
                             <span>{achievement}</span>
                           </div>
@@ -73,7 +81,7 @@ const Experience = () => {
                 ))}
               </div>
 
-              <div className="mt-6 text-green-400 text-sm">
+              <div className="mt-6 text-green-400 text-sm terminal-stagger-reveal" style={{ '--reveal-delay': '720ms' }}>
                 <ScrollTypingLine prompt="$" text="wc -l career.log" speed={24} />
                 <div className="ml-4">{portfolioData.experience.length} positions listed</div>
                 <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>

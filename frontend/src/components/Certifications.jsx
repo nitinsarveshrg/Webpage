@@ -40,8 +40,12 @@ const Certifications = () => {
           {showContent && (
             <>
               <div className="grid md:grid-cols-2 gap-6">
-                {portfolioData.certifications.map((cert) => (
-                  <div key={cert.id} className="terminal-panel hover:border-cyan-500 group">
+                {portfolioData.certifications.map((cert, index) => (
+                  <div
+                    key={cert.id}
+                    className="terminal-panel hover:border-cyan-500 group terminal-stagger-reveal"
+                    style={{ '--reveal-delay': `${120 + index * 160}ms` }}
+                  >
                     <div className="flex items-center justify-between mb-3 pb-2 border-b border-cyan-500/20">
                       <div className="flex items-center gap-1 px-2 py-0.5 bg-green-500/10 border border-green-500/30 rounded text-[10px] text-green-400">
                         <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
@@ -73,8 +77,12 @@ const Certifications = () => {
                 <div className="text-green-400 mb-4">
                   <ScrollTypingLine prompt="$" text="cat education.log" speed={24} />
                 </div>
-                {portfolioData.education.map((edu) => (
-                  <div key={edu.id} className="terminal-panel max-w-2xl mx-auto">
+                {portfolioData.education.map((edu, index) => (
+                  <div
+                    key={edu.id}
+                    className="terminal-panel max-w-2xl mx-auto terminal-stagger-reveal"
+                    style={{ '--reveal-delay': `${360 + index * 140}ms` }}
+                  >
                     <div className="flex items-start gap-3">
                       <GraduationCap className="text-cyan-400 flex-shrink-0" size={20} />
                       <div>
@@ -91,7 +99,7 @@ const Certifications = () => {
                 ))}
               </div>
 
-              <div className="mt-6 text-green-400 text-sm">
+              <div className="mt-6 text-green-400 text-sm terminal-stagger-reveal" style={{ '--reveal-delay': '700ms' }}>
                 <ScrollTypingLine prompt="$" text={`echo "All credentials verified and active"`} speed={24} />
                 <div className="ml-4">All credentials verified and active</div>
                 <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>

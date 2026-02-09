@@ -50,14 +50,22 @@ const Skills = () => {
                 {skillCategories.map((category, index) => {
                   const IconComponent = category.icon;
                   return (
-                    <div key={index} className="terminal-panel">
+                    <div
+                      key={index}
+                      className="terminal-panel terminal-stagger-reveal"
+                      style={{ '--reveal-delay': `${120 + index * 160}ms` }}
+                    >
                       <div className="flex items-center gap-2 mb-4 text-cyan-400">
                         <IconComponent size={20} />
                         <span className="text-sm font-bold">&gt; {category.title.toUpperCase()}</span>
                       </div>
                       <div className="space-y-3">
                         {category.skills.map((skill, skillIndex) => (
-                          <div key={skillIndex}>
+                          <div
+                            key={skillIndex}
+                            className="terminal-stagger-reveal"
+                            style={{ '--reveal-delay': `${220 + index * 160 + skillIndex * 90}ms` }}
+                          >
                             <div className="flex items-center justify-between mb-1">
                               <span className="text-zinc-300 text-xs">[{skill.name}]</span>
                               <span className="text-green-400 text-xs font-bold">{skill.level}%</span>
@@ -73,7 +81,7 @@ const Skills = () => {
                 })}
               </div>
 
-              <div className="mt-6 text-green-400 text-sm">
+              <div className="mt-6 text-green-400 text-sm terminal-stagger-reveal" style={{ '--reveal-delay': '640ms' }}>
                 <ScrollTypingLine prompt="$" text={`echo "Skills assessment completed"`} speed={24} />
                 <div className="ml-4">Skills assessment completed</div>
                 <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>

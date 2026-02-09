@@ -53,7 +53,11 @@ const Projects = () => {
             <>
               <div className="grid md:grid-cols-2 gap-6">
                 {portfolioData.projects.map((project, index) => (
-                  <div key={project.id} className="terminal-panel hover:border-cyan-500">
+                  <div
+                    key={project.id}
+                    className="terminal-panel hover:border-cyan-500 terminal-stagger-reveal"
+                    style={{ '--reveal-delay': `${120 + index * 160}ms` }}
+                  >
                     <div className="flex items-center justify-between mb-3 pb-2 border-b border-cyan-500/20">
                       <div className="flex items-center gap-2">
                         <FolderGit2 className="text-cyan-400" size={16} />
@@ -82,7 +86,11 @@ const Projects = () => {
                       <ScrollTypingLine className="text-green-400 text-xs mb-1" prompt="$" text="ls tech_stack/" speed={20} />
                       <div className="flex flex-wrap gap-1 ml-2">
                         {project.technologies.map((tech, techIndex) => (
-                          <Badge key={techIndex} className="bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-[10px] px-2 py-0">
+                          <Badge
+                            key={techIndex}
+                            className="bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-[10px] px-2 py-0 terminal-stagger-reveal"
+                            style={{ '--reveal-delay': `${220 + index * 160 + techIndex * 80}ms` }}
+                          >
                             {tech}
                           </Badge>
                         ))}
@@ -93,7 +101,11 @@ const Projects = () => {
                       <ScrollTypingLine className="text-green-400 text-xs mb-1" prompt="$" text="cat metrics.log" speed={20} />
                       <div className="space-y-1 ml-2">
                         {project.highlights.map((highlight, idx) => (
-                          <div key={idx} className="flex items-start gap-1 text-[10px] text-zinc-400">
+                          <div
+                            key={idx}
+                            className="flex items-start gap-1 text-[10px] text-zinc-400 terminal-stagger-reveal"
+                            style={{ '--reveal-delay': `${300 + index * 160 + idx * 90}ms` }}
+                          >
                             <span className="text-green-400">[✓]</span>
                             <span>{highlight}</span>
                           </div>
@@ -104,7 +116,7 @@ const Projects = () => {
                 ))}
               </div>
 
-              <div className="mt-6 text-green-400 text-sm">
+              <div className="mt-6 text-green-400 text-sm terminal-stagger-reveal" style={{ '--reveal-delay': '720ms' }}>
                 <ScrollTypingLine prompt="$" text={`echo "Displayed ${portfolioData.projects.length} projects"`} speed={24} />
                 <div className="ml-4">Displayed {portfolioData.projects.length} projects</div>
                 <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>

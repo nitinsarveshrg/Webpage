@@ -77,6 +77,26 @@ code {
     will-change: opacity, transform, filter;
 }
 
+@keyframes terminal-stagger-reveal {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+        filter: blur(3px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+.terminal-stagger-reveal {
+    opacity: 0;
+    animation: terminal-stagger-reveal 0.7s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+    animation-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform, filter;
+}
+
 @keyframes terminal-flicker {
     0%,
     100% {

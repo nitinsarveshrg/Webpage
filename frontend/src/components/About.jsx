@@ -45,7 +45,7 @@ const About = () => {
           {showContent && (
             <>
               <div className="grid md:grid-cols-2 gap-8 items-start">
-                <div className="terminal-panel">
+                <div className="terminal-panel terminal-stagger-reveal" style={{ '--reveal-delay': '100ms' }}>
                   <ScrollTypingLine className="text-green-400 text-sm mb-3" prompt="$" text="cat profile.txt" speed={24} />
                   <div className="text-zinc-300 text-sm leading-relaxed">{portfolioData.about.bio}</div>
                   <div className="text-green-400 text-sm mt-3">
@@ -53,11 +53,15 @@ const About = () => {
                   </div>
                 </div>
 
-                <div className="terminal-panel">
+                <div className="terminal-panel terminal-stagger-reveal" style={{ '--reveal-delay': '260ms' }}>
                   <ScrollTypingLine className="text-green-400 text-sm mb-3" prompt="$" text="ls -la highlights/" speed={24} />
                   <div className="space-y-2">
                     {portfolioData.about.highlights.map((highlight, index) => (
-                      <div key={index} className="flex items-start gap-2 text-sm">
+                      <div
+                        key={index}
+                        className="flex items-start gap-2 text-sm terminal-stagger-reveal"
+                        style={{ '--reveal-delay': `${320 + index * 120}ms` }}
+                      >
                         <span className="text-green-400">[✓]</span>
                         <span className="text-zinc-300">{highlight}</span>
                       </div>
@@ -69,7 +73,7 @@ const About = () => {
                 </div>
               </div>
 
-              <div className="mt-6 text-green-400 text-sm">
+              <div className="mt-6 text-green-400 text-sm terminal-stagger-reveal" style={{ '--reveal-delay': '520ms' }}>
                 <ScrollTypingLine prompt="$" text={`echo "Profile loaded successfully"`} speed={24} />
                 <div className="ml-4">Profile loaded successfully</div>
                 <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>
