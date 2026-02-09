@@ -18,7 +18,8 @@ const Header = () => {
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      const headerOffset = 92;
+      const header = document.querySelector('header');
+      const headerOffset = (header ? header.getBoundingClientRect().height : 80) + 16;
       const y = element.getBoundingClientRect().top + window.scrollY - headerOffset;
       window.scrollTo({ top: y, behavior: 'smooth' });
       setIsMobileMenuOpen(false);

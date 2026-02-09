@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
@@ -13,6 +13,28 @@ import Footer from "./components/Footer";
 import { Toaster } from "./components/ui/toaster";
 
 const Home = () => {
+  useEffect(() => {
+    const scrollToHashTarget = () => {
+      const hash = window.location.hash.replace("#", "");
+      if (!hash) return;
+
+      const element = document.getElementById(hash);
+      if (!element) return;
+
+      const header = document.querySelector("header");
+      const headerOffset = (header ? header.getBoundingClientRect().height : 80) + 16;
+      const y = element.getBoundingClientRect().top + window.scrollY - headerOffset;
+      window.scrollTo({ top: y, behavior: "auto" });
+    };
+
+    const timer = setTimeout(scrollToHashTarget, 0);
+    window.addEventListener("hashchange", scrollToHashTarget);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("hashchange", scrollToHashTarget);
+    };
+  }, []);
+
   return (
     <div className="bg-zinc-950">
       <Header />
