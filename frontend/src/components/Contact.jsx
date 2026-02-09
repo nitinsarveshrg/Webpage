@@ -59,10 +59,12 @@ const Contact = () => {
               command="./init_secure_channel.sh"
               once={false}
               onCompleteChange={setShowContent}
-            >
-              <div className="text-zinc-400 text-sm">Establishing encrypted communication...</div>
-              <div className="text-green-400 text-sm">[✓] Secure channel ready</div>
-            </TerminalCommand>
+              outputClassName="ml-4 text-zinc-400 text-sm"
+              outputLines={[
+                'Establishing encrypted communication...',
+                '[✓] Secure channel ready',
+              ]}
+            />
           </div>
 
           {showContent && (

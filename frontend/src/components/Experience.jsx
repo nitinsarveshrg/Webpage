@@ -29,9 +29,9 @@ const Experience = () => {
               command="cat career.log | tail -n 20"
               once={false}
               onCompleteChange={setShowContent}
-            >
-              <div className="text-zinc-400 text-sm">Loading employment history...</div>
-            </TerminalCommand>
+              outputClassName="ml-4 text-zinc-400 text-sm"
+              outputLines={['Loading employment history...']}
+            />
           </div>
 
           {showContent && (

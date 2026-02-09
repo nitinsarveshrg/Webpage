@@ -36,11 +36,13 @@ const Skills = () => {
               command="./analyze_skills.sh --verbose"
               once={false}
               onCompleteChange={setShowContent}
-            >
-              <div className="text-zinc-400 text-sm">Scanning technical capabilities...</div>
-              <div className="text-green-400 text-sm animate-pulse">█████████████████░░░ 89% Complete</div>
-              <div className="text-green-400 text-sm">[✓] Skill analysis complete</div>
-            </TerminalCommand>
+              outputClassName="ml-4 text-zinc-400 text-sm"
+              outputLines={[
+                'Scanning technical capabilities...',
+                '█████████████████░░░ 89% Complete',
+                '[✓] Skill analysis complete',
+              ]}
+            />
           </div>
 
           {showContent && (

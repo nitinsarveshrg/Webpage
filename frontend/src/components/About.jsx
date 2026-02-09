@@ -38,9 +38,9 @@ const About = () => {
               command="whoami"
               once={false}
               onCompleteChange={setShowContent}
-            >
-              <div className="text-zinc-300">Displaying user information...</div>
-            </TerminalCommand>
+              outputClassName="ml-4 text-zinc-300 text-sm"
+              outputLines={['Displaying user information...']}
+            />
           </div>
 
           {showContent && (

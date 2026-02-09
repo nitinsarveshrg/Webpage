@@ -42,10 +42,12 @@ const Projects = () => {
               command="ls -la projects/ --classified"
               once={false}
               onCompleteChange={setShowContent}
-            >
-              <div className="text-zinc-400 text-sm">total {portfolioData.projects.length}</div>
-              <div className="text-zinc-400 text-sm">Listing deployed infrastructure projects...</div>
-            </TerminalCommand>
+              outputClassName="ml-4 text-zinc-400 text-sm"
+              outputLines={[
+                `total ${portfolioData.projects.length}`,
+                'Listing deployed infrastructure projects...',
+              ]}
+            />
           </div>
 
           {showContent && (

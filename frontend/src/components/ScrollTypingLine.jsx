@@ -4,7 +4,7 @@ import TypingEffect from './TypingEffect';
 const ScrollTypingLine = ({
   prompt = 'root@cloud-devops:~$',
   text,
-  speed = 18,
+  speed = 26,
   className = '',
   once = true,
   cursorChar = '_',

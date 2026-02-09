@@ -30,10 +30,12 @@ const Certifications = () => {
               command="cat /etc/credentials/verified.list"
               once={false}
               onCompleteChange={setShowContent}
-            >
-              <div className="text-zinc-400 text-sm">Reading verified credentials...</div>
-              <div className="text-green-400 text-sm">[✓] Found {portfolioData.certifications.length} active certifications</div>
-            </TerminalCommand>
+              outputClassName="ml-4 text-zinc-400 text-sm"
+              outputLines={[
+                'Reading verified credentials...',
+                `[✓] Found ${portfolioData.certifications.length} active certifications`,
+              ]}
+            />
           </div>
 
           {showContent && (
