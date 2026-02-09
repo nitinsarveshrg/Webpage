@@ -1,6 +1,7 @@
 import React from 'react';
 import { Calendar, MapPin, Briefcase } from 'lucide-react';
 import { portfolioData } from '../mock';
+import ScrollTypingLine from './ScrollTypingLine';
 
 const Experience = () => {
   return (
@@ -21,7 +22,7 @@ const Experience = () => {
         {/* Terminal Content */}
         <div className="terminal-body terminal-overlay">
           <div className="text-green-400 mb-6">
-            <div className="mb-2"><span className="text-cyan-400">root@cloud-devops:~$</span> cat career.log | tail -n 20</div>
+            <ScrollTypingLine className="mb-2" prompt="root@cloud-devops:~$" text="cat career.log | tail -n 20" />
             <div className="ml-4 text-zinc-400 text-sm mb-4">Loading employment history...</div>
           </div>
 
@@ -55,13 +56,13 @@ const Experience = () => {
 
                 {/* Description */}
                 <div className="mb-3">
-                  <div className="text-green-400 text-xs mb-1">$ cat description.txt</div>
+                  <ScrollTypingLine className="text-green-400 text-xs mb-1" prompt="$" text="cat description.txt" speed={12} />
                   <p className="text-zinc-300 text-xs ml-2">{job.description}</p>
                 </div>
 
                 {/* Achievements */}
                 <div>
-                  <div className="text-green-400 text-xs mb-1">$ grep "achievement" logs/*.log</div>
+                  <ScrollTypingLine className="text-green-400 text-xs mb-1" prompt="$" text="grep \"achievement\" logs/*.log" speed={12} />
                   <div className="space-y-1 ml-2">
                     {job.achievements.map((achievement, idx) => (
                       <div key={idx} className="flex items-start gap-1 text-xs text-zinc-400">
@@ -77,7 +78,7 @@ const Experience = () => {
 
           {/* Command output */}
           <div className="mt-6 text-green-400 text-sm">
-            <div><span className="text-cyan-400">$</span> wc -l career.log</div>
+            <ScrollTypingLine prompt="$" text="wc -l career.log" speed={14} />
             <div className="ml-4">{portfolioData.experience.length} positions listed</div>
             <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>
           </div>

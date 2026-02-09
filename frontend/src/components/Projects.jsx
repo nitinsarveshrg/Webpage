@@ -2,6 +2,7 @@ import React from 'react';
 import { ExternalLink, Github, FolderGit2 } from 'lucide-react';
 import { Badge } from './ui/badge';
 import { portfolioData } from '../mock';
+import ScrollTypingLine from './ScrollTypingLine';
 
 const Projects = () => {
   return (
@@ -35,7 +36,7 @@ const Projects = () => {
           </pre>
 
           <div className="text-green-400 mb-6">
-            <div className="mb-2"><span className="text-cyan-400">root@cloud-devops:~$</span> ls -la projects/ --classified</div>
+            <ScrollTypingLine className="mb-2" prompt="root@cloud-devops:~$" text="ls -la projects/ --classified" />
             <div className="ml-4 text-zinc-400 text-sm">total {portfolioData.projects.length}</div>
             <div className="ml-4 text-zinc-400 text-sm mb-4">Listing deployed infrastructure projects...</div>
           </div>
@@ -73,13 +74,13 @@ const Projects = () => {
 
                 {/* Description */}
                 <div className="mb-3">
-                  <div className="text-green-400 text-xs mb-1">$ cat README.md</div>
+                  <ScrollTypingLine className="text-green-400 text-xs mb-1" prompt="$" text="cat README.md" speed={12} />
                   <p className="text-zinc-300 text-xs leading-relaxed ml-2">{project.description}</p>
                 </div>
 
                 {/* Technologies */}
                 <div className="mb-3">
-                  <div className="text-green-400 text-xs mb-1">$ ls tech_stack/</div>
+                  <ScrollTypingLine className="text-green-400 text-xs mb-1" prompt="$" text="ls tech_stack/" speed={12} />
                   <div className="flex flex-wrap gap-1 ml-2">
                     {project.technologies.map((tech, index) => (
                       <Badge
@@ -94,7 +95,7 @@ const Projects = () => {
 
                 {/* Metrics */}
                 <div className="pt-3 border-t border-cyan-500/20">
-                  <div className="text-green-400 text-xs mb-1">$ cat metrics.log</div>
+                  <ScrollTypingLine className="text-green-400 text-xs mb-1" prompt="$" text="cat metrics.log" speed={12} />
                   <div className="space-y-1 ml-2">
                     {project.highlights.map((highlight, idx) => (
                       <div key={idx} className="flex items-start gap-1 text-[10px] text-zinc-400">
@@ -110,7 +111,7 @@ const Projects = () => {
 
           {/* Command output */}
           <div className="mt-6 text-green-400 text-sm">
-            <div><span className="text-cyan-400">$</span> echo "Displayed {portfolioData.projects.length} projects"</div>
+            <ScrollTypingLine prompt="$" text={`echo "Displayed ${portfolioData.projects.length} projects"`} speed={14} />
             <div className="ml-4">Displayed {portfolioData.projects.length} projects</div>
             <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>
           </div>

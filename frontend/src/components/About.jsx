@@ -1,6 +1,6 @@
 import React from 'react';
-import { CheckCircle2 } from 'lucide-react';
 import { portfolioData } from '../mock';
+import ScrollTypingLine from './ScrollTypingLine';
 
 const About = () => {
   return (
@@ -32,16 +32,14 @@ const About = () => {
           </pre>
 
           <div className="text-green-400 mb-6">
-            <div className="mb-2"><span className="text-cyan-400">root@cloud-devops:~$</span> whoami</div>
+            <ScrollTypingLine className="mb-2" prompt="root@cloud-devops:~$" text="whoami" />
             <div className="ml-4 text-zinc-300 mb-4">Displaying user information...</div>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 items-start">
             {/* Bio Terminal Window */}
             <div className="terminal-panel">
-              <div className="text-green-400 text-sm mb-3">
-                <span className="text-cyan-400">$</span> cat profile.txt
-              </div>
+              <ScrollTypingLine className="text-green-400 text-sm mb-3" prompt="$" text="cat profile.txt" speed={14} />
               <div className="text-zinc-300 text-sm leading-relaxed">
                 {portfolioData.about.bio}
               </div>
@@ -52,9 +50,7 @@ const About = () => {
 
             {/* Highlights Terminal Window */}
             <div className="terminal-panel">
-              <div className="text-green-400 text-sm mb-3">
-                <span className="text-cyan-400">$</span> ls -la highlights/
-              </div>
+              <ScrollTypingLine className="text-green-400 text-sm mb-3" prompt="$" text="ls -la highlights/" speed={14} />
               <div className="space-y-2">
                 {portfolioData.about.highlights.map((highlight, index) => (
                   <div key={index} className="flex items-start gap-2 text-sm">
@@ -71,7 +67,7 @@ const About = () => {
 
           {/* Command output */}
           <div className="mt-6 text-green-400 text-sm">
-            <div><span className="text-cyan-400">$</span> echo "Profile loaded successfully"</div>
+            <ScrollTypingLine prompt="$" text="echo \"Profile loaded successfully\"" speed={14} />
             <div className="ml-4">Profile loaded successfully</div>
             <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>
           </div>

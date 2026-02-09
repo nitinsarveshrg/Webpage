@@ -1,6 +1,7 @@
 import React from 'react';
 import { Cloud, Container, Code, Activity } from 'lucide-react';
 import { portfolioData } from '../mock';
+import ScrollTypingLine from './ScrollTypingLine';
 
 const Skills = () => {
   const skillCategories = [
@@ -28,7 +29,7 @@ const Skills = () => {
         {/* Terminal Content */}
         <div className="terminal-body terminal-overlay">
           <div className="text-green-400 mb-6">
-            <div className="mb-2"><span className="text-cyan-400">root@cloud-devops:~$</span> ./analyze_skills.sh --verbose</div>
+            <ScrollTypingLine className="mb-2" prompt="root@cloud-devops:~$" text="./analyze_skills.sh --verbose" />
             <div className="ml-4 text-zinc-400 text-sm">Scanning technical capabilities...</div>
             <div className="ml-4 text-green-400 text-sm animate-pulse">█████████████████░░░ 89% Complete</div>
             <div className="ml-4 text-green-400 text-sm">[✓] Skill analysis complete</div>
@@ -66,7 +67,7 @@ const Skills = () => {
 
           {/* Command output */}
           <div className="mt-6 text-green-400 text-sm">
-            <div><span className="text-cyan-400">$</span> echo "Skills assessment completed"</div>
+            <ScrollTypingLine prompt="$" text="echo \"Skills assessment completed\"" speed={14} />
             <div className="ml-4">Skills assessment completed</div>
             <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>
           </div>

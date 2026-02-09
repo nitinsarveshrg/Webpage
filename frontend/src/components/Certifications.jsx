@@ -2,6 +2,7 @@ import React from 'react';
 import { ExternalLink, ShieldCheck, GraduationCap } from 'lucide-react';
 import { Badge } from './ui/badge';
 import { portfolioData } from '../mock';
+import ScrollTypingLine from './ScrollTypingLine';
 
 const Certifications = () => {
   return (
@@ -22,7 +23,7 @@ const Certifications = () => {
         {/* Terminal Content */}
         <div className="terminal-body terminal-overlay">
           <div className="text-green-400 mb-6">
-            <div className="mb-2"><span className="text-cyan-400">root@cloud-devops:~$</span> cat /etc/credentials/verified.list</div>
+            <ScrollTypingLine className="mb-2" prompt="root@cloud-devops:~$" text="cat /etc/credentials/verified.list" />
             <div className="ml-4 text-zinc-400 text-sm mb-1">Reading verified credentials...</div>
             <div className="ml-4 text-green-400 text-sm mb-4">[✓] Found {portfolioData.certifications.length} active certifications</div>
           </div>
@@ -73,7 +74,7 @@ const Certifications = () => {
           {/* Education */}
           <div className="mt-8 pt-6 border-t border-cyan-500/30">
             <div className="text-green-400 mb-4">
-              <div><span className="text-cyan-400">$</span> cat education.log</div>
+              <ScrollTypingLine prompt="$" text="cat education.log" speed={14} />
             </div>
             {portfolioData.education.map((edu) => (
               <div
@@ -98,7 +99,7 @@ const Certifications = () => {
 
           {/* Command output */}
           <div className="mt-6 text-green-400 text-sm">
-            <div><span className="text-cyan-400">$</span> echo "All credentials verified and active"</div>
+            <ScrollTypingLine prompt="$" text="echo \"All credentials verified and active\"" speed={14} />
             <div className="ml-4">All credentials verified and active</div>
             <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>
           </div>

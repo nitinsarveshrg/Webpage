@@ -4,6 +4,7 @@ import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { Mail, Linkedin, Github, MapPin, Phone, Send, Loader2 } from 'lucide-react';
 import { portfolioData } from '../mock';
+import ScrollTypingLine from './ScrollTypingLine';
 
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -52,7 +53,7 @@ const Contact = () => {
         {/* Terminal Content */}
         <div className="terminal-body terminal-overlay">
           <div className="text-green-400 mb-6">
-            <div className="mb-2"><span className="text-cyan-400">root@cloud-devops:~$</span> ./init_secure_channel.sh</div>
+            <ScrollTypingLine className="mb-2" prompt="root@cloud-devops:~$" text="./init_secure_channel.sh" />
             <div className="ml-4 text-zinc-400 text-sm">Establishing encrypted communication...</div>
             <div className="ml-4 text-green-400 text-sm mb-4">[✓] Secure channel ready</div>
           </div>
@@ -60,9 +61,7 @@ const Contact = () => {
           <div className="grid md:grid-cols-2 gap-8">
             {/* Contact Info Terminal */}
             <div>
-              <div className="text-green-400 text-sm mb-4">
-                <span className="text-cyan-400">$</span> cat contact_info.dat
-              </div>
+              <ScrollTypingLine className="text-green-400 text-sm mb-4" prompt="$" text="cat contact_info.dat" speed={14} />
               
               <div className="terminal-panel space-y-4">
                 <a
@@ -126,9 +125,7 @@ const Contact = () => {
 
             {/* Message Form Terminal */}
             <div>
-              <div className="text-green-400 text-sm mb-4">
-                <span className="text-cyan-400">$</span> nano message.txt
-              </div>
+              <ScrollTypingLine className="text-green-400 text-sm mb-4" prompt="$" text="nano message.txt" speed={14} />
               <div className="terminal-panel">
                 <form onSubmit={handleSubmit} className="space-y-3">
                   <input type="hidden" name="_replyto" />
@@ -199,7 +196,7 @@ const Contact = () => {
 
           {/* Command output */}
           <div className="mt-6 text-green-400 text-sm">
-            <div><span className="text-cyan-400">$</span> echo "Awaiting secure transmission..."</div>
+            <ScrollTypingLine prompt="$" text="echo \"Awaiting secure transmission...\"" speed={14} />
             <div className="ml-4">Awaiting secure transmission...</div>
             <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>
           </div>
