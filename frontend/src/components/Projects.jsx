@@ -9,7 +9,7 @@ const Projects = () => {
   const [showContent, setShowContent] = useState(false);
 
   return (
-    <section id="projects" className="portfolio-section scroll-mt-24 bg-zinc-950">
+    <section id="projects" className="portfolio-section bg-zinc-950">
       <div className="max-w-7xl w-full mx-auto px-6 relative z-10">
         <div className="terminal-header">
           <div className="flex items-center gap-2">

@@ -66,7 +66,7 @@ const Hero = () => {
   };
 
   return (
-    <section id="hero" className="portfolio-section scroll-mt-24 justify-center bg-black">
+    <section id="hero" className="portfolio-section justify-center bg-black">
       <MatrixRain />
 
       <div className="max-w-7xl mx-auto px-6 py-20 relative z-10 w-full">

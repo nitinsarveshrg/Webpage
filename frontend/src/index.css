@@ -21,7 +21,7 @@ code {
 @layer components {
     .portfolio-section {
         @apply snap-start relative overflow-hidden flex items-start;
-        scroll-snap-stop: normal;
+        scroll-snap-stop: always;
         min-height: 100svh;
         padding-top: 5.5rem;
         padding-bottom: 1.5rem;
@@ -93,12 +93,12 @@ code {
 @keyframes section-elongate-load {
     0% {
         opacity: 0;
-        transform: translateY(20px) scaleY(0.9) scaleX(0.985);
-        filter: blur(4px);
+        transform: translateY(24px) scaleY(0.82) scaleX(0.975);
+        filter: blur(6px);
     }
-    55% {
+    62% {
         opacity: 1;
-        transform: translateY(0) scaleY(1.03) scaleX(1);
+        transform: translateY(0) scaleY(1.06) scaleX(1.01);
         filter: blur(0);
     }
     100% {
