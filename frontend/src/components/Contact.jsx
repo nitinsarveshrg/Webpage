@@ -7,31 +7,46 @@ import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
 import TerminalCommand from './TerminalCommand';
 
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xbdyerqo';
+
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   const [showContent, setShowContent] = useState(false);
   const [frameExpanded, setFrameExpanded] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitError('');
+    setSubmitted(false);
     setIsSubmitting(true);
 
     const form = e.target;
     const formData = new FormData(form);
+    formData.set('_replyto', String(formData.get('email') || ''));
 
     try {
-      const res = await fetch('https://formspree.io/f/xbdyerqo', {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
         method: 'POST',
         body: formData,
         headers: { Accept: 'application/json' },
       });
+
+      const payload = await res.json().catch(() => null);
+
+      if (!res.ok) {
+        const detailedError = payload?.errors?.map((item) => item.message).filter(Boolean).join(' ');
+        throw new Error(detailedError || payload?.error || 'Message transmission failed. Please try again.');
+      }
 
       if (res.ok) {
         setSubmitted(true);
         form.reset();
       }
     } catch (err) {
+      const message = err instanceof Error ? err.message : 'Message transmission failed. Please try again.';
+      setSubmitError(message);
       console.error('Formspree error:', err);
     } finally {
       setIsSubmitting(false);
@@ -130,10 +145,21 @@ const Contact = () => {
                   <ScrollTypingLine className="text-green-400 text-sm mb-4" prompt="$" text="nano message.txt" speed={24} />
                   <div className="terminal-panel">
                     <form onSubmit={handleSubmit} className="space-y-3">
-                      <input type="hidden" name="_replyto" />
                       <input type="hidden" name="_subject" value="New Portfolio Contact Message" />
                       <input type="hidden" name="_template" value="table" />
+                      <input type="text" name="_gotcha" className="hidden" tabIndex={-1} autoComplete="off" />
                       {submitted && <div className="text-green-400 text-xs mb-2">✓ Message transmitted successfully</div>}
+                      {submitError && (
+                        <div className="text-red-400 text-xs mb-2" role="alert">
+                          {submitError} {' '}
+                          <a
+                            href={`mailto:${portfolioData.personal.email}`}
+                            className="underline text-cyan-400 hover:text-cyan-300"
+                          >
+                            Send directly by email
+                          </a>
+                        </div>
+                      )}
 
                       <div>
                         <label className="text-xs text-cyan-400 mb-1 block">&gt; NAME:</label>
