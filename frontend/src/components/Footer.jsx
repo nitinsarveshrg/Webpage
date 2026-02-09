@@ -82,8 +82,13 @@ const Footer = () => {
                 className="mb-0"
                 outputClassName=""
                 prompt="root@cloud-devops:~$"
-                command="cat stack.txt"
-                outputLines={['React + FastAPI']}
+                command="./ship --stack --prod --telemetry"
+                outputLines={[
+                  '[OK] Frontend: React',
+                  '[OK] Backend: FastAPI',
+                  '[OK] Infra: Terraform + Kubernetes',
+                  '[OK] CI/CD: GitHub Actions',
+                ]}
               />
             </div>
           </div>
