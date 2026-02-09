@@ -38,7 +38,7 @@ const Certifications = () => {
           </div>
 
           {showContent && (
-            <>
+            <div className="section-elongate-load">
               <div className="grid md:grid-cols-2 gap-6">
                 {portfolioData.certifications.map((cert, index) => (
                   <div
@@ -104,7 +104,7 @@ const Certifications = () => {
                 <div className="ml-4">All credentials verified and active</div>
                 <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>

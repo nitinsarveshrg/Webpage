@@ -22,6 +22,15 @@ code {
     .portfolio-section {
         @apply min-h-screen snap-start relative overflow-hidden flex items-center py-20;
         scroll-snap-stop: normal;
+        min-height: 100svh;
+        padding-top: 6.5rem;
+        padding-bottom: 2.5rem;
+    }
+
+    .section-elongate-load {
+        animation: section-elongate-load 0.82s cubic-bezier(0.22, 1, 0.36, 1);
+        transform-origin: center top;
+        will-change: transform, opacity, filter;
     }
 
     .terminal-header {
@@ -73,6 +82,24 @@ code {
     to {
         opacity: 1;
         transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes section-elongate-load {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scaleY(0.9) scaleX(0.985);
+        filter: blur(4px);
+    }
+    55% {
+        opacity: 1;
+        transform: translateY(0) scaleY(1.03) scaleX(1);
+        filter: blur(0);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scaleY(1) scaleX(1);
         filter: blur(0);
     }
 }

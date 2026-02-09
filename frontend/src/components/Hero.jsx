@@ -108,7 +108,7 @@ const Hero = () => {
         </div>
 
         {showContent && (
-          <div className="text-center space-y-8">
+          <div className="text-center space-y-8 section-elongate-load">
             {heroRevealStep >= 1 && (
               <div className="hero-block-reveal">
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 rounded text-sm text-cyan-400 font-mono">

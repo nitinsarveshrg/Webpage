@@ -43,7 +43,7 @@ const About = () => {
           </div>
 
           {showContent && (
-            <>
+            <div className="section-elongate-load">
               <div className="grid md:grid-cols-2 gap-8 items-start">
                 <div className="terminal-panel terminal-stagger-reveal" style={{ '--reveal-delay': '100ms' }}>
                   <ScrollTypingLine className="text-green-400 text-sm mb-3" prompt="$" text="cat profile.txt" speed={24} />
@@ -78,7 +78,7 @@ const About = () => {
                 <div className="ml-4">Profile loaded successfully</div>
                 <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>

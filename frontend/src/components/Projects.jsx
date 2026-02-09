@@ -50,7 +50,7 @@ const Projects = () => {
           </div>
 
           {showContent && (
-            <>
+            <div className="section-elongate-load">
               <div className="grid md:grid-cols-2 gap-6">
                 {portfolioData.projects.map((project, index) => (
                   <div
@@ -121,7 +121,7 @@ const Projects = () => {
                 <div className="ml-4">Displayed {portfolioData.projects.length} projects</div>
                 <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>

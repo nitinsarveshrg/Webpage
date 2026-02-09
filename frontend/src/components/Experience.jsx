@@ -34,7 +34,7 @@ const Experience = () => {
           </div>
 
           {showContent && (
-            <>
+            <div className="section-elongate-load">
               <div className="space-y-6">
                 {portfolioData.experience.map((job, index) => (
                   <div
@@ -86,7 +86,7 @@ const Experience = () => {
                 <div className="ml-4">{portfolioData.experience.length} positions listed</div>
                 <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>

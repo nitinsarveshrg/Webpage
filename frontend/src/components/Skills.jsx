@@ -45,7 +45,7 @@ const Skills = () => {
           </div>
 
           {showContent && (
-            <>
+            <div className="section-elongate-load">
               <div className="grid md:grid-cols-2 gap-6">
                 {skillCategories.map((category, index) => {
                   const IconComponent = category.icon;
@@ -86,7 +86,7 @@ const Skills = () => {
                 <div className="ml-4">Skills assessment completed</div>
                 <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>
