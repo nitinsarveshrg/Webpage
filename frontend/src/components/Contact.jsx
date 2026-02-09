@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
@@ -10,6 +10,9 @@ import TerminalCommand from './TerminalCommand';
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xbdyerqo';
 
 const Contact = () => {
+  const captchaRef = useRef(null);
+  const captchaWidgetIdRef = useRef(null);
+  const hcaptchaScriptPromiseRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState('');
@@ -17,14 +20,49 @@ const Contact = () => {
   const [frameExpanded, setFrameExpanded] = useState(false);
 
   useEffect(() => {
-    if (document.querySelector('script[data-hcaptcha-script="true"]')) return;
-    const script = document.createElement('script');
-    script.src = 'https://js.hcaptcha.com/1/api.js';
-    script.async = true;
-    script.defer = true;
-    script.dataset.hcaptchaScript = 'true';
-    document.head.appendChild(script);
-  }, []);
+    if (!showContent) return;
+    let cancelled = false;
+
+    const renderCaptcha = async () => {
+      if (!hcaptchaScriptPromiseRef.current) {
+        hcaptchaScriptPromiseRef.current = new Promise((resolve, reject) => {
+          const existingScript = document.querySelector('script[data-hcaptcha-script="explicit"]');
+          if (existingScript) {
+            if (window.hcaptcha && window.hcaptcha.render) {
+              resolve(window.hcaptcha);
+              return;
+            }
+            existingScript.addEventListener('load', () => resolve(window.hcaptcha), { once: true });
+            existingScript.addEventListener('error', () => reject(new Error('Failed to load CAPTCHA script.')), { once: true });
+            return;
+          }
+
+          const script = document.createElement('script');
+          script.src = 'https://js.hcaptcha.com/1/api.js?render=explicit';
+          script.async = true;
+          script.defer = true;
+          script.dataset.hcaptchaScript = 'explicit';
+          script.onload = () => resolve(window.hcaptcha);
+          script.onerror = () => reject(new Error('Failed to load CAPTCHA script.'));
+          document.head.appendChild(script);
+        });
+      }
+
+      await hcaptchaScriptPromiseRef.current;
+      if (cancelled || !captchaRef.current || !window.hcaptcha || !window.hcaptcha.render) return;
+      if (captchaWidgetIdRef.current === null) {
+        captchaWidgetIdRef.current = window.hcaptcha.render(captchaRef.current, {
+          sitekey: '10000000-ffff-ffff-ffff-000000000001',
+        });
+      }
+    };
+
+    renderCaptcha().catch(() => {});
+
+    return () => {
+      cancelled = true;
+    };
+  }, [showContent]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -186,7 +224,7 @@ const Contact = () => {
                         <Textarea name="message" required rows={4} className="bg-black border-cyan-500/30 text-white text-xs resize-none font-mono" />
                       </div>
 
-                      <div className="h-captcha" data-sitekey="10000000-ffff-ffff-ffff-000000000001" />
+                      <div ref={captchaRef} />
 
                       <Button type="submit" disabled={isSubmitting} className="w-full bg-cyan-500 hover:bg-cyan-600 text-black font-bold border-2 border-cyan-400 text-xs h-9 disabled:opacity-50">
                         {isSubmitting ? (
