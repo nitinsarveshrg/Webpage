@@ -23,8 +23,7 @@ code {
         @apply snap-start relative overflow-x-hidden flex items-start;
         scroll-snap-stop: normal;
         min-height: 100svh;
-        scroll-margin-top: 96px;
-        padding-top: 5.5rem;
+        padding-top: 1rem;
         padding-bottom: 0.75rem;
     }
 
@@ -33,7 +32,7 @@ code {
     }
 
     .section-frame-preroll {
-        transform: translateY(10vh) scale(0.88);
+        transform: translateY(6vh) scale(0.88);
         opacity: 0.92;
         transform-origin: center center;
     }
@@ -118,7 +117,7 @@ code {
 
 @keyframes section-frame-grow {
     0% {
-        transform: translateY(10vh) scale(0.88);
+        transform: translateY(6vh) scale(0.88);
         opacity: 0.92;
     }
     62% {
