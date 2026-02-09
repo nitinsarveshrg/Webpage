@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Menu, X, Terminal } from 'lucide-react';
 import { portfolioData } from '../mock';
+import { scrollToSectionById } from '../lib/sectionScroll';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -16,13 +17,7 @@ const Header = () => {
   }, []);
 
   const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const header = document.querySelector('header');
-      const headerOffset = (header ? header.getBoundingClientRect().height : 80) + 4;
-      const target = element.querySelector('.terminal-header') || element;
-      const y = target.getBoundingClientRect().top + window.scrollY - headerOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
+    if (scrollToSectionById(sectionId)) {
       setIsMobileMenuOpen(false);
     }
   };

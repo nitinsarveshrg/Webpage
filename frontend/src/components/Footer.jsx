@@ -3,19 +3,13 @@ import { Github, Linkedin, Mail, Terminal } from 'lucide-react';
 import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
 import TerminalCommand from './TerminalCommand';
+import { scrollToSectionById } from '../lib/sectionScroll';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const header = document.querySelector('header');
-      const headerOffset = (header ? header.getBoundingClientRect().height : 80) + 4;
-      const target = element.querySelector('.terminal-header') || element;
-      const y = target.getBoundingClientRect().top + window.scrollY - headerOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-    }
+    scrollToSectionById(sectionId);
   };
 
   return (

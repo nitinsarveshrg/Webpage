@@ -4,6 +4,7 @@ import { Terminal, ChevronDown } from 'lucide-react';
 import { portfolioData } from '../mock';
 import TypingEffect from './TypingEffect';
 import MatrixRain from './MatrixRain';
+import { scrollToSectionById } from '../lib/sectionScroll';
 
 const bootMessages = [
   '[BOOT] Initializing cloud runtime...',
@@ -59,14 +60,7 @@ const Hero = () => {
   }, [showContent]);
 
   const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const header = document.querySelector('header');
-      const headerOffset = (header ? header.getBoundingClientRect().height : 80) + 4;
-      const target = element.querySelector('.terminal-header') || element;
-      const y = target.getBoundingClientRect().top + window.scrollY - headerOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-    }
+    scrollToSectionById(sectionId);
   };
 
   return (

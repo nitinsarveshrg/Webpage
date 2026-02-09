@@ -11,21 +11,14 @@ import Certifications from "./components/Certifications";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import { Toaster } from "./components/ui/toaster";
+import { scrollToSectionById } from "./lib/sectionScroll";
 
 const Home = () => {
   useEffect(() => {
     const scrollToHashTarget = () => {
       const hash = window.location.hash.replace("#", "");
       if (!hash) return;
-
-      const element = document.getElementById(hash);
-      if (!element) return;
-
-      const header = document.querySelector("header");
-      const headerOffset = (header ? header.getBoundingClientRect().height : 80) + 4;
-      const target = element.querySelector(".terminal-header") || element;
-      const y = target.getBoundingClientRect().top + window.scrollY - headerOffset;
-      window.scrollTo({ top: y, behavior: "auto" });
+      scrollToSectionById(hash, { behavior: "auto" });
     };
 
     const timer = setTimeout(scrollToHashTarget, 0);
