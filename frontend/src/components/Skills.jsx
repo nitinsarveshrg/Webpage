@@ -6,6 +6,7 @@ import TerminalCommand from './TerminalCommand';
 
 const Skills = () => {
   const [showContent, setShowContent] = useState(false);
+  const [frameExpanded, setFrameExpanded] = useState(false);
 
   const skillCategories = [
     { title: 'Cloud Platforms', skills: portfolioData.skills.cloud, icon: Cloud },
@@ -16,7 +17,7 @@ const Skills = () => {
 
   return (
     <section id="skills" className="portfolio-section bg-black">
-      <div className={`max-w-7xl w-full mx-auto px-6 relative z-10 ${showContent ? 'section-frame-grow' : 'section-frame-preroll'}`}>
+      <div className={`max-w-7xl w-full mx-auto px-6 relative z-10 ${frameExpanded ? 'section-frame-grow' : 'section-frame-preroll'}`}>
         <div className="terminal-header">
           <div className="flex items-center gap-2">
             <div className="flex gap-2">
@@ -34,6 +35,7 @@ const Skills = () => {
               className="mb-1"
               prompt="root@cloud-devops:~$"
               command="./analyze_skills.sh --verbose"
+              onRunStart={() => setFrameExpanded(true)}
               onCompleteChange={() => setShowContent(true)}
               outputClassName="ml-4 text-zinc-400 text-sm"
               outputLines={[

@@ -5,10 +5,11 @@ import TerminalCommand from './TerminalCommand';
 
 const About = () => {
   const [showContent, setShowContent] = useState(false);
+  const [frameExpanded, setFrameExpanded] = useState(false);
 
   return (
     <section id="about" className="portfolio-section bg-zinc-950">
-      <div className={`max-w-7xl w-full mx-auto px-6 relative z-10 ${showContent ? 'section-frame-grow' : 'section-frame-preroll'}`}>
+      <div className={`max-w-7xl w-full mx-auto px-6 relative z-10 ${frameExpanded ? 'section-frame-grow' : 'section-frame-preroll'}`}>
         <div className="terminal-header">
           <div className="flex items-center gap-2">
             <div className="flex gap-2">
@@ -36,6 +37,7 @@ const About = () => {
               className="mb-1"
               prompt="root@cloud-devops:~$"
               command="whoami"
+              onRunStart={() => setFrameExpanded(true)}
               onCompleteChange={() => setShowContent(true)}
               outputClassName="ml-4 text-zinc-300 text-sm"
               outputLines={['Displaying user information...']}

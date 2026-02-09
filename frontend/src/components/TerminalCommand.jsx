@@ -16,6 +16,7 @@ const TerminalCommand = ({
 }) => {
   const blockRef = useRef(null);
   const wasInViewRef = useRef(false);
+  const runStartedRef = useRef(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const [runId, setRunId] = useState(0);
@@ -58,13 +59,13 @@ const TerminalCommand = ({
       setRunId((prev) => prev + 1);
       setCommandDone(false);
       setVisibleOutputCount(0);
-      if (onRunStart) onRunStart();
     }
 
     if (!isInView && wasInViewRef.current) {
       setIsVisible(false);
       setCommandDone(false);
       setVisibleOutputCount(0);
+      runStartedRef.current = false;
     }
 
     wasInViewRef.current = isInView;
@@ -88,6 +89,18 @@ const TerminalCommand = ({
   }, [isComplete, onCompleteChange]);
 
   const shouldRun = once ? isVisible : isInView;
+
+  useEffect(() => {
+    if (!shouldRun) {
+      if (!once) runStartedRef.current = false;
+      return;
+    }
+
+    if (!runStartedRef.current) {
+      runStartedRef.current = true;
+      if (onRunStart) onRunStart();
+    }
+  }, [shouldRun, once, onRunStart]);
 
   return (
     <div ref={blockRef} className={className}>

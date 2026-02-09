@@ -69,7 +69,7 @@ const Hero = () => {
     <section id="hero" className="portfolio-section justify-center bg-black">
       <MatrixRain />
 
-      <div className={`max-w-7xl mx-auto px-6 py-20 relative z-10 w-full ${showContent ? 'section-frame-grow' : 'section-frame-preroll'}`}>
+      <div className={`max-w-7xl mx-auto px-6 py-20 relative z-10 w-full ${visibleLines > 0 ? 'section-frame-grow' : 'section-frame-preroll'}`}>
         <div className="relative bg-black/85 backdrop-blur-sm border border-cyan-500/40 rounded-lg mb-8 font-mono text-sm shadow-2xl shadow-cyan-500/20 overflow-hidden">
           <div className="flex items-center justify-between px-4 py-3 border-b border-cyan-500/30 text-cyan-300">
             <div className="flex items-center gap-2">
@@ -250,12 +250,10 @@ const Hero = () => {
           from {
             opacity: 0;
             transform: translateY(20px) scale(0.985);
-            filter: blur(3px);
           }
           to {
             opacity: 1;
             transform: translateY(0) scale(1);
-            filter: blur(0);
           }
         }
 

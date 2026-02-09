@@ -11,6 +11,7 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [showContent, setShowContent] = useState(false);
+  const [frameExpanded, setFrameExpanded] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,7 +40,7 @@ const Contact = () => {
 
   return (
     <section id="contact" className="portfolio-section bg-black">
-      <div className={`max-w-7xl w-full mx-auto px-6 relative z-10 ${showContent ? 'section-frame-grow' : 'section-frame-preroll'}`}>
+      <div className={`max-w-7xl w-full mx-auto px-6 relative z-10 ${frameExpanded ? 'section-frame-grow' : 'section-frame-preroll'}`}>
         <div className="terminal-header">
           <div className="flex items-center gap-2">
             <div className="flex gap-2">
@@ -57,6 +58,7 @@ const Contact = () => {
               className="mb-1"
               prompt="root@cloud-devops:~$"
               command="./init_secure_channel.sh"
+              onRunStart={() => setFrameExpanded(true)}
               onCompleteChange={() => setShowContent(true)}
               outputClassName="ml-4 text-zinc-400 text-sm"
               outputLines={[

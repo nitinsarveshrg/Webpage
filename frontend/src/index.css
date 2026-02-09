@@ -20,11 +20,11 @@ code {
 
 @layer components {
     .portfolio-section {
-        @apply snap-start relative overflow-hidden flex items-start;
+        @apply snap-start relative overflow-hidden flex items-center;
         scroll-snap-stop: always;
         min-height: 100svh;
-        padding-top: 1.25rem;
-        padding-bottom: 1rem;
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
     }
 
     .portfolio-section .terminal-body {
@@ -32,22 +32,21 @@ code {
     }
 
     .section-frame-preroll {
-        transform: scale(0.9);
+        transform: scale(0.88);
         opacity: 0.92;
-        filter: blur(1px);
         transform-origin: center center;
     }
 
     .section-frame-grow {
         animation: section-frame-grow 0.92s cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
         transform-origin: center center;
-        will-change: transform, opacity, filter;
+        will-change: transform, opacity;
     }
 
     .section-elongate-load {
         animation: section-elongate-load 0.82s cubic-bezier(0.22, 1, 0.36, 1);
         transform-origin: center top;
-        will-change: transform, opacity, filter;
+        will-change: transform, opacity;
     }
 
     .terminal-header {
@@ -94,12 +93,10 @@ code {
     from {
         opacity: 0;
         transform: translateY(8px);
-        filter: blur(2px);
     }
     to {
         opacity: 1;
         transform: translateY(0);
-        filter: blur(0);
     }
 }
 
@@ -107,53 +104,45 @@ code {
     0% {
         opacity: 0;
         transform: translateY(24px) scaleY(0.82) scaleX(0.975);
-        filter: blur(6px);
     }
     62% {
         opacity: 1;
         transform: translateY(0) scaleY(1.06) scaleX(1.01);
-        filter: blur(0);
     }
     100% {
         opacity: 1;
         transform: translateY(0) scaleY(1) scaleX(1);
-        filter: blur(0);
     }
 }
 
 @keyframes section-frame-grow {
     0% {
-        transform: scale(0.9);
+        transform: scale(0.88);
         opacity: 0.92;
-        filter: blur(1px);
     }
     62% {
         transform: scale(1.025);
         opacity: 1;
-        filter: blur(0);
     }
     100% {
         transform: scale(1);
         opacity: 1;
-        filter: blur(0);
     }
 }
 
 .terminal-line-enter {
     animation: terminal-line-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-    will-change: opacity, transform, filter;
+    will-change: opacity, transform;
 }
 
 @keyframes terminal-stagger-reveal {
     from {
         opacity: 0;
         transform: translateY(12px);
-        filter: blur(3px);
     }
     to {
         opacity: 1;
         transform: translateY(0);
-        filter: blur(0);
     }
 }
 
@@ -161,7 +150,7 @@ code {
     opacity: 0;
     animation: terminal-stagger-reveal 0.7s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
     animation-delay: var(--reveal-delay, 0ms);
-    will-change: opacity, transform, filter;
+    will-change: opacity, transform;
 }
 
 @keyframes terminal-flicker {
