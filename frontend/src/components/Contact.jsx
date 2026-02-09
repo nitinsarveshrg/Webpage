@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Card } from './ui/card';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
@@ -39,7 +38,7 @@ const Contact = () => {
     <section id="contact" className="py-20 bg-black relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Terminal Header */}
-        <div className="bg-zinc-900 border-2 border-cyan-500/50 rounded-t-lg p-3 mb-0 font-mono">
+        <div className="terminal-header">
           <div className="flex items-center gap-2">
             <div className="flex gap-2">
               <div className="w-3 h-3 rounded-full bg-red-500"></div>
@@ -51,7 +50,7 @@ const Contact = () => {
         </div>
 
         {/* Terminal Content */}
-        <div className="bg-black/90 border-2 border-t-0 border-cyan-500/50 rounded-b-lg p-8 font-mono">
+        <div className="terminal-body terminal-overlay">
           <div className="text-green-400 mb-6">
             <div className="mb-2"><span className="text-cyan-400">root@cloud-devops:~$</span> ./init_secure_channel.sh</div>
             <div className="ml-4 text-zinc-400 text-sm">Establishing encrypted communication...</div>
@@ -65,7 +64,7 @@ const Contact = () => {
                 <span className="text-cyan-400">$</span> cat contact_info.dat
               </div>
               
-              <div className="bg-zinc-900/50 border border-cyan-500/30 rounded p-4 space-y-4">
+              <div className="terminal-panel space-y-4">
                 <a
                   href={`mailto:${portfolioData.personal.email}`}
                   className="flex items-center gap-3 text-zinc-300 hover:text-cyan-400 transition-colors group"
@@ -107,7 +106,7 @@ const Contact = () => {
                     href={portfolioData.personal.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 bg-zinc-900/50 border border-cyan-500/30 hover:border-cyan-500 rounded p-3 text-zinc-300 hover:text-cyan-400 transition-all text-xs"
+                    className="flex items-center justify-center gap-2 terminal-panel hover:border-cyan-500 text-zinc-300 hover:text-cyan-400 text-xs"
                   >
                     <Linkedin size={14} />
                     <span>LINKEDIN</span>
@@ -116,7 +115,7 @@ const Contact = () => {
                     href={portfolioData.personal.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 bg-zinc-900/50 border border-cyan-500/30 hover:border-cyan-500 rounded p-3 text-zinc-300 hover:text-cyan-400 transition-all text-xs"
+                    className="flex items-center justify-center gap-2 terminal-panel hover:border-cyan-500 text-zinc-300 hover:text-cyan-400 text-xs"
                   >
                     <Github size={14} />
                     <span>GITHUB</span>
@@ -130,7 +129,7 @@ const Contact = () => {
               <div className="text-green-400 text-sm mb-4">
                 <span className="text-cyan-400">$</span> nano message.txt
               </div>
-              <div className="bg-zinc-900/50 border border-cyan-500/30 rounded p-4">
+              <div className="terminal-panel">
                 <form onSubmit={handleSubmit} className="space-y-3">
                   <input type="hidden" name="_replyto" />
                   <input type="hidden" name="_subject" value="New Portfolio Contact Message" />

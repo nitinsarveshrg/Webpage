@@ -1,5 +1,4 @@
 import React from 'react';
-import { Card } from './ui/card';
 import { ExternalLink, Github, FolderGit2 } from 'lucide-react';
 import { Badge } from './ui/badge';
 import { portfolioData } from '../mock';
@@ -9,7 +8,7 @@ const Projects = () => {
     <section id="projects" className="py-20 bg-zinc-950 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Terminal Header */}
-        <div className="bg-zinc-900 border-2 border-cyan-500/50 rounded-t-lg p-3 mb-0 font-mono">
+        <div className="terminal-header">
           <div className="flex items-center gap-2">
             <div className="flex gap-2">
               <div className="w-3 h-3 rounded-full bg-red-500"></div>
@@ -21,7 +20,7 @@ const Projects = () => {
         </div>
 
         {/* Terminal Content */}
-        <div className="bg-black/90 border-2 border-t-0 border-cyan-500/50 rounded-b-lg p-8 font-mono">
+        <div className="terminal-body terminal-overlay">
           {/* ASCII Art Server Rack */}
           <pre className="text-green-400 text-xs mb-4 opacity-40">
 {`
@@ -45,7 +44,7 @@ const Projects = () => {
             {portfolioData.projects.map((project, index) => (
               <div
                 key={project.id}
-                className="bg-zinc-900/50 border border-cyan-500/30 rounded p-4 hover:border-cyan-500 transition-all"
+                className="terminal-panel hover:border-cyan-500"
               >
                 {/* Project terminal header */}
                 <div className="flex items-center justify-between mb-3 pb-2 border-b border-cyan-500/20">
