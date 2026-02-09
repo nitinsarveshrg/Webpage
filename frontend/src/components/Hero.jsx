@@ -5,16 +5,41 @@ import { portfolioData } from '../mock';
 import TypingEffect from './TypingEffect';
 import MatrixRain from './MatrixRain';
 
+const bootMessages = [
+  '[BOOT] Initializing cloud runtime...',
+  '[OK] AWS Services: ONLINE',
+  '[OK] Kubernetes Cluster: ACTIVE',
+  '[OK] CI/CD Pipeline: RUNNING',
+  '[OK] Terraform State: SYNCED',
+  '[OK] Monitoring: ALL SYSTEMS NOMINAL',
+];
+
 const Hero = () => {
+  const [visibleLines, setVisibleLines] = useState(0);
   const [bootComplete, setBootComplete] = useState(false);
   const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setBootComplete(true);
-      setTimeout(() => setShowContent(true), 500);
-    }, 2000);
-    return () => clearTimeout(timer);
+    const startTimer = setTimeout(() => {
+      setVisibleLines(1);
+    }, 220);
+
+    const interval = setInterval(() => {
+      setVisibleLines((prev) => {
+        if (prev >= bootMessages.length) {
+          clearInterval(interval);
+          setTimeout(() => setBootComplete(true), 350);
+          setTimeout(() => setShowContent(true), 700);
+          return prev;
+        }
+        return prev + 1;
+      });
+    }, 330);
+
+    return () => {
+      clearTimeout(startTimer);
+      clearInterval(interval);
+    };
   }, []);
 
   const scrollToSection = (sectionId) => {
@@ -27,39 +52,52 @@ const Hero = () => {
   return (
     <section id="hero" className="min-h-screen flex items-center justify-center bg-black relative overflow-hidden">
       <MatrixRain />
-      
-      <div className="max-w-7xl mx-auto px-6 py-20 relative z-10">
-        {/* Terminal Boot Sequence - Cloud/DevOps specific */}
-        <div className="bg-black/80 backdrop-blur-sm border border-cyan-500/30 rounded-lg p-6 mb-8 font-mono text-sm shadow-lg shadow-cyan-500/20">
-          <div className="flex items-center gap-2 mb-4 text-cyan-400">
-            <Terminal size={16} />
-            <span>CLOUD INFRASTRUCTURE TERMINAL v3.0.1</span>
+
+      <div className="max-w-7xl mx-auto px-6 py-20 relative z-10 w-full">
+        <div className="relative bg-black/85 backdrop-blur-sm border border-cyan-500/40 rounded-lg mb-8 font-mono text-sm shadow-2xl shadow-cyan-500/20 overflow-hidden">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-cyan-500/30 text-cyan-300">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
+              <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
+              <span className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
+            </div>
+            <div className="flex items-center gap-2">
+              <Terminal size={15} />
+              <span className="text-xs tracking-wide">visitor@cloud-shell: ~/portfolio</span>
+            </div>
           </div>
-          <div className="space-y-1 text-green-400">
-            <div><TypingEffect text="> Booting cloud infrastructure..." speed={30} /></div>
-            <div className="ml-4"><TypingEffect text="✓ AWS Services: ONLINE" speed={30} /></div>
-            <div className="ml-4"><TypingEffect text="✓ Kubernetes Cluster: ACTIVE" speed={30} /></div>
-            <div className="ml-4"><TypingEffect text="✓ CI/CD Pipeline: RUNNING" speed={30} /></div>
-            <div className="ml-4"><TypingEffect text="✓ Terraform State: LOCKED" speed={30} /></div>
-            <div className="ml-4"><TypingEffect text="✓ Monitoring: ALL SYSTEMS NOMINAL" speed={30} /></div>
+
+          <div className="relative px-5 py-4 space-y-1 text-green-400 min-h-[220px]">
+            {bootMessages.slice(0, visibleLines).map((line, idx) => (
+              <div key={`${line}-${idx}`} className={idx === 0 ? 'text-cyan-300' : 'ml-3'}>
+                <TypingEffect text={line} speed={18} startDelay={20} cursorChar="_" />
+              </div>
+            ))}
+
             {bootComplete && (
-              <div className="text-cyan-400 mt-2">
-                <TypingEffect text="> System operational. Displaying profile..." speed={30} />
+              <div className="pt-3 text-cyan-300">
+                <span>visitor@portfolio:~$ </span>
+                <TypingEffect
+                  text="./render-profile --full --interactive"
+                  speed={14}
+                  cursorChar="█"
+                  persistCursor
+                />
               </div>
             )}
+
+            <div className="terminal-scanlines" />
+            <div className="terminal-flicker" />
           </div>
         </div>
 
-        {/* Main Content */}
         {showContent && (
           <div className="text-center space-y-8 animate-fade-in">
-            {/* Status Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 rounded text-sm text-cyan-400 font-mono">
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
               <span>&gt; STATUS: ONLINE | AVAILABLE_FOR_HIRE</span>
             </div>
 
-            {/* Name with glitch effect */}
             <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight font-mono">
               <span className="text-cyan-400">&gt;_</span> {portfolioData.personal.name.split(' ')[0]}
               <br />
@@ -68,17 +106,13 @@ const Hero = () => {
               </span>
             </h1>
 
-            {/* Title */}
             <div className="font-mono">
               <p className="text-xl md:text-2xl text-cyan-400 mb-2">
                 <span className="text-white">&gt;_</span> {portfolioData.personal.title}
               </p>
-              <p className="text-base md:text-lg text-zinc-400">
-                [ {portfolioData.personal.tagline} ]
-              </p>
+              <p className="text-base md:text-lg text-zinc-400">[ {portfolioData.personal.tagline} ]</p>
             </div>
 
-            {/* Command Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 font-mono">
               <Button
                 size="lg"
@@ -97,13 +131,12 @@ const Hero = () => {
               </Button>
             </div>
 
-            {/* Quick Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8 max-w-3xl mx-auto">
               {[
                 { label: 'YEARS_EXP', value: '5+' },
                 { label: 'CLOUD_PLATFORMS', value: '3' },
                 { label: 'DEPLOYMENTS', value: '50+' },
-                { label: 'UPTIME_SLA', value: '99.9%' }
+                { label: 'UPTIME_SLA', value: '99.9%' },
               ].map((stat, idx) => (
                 <div key={idx} className="bg-cyan-500/5 border border-cyan-500/30 rounded p-4">
                   <div className="text-3xl font-bold text-cyan-400 font-mono">{stat.value}</div>
@@ -115,26 +148,69 @@ const Hero = () => {
         )}
       </div>
 
-      {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
         <ChevronDown className="text-cyan-400" size={32} />
       </div>
 
       <style jsx>{`
         @keyframes fade-in {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
-        .animate-fade-in {
-          animation: fade-in 1s ease-out;
-        }
+
         @keyframes gradient {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
+          0%, 100% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
         }
+
+        @keyframes flicker {
+          0%,
+          100% {
+            opacity: 0.05;
+          }
+          50% {
+            opacity: 0.12;
+          }
+        }
+
+        .animate-fade-in {
+          animation: fade-in 0.9s ease-out;
+        }
+
         .animate-gradient {
           background-size: 200% auto;
           animation: gradient 3s linear infinite;
+        }
+
+        .terminal-scanlines {
+          pointer-events: none;
+          position: absolute;
+          inset: 0;
+          background: repeating-linear-gradient(
+            to bottom,
+            rgba(120, 255, 255, 0.05) 0px,
+            rgba(120, 255, 255, 0.05) 1px,
+            transparent 2px,
+            transparent 4px
+          );
+        }
+
+        .terminal-flicker {
+          pointer-events: none;
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(circle at top, rgba(34, 211, 238, 0.08), transparent 55%);
+          animation: flicker 0.22s infinite;
         }
       `}</style>
     </section>

@@ -1,28 +1,43 @@
 import React, { useState, useEffect } from 'react';
 
-const TypingEffect = ({ text, speed = 50, className = '', onComplete }) => {
+const TypingEffect = ({
+  text,
+  speed = 40,
+  className = '',
+  onComplete,
+  startDelay = 0,
+  cursorChar = '_',
+  persistCursor = false,
+}) => {
   const [displayedText, setDisplayedText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    if (currentIndex < text.length) {
-      const timeout = setTimeout(() => {
-        setDisplayedText(prev => prev + text[currentIndex]);
-        setCurrentIndex(prev => prev + 1);
-      }, speed);
+    setDisplayedText('');
+    setCurrentIndex(0);
+  }, [text]);
 
-      return () => clearTimeout(timeout);
-    } else if (onComplete) {
-      onComplete();
+  useEffect(() => {
+    if (currentIndex >= text.length) {
+      if (onComplete) onComplete();
+      return undefined;
     }
-  }, [currentIndex, text, speed, onComplete]);
+
+    const delay = currentIndex === 0 ? startDelay + speed : speed;
+    const timeout = setTimeout(() => {
+      setDisplayedText((prev) => prev + text[currentIndex]);
+      setCurrentIndex((prev) => prev + 1);
+    }, delay);
+
+    return () => clearTimeout(timeout);
+  }, [currentIndex, text, speed, onComplete, startDelay]);
+
+  const showCursor = persistCursor || currentIndex < text.length;
 
   return (
     <span className={className}>
       {displayedText}
-      {currentIndex < text.length && (
-        <span className="animate-pulse">_</span>
-      )}
+      {showCursor && <span className="animate-pulse">{cursorChar}</span>}
     </span>
   );
 };

@@ -5,50 +5,58 @@ const MatrixRain = () => {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) return undefined;
 
     const ctx = canvas.getContext('2d');
-    
-    const resizeCanvas = () => {
+    if (!ctx) return undefined;
+
+    const chars = '01<>[]{}$#@/\\+-=;:|';
+    const fontSize = 14;
+    let drops = [];
+    let columns = 0;
+    let rafId;
+
+    const setup = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      columns = Math.floor(canvas.width / fontSize);
+      drops = Array.from({ length: columns }, () => Math.random() * -120);
     };
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
 
-    // Matrix rain characters
-    const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-    const fontSize = 14;
-    const columns = canvas.width / fontSize;
-    const drops = [];
-
-    for (let i = 0; i < columns; i++) {
-      drops[i] = Math.random() * -100;
-    }
+    setup();
+    window.addEventListener('resize', setup);
 
     const draw = () => {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      ctx.fillStyle = '#06b6d4';
       ctx.font = `${fontSize}px monospace`;
 
-      for (let i = 0; i < drops.length; i++) {
+      for (let i = 0; i < drops.length; i += 1) {
+        const y = drops[i] * fontSize;
+        const x = i * fontSize;
         const text = chars[Math.floor(Math.random() * chars.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
+        ctx.fillStyle = '#9ff9ff';
+        ctx.fillText(text, x, y);
+        ctx.fillStyle = '#06b6d4';
+        ctx.fillText(text, x, y + fontSize);
+
+        if (y > canvas.height && Math.random() > 0.975) {
+          drops[i] = Math.random() * -25;
+        } else {
+          drops[i] += 1;
         }
-        drops[i]++;
       }
+
+      rafId = requestAnimationFrame(draw);
     };
 
-    const interval = setInterval(draw, 33);
+    rafId = requestAnimationFrame(draw);
 
     return () => {
-      window.removeEventListener('resize', resizeCanvas);
-      clearInterval(interval);
+      window.removeEventListener('resize', setup);
+      cancelAnimationFrame(rafId);
     };
   }, []);
 
@@ -56,7 +64,7 @@ const MatrixRain = () => {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none"
-      style={{ opacity: 0.15, zIndex: 0 }}
+      style={{ opacity: 0.22, zIndex: 0 }}
     />
   );
 };
