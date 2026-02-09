@@ -7,7 +7,7 @@ const About = () => {
   const [showContent, setShowContent] = useState(false);
 
   return (
-    <section id="about" className="min-h-screen snap-start scroll-mt-24 py-20 bg-zinc-950 relative overflow-hidden flex items-center">
+    <section id="about" className="portfolio-section scroll-mt-24 bg-zinc-950">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="terminal-header">
           <div className="flex items-center gap-2">

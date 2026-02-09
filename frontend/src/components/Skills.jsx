@@ -15,7 +15,7 @@ const Skills = () => {
   ];
 
   return (
-    <section id="skills" className="min-h-screen snap-start scroll-mt-24 py-20 bg-black relative overflow-hidden flex items-center">
+    <section id="skills" className="portfolio-section scroll-mt-24 bg-black">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="terminal-header">
           <div className="flex items-center gap-2">

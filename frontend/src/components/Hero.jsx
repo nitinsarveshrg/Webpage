@@ -66,7 +66,7 @@ const Hero = () => {
   };
 
   return (
-    <section id="hero" className="min-h-screen snap-start scroll-mt-24 flex items-center justify-center bg-black relative overflow-hidden">
+    <section id="hero" className="portfolio-section scroll-mt-24 justify-center bg-black">
       <MatrixRain />
 
       <div className="max-w-7xl mx-auto px-6 py-20 relative z-10 w-full">
@@ -121,10 +121,22 @@ const Hero = () => {
             {heroRevealStep >= 2 && (
               <div className="hero-block-reveal">
                 <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight font-mono hero-title-glow">
-                  <span className="text-cyan-400">&gt;_</span> {portfolioData.personal.name.split(' ')[0]}
+                  <span className="text-cyan-400">&gt;_ </span>
+                  <TypingEffect
+                    text={portfolioData.personal.name.split(' ')[0]}
+                    speed={38}
+                    cursorChar="_"
+                    persistCursor
+                  />
                   <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-400 animate-gradient">
-                    {portfolioData.personal.name.split(' ').slice(1).join(' ')}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-400 animate-gradient inline-block">
+                    <TypingEffect
+                      text={portfolioData.personal.name.split(' ').slice(1).join(' ')}
+                      speed={32}
+                      startDelay={220}
+                      cursorChar="_"
+                      persistCursor
+                    />
                   </span>
                 </h1>
               </div>
@@ -133,9 +145,17 @@ const Hero = () => {
             {heroRevealStep >= 3 && (
               <div className="font-mono hero-block-reveal">
                 <p className="text-xl md:text-2xl text-cyan-400 mb-2 hero-line-sweep">
-                  <span className="text-white">&gt;_</span> {portfolioData.personal.title}
+                  <span className="text-white">&gt;_ </span>
+                  <TypingEffect
+                    text={portfolioData.personal.title}
+                    speed={30}
+                    cursorChar="_"
+                    persistCursor
+                  />
                 </p>
-                <p className="text-base md:text-lg text-zinc-400">[ {portfolioData.personal.tagline} ]</p>
+                <p className="text-base md:text-lg text-zinc-400">
+                  [ <TypingEffect text={portfolioData.personal.tagline} speed={18} startDelay={120} cursorChar="_" persistCursor /> ]
+                </p>
               </div>
             )}
 

@@ -36,8 +36,8 @@ const TerminalCommand = ({
         }
       },
       {
-        threshold: 0.75,
-        rootMargin: '-8% 0px -20% 0px',
+        threshold: 0.56,
+        rootMargin: '-6% 0px -12% 0px',
       }
     );
 

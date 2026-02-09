@@ -19,6 +19,11 @@ code {
 }
 
 @layer components {
+    .portfolio-section {
+        @apply min-h-screen snap-start relative overflow-hidden flex items-center py-20;
+        scroll-snap-stop: normal;
+    }
+
     .terminal-header {
         @apply bg-zinc-900 border-2 border-cyan-500/50 rounded-t-lg p-3 mb-0 font-mono;
     }
