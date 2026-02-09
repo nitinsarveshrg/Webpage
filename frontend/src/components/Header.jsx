@@ -63,66 +63,54 @@ const Header = () => {
             <span className="text-white">$</span>
           </button>
 
-          {/* Desktop Navigation - Terminal Commands */}
-          <nav className="hidden md:flex items-center gap-1 text-xs rounded-full border border-cyan-500/25 bg-zinc-950/65 px-2 py-1">
-            <button
-              onClick={() => scrollToSection('about')}
-              className={navLinkClass}
-            >
-              ./about
-            </button>
-            <span className="text-zinc-700">|</span>
-            <button
-              onClick={() => scrollToSection('skills')}
-              className={navLinkClass}
-            >
-              ./skills
-            </button>
-            <span className="text-zinc-700">|</span>
-            <button
-              onClick={() => scrollToSection('experience')}
-              className={navLinkClass}
-            >
-              ./experience
-            </button>
-            <span className="text-zinc-700">|</span>
-            <button
-              onClick={() => scrollToSection('projects')}
-              className={navLinkClass}
-            >
-              ./projects
-            </button>
-            <span className="text-zinc-700">|</span>
-            <button
-              onClick={() => scrollToSection('certifications')}
-              className={navLinkClass}
-            >
-              ./certs
-            </button>
-            <span className="text-zinc-700 mx-2">|</span>
-            <Button
-              onClick={() => scrollToSection('contact')}
-              className="bg-cyan-400 hover:bg-cyan-300 text-black font-bold border border-cyan-200 h-7 px-3 text-xs shadow-[0_0_16px_rgba(34,211,238,0.45)]"
-            >
-              &gt; contact
-            </Button>
-          </nav>
+          <div className="hidden md:flex items-center gap-3">
+            {/* Desktop Navigation - Terminal Commands */}
+            <nav className="flex items-center gap-1 text-xs rounded-full border border-cyan-500/25 bg-zinc-950/65 px-2 py-1">
+              <button
+                onClick={() => scrollToSection('about')}
+                className={navLinkClass}
+              >
+                ./about
+              </button>
+              <span className="text-zinc-700">|</span>
+              <button
+                onClick={() => scrollToSection('skills')}
+                className={navLinkClass}
+              >
+                ./skills
+              </button>
+              <span className="text-zinc-700">|</span>
+              <button
+                onClick={() => scrollToSection('experience')}
+                className={navLinkClass}
+              >
+                ./experience
+              </button>
+              <span className="text-zinc-700">|</span>
+              <button
+                onClick={() => scrollToSection('projects')}
+                className={navLinkClass}
+              >
+                ./projects
+              </button>
+              <span className="text-zinc-700">|</span>
+              <button
+                onClick={() => scrollToSection('certifications')}
+                className={navLinkClass}
+              >
+                ./certs
+              </button>
+              <span className="text-zinc-700 mx-2">|</span>
+              <Button
+                onClick={() => scrollToSection('contact')}
+                className="bg-cyan-400 hover:bg-cyan-300 text-black font-bold border border-cyan-200 h-7 px-3 text-xs shadow-[0_0_16px_rgba(34,211,238,0.45)]"
+              >
+                &gt; contact
+              </Button>
+            </nav>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-cyan-400"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
-        </div>
-
-        <div className="mt-3 rounded-md border border-cyan-500/25 bg-zinc-950/70 px-3 py-1.5 text-[11px]">
-          <div className="hidden md:flex items-center justify-between gap-3">
-            <div className="text-zinc-300 truncate">
-              <span className="text-cyan-400">$</span> <span className="text-green-400">top -l 1 | monitor --live --summary</span>
-            </div>
-            <div className="flex items-center gap-3 text-zinc-300">
+            <div className="hidden xl:flex items-center gap-2 rounded-full border border-cyan-500/25 bg-zinc-950/65 px-3 py-1 text-[10px] text-zinc-300">
+              <span className="text-cyan-400">$ top</span>
               <span className="inline-flex items-center gap-1 uppercase tracking-wider text-[10px] text-green-400">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
                 live
@@ -133,11 +121,13 @@ const Header = () => {
             </div>
           </div>
 
-          <div className="flex md:hidden items-center justify-between gap-2 text-zinc-300">
-            <span className="text-cyan-400">$ top --live</span>
-            <span>CPU {monitor.cpu}%</span>
-            <span>MEM {monitor.memory}%</span>
-          </div>
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden text-cyan-400"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
         </div>
 
         {/* Mobile Navigation */}
