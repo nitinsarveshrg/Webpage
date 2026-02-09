@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
@@ -8,6 +8,7 @@ import ScrollTypingLine from './ScrollTypingLine';
 import TerminalCommand from './TerminalCommand';
 
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xbdyerqo';
+const RECAPTCHA_SITE_KEY = process.env.REACT_APP_RECAPTCHA_SITE_KEY || '';
 
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -15,6 +16,53 @@ const Contact = () => {
   const [submitError, setSubmitError] = useState('');
   const [showContent, setShowContent] = useState(false);
   const [frameExpanded, setFrameExpanded] = useState(false);
+  const recaptchaLoaderRef = useRef(null);
+
+  const loadRecaptcha = () => {
+    if (!RECAPTCHA_SITE_KEY) return Promise.resolve(null);
+    if (window.grecaptcha && window.grecaptcha.execute) return Promise.resolve(window.grecaptcha);
+
+    if (!recaptchaLoaderRef.current) {
+      recaptchaLoaderRef.current = new Promise((resolve, reject) => {
+        const existingScript = document.querySelector(`script[data-recaptcha-key="${RECAPTCHA_SITE_KEY}"]`);
+        if (existingScript) {
+          if (window.grecaptcha && window.grecaptcha.execute) {
+            resolve(window.grecaptcha);
+            return;
+          }
+          existingScript.addEventListener('load', () => resolve(window.grecaptcha), { once: true });
+          existingScript.addEventListener('error', () => reject(new Error('Failed to load reCAPTCHA script.')), { once: true });
+          return;
+        }
+
+        const script = document.createElement('script');
+        script.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`;
+        script.async = true;
+        script.defer = true;
+        script.dataset.recaptchaKey = RECAPTCHA_SITE_KEY;
+        script.onload = () => resolve(window.grecaptcha);
+        script.onerror = () => reject(new Error('Failed to load reCAPTCHA script.'));
+        document.head.appendChild(script);
+      });
+    }
+
+    return recaptchaLoaderRef.current;
+  };
+
+  const getRecaptchaToken = async () => {
+    if (!RECAPTCHA_SITE_KEY) return null;
+    const grecaptcha = await loadRecaptcha();
+    if (!grecaptcha) return null;
+
+    return new Promise((resolve, reject) => {
+      grecaptcha.ready(() => {
+        grecaptcha
+          .execute(RECAPTCHA_SITE_KEY, { action: 'submit' })
+          .then(resolve)
+          .catch(() => reject(new Error('Unable to verify reCAPTCHA. Please try again.')));
+      });
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,6 +75,11 @@ const Contact = () => {
     formData.set('_replyto', String(formData.get('email') || ''));
 
     try {
+      const recaptchaToken = await getRecaptchaToken();
+      if (recaptchaToken) {
+        formData.set('g-recaptcha-response', String(recaptchaToken));
+      }
+
       const res = await fetch(FORMSPREE_ENDPOINT, {
         method: 'POST',
         body: formData,
@@ -37,6 +90,11 @@ const Contact = () => {
 
       if (!res.ok) {
         const detailedError = payload?.errors?.map((item) => item.message).filter(Boolean).join(' ');
+        if (detailedError?.includes('submit via AJAX')) {
+          throw new Error(
+            'CAPTCHA is enabled in Formspree, but AJAX needs a custom reCAPTCHA key. Add REACT_APP_RECAPTCHA_SITE_KEY and set the same key in Formspree CAPTCHA settings.'
+          );
+        }
         throw new Error(detailedError || payload?.error || 'Message transmission failed. Please try again.');
       }
 
