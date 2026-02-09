@@ -20,11 +20,15 @@ code {
 
 @layer components {
     .portfolio-section {
-        @apply min-h-screen snap-start relative overflow-hidden flex items-center py-20;
+        @apply snap-start relative overflow-hidden flex items-start;
         scroll-snap-stop: normal;
         min-height: 100svh;
-        padding-top: 6.5rem;
-        padding-bottom: 2.5rem;
+        padding-top: 5.5rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .portfolio-section .terminal-body {
+        min-height: clamp(520px, 64vh, 760px);
     }
 
     .section-elongate-load {
