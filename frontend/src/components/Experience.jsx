@@ -62,7 +62,7 @@ const Experience = () => {
 
                 {/* Achievements */}
                 <div>
-                  <ScrollTypingLine className="text-green-400 text-xs mb-1" prompt="$" text="grep \"achievement\" logs/*.log" speed={12} />
+                  <ScrollTypingLine className="text-green-400 text-xs mb-1" prompt="$" text={`grep "achievement" logs/*.log`} speed={12} />
                   <div className="space-y-1 ml-2">
                     {job.achievements.map((achievement, idx) => (
                       <div key={idx} className="flex items-start gap-1 text-xs text-zinc-400">

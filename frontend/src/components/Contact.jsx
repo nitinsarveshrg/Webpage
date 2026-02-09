@@ -196,7 +196,7 @@ const Contact = () => {
 
           {/* Command output */}
           <div className="mt-6 text-green-400 text-sm">
-            <ScrollTypingLine prompt="$" text="echo \"Awaiting secure transmission...\"" speed={14} />
+            <ScrollTypingLine prompt="$" text={`echo "Awaiting secure transmission..."`} speed={14} />
             <div className="ml-4">Awaiting secure transmission...</div>
             <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>
           </div>

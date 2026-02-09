@@ -78,7 +78,7 @@ const Footer = () => {
 
           <div className="pt-6 border-t border-cyan-500/20 flex flex-col md:flex-row items-center justify-between gap-4 relative z-10 font-mono text-xs">
             <p className="text-zinc-400">© {currentYear} {portfolioData.personal.name}. All rights reserved.</p>
-            <div className="text-green-400"><ScrollTypingLine className="mb-0" prompt="root@cloud-devops:~$" text="echo \"Built with React + FastAPI\"" /></div>
+            <div className="text-green-400"><ScrollTypingLine className="mb-0" prompt="root@cloud-devops:~$" text={`echo "Built with React + FastAPI"`} /></div>
           </div>
         </div>
       </div>
