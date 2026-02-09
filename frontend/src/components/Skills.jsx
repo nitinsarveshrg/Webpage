@@ -39,16 +39,16 @@ const SkillLevelCounter = ({ value, delay = 0 }) => {
 
 const SkillMeterRow = ({ name, level, revealDelay = '0ms', countDelay = 0 }) => {
   return (
-    <div className="terminal-stagger-reveal skills-row-boot" style={{ '--reveal-delay': revealDelay }}>
-      <div className="flex items-center justify-between mb-1">
+    <div className="terminal-stagger-reveal skills-row-entry" style={{ '--reveal-delay': revealDelay }}>
+      <div className="flex items-center justify-between mb-1.5">
         <span className="text-zinc-300 text-xs">[{name}]</span>
-        <span className="skills-level-chip">
+        <span className="skills-level-badge">
           <SkillLevelCounter value={level} delay={countDelay} />
         </span>
       </div>
       <div className="skills-meter-track">
         <div className="skills-meter-fill" style={{ '--skill-width': `${level}%`, '--meter-delay': `${countDelay}ms` }}>
-          <span className="skills-meter-hotspot"></span>
+          <span className="skills-meter-sheen"></span>
         </div>
       </div>
     </div>
@@ -67,12 +67,6 @@ const Skills = () => {
   ];
   const allSkills = skillCategories.flatMap((category) => category.skills);
   const averageLevel = Math.round(allSkills.reduce((sum, skill) => sum + skill.level, 0) / allSkills.length);
-  const strongestCategory = [...skillCategories]
-    .sort((a, b) => {
-      const aAvg = a.skills.reduce((sum, skill) => sum + skill.level, 0) / a.skills.length;
-      const bAvg = b.skills.reduce((sum, skill) => sum + skill.level, 0) / b.skills.length;
-      return bAvg - aAvg;
-    })[0];
 
   return (
     <section id="skills" className="portfolio-section bg-black">
@@ -117,22 +111,18 @@ const Skills = () => {
 
           {showContent && (
             <div className="section-elongate-load">
-              <div className="skills-kpi-grid terminal-stagger-reveal" style={{ '--reveal-delay': '40ms' }}>
-                <div className="skills-kpi-card">
-                  <div className="skills-kpi-label">modules</div>
-                  <div className="skills-kpi-value">{skillCategories.length}</div>
+              <div className="skills-command-summary terminal-stagger-reveal" style={{ '--reveal-delay': '40ms' }}>
+                <div className="skills-summary-chip">
+                  <span className="skills-summary-key">MATRIX</span>
+                  <span className="skills-summary-value">LIVE PROFICIENCY MAP</span>
                 </div>
-                <div className="skills-kpi-card">
-                  <div className="skills-kpi-label">skills tracked</div>
-                  <div className="skills-kpi-value">{allSkills.length}</div>
+                <div className="skills-summary-chip">
+                  <span className="skills-summary-key">SKILLS</span>
+                  <span className="skills-summary-value">{allSkills.length} TRACKED</span>
                 </div>
-                <div className="skills-kpi-card">
-                  <div className="skills-kpi-label">avg proficiency</div>
-                  <div className="skills-kpi-value">{averageLevel}%</div>
-                </div>
-                <div className="skills-kpi-card">
-                  <div className="skills-kpi-label">top domain</div>
-                  <div className="skills-kpi-value text-sm">{strongestCategory.title.toUpperCase()}</div>
+                <div className="skills-summary-chip">
+                  <span className="skills-summary-key">AVG</span>
+                  <span className="skills-summary-value">{averageLevel}%</span>
                 </div>
               </div>
 
@@ -145,40 +135,18 @@ const Skills = () => {
               <div className="grid md:grid-cols-2 gap-6">
                 {skillCategories.map((category, index) => {
                   const IconComponent = category.icon;
-                  const categoryAverage = Math.round(
-                    category.skills.reduce((sum, skill) => sum + skill.level, 0) / category.skills.length
-                  );
                   return (
                     <div
                       key={index}
-                      className="terminal-panel skills-panel skills-card-boot terminal-stagger-reveal"
+                      className="terminal-panel skills-panel-clean terminal-stagger-reveal"
                       style={{ '--reveal-delay': `${120 + index * 160}ms` }}
                     >
-                      <div className="flex items-center justify-between mb-4">
+                      <div className="skills-card-head">
                         <div className="flex items-center gap-2 text-cyan-400">
                           <IconComponent size={20} />
                           <span className="text-sm font-bold">&gt; {category.title.toUpperCase()}</span>
                         </div>
-                        <div className="flex items-center gap-3">
-                          <div className="skills-orb" style={{ '--orb-level': `${categoryAverage}%` }}>
-                            <span className="skills-orb-value">{categoryAverage}%</span>
-                            <span className="skills-orb-label">AVG</span>
-                          </div>
-                          <div className="skills-card-status">
-                            <span className="skills-card-status-dot"></span>
-                            <span>SYNCED</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="skills-card-graph" aria-hidden="true">
-                        {Array.from({ length: 18 }).map((_, graphIndex) => (
-                          <span
-                            key={`${category.title}-${graphIndex}`}
-                            className="skills-card-graph-bar"
-                            style={{ '--graph-index': graphIndex }}
-                          ></span>
-                        ))}
+                        <span className="skills-card-pill">ACTIVE</span>
                       </div>
 
                       <div className="space-y-3">
