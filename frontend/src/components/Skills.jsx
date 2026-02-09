@@ -4,24 +4,29 @@ import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
 import TerminalCommand from './TerminalCommand';
 
-const SkillLevelCounter = ({ value, delay = 0 }) => {
+const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+const SkillMeterRow = ({ name, level, delay = 0, revealDelay = '0ms' }) => {
   const [displayValue, setDisplayValue] = useState(0);
+  const [bootDone, setBootDone] = useState(false);
 
   useEffect(() => {
     let rafId = null;
     let timeoutId = null;
     let start = null;
-    const duration = 900;
+    const duration = 980;
 
     timeoutId = window.setTimeout(() => {
       const tick = (timestamp) => {
         if (start === null) start = timestamp;
         const progress = Math.min((timestamp - start) / duration, 1);
         const eased = 1 - (1 - progress) ** 3;
-        setDisplayValue(Math.round(value * eased));
+        setDisplayValue(Math.round(level * eased));
 
         if (progress < 1) {
           rafId = window.requestAnimationFrame(tick);
+        } else {
+          setBootDone(true);
         }
       };
 
@@ -32,9 +37,35 @@ const SkillLevelCounter = ({ value, delay = 0 }) => {
       window.clearTimeout(timeoutId);
       if (rafId) window.cancelAnimationFrame(rafId);
     };
-  }, [value, delay]);
+  }, [level, delay]);
 
-  return <span className="text-green-400 text-xs font-bold skills-level-value">{displayValue}%</span>;
+  useEffect(() => {
+    if (!bootDone) return undefined;
+
+    const min = Math.max(55, level - 3);
+    const max = Math.min(99, level + 2);
+    const timer = window.setInterval(() => {
+      const wobble = Math.round((Math.random() * 4) - 2);
+      setDisplayValue((current) => {
+        const baselinePull = current < level ? 1 : current > level ? -1 : 0;
+        return clamp(level + wobble + baselinePull, min, max);
+      });
+    }, 1650);
+
+    return () => window.clearInterval(timer);
+  }, [bootDone, level]);
+
+  return (
+    <div className="terminal-stagger-reveal skill-row-live" style={{ '--reveal-delay': revealDelay }}>
+      <div className="flex items-center justify-between mb-1">
+        <span className="text-zinc-300 text-xs">[{name}]</span>
+        <span className="text-green-400 text-xs font-bold skills-level-value">{displayValue}%</span>
+      </div>
+      <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden border border-cyan-500/20">
+        <div className="skills-meter-fill skills-meter-live" style={{ '--skill-width': `${displayValue}%` }}></div>
+      </div>
+    </div>
+  );
 };
 
 const Skills = () => {
@@ -110,22 +141,13 @@ const Skills = () => {
                       </div>
                       <div className="space-y-3">
                         {category.skills.map((skill, skillIndex) => (
-                          <div
+                          <SkillMeterRow
                             key={skillIndex}
-                            className="terminal-stagger-reveal"
-                            style={{ '--reveal-delay': `${220 + index * 160 + skillIndex * 90}ms` }}
-                          >
-                            <div className="flex items-center justify-between mb-1">
-                              <span className="text-zinc-300 text-xs">[{skill.name}]</span>
-                              <SkillLevelCounter
-                                value={skill.level}
-                                delay={280 + index * 160 + skillIndex * 110}
-                              />
-                            </div>
-                            <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden border border-cyan-500/20">
-                              <div className="skills-meter-fill" style={{ '--skill-width': `${skill.level}%` }}></div>
-                            </div>
-                          </div>
+                            name={skill.name}
+                            level={skill.level}
+                            delay={280 + index * 160 + skillIndex * 110}
+                            revealDelay={`${220 + index * 160 + skillIndex * 90}ms`}
+                          />
                         ))}
                       </div>
                     </div>

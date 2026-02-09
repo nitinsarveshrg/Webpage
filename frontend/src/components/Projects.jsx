@@ -1,18 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ExternalLink, Github, FolderGit2 } from 'lucide-react';
 import { Badge } from './ui/badge';
 import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
 import TerminalCommand from './TerminalCommand';
 
+const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+const fullBlocks = '▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓';
+
+const seedServers = () => ([
+  { name: 'SERVER-01', load: 96, latency: 14, io: 438 },
+  { name: 'SERVER-02', load: 91, latency: 18, io: 401 },
+  { name: 'SERVER-03', load: 94, latency: 11, io: 452 },
+]);
+
 const Projects = () => {
   const [showContent, setShowContent] = useState(false);
   const [frameExpanded, setFrameExpanded] = useState(false);
-  const serverNodes = [
-    { name: 'SERVER-01', load: 96 },
-    { name: 'SERVER-02', load: 91 },
-    { name: 'SERVER-03', load: 94 },
-  ];
+  const [serverNodes, setServerNodes] = useState(seedServers);
+  const [lastSync, setLastSync] = useState(() => new Date().toLocaleTimeString());
+  const rackCommand = useMemo(() => 'watch -n 2 status/rack-health --live', []);
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setServerNodes((previous) => previous.map((node) => {
+        const load = clamp(node.load + Math.round((Math.random() * 6) - 3), 84, 99);
+        const latency = clamp(node.latency + Math.round((Math.random() * 6) - 3), 8, 28);
+        const io = clamp(node.io + Math.round((Math.random() * 56) - 28), 340, 520);
+        return { ...node, load, latency, io };
+      }));
+      setLastSync(new Date().toLocaleTimeString());
+    }, 1750);
+
+    return () => window.clearInterval(intervalId);
+  }, []);
 
   return (
     <section id="projects" className="portfolio-section bg-zinc-950">
@@ -30,15 +51,18 @@ const Projects = () => {
 
         <div className="terminal-body terminal-overlay">
           <div className="server-rack mb-4 terminal-stagger-reveal" style={{ '--reveal-delay': '70ms' }}>
-            <div className="server-rack-cap">╔══════════════════╗</div>
+            <div className="server-rack-command">
+              <span className="text-cyan-400">$</span> {rackCommand}
+            </div>
+            <div className="server-rack-cap">╔════════════════════════════════════╗</div>
             {serverNodes.map((node, index) => (
               <React.Fragment key={node.name}>
                 <div className="server-rack-line" style={{ '--rack-delay': `${index * 130}ms` }}>
                   <span className="server-rack-glyph">║</span>
                   <span className="server-rack-blocks">
-                    <span className="server-rack-blocks-dim">▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓</span>
+                    <span className="server-rack-blocks-dim">{fullBlocks}</span>
                     <span className="server-rack-blocks-live" style={{ '--rack-load': `${node.load}%` }}>
-                      ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+                      {fullBlocks}
                     </span>
                   </span>
                   <span className="server-rack-glyph">║</span>
@@ -46,10 +70,14 @@ const Projects = () => {
                     {node.name} <span className="server-rack-state">[ACTIVE]</span>
                   </span>
                 </div>
-                {index < serverNodes.length - 1 && <div className="server-rack-divider">╠══════════════════╣</div>}
+                <div className="server-rack-telemetry">
+                  load {node.load}% | latency {node.latency}ms | io {node.io} mb/s
+                </div>
+                {index < serverNodes.length - 1 && <div className="server-rack-divider">╠════════════════════════════════════╣</div>}
               </React.Fragment>
             ))}
-            <div className="server-rack-cap">╚══════════════════╝</div>
+            <div className="server-rack-cap">╚════════════════════════════════════╝</div>
+            <div className="server-rack-sync">last sync: {lastSync}</div>
           </div>
 
           <div className="text-green-400 mb-6">

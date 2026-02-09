@@ -34,16 +34,21 @@ const createSnapshot = () => {
   };
 };
 
-const LiveTopCommand = ({ className = '' }) => {
+const LiveTopCommand = ({
+  className = '',
+  compact = false,
+  command = 'top -l 1 | head -n 7',
+  intervalMs = 1900,
+}) => {
   const [snapshot, setSnapshot] = useState(createSnapshot);
 
   useEffect(() => {
     const id = window.setInterval(() => {
       setSnapshot(createSnapshot());
-    }, 1900);
+    }, intervalMs);
 
     return () => window.clearInterval(id);
-  }, []);
+  }, [intervalMs]);
 
   const lines = [
     `top - ${snapshot.time} up ${snapshot.uptimeHours}h ${snapshot.uptimeMinutes}m, ${snapshot.users} users, load average: ${snapshot.load1}, ${snapshot.load5}, ${snapshot.load15}`,
@@ -51,16 +56,18 @@ const LiveTopCommand = ({ className = '' }) => {
     `%Cpu(s): ${snapshot.cpuUser} us, ${snapshot.cpuSystem} sy, 0.00 ni, ${snapshot.cpuIdle} id`,
     `MiB Mem : 16384 total, ${snapshot.usedMem} used, ${snapshot.freeMem} free`,
   ];
+  const visibleLines = compact ? lines.slice(0, 3) : lines;
 
   return (
-    <div className={`terminal-panel live-top-panel ${className}`}>
+    <div className={`terminal-panel live-top-panel ${compact ? 'live-top-panel-compact' : ''} ${className}`}>
       <div className="live-top-heading">
         <span className="text-cyan-400">$</span>
-        <span className="text-green-400"> top -l 1 | head -n 7</span>
+        <span className="text-green-400"> {command}</span>
+        <span className="live-top-live-chip">LIVE</span>
       </div>
 
       <div className="live-top-screen">
-        {lines.map((line, index) => (
+        {visibleLines.map((line, index) => (
           <div
             key={`${snapshot.tick}-${index}`}
             className="live-top-line terminal-line-enter"
