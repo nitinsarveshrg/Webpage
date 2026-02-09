@@ -42,7 +42,9 @@ const SkillMeterRow = ({ name, level, revealDelay = '0ms', countDelay = 0 }) => 
     <div className="terminal-stagger-reveal skills-row-boot" style={{ '--reveal-delay': revealDelay }}>
       <div className="flex items-center justify-between mb-1">
         <span className="text-zinc-300 text-xs">[{name}]</span>
-        <SkillLevelCounter value={level} delay={countDelay} />
+        <span className="skills-level-chip">
+          <SkillLevelCounter value={level} delay={countDelay} />
+        </span>
       </div>
       <div className="skills-meter-track">
         <div className="skills-meter-fill" style={{ '--skill-width': `${level}%`, '--meter-delay': `${countDelay}ms` }}>
@@ -63,6 +65,14 @@ const Skills = () => {
     { title: 'Programming', skills: portfolioData.skills.programming, icon: Code },
     { title: 'Monitoring', skills: portfolioData.skills.monitoring, icon: Activity },
   ];
+  const allSkills = skillCategories.flatMap((category) => category.skills);
+  const averageLevel = Math.round(allSkills.reduce((sum, skill) => sum + skill.level, 0) / allSkills.length);
+  const strongestCategory = [...skillCategories]
+    .sort((a, b) => {
+      const aAvg = a.skills.reduce((sum, skill) => sum + skill.level, 0) / a.skills.length;
+      const bAvg = b.skills.reduce((sum, skill) => sum + skill.level, 0) / b.skills.length;
+      return bAvg - aAvg;
+    })[0];
 
   return (
     <section id="skills" className="portfolio-section bg-black">
@@ -107,6 +117,25 @@ const Skills = () => {
 
           {showContent && (
             <div className="section-elongate-load">
+              <div className="skills-kpi-grid terminal-stagger-reveal" style={{ '--reveal-delay': '40ms' }}>
+                <div className="skills-kpi-card">
+                  <div className="skills-kpi-label">modules</div>
+                  <div className="skills-kpi-value">{skillCategories.length}</div>
+                </div>
+                <div className="skills-kpi-card">
+                  <div className="skills-kpi-label">skills tracked</div>
+                  <div className="skills-kpi-value">{allSkills.length}</div>
+                </div>
+                <div className="skills-kpi-card">
+                  <div className="skills-kpi-label">avg proficiency</div>
+                  <div className="skills-kpi-value">{averageLevel}%</div>
+                </div>
+                <div className="skills-kpi-card">
+                  <div className="skills-kpi-label">top domain</div>
+                  <div className="skills-kpi-value text-sm">{strongestCategory.title.toUpperCase()}</div>
+                </div>
+              </div>
+
               <div className="skills-live-strip terminal-stagger-reveal" style={{ '--reveal-delay': '60ms' }}>
                 <span className="skills-live-pill">LIVE PROFICIENCY MATRIX</span>
                 <span className="skills-live-pill">AUTO-TUNED</span>
@@ -116,6 +145,9 @@ const Skills = () => {
               <div className="grid md:grid-cols-2 gap-6">
                 {skillCategories.map((category, index) => {
                   const IconComponent = category.icon;
+                  const categoryAverage = Math.round(
+                    category.skills.reduce((sum, skill) => sum + skill.level, 0) / category.skills.length
+                  );
                   return (
                     <div
                       key={index}
@@ -127,9 +159,15 @@ const Skills = () => {
                           <IconComponent size={20} />
                           <span className="text-sm font-bold">&gt; {category.title.toUpperCase()}</span>
                         </div>
-                        <div className="skills-card-status">
-                          <span className="skills-card-status-dot"></span>
-                          <span>SYNCED</span>
+                        <div className="flex items-center gap-3">
+                          <div className="skills-orb" style={{ '--orb-level': `${categoryAverage}%` }}>
+                            <span className="skills-orb-value">{categoryAverage}%</span>
+                            <span className="skills-orb-label">AVG</span>
+                          </div>
+                          <div className="skills-card-status">
+                            <span className="skills-card-status-dot"></span>
+                            <span>SYNCED</span>
+                          </div>
                         </div>
                       </div>
 
