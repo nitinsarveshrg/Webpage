@@ -50,7 +50,7 @@ const Hero = () => {
   };
 
   return (
-    <section id="hero" className="min-h-screen flex items-center justify-center bg-black relative overflow-hidden">
+    <section id="hero" className="min-h-screen snap-start scroll-mt-24 flex items-center justify-center bg-black relative overflow-hidden">
       <MatrixRain />
 
       <div className="max-w-7xl mx-auto px-6 py-20 relative z-10 w-full">

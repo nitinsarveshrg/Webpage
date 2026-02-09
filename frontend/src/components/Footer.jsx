@@ -15,7 +15,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="py-12 bg-black">
+    <footer className="snap-start scroll-mt-24 py-12 bg-black">
       <div className="max-w-7xl mx-auto px-6">
         <div className="terminal-header">
           <div className="flex items-center gap-2">

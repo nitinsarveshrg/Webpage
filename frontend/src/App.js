@@ -14,7 +14,7 @@ import { Toaster } from "./components/ui/toaster";
 
 const Home = () => {
   return (
-    <div className="bg-zinc-950">
+    <div className="bg-zinc-950 snap-y snap-mandatory">
       <Header />
       <Hero />
       <About />
