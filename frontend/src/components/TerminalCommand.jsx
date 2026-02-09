@@ -8,6 +8,7 @@ const TerminalCommand = ({
   className = '',
   outputClassName = 'ml-4 text-zinc-400 text-sm',
   once = true,
+  onCompleteChange,
   children,
 }) => {
   const blockRef = useRef(null);
@@ -43,6 +44,12 @@ const TerminalCommand = ({
       setIsComplete(false);
     }
   }, [once, isInView]);
+
+  useEffect(() => {
+    if (onCompleteChange) {
+      onCompleteChange(isComplete);
+    }
+  }, [isComplete, onCompleteChange]);
 
   const shouldRun = once ? isVisible : isInView;
 
