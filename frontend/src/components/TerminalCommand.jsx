@@ -10,6 +10,7 @@ const TerminalCommand = ({
   outputLines = [],
   outputLineDelay = 420,
   once = true,
+  onRunStart,
   onCompleteChange,
   children,
 }) => {
@@ -35,8 +36,8 @@ const TerminalCommand = ({
         }
       },
       {
-        threshold: 0.35,
-        rootMargin: '0px 0px -10% 0px',
+        threshold: 0.55,
+        rootMargin: '0px 0px -15% 0px',
       }
     );
 
@@ -57,6 +58,7 @@ const TerminalCommand = ({
       setRunId((prev) => prev + 1);
       setCommandDone(false);
       setVisibleOutputCount(0);
+      if (onRunStart) onRunStart();
     }
 
     if (!isInView && wasInViewRef.current) {
@@ -66,7 +68,7 @@ const TerminalCommand = ({
     }
 
     wasInViewRef.current = isInView;
-  }, [once, isInView, isVisible]);
+  }, [once, isInView, isVisible, onRunStart]);
 
   useEffect(() => {
     if (!commandDone || outputLines.length === 0) return undefined;
@@ -82,9 +84,7 @@ const TerminalCommand = ({
   const isComplete = commandDone && (outputLines.length === 0 || visibleOutputCount >= outputLines.length);
 
   useEffect(() => {
-    if (onCompleteChange) {
-      onCompleteChange(isComplete);
-    }
+    if (onCompleteChange && isComplete) onCompleteChange(true);
   }, [isComplete, onCompleteChange]);
 
   const shouldRun = once ? isVisible : isInView;

@@ -29,7 +29,8 @@ const Certifications = () => {
               prompt="root@cloud-devops:~$"
               command="cat /etc/credentials/verified.list"
               once={false}
-              onCompleteChange={setShowContent}
+              onRunStart={() => setShowContent(false)}
+              onCompleteChange={() => setShowContent(true)}
               outputClassName="ml-4 text-zinc-400 text-sm"
               outputLines={[
                 'Reading verified credentials...',

@@ -37,7 +37,8 @@ const About = () => {
               prompt="root@cloud-devops:~$"
               command="whoami"
               once={false}
-              onCompleteChange={setShowContent}
+              onRunStart={() => setShowContent(false)}
+              onCompleteChange={() => setShowContent(true)}
               outputClassName="ml-4 text-zinc-300 text-sm"
               outputLines={['Displaying user information...']}
             />

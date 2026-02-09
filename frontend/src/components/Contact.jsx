@@ -58,7 +58,8 @@ const Contact = () => {
               prompt="root@cloud-devops:~$"
               command="./init_secure_channel.sh"
               once={false}
-              onCompleteChange={setShowContent}
+              onRunStart={() => setShowContent(false)}
+              onCompleteChange={() => setShowContent(true)}
               outputClassName="ml-4 text-zinc-400 text-sm"
               outputLines={[
                 'Establishing encrypted communication...',

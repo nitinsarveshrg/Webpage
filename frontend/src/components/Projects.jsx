@@ -41,7 +41,8 @@ const Projects = () => {
               prompt="root@cloud-devops:~$"
               command="ls -la projects/ --classified"
               once={false}
-              onCompleteChange={setShowContent}
+              onRunStart={() => setShowContent(false)}
+              onCompleteChange={() => setShowContent(true)}
               outputClassName="ml-4 text-zinc-400 text-sm"
               outputLines={[
                 `total ${portfolioData.projects.length}`,
