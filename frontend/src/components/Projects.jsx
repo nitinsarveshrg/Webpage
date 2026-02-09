@@ -40,8 +40,6 @@ const Projects = () => {
               className="mb-1"
               prompt="root@cloud-devops:~$"
               command="ls -la projects/ --classified"
-              once={false}
-              onRunStart={() => setShowContent(false)}
               onCompleteChange={() => setShowContent(true)}
               outputClassName="ml-4 text-zinc-400 text-sm"
               outputLines={[

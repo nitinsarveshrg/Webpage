@@ -34,8 +34,6 @@ const Skills = () => {
               className="mb-1"
               prompt="root@cloud-devops:~$"
               command="./analyze_skills.sh --verbose"
-              once={false}
-              onRunStart={() => setShowContent(false)}
               onCompleteChange={() => setShowContent(true)}
               outputClassName="ml-4 text-zinc-400 text-sm"
               outputLines={[

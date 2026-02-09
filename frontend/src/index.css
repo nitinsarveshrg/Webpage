@@ -62,16 +62,19 @@ code {
 @keyframes terminal-line-enter {
     from {
         opacity: 0;
-        transform: translateY(4px);
+        transform: translateY(8px);
+        filter: blur(2px);
     }
     to {
         opacity: 1;
         transform: translateY(0);
+        filter: blur(0);
     }
 }
 
 .terminal-line-enter {
-    animation: terminal-line-enter 0.34s ease-out;
+    animation: terminal-line-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform, filter;
 }
 
 @keyframes terminal-flicker {

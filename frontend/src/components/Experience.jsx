@@ -27,8 +27,6 @@ const Experience = () => {
               className="mb-1"
               prompt="root@cloud-devops:~$"
               command="cat career.log | tail -n 20"
-              once={false}
-              onRunStart={() => setShowContent(false)}
               onCompleteChange={() => setShowContent(true)}
               outputClassName="ml-4 text-zinc-400 text-sm"
               outputLines={['Loading employment history...']}

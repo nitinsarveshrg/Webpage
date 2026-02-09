@@ -4,11 +4,11 @@ import TypingEffect from './TypingEffect';
 const TerminalCommand = ({
   prompt = 'root@cloud-devops:~$',
   command,
-  speed = 42,
+  speed = 50,
   className = '',
   outputClassName = 'ml-4 text-zinc-400 text-sm',
   outputLines = [],
-  outputLineDelay = 680,
+  outputLineDelay = 820,
   once = true,
   onRunStart,
   onCompleteChange,

@@ -85,7 +85,6 @@ const Footer = () => {
                 outputClassName=""
                 prompt="root@cloud-devops:~$"
                 command={`echo "Built with React + FastAPI"`}
-                once={false}
                 outputLines={['Built with React + FastAPI']}
               />
             </div>
