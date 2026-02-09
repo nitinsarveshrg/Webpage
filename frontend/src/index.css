@@ -23,12 +23,25 @@ code {
         @apply snap-start relative overflow-hidden flex items-start;
         scroll-snap-stop: always;
         min-height: 100svh;
-        padding-top: 5.5rem;
-        padding-bottom: 1.5rem;
+        padding-top: 1.25rem;
+        padding-bottom: 1rem;
     }
 
     .portfolio-section .terminal-body {
         min-height: clamp(520px, 64vh, 760px);
+    }
+
+    .section-frame-preroll {
+        transform: scale(0.9);
+        opacity: 0.92;
+        filter: blur(1px);
+        transform-origin: center center;
+    }
+
+    .section-frame-grow {
+        animation: section-frame-grow 0.92s cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+        transform-origin: center center;
+        will-change: transform, opacity, filter;
     }
 
     .section-elongate-load {
@@ -104,6 +117,24 @@ code {
     100% {
         opacity: 1;
         transform: translateY(0) scaleY(1) scaleX(1);
+        filter: blur(0);
+    }
+}
+
+@keyframes section-frame-grow {
+    0% {
+        transform: scale(0.9);
+        opacity: 0.92;
+        filter: blur(1px);
+    }
+    62% {
+        transform: scale(1.025);
+        opacity: 1;
+        filter: blur(0);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
         filter: blur(0);
     }
 }
