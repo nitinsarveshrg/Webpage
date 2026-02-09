@@ -4,28 +4,13 @@ import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
 import TerminalCommand from './TerminalCommand';
 
-const SkillPulseSignal = ({ delayStep = 0 }) => (
-  <span className="skills-signal">
-    {[0, 1, 2, 3, 4].map((bar) => (
-      <span
-        key={bar}
-        className="skills-signal-bar"
-        style={{ '--signal-delay': `${delayStep + bar * 120}ms` }}
-      />
-    ))}
-  </span>
-);
-
-const SkillMeterRow = ({ name, level, revealDelay = '0ms', signalDelay = 0 }) => {
+const SkillMeterRow = ({ name, level, revealDelay = '0ms' }) => {
 
   return (
     <div className="terminal-stagger-reveal" style={{ '--reveal-delay': revealDelay }}>
       <div className="flex items-center justify-between mb-1">
         <span className="text-zinc-300 text-xs">[{name}]</span>
-        <div className="flex items-center gap-2">
-          <span className="text-green-400 text-xs font-bold skills-level-value">{level}%</span>
-          <SkillPulseSignal delayStep={signalDelay} />
-        </div>
+        <span className="text-green-400 text-xs font-bold skills-level-value">{level}%</span>
       </div>
       <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden border border-cyan-500/20">
         <div className="skills-meter-fill" style={{ '--skill-width': `${level}%` }}></div>
@@ -68,6 +53,8 @@ const Skills = () => {
               onRunStart={() => setFrameExpanded(true)}
               onCompleteChange={() => setShowContent(true)}
               outputClassName="ml-4 text-zinc-400 text-sm"
+              triggerThreshold={0.78}
+              triggerRootMargin="-10% 0px -18% 0px"
             >
               <div className="skills-command-stream">
                 <div className="skills-command-line">Scanning technical capabilities...</div>
@@ -104,7 +91,6 @@ const Skills = () => {
                       <div className="flex items-center gap-2 mb-4 text-cyan-400">
                         <IconComponent size={20} />
                         <span className="text-sm font-bold">&gt; {category.title.toUpperCase()}</span>
-                        <span className="skills-live-dot" />
                       </div>
                       <div className="space-y-3">
                         {category.skills.map((skill, skillIndex) => (
@@ -113,7 +99,6 @@ const Skills = () => {
                             name={skill.name}
                             level={skill.level}
                             revealDelay={`${220 + index * 160 + skillIndex * 90}ms`}
-                            signalDelay={index * 180 + skillIndex * 120}
                           />
                         ))}
                       </div>

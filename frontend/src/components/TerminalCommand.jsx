@@ -10,6 +10,8 @@ const TerminalCommand = ({
   outputLines = [],
   outputLineDelay = 820,
   once = true,
+  triggerThreshold = 0.56,
+  triggerRootMargin = '-6% 0px -12% 0px',
   onRunStart,
   onCompleteChange,
   children,
@@ -37,14 +39,14 @@ const TerminalCommand = ({
         }
       },
       {
-        threshold: 0.56,
-        rootMargin: '-6% 0px -12% 0px',
+        threshold: triggerThreshold,
+        rootMargin: triggerRootMargin,
       }
     );
 
     observer.observe(node);
     return () => observer.disconnect();
-  }, []);
+  }, [triggerThreshold, triggerRootMargin]);
 
   useEffect(() => {
     if (once) {

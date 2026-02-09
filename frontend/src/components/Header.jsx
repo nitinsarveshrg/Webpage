@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Menu, X, Terminal } from 'lucide-react';
-import { portfolioData } from '../mock';
 import { scrollToSectionById } from '../lib/sectionScroll';
+
+const randomFloat = (min, max) => (Math.random() * (max - min) + min).toFixed(2);
+const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+const createMonitorSnapshot = () => ({
+  cpu: randomInt(22, 67),
+  memory: randomInt(46, 82),
+  load: randomFloat(0.42, 1.58),
+});
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [monitor, setMonitor] = useState(createMonitorSnapshot);
   const navLinkClass =
     'text-zinc-400 hover:text-cyan-300 transition-all duration-200 px-3 py-1 rounded-md border border-transparent hover:border-cyan-500/35 hover:bg-cyan-500/10';
 
@@ -16,6 +25,14 @@ const Header = () => {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setMonitor(createMonitorSnapshot());
+    }, 1700);
+
+    return () => window.clearInterval(id);
   }, []);
 
   const scrollToSection = (sectionId) => {
@@ -98,6 +115,29 @@ const Header = () => {
           >
             {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
+        </div>
+
+        <div className="mt-3 rounded-md border border-cyan-500/25 bg-zinc-950/70 px-3 py-1.5 text-[11px]">
+          <div className="hidden md:flex items-center justify-between gap-3">
+            <div className="text-zinc-300 truncate">
+              <span className="text-cyan-400">$</span> <span className="text-green-400">top -l 1 | monitor --live --summary</span>
+            </div>
+            <div className="flex items-center gap-3 text-zinc-300">
+              <span className="inline-flex items-center gap-1 uppercase tracking-wider text-[10px] text-green-400">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                live
+              </span>
+              <span>CPU {monitor.cpu}%</span>
+              <span>MEM {monitor.memory}%</span>
+              <span>LOAD {monitor.load}</span>
+            </div>
+          </div>
+
+          <div className="flex md:hidden items-center justify-between gap-2 text-zinc-300">
+            <span className="text-cyan-400">$ top --live</span>
+            <span>CPU {monitor.cpu}%</span>
+            <span>MEM {monitor.memory}%</span>
+          </div>
         </div>
 
         {/* Mobile Navigation */}

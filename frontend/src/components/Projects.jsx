@@ -4,7 +4,6 @@ import { Badge } from './ui/badge';
 import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
 import TerminalCommand from './TerminalCommand';
-import LiveTopCommand from './LiveTopCommand';
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const fullBlocks = '▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓';
@@ -51,13 +50,6 @@ const Projects = () => {
         </div>
 
         <div className="terminal-body terminal-overlay">
-          <LiveTopCommand
-            compact
-            intervalMs={1600}
-            command="top -o cpu -l 1 | head -n 8"
-            className="mb-4 terminal-stagger-reveal"
-          />
-
           <div className="server-rack mb-4 terminal-stagger-reveal" style={{ '--reveal-delay': '70ms' }}>
             <div className="server-rack-command">
               <span className="text-cyan-400">$</span> {rackCommand}

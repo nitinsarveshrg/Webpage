@@ -4,7 +4,6 @@ import { Terminal, ChevronDown } from 'lucide-react';
 import { portfolioData } from '../mock';
 import TypingEffect from './TypingEffect';
 import MatrixRain from './MatrixRain';
-import LiveTopCommand from './LiveTopCommand';
 import { scrollToSectionById } from '../lib/sectionScroll';
 
 const bootMessages = [
@@ -105,12 +104,6 @@ const Hero = () => {
             <div className="terminal-flicker" />
           </div>
         </div>
-
-        {showContent && heroRevealStep >= 1 && (
-          <div className="max-w-3xl mx-auto mb-8 text-left hero-block-reveal">
-            <LiveTopCommand compact intervalMs={1700} command="watch -n 2 top -l 1 | head -n 6" />
-          </div>
-        )}
 
         {showContent && (
           <div className="text-center space-y-8 section-elongate-load">
