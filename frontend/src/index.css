@@ -10,7 +10,12 @@ body {
         sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: radial-gradient(circle at 15% 15%, #062f3b 0%, #05080c 30%, #020304 100%);
+    background:
+        radial-gradient(circle at 12% 12%, rgba(8, 145, 178, 0.22) 0%, rgba(2, 6, 23, 0) 34%),
+        radial-gradient(circle at 88% 18%, rgba(37, 99, 235, 0.18) 0%, rgba(2, 6, 23, 0) 38%),
+        linear-gradient(160deg, #02060b 0%, #03080f 46%, #02050a 100%);
+    background-size: 140% 140%, 140% 140%, 100% 100%;
+    animation: ambient-shift 18s ease-in-out infinite alternate;
 }
 
 code {
@@ -25,6 +30,16 @@ code {
         min-height: 100svh;
         padding-top: 0.5rem;
         padding-bottom: 0.75rem;
+    }
+
+    .portfolio-section::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+            radial-gradient(circle at 50% 0%, rgba(34, 211, 238, 0.1), transparent 56%),
+            linear-gradient(to bottom, rgba(34, 211, 238, 0.04), transparent 22%);
     }
 
     .portfolio-section > .section-shell {
@@ -61,19 +76,173 @@ code {
     }
 
     .terminal-header {
-        @apply bg-zinc-900 border-2 border-cyan-500/50 rounded-t-lg p-3 mb-0 font-mono;
+        @apply relative bg-zinc-900 border-2 border-cyan-500/50 rounded-t-lg p-3 mb-0 font-mono;
+        background:
+            linear-gradient(90deg, rgba(7, 14, 25, 0.95) 0%, rgba(13, 18, 30, 0.95) 54%, rgba(7, 14, 25, 0.95) 100%);
+        box-shadow: 0 0 24px rgba(34, 211, 238, 0.08);
+        overflow: hidden;
+    }
+
+    .terminal-header::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -140%;
+        width: 140%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent 0%, rgba(34, 211, 238, 0.9) 55%, transparent 100%);
+        animation: terminal-header-scan 5s linear infinite;
     }
 
     .terminal-body {
         @apply relative bg-black/90 border-2 border-t-0 border-cyan-500/50 rounded-b-lg p-8 font-mono;
+        box-shadow:
+            inset 0 0 0 1px rgba(34, 211, 238, 0.08),
+            0 12px 40px rgba(2, 8, 23, 0.6),
+            0 0 26px rgba(34, 211, 238, 0.08);
     }
 
     .terminal-panel {
-        @apply bg-zinc-900/50 border border-cyan-500/30 rounded p-4 transition-all duration-300;
+        @apply relative bg-zinc-900/50 border border-cyan-500/30 rounded p-4 transition-all duration-300;
+        background: linear-gradient(160deg, rgba(9, 14, 24, 0.78), rgba(5, 9, 15, 0.58));
+        box-shadow: 0 4px 18px rgba(2, 8, 23, 0.35);
+        overflow: hidden;
+    }
+
+    .terminal-panel::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        border-radius: inherit;
+        border: 1px solid rgba(34, 211, 238, 0.07);
+    }
+
+    .terminal-panel:hover {
+        transform: translateY(-3px);
+        border-color: rgba(34, 211, 238, 0.65);
+        box-shadow:
+            0 0 0 1px rgba(34, 211, 238, 0.2),
+            0 14px 30px rgba(8, 47, 73, 0.28);
     }
 
     .terminal-icon {
         @apply bg-zinc-900/50 border border-cyan-500/30 rounded transition-all duration-300;
+    }
+
+    .skills-command-stream {
+        display: grid;
+        gap: 0.35rem;
+    }
+
+    .skills-command-line {
+        color: #a1a1aa;
+        letter-spacing: 0.03em;
+        animation: skills-command-fade 0.55s ease-out both;
+    }
+
+    .skills-command-progress-wrap {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        animation: skills-command-fade 0.7s ease-out both;
+    }
+
+    .skills-command-progress-fill {
+        height: 0.75rem;
+        width: min(18rem, 62vw);
+        border-radius: 9999px;
+        border: 1px solid rgba(34, 211, 238, 0.25);
+        background:
+            linear-gradient(
+                90deg,
+                rgba(34, 211, 238, 0.95) 0%,
+                rgba(74, 222, 128, 0.95) 76%,
+                rgba(39, 39, 42, 0.6) 76%
+            );
+        position: relative;
+        overflow: hidden;
+    }
+
+    .skills-command-progress-fill::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.32) 48%, transparent 100%);
+        animation: skills-progress-sweep 2s linear infinite;
+    }
+
+    .skills-command-done {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        color: #a1a1aa;
+        animation: skills-command-fade 0.85s ease-out both;
+    }
+
+    .skills-command-ping {
+        width: 0.46rem;
+        height: 0.46rem;
+        border-radius: 9999px;
+        background: #4ade80;
+        box-shadow: 0 0 12px rgba(74, 222, 128, 0.75);
+        animation: skills-ping 1.4s ease-in-out infinite;
+    }
+
+    .skills-live-strip {
+        display: flex;
+        gap: 0.55rem;
+        flex-wrap: wrap;
+        margin-bottom: 0.8rem;
+    }
+
+    .skills-live-pill {
+        font-size: 0.62rem;
+        letter-spacing: 0.08em;
+        color: #22d3ee;
+        border: 1px solid rgba(34, 211, 238, 0.35);
+        border-radius: 9999px;
+        background: rgba(8, 47, 73, 0.28);
+        padding: 0.24rem 0.52rem;
+        text-transform: uppercase;
+    }
+
+    .skills-panel {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .skills-panel::after {
+        content: "";
+        position: absolute;
+        left: -130%;
+        top: 0;
+        width: 130%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent 0%, rgba(34, 211, 238, 0.9) 55%, transparent 100%);
+        animation: skills-panel-scan 2.8s linear infinite;
+    }
+
+    .skills-meter-fill {
+        height: 100%;
+        width: var(--skill-width);
+        background: linear-gradient(90deg, #22d3ee 0%, #2dd4bf 45%, #4ade80 100%);
+        position: relative;
+        transform-origin: left center;
+        animation: skills-meter-boot 0.95s cubic-bezier(0.2, 0.9, 0.2, 1) both;
+        box-shadow: 0 0 12px rgba(34, 211, 238, 0.22);
+    }
+
+    .skills-meter-fill::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.25) 52%, transparent 100%);
+        animation: skills-progress-sweep 2.2s linear infinite;
+    }
+
+    .skills-level-value {
+        text-shadow: 0 0 7px rgba(74, 222, 128, 0.4);
     }
 
     .terminal-overlay::before {
@@ -108,6 +277,76 @@ code {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes ambient-shift {
+    0% {
+        background-position: 0% 0%, 100% 0%, 50% 50%;
+    }
+    100% {
+        background-position: 25% 18%, 76% 20%, 50% 50%;
+    }
+}
+
+@keyframes skills-command-fade {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes skills-progress-sweep {
+    0% {
+        transform: translateX(-120%);
+    }
+    100% {
+        transform: translateX(120%);
+    }
+}
+
+@keyframes skills-meter-boot {
+    from {
+        transform: scaleX(0.05);
+        opacity: 0.7;
+    }
+    to {
+        transform: scaleX(1);
+        opacity: 1;
+    }
+}
+
+@keyframes skills-panel-scan {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(190%);
+    }
+}
+
+@keyframes skills-ping {
+    0%,
+    100% {
+        opacity: 0.6;
+        transform: scale(0.9);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.15);
+    }
+}
+
+@keyframes terminal-header-scan {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(230%);
     }
 }
 

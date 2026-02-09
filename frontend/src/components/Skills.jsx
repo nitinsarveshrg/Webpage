@@ -38,23 +38,37 @@ const Skills = () => {
               onRunStart={() => setFrameExpanded(true)}
               onCompleteChange={() => setShowContent(true)}
               outputClassName="ml-4 text-zinc-400 text-sm"
-              outputLines={[
-                'Scanning technical capabilities...',
-                '█████████████████░░░ 89% Complete',
-                '[✓] Skill analysis complete',
-              ]}
-            />
+            >
+              <div className="skills-command-stream">
+                <div className="skills-command-line">Scanning technical capabilities...</div>
+                <div className="skills-command-progress-wrap">
+                  <div className="skills-command-progress-fill"></div>
+                  <span className="text-zinc-300 text-xs">89% Complete</span>
+                </div>
+                <div className="skills-command-done">
+                  <span className="text-green-400">[✓]</span>
+                  <span>Skill analysis complete</span>
+                  <span className="skills-command-ping"></span>
+                </div>
+              </div>
+            </TerminalCommand>
           </div>
 
           {showContent && (
             <div className="section-elongate-load">
+              <div className="skills-live-strip terminal-stagger-reveal" style={{ '--reveal-delay': '60ms' }}>
+                <span className="skills-live-pill">LIVE PROFICIENCY MATRIX</span>
+                <span className="skills-live-pill">AUTO-TUNED</span>
+                <span className="skills-live-pill">ZERO DOWNTIME</span>
+              </div>
+
               <div className="grid md:grid-cols-2 gap-6">
                 {skillCategories.map((category, index) => {
                   const IconComponent = category.icon;
                   return (
                     <div
                       key={index}
-                      className="terminal-panel terminal-stagger-reveal"
+                      className="terminal-panel skills-panel terminal-stagger-reveal"
                       style={{ '--reveal-delay': `${120 + index * 160}ms` }}
                     >
                       <div className="flex items-center gap-2 mb-4 text-cyan-400">
@@ -70,10 +84,10 @@ const Skills = () => {
                           >
                             <div className="flex items-center justify-between mb-1">
                               <span className="text-zinc-300 text-xs">[{skill.name}]</span>
-                              <span className="text-green-400 text-xs font-bold">{skill.level}%</span>
+                              <span className="text-green-400 text-xs font-bold skills-level-value">{skill.level}%</span>
                             </div>
                             <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden border border-cyan-500/20">
-                              <div className="h-full bg-gradient-to-r from-cyan-500 to-green-500" style={{ width: `${skill.level}%` }}></div>
+                              <div className="skills-meter-fill" style={{ '--skill-width': `${skill.level}%` }}></div>
                             </div>
                           </div>
                         ))}
