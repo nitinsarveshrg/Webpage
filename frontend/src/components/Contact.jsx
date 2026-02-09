@@ -146,11 +146,11 @@ const Contact = () => {
                   <div className="terminal-panel space-y-4">
                     <a
                       href={`mailto:${portfolioData.personal.email}`}
-                      className="flex items-center gap-3 text-zinc-300 hover:text-cyan-400 transition-colors group terminal-stagger-reveal"
+                      className="flex items-center gap-3 text-zinc-300 hover:text-[#EA4335] transition-colors group terminal-stagger-reveal"
                       style={{ '--reveal-delay': '220ms' }}
                     >
-                      <Mail className="text-cyan-400" size={16} />
-                      <div className="text-xs"><div className="text-zinc-500">EMAIL:</div><div className="group-hover:text-cyan-400">{portfolioData.personal.email}</div></div>
+                      <Mail className="text-cyan-400 group-hover:text-[#EA4335] transition-colors" size={16} />
+                      <div className="text-xs"><div className="text-zinc-500">EMAIL:</div><div className="group-hover:text-[#EA4335] transition-colors">{portfolioData.personal.email}</div></div>
                     </a>
 
                     <a
@@ -175,7 +175,7 @@ const Contact = () => {
                         href={portfolioData.personal.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 terminal-panel hover:border-cyan-500 text-zinc-300 hover:text-cyan-400 text-xs terminal-stagger-reveal"
+                        className="flex items-center justify-center gap-2 terminal-panel hover:border-[#0A66C2]/80 text-zinc-300 hover:text-[#0A66C2] text-xs terminal-stagger-reveal transition-colors"
                         style={{ '--reveal-delay': '520ms' }}
                       >
                         <Linkedin size={14} />
@@ -185,7 +185,7 @@ const Contact = () => {
                         href={portfolioData.personal.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 terminal-panel hover:border-cyan-500 text-zinc-300 hover:text-cyan-400 text-xs terminal-stagger-reveal"
+                        className="flex items-center justify-center gap-2 terminal-panel hover:border-white/70 text-zinc-300 hover:text-white text-xs terminal-stagger-reveal transition-colors"
                         style={{ '--reveal-delay': '620ms' }}
                       >
                         <Github size={14} />

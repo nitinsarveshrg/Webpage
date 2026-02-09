@@ -53,7 +53,7 @@ const Footer = () => {
                   href={portfolioData.personal.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 terminal-icon flex items-center justify-center text-zinc-300 hover:text-cyan-400 hover:border-cyan-500"
+                  className="w-10 h-10 terminal-icon flex items-center justify-center text-zinc-300 hover:text-[#0A66C2] hover:border-[#0A66C2]/80 transition-colors"
                 >
                   <Linkedin size={18} />
                 </a>
@@ -61,13 +61,13 @@ const Footer = () => {
                   href={portfolioData.personal.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 terminal-icon flex items-center justify-center text-zinc-300 hover:text-cyan-400 hover:border-cyan-500"
+                  className="w-10 h-10 terminal-icon flex items-center justify-center text-zinc-300 hover:text-white hover:border-white/70 transition-colors"
                 >
                   <Github size={18} />
                 </a>
                 <a
                   href={`mailto:${portfolioData.personal.email}`}
-                  className="w-10 h-10 terminal-icon flex items-center justify-center text-zinc-300 hover:text-cyan-400 hover:border-cyan-500"
+                  className="w-10 h-10 terminal-icon flex items-center justify-center text-zinc-300 hover:text-[#EA4335] hover:border-[#EA4335]/80 transition-colors"
                 >
                   <Mail size={18} />
                 </a>
@@ -82,8 +82,8 @@ const Footer = () => {
                 className="mb-0"
                 outputClassName=""
                 prompt="root@cloud-devops:~$"
-                command={`echo "Built with React + FastAPI"`}
-                outputLines={['Built with React + FastAPI']}
+                command="cat stack.txt"
+                outputLines={['React + FastAPI']}
               />
             </div>
           </div>

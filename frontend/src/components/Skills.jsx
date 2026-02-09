@@ -66,7 +66,6 @@ const Skills = () => {
     { title: 'Monitoring', skills: portfolioData.skills.monitoring, icon: Activity },
   ];
   const allSkills = skillCategories.flatMap((category) => category.skills);
-  const averageLevel = Math.round(allSkills.reduce((sum, skill) => sum + skill.level, 0) / allSkills.length);
 
   return (
     <section id="skills" className="portfolio-section bg-black">
@@ -111,25 +110,13 @@ const Skills = () => {
 
           {showContent && (
             <div className="section-elongate-load">
-              <div className="skills-command-summary terminal-stagger-reveal" style={{ '--reveal-delay': '40ms' }}>
-                <div className="skills-summary-chip">
-                  <span className="skills-summary-key">MATRIX</span>
-                  <span className="skills-summary-value">LIVE PROFICIENCY MAP</span>
+              <div className="skills-topbar terminal-stagger-reveal" style={{ '--reveal-delay': '40ms' }}>
+                <div className="skills-top-title">LIVE PROFICIENCY CONSOLE</div>
+                <div className="skills-top-tags">
+                  <span className="skills-top-tag">{allSkills.length} SKILLS TRACKED</span>
+                  <span className="skills-top-tag">AUTO-TUNED</span>
+                  <span className="skills-top-tag">ZERO DOWNTIME</span>
                 </div>
-                <div className="skills-summary-chip">
-                  <span className="skills-summary-key">SKILLS</span>
-                  <span className="skills-summary-value">{allSkills.length} TRACKED</span>
-                </div>
-                <div className="skills-summary-chip">
-                  <span className="skills-summary-key">AVG</span>
-                  <span className="skills-summary-value">{averageLevel}%</span>
-                </div>
-              </div>
-
-              <div className="skills-live-strip terminal-stagger-reveal" style={{ '--reveal-delay': '60ms' }}>
-                <span className="skills-live-pill">LIVE PROFICIENCY MATRIX</span>
-                <span className="skills-live-pill">AUTO-TUNED</span>
-                <span className="skills-live-pill">ZERO DOWNTIME</span>
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
