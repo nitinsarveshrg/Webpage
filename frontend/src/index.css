@@ -21,7 +21,7 @@ code {
 @layer components {
     .portfolio-section {
         @apply snap-start relative overflow-hidden flex items-center;
-        scroll-snap-stop: always;
+        scroll-snap-stop: normal;
         min-height: 100svh;
         padding-top: 0.75rem;
         padding-bottom: 0.75rem;
