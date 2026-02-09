@@ -61,7 +61,9 @@ const Hero = () => {
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      const headerOffset = 92;
+      const y = element.getBoundingClientRect().top + window.scrollY - headerOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
 
