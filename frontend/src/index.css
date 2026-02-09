@@ -57,6 +57,20 @@ code {
         min-height: clamp(520px, 64vh, 760px);
     }
 
+    #about.portfolio-section {
+        min-height: auto;
+        padding-bottom: 0.35rem;
+    }
+
+    #about > .section-shell {
+        min-height: auto;
+    }
+
+    #about .terminal-body {
+        min-height: 0;
+        flex: 0 0 auto;
+    }
+
     .section-frame-preroll {
         transform: scale(0.9);
         opacity: 0.92;
@@ -124,6 +138,67 @@ code {
         box-shadow:
             0 0 0 1px rgba(34, 211, 238, 0.2),
             0 14px 30px rgba(8, 47, 73, 0.28);
+    }
+
+    .live-top-panel {
+        border-color: rgba(34, 211, 238, 0.42);
+        background: linear-gradient(160deg, rgba(8, 13, 22, 0.86), rgba(3, 7, 12, 0.82));
+    }
+
+    .live-top-heading {
+        font-size: 0.78rem;
+        margin-bottom: 0.55rem;
+    }
+
+    .live-top-screen {
+        display: grid;
+        gap: 0.22rem;
+        font-size: 0.72rem;
+        line-height: 1.4;
+        color: #d4d4d8;
+        border: 1px solid rgba(34, 211, 238, 0.2);
+        border-radius: 0.45rem;
+        background: rgba(2, 6, 23, 0.52);
+        padding: 0.55rem 0.65rem;
+        margin-bottom: 0.65rem;
+    }
+
+    .live-top-line {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .live-top-meters {
+        display: grid;
+        gap: 0.45rem;
+    }
+
+    .live-top-meter-label {
+        display: flex;
+        justify-content: space-between;
+        color: #a1a1aa;
+        font-size: 0.67rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 0.2rem;
+    }
+
+    .live-top-meter-track {
+        height: 0.38rem;
+        border: 1px solid rgba(34, 211, 238, 0.24);
+        border-radius: 9999px;
+        background: rgba(39, 39, 42, 0.55);
+        overflow: hidden;
+    }
+
+    .live-top-meter-fill {
+        width: var(--meter-width);
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #22d3ee 0%, #2dd4bf 45%, #4ade80 100%);
+        transition: width 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+        box-shadow: 0 0 8px rgba(34, 211, 238, 0.42);
     }
 
     .terminal-icon {
