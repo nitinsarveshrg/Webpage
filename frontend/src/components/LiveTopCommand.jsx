@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const randomFloat = (min, max) => (Math.random() * (max - min) + min).toFixed(2);
+const processTemplates = ['node', 'kubelet', 'docker', 'terraform', 'argocd', 'prometheus', 'grafana', 'nginx'];
 
 const createSnapshot = () => {
   const cpuUser = Number(randomFloat(12, 30));
@@ -11,6 +12,12 @@ const createSnapshot = () => {
   const totalMem = 16384;
   const usedMem = randomInt(8200, 13200);
   const freeMem = totalMem - usedMem;
+  const processes = [0, 1, 2].map((index) => ({
+    pid: randomInt(100 + index * 60, 999 + index * 60),
+    command: processTemplates[randomInt(0, processTemplates.length - 1)],
+    cpu: randomFloat(2.1, 22.8),
+    mem: randomFloat(1.2, 12.5),
+  }));
 
   return {
     tick: Date.now(),
@@ -31,6 +38,7 @@ const createSnapshot = () => {
     freeMem,
     cpuUsed: Math.round(cpuUser + cpuSystem),
     memUsed: Math.round((usedMem / totalMem) * 100),
+    processes,
   };
 };
 
@@ -57,6 +65,7 @@ const LiveTopCommand = ({
     `MiB Mem : 16384 total, ${snapshot.usedMem} used, ${snapshot.freeMem} free`,
   ];
   const visibleLines = compact ? lines.slice(0, 3) : lines;
+  const visibleProcesses = compact ? snapshot.processes.slice(0, 2) : snapshot.processes;
 
   return (
     <div className={`terminal-panel live-top-panel ${compact ? 'live-top-panel-compact' : ''} ${className}`}>
@@ -74,6 +83,15 @@ const LiveTopCommand = ({
             style={{ animationDelay: `${index * 90}ms` }}
           >
             {line}
+          </div>
+        ))}
+      </div>
+
+      <div className="live-top-processes">
+        <div className="live-top-process-title">pid   command       cpu%   mem%</div>
+        {visibleProcesses.map((proc, index) => (
+          <div key={`${snapshot.tick}-${proc.pid}-${index}`} className="live-top-process-row terminal-line-enter">
+            {String(proc.pid).padEnd(5, ' ')} {proc.command.padEnd(12, ' ')} {proc.cpu.padStart(5, ' ')} {proc.mem.padStart(6, ' ')}
           </div>
         ))}
       </div>

@@ -185,6 +185,30 @@ code {
         text-overflow: ellipsis;
     }
 
+    .live-top-processes {
+        margin-bottom: 0.58rem;
+        border: 1px solid rgba(34, 211, 238, 0.16);
+        border-radius: 0.42rem;
+        background: rgba(2, 6, 23, 0.44);
+        padding: 0.4rem 0.58rem;
+        font-size: 0.66rem;
+        color: #a1a1aa;
+        display: grid;
+        gap: 0.18rem;
+    }
+
+    .live-top-process-title {
+        color: rgba(34, 211, 238, 0.82);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-size: 0.6rem;
+    }
+
+    .live-top-process-row {
+        color: #d4d4d8;
+        white-space: pre;
+    }
+
     .live-top-meters {
         display: grid;
         gap: 0.45rem;
@@ -221,6 +245,12 @@ code {
         font-size: 0.68rem;
         line-height: 1.3;
         margin-bottom: 0.5rem;
+    }
+
+    .live-top-panel-compact .live-top-processes {
+        font-size: 0.62rem;
+        margin-bottom: 0.5rem;
+        padding: 0.34rem 0.5rem;
     }
 
     .live-top-panel-compact .live-top-meter-track {
@@ -308,6 +338,15 @@ code {
         text-transform: uppercase;
     }
 
+    .skills-live-dot {
+        width: 0.42rem;
+        height: 0.42rem;
+        border-radius: 9999px;
+        background: #4ade80;
+        box-shadow: 0 0 10px rgba(74, 222, 128, 0.8);
+        animation: skills-ping 1.45s ease-in-out infinite;
+    }
+
     .skills-panel {
         position: relative;
         overflow: hidden;
@@ -342,18 +381,29 @@ code {
         animation: skills-progress-sweep 2.2s linear infinite;
     }
 
-    .skills-meter-live {
-        transition: width 1.05s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    .skill-row-live {
-        will-change: transform, opacity;
-    }
-
     .skills-level-value {
         text-shadow: 0 0 7px rgba(74, 222, 128, 0.4);
         animation: skills-level-pulse 1.1s ease-out both;
         transition: color 0.4s ease;
+    }
+
+    .skills-signal {
+        display: inline-flex;
+        align-items: flex-end;
+        gap: 2px;
+        height: 0.62rem;
+        min-width: 0.9rem;
+    }
+
+    .skills-signal-bar {
+        width: 2px;
+        height: 100%;
+        border-radius: 9999px;
+        background: linear-gradient(to top, #22d3ee, #4ade80);
+        transform-origin: bottom center;
+        animation: skills-signal-wave 1.35s ease-in-out infinite;
+        animation-delay: var(--signal-delay, 0ms);
+        box-shadow: 0 0 6px rgba(34, 211, 238, 0.35);
     }
 
     .server-rack {
@@ -575,6 +625,18 @@ code {
     }
     100% {
         transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes skills-signal-wave {
+    0%,
+    100% {
+        transform: scaleY(0.45);
+        opacity: 0.58;
+    }
+    50% {
+        transform: scaleY(1);
         opacity: 1;
     }
 }

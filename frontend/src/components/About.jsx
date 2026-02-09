@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
 import TerminalCommand from './TerminalCommand';
-import LiveTopCommand from './LiveTopCommand';
 
 const About = () => {
   const [showContent, setShowContent] = useState(false);
@@ -80,10 +79,6 @@ const About = () => {
                 <ScrollTypingLine prompt="$" text={`echo "Profile loaded successfully"`} speed={24} />
                 <div className="ml-4">Profile loaded successfully</div>
                 <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>
-              </div>
-
-              <div className="mt-6 terminal-stagger-reveal" style={{ '--reveal-delay': '680ms' }}>
-                <LiveTopCommand />
               </div>
             </div>
           )}

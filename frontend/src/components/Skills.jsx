@@ -1,68 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Cloud, Container, Code, Activity } from 'lucide-react';
 import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
 import TerminalCommand from './TerminalCommand';
 
-const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+const SkillPulseSignal = ({ delayStep = 0 }) => (
+  <span className="skills-signal">
+    {[0, 1, 2, 3, 4].map((bar) => (
+      <span
+        key={bar}
+        className="skills-signal-bar"
+        style={{ '--signal-delay': `${delayStep + bar * 120}ms` }}
+      />
+    ))}
+  </span>
+);
 
-const SkillMeterRow = ({ name, level, delay = 0, revealDelay = '0ms' }) => {
-  const [displayValue, setDisplayValue] = useState(0);
-  const [bootDone, setBootDone] = useState(false);
-
-  useEffect(() => {
-    let rafId = null;
-    let timeoutId = null;
-    let start = null;
-    const duration = 980;
-
-    timeoutId = window.setTimeout(() => {
-      const tick = (timestamp) => {
-        if (start === null) start = timestamp;
-        const progress = Math.min((timestamp - start) / duration, 1);
-        const eased = 1 - (1 - progress) ** 3;
-        setDisplayValue(Math.round(level * eased));
-
-        if (progress < 1) {
-          rafId = window.requestAnimationFrame(tick);
-        } else {
-          setBootDone(true);
-        }
-      };
-
-      rafId = window.requestAnimationFrame(tick);
-    }, delay);
-
-    return () => {
-      window.clearTimeout(timeoutId);
-      if (rafId) window.cancelAnimationFrame(rafId);
-    };
-  }, [level, delay]);
-
-  useEffect(() => {
-    if (!bootDone) return undefined;
-
-    const min = Math.max(55, level - 3);
-    const max = Math.min(99, level + 2);
-    const timer = window.setInterval(() => {
-      const wobble = Math.round((Math.random() * 4) - 2);
-      setDisplayValue((current) => {
-        const baselinePull = current < level ? 1 : current > level ? -1 : 0;
-        return clamp(level + wobble + baselinePull, min, max);
-      });
-    }, 1650);
-
-    return () => window.clearInterval(timer);
-  }, [bootDone, level]);
+const SkillMeterRow = ({ name, level, revealDelay = '0ms', signalDelay = 0 }) => {
 
   return (
-    <div className="terminal-stagger-reveal skill-row-live" style={{ '--reveal-delay': revealDelay }}>
+    <div className="terminal-stagger-reveal" style={{ '--reveal-delay': revealDelay }}>
       <div className="flex items-center justify-between mb-1">
         <span className="text-zinc-300 text-xs">[{name}]</span>
-        <span className="text-green-400 text-xs font-bold skills-level-value">{displayValue}%</span>
+        <div className="flex items-center gap-2">
+          <span className="text-green-400 text-xs font-bold skills-level-value">{level}%</span>
+          <SkillPulseSignal delayStep={signalDelay} />
+        </div>
       </div>
       <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden border border-cyan-500/20">
-        <div className="skills-meter-fill skills-meter-live" style={{ '--skill-width': `${displayValue}%` }}></div>
+        <div className="skills-meter-fill" style={{ '--skill-width': `${level}%` }}></div>
       </div>
     </div>
   );
@@ -138,6 +104,7 @@ const Skills = () => {
                       <div className="flex items-center gap-2 mb-4 text-cyan-400">
                         <IconComponent size={20} />
                         <span className="text-sm font-bold">&gt; {category.title.toUpperCase()}</span>
+                        <span className="skills-live-dot" />
                       </div>
                       <div className="space-y-3">
                         {category.skills.map((skill, skillIndex) => (
@@ -145,8 +112,8 @@ const Skills = () => {
                             key={skillIndex}
                             name={skill.name}
                             level={skill.level}
-                            delay={280 + index * 160 + skillIndex * 110}
                             revealDelay={`${220 + index * 160 + skillIndex * 90}ms`}
+                            signalDelay={index * 180 + skillIndex * 120}
                           />
                         ))}
                       </div>
