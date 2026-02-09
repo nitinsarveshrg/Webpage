@@ -1,6 +1,7 @@
 import React from 'react';
 import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
+import TerminalCommand from './TerminalCommand';
 
 const About = () => {
   return (
@@ -32,8 +33,9 @@ const About = () => {
           </pre>
 
           <div className="text-green-400 mb-6">
-            <ScrollTypingLine className="mb-2" prompt="root@cloud-devops:~$" text="whoami" />
-            <div className="ml-4 text-zinc-300 mb-4">Displaying user information...</div>
+            <TerminalCommand className="mb-1" prompt="root@cloud-devops:~$" command="whoami">
+              <div className="text-zinc-300">Displaying user information...</div>
+            </TerminalCommand>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 items-start">

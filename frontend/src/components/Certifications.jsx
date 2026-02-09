@@ -3,6 +3,7 @@ import { ExternalLink, ShieldCheck, GraduationCap } from 'lucide-react';
 import { Badge } from './ui/badge';
 import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
+import TerminalCommand from './TerminalCommand';
 
 const Certifications = () => {
   return (
@@ -23,9 +24,10 @@ const Certifications = () => {
         {/* Terminal Content */}
         <div className="terminal-body terminal-overlay">
           <div className="text-green-400 mb-6">
-            <ScrollTypingLine className="mb-2" prompt="root@cloud-devops:~$" text="cat /etc/credentials/verified.list" />
-            <div className="ml-4 text-zinc-400 text-sm mb-1">Reading verified credentials...</div>
-            <div className="ml-4 text-green-400 text-sm mb-4">[✓] Found {portfolioData.certifications.length} active certifications</div>
+            <TerminalCommand className="mb-1" prompt="root@cloud-devops:~$" command="cat /etc/credentials/verified.list">
+              <div className="text-zinc-400 text-sm">Reading verified credentials...</div>
+              <div className="text-green-400 text-sm">[✓] Found {portfolioData.certifications.length} active certifications</div>
+            </TerminalCommand>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">

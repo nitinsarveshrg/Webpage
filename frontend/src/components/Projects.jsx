@@ -3,6 +3,7 @@ import { ExternalLink, Github, FolderGit2 } from 'lucide-react';
 import { Badge } from './ui/badge';
 import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
+import TerminalCommand from './TerminalCommand';
 
 const Projects = () => {
   return (
@@ -36,9 +37,10 @@ const Projects = () => {
           </pre>
 
           <div className="text-green-400 mb-6">
-            <ScrollTypingLine className="mb-2" prompt="root@cloud-devops:~$" text="ls -la projects/ --classified" />
-            <div className="ml-4 text-zinc-400 text-sm">total {portfolioData.projects.length}</div>
-            <div className="ml-4 text-zinc-400 text-sm mb-4">Listing deployed infrastructure projects...</div>
+            <TerminalCommand className="mb-1" prompt="root@cloud-devops:~$" command="ls -la projects/ --classified">
+              <div className="text-zinc-400 text-sm">total {portfolioData.projects.length}</div>
+              <div className="text-zinc-400 text-sm">Listing deployed infrastructure projects...</div>
+            </TerminalCommand>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">

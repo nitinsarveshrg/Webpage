@@ -2,6 +2,7 @@ import React from 'react';
 import { Cloud, Container, Code, Activity } from 'lucide-react';
 import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
+import TerminalCommand from './TerminalCommand';
 
 const Skills = () => {
   const skillCategories = [
@@ -29,10 +30,11 @@ const Skills = () => {
         {/* Terminal Content */}
         <div className="terminal-body terminal-overlay">
           <div className="text-green-400 mb-6">
-            <ScrollTypingLine className="mb-2" prompt="root@cloud-devops:~$" text="./analyze_skills.sh --verbose" />
-            <div className="ml-4 text-zinc-400 text-sm">Scanning technical capabilities...</div>
-            <div className="ml-4 text-green-400 text-sm animate-pulse">█████████████████░░░ 89% Complete</div>
-            <div className="ml-4 text-green-400 text-sm">[✓] Skill analysis complete</div>
+            <TerminalCommand className="mb-1" prompt="root@cloud-devops:~$" command="./analyze_skills.sh --verbose">
+              <div className="text-zinc-400 text-sm">Scanning technical capabilities...</div>
+              <div className="text-green-400 text-sm animate-pulse">█████████████████░░░ 89% Complete</div>
+              <div className="text-green-400 text-sm">[✓] Skill analysis complete</div>
+            </TerminalCommand>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">

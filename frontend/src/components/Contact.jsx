@@ -5,6 +5,7 @@ import { Textarea } from './ui/textarea';
 import { Mail, Linkedin, Github, MapPin, Phone, Send, Loader2 } from 'lucide-react';
 import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
+import TerminalCommand from './TerminalCommand';
 
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -53,9 +54,10 @@ const Contact = () => {
         {/* Terminal Content */}
         <div className="terminal-body terminal-overlay">
           <div className="text-green-400 mb-6">
-            <ScrollTypingLine className="mb-2" prompt="root@cloud-devops:~$" text="./init_secure_channel.sh" />
-            <div className="ml-4 text-zinc-400 text-sm">Establishing encrypted communication...</div>
-            <div className="ml-4 text-green-400 text-sm mb-4">[✓] Secure channel ready</div>
+            <TerminalCommand className="mb-1" prompt="root@cloud-devops:~$" command="./init_secure_channel.sh">
+              <div className="text-zinc-400 text-sm">Establishing encrypted communication...</div>
+              <div className="text-green-400 text-sm">[✓] Secure channel ready</div>
+            </TerminalCommand>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">

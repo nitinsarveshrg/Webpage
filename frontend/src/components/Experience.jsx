@@ -2,6 +2,7 @@ import React from 'react';
 import { Calendar, MapPin, Briefcase } from 'lucide-react';
 import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
+import TerminalCommand from './TerminalCommand';
 
 const Experience = () => {
   return (
@@ -22,8 +23,9 @@ const Experience = () => {
         {/* Terminal Content */}
         <div className="terminal-body terminal-overlay">
           <div className="text-green-400 mb-6">
-            <ScrollTypingLine className="mb-2" prompt="root@cloud-devops:~$" text="cat career.log | tail -n 20" />
-            <div className="ml-4 text-zinc-400 text-sm mb-4">Loading employment history...</div>
+            <TerminalCommand className="mb-1" prompt="root@cloud-devops:~$" command="cat career.log | tail -n 20">
+              <div className="text-zinc-400 text-sm">Loading employment history...</div>
+            </TerminalCommand>
           </div>
 
           <div className="space-y-6">
