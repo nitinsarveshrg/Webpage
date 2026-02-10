@@ -34,7 +34,7 @@ export const portfolioData = {
   // Skills organized by category
   skills: {
     cloud: [
-      { name: "AWS (IAM, VPC, EC2, EKS, RDS)", level: 95, icon: "cloud" },
+      { name: "AWS", level: 95, icon: "cloud" },
       { name: "Azure", level: 85, icon: "cloud" },
       { name: "GCP", level: 80, icon: "cloud" }
     ],
