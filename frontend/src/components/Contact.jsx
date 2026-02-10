@@ -8,6 +8,7 @@ import ScrollTypingLine from './ScrollTypingLine';
 import TerminalCommand from './TerminalCommand';
 
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xbdyerqo';
+const HCAPTCHA_SITE_KEY = process.env.REACT_APP_HCAPTCHA_SITE_KEY || '860a4082-9bc0-43fc-8456-bf88da424c0a';
 
 const Contact = () => {
   const captchaRef = useRef(null);
@@ -52,7 +53,7 @@ const Contact = () => {
       if (cancelled || !captchaRef.current || !window.hcaptcha || !window.hcaptcha.render) return;
       if (captchaWidgetIdRef.current === null) {
         captchaWidgetIdRef.current = window.hcaptcha.render(captchaRef.current, {
-          sitekey: '10000000-ffff-ffff-ffff-000000000001',
+          sitekey: HCAPTCHA_SITE_KEY,
         });
       }
     };
