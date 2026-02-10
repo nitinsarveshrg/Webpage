@@ -6,6 +6,13 @@ import TerminalCommand from './TerminalCommand';
 const About = () => {
   const [showContent, setShowContent] = useState(false);
   const [frameExpanded, setFrameExpanded] = useState(false);
+  const hobbyNotes = {
+    Photography: 'Chasing golden hour and clean compositions.',
+    Travel: 'Collecting new places, stories, and coffee spots.',
+    Hiking: 'Best place to debug life decisions.',
+    'Listening to music': 'Lo-fi for focus, high tempo for deploy days.',
+    'Open-source learning': 'Learning from real-world code, issues, and PRs.',
+  };
 
   return (
     <section id="about" className="portfolio-section bg-zinc-950">
@@ -72,6 +79,28 @@ const About = () => {
                   <div className="text-green-400 text-sm mt-3">
                     <span className="text-cyan-400">$</span> <span className="animate-pulse">_</span>
                   </div>
+                </div>
+              </div>
+
+              <div className="mt-6 terminal-panel terminal-stagger-reveal" style={{ '--reveal-delay': '420ms' }}>
+                <ScrollTypingLine className="text-green-400 text-sm mb-3" prompt="$" text="cat hobbies.md" speed={24} />
+                <div className="space-y-2">
+                  {portfolioData.about.hobbies.map((hobby, index) => (
+                    <div
+                      key={hobby}
+                      className="flex items-start gap-2 text-sm terminal-stagger-reveal"
+                      style={{ '--reveal-delay': `${460 + index * 100}ms` }}
+                    >
+                      <span className="text-green-400">[{String(index + 1).padStart(2, '0')}]</span>
+                      <div>
+                        <div className="text-zinc-200">{hobby}</div>
+                        <div className="text-zinc-500 text-xs">{hobbyNotes[hobby]}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="text-green-400 text-sm mt-3">
+                  <span className="text-cyan-400">$</span> <span className="animate-pulse">_</span>
                 </div>
               </div>
 

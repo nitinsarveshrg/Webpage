@@ -21,6 +21,13 @@ export const portfolioData = {
       "AWS & HashiCorp Terraform Certified Professional",
       "Expert in Kubernetes, IaC, and CI/CD automation",
       "Reduced deployment time by 40% and costs by 20%"
+    ],
+    hobbies: [
+      "Photography",
+      "Travel",
+      "Hiking",
+      "Listening to music",
+      "Open-source learning"
     ]
   },
 
