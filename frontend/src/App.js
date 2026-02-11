@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
@@ -11,14 +11,30 @@ import Certifications from './components/Certifications';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import CloudParticles from './components/CloudParticles';
+import FrontGate from './components/FrontGate';
 import { Toaster } from './components/ui/toaster';
 import { scrollToSectionById } from './lib/sectionScroll';
 
 const Home = () => {
-  const [showLaunchFx, setShowLaunchFx] = useState(true);
+  const [gateStage, setGateStage] = useState('show');
+  const gateLocked = gateStage !== 'done';
+  const gateLockedRef = useRef(gateLocked);
+
+  useEffect(() => {
+    gateLockedRef.current = gateLocked;
+  }, [gateLocked]);
+
+  useEffect(() => {
+    document.body.style.overflow = gateLocked ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [gateLocked]);
 
   useEffect(() => {
     const scrollToHashTarget = () => {
+      if (gateLockedRef.current) return;
+
       const hash = window.location.hash.replace('#', '');
       if (!hash) return;
       scrollToSectionById(hash, { behavior: 'auto' });
@@ -34,6 +50,19 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    if (gateStage !== 'exit') return undefined;
+
+    const timer = setTimeout(() => {
+      setGateStage('done');
+
+      const hash = window.location.hash.replace('#', '');
+      if (hash) scrollToSectionById(hash, { behavior: 'auto' });
+    }, 820);
+
+    return () => clearTimeout(timer);
+  }, [gateStage]);
+
+  useEffect(() => {
     const updatePointer = (event) => {
       document.documentElement.style.setProperty('--mx', `${event.clientX}px`);
       document.documentElement.style.setProperty('--my', `${event.clientY}px`);
@@ -43,16 +72,12 @@ const Home = () => {
     return () => window.removeEventListener('pointermove', updatePointer);
   }, []);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setShowLaunchFx(false), 1300);
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
     <div className="overhaul-root">
       <CloudParticles />
       <Header />
-      <main className="portfolio-shell">
+
+      <main className={`portfolio-shell ${gateLocked ? 'portfolio-preload' : 'portfolio-live'}`}>
         <Hero />
         <About />
         <Skills />
@@ -61,17 +86,14 @@ const Home = () => {
         <Certifications />
         <Contact />
       </main>
+
       <Footer />
 
-      {showLaunchFx && (
-        <div className="launch-fx" aria-hidden="true">
-          <div className="launch-fx-tag">MAX PACE · CLOUD PRECISION</div>
-          <span className="launch-line line-1" />
-          <span className="launch-line line-2" />
-          <span className="launch-line line-3" />
-          <span className="launch-line line-4" />
-          <span className="launch-line line-5" />
-        </div>
+      {gateStage !== 'done' && (
+        <FrontGate
+          exiting={gateStage === 'exit'}
+          onEnter={() => setGateStage((prev) => (prev === 'show' ? 'exit' : prev))}
+        />
       )}
     </div>
   );
