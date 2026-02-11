@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TerminalSquare, Gauge, Palette, Zap, MoveRight } from 'lucide-react';
 import { scrollToSectionById } from '../lib/sectionScroll';
 
@@ -62,7 +62,7 @@ const LiveControlPanel = () => {
     document.documentElement.dataset.motion = motion;
   }, [motion]);
 
-  const timeString = useMemo(() => new Date().toLocaleTimeString(), [telemetry]);
+  const timeString = new Date().toLocaleTimeString();
 
   const runCommand = (event) => {
     event.preventDefault();

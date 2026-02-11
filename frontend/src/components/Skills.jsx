@@ -32,7 +32,7 @@ const Skills = () => {
     return Math.round(sum / allSkills.length);
   }, [allSkills]);
 
-  const activeSkills = portfolioData.skills[active] || [];
+  const activeSkills = useMemo(() => portfolioData.skills[active] || [], [active]);
 
   const liveSkills = useMemo(() => {
     return activeSkills.map((skill, index) => {
