@@ -17,7 +17,7 @@ import { scrollToSectionById } from './lib/sectionScroll';
 
 const Home = () => {
   const [gateStage, setGateStage] = useState('show');
-  const gateLocked = gateStage !== 'done';
+  const gateLocked = gateStage === 'show';
   const gateLockedRef = useRef(gateLocked);
 
   useEffect(() => {
@@ -25,11 +25,11 @@ const Home = () => {
   }, [gateLocked]);
 
   useEffect(() => {
-    document.body.style.overflow = gateLocked ? 'hidden' : '';
+    document.body.style.overflow = gateStage !== 'done' ? 'hidden' : '';
     return () => {
       document.body.style.overflow = '';
     };
-  }, [gateLocked]);
+  }, [gateStage]);
 
   useEffect(() => {
     const scrollToHashTarget = () => {
@@ -57,7 +57,7 @@ const Home = () => {
 
       const hash = window.location.hash.replace('#', '');
       if (hash) scrollToSectionById(hash, { behavior: 'auto' });
-    }, 820);
+    }, 920);
 
     return () => clearTimeout(timer);
   }, [gateStage]);

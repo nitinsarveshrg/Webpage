@@ -1,24 +1,24 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Cloud, Flag, ShieldCheck, TerminalSquare, Zap } from 'lucide-react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Cloud, Flag, Gauge, ShieldCheck, Timer } from 'lucide-react';
 import TypingEffect from './TypingEffect';
 import { portfolioData } from '../mock';
 
-const bootSteps = [
-  '[grid] Loading profile modules',
-  '[cloud] Linking AWS / Azure / GCP lanes',
-  '[sec] Enforcing policy + observability guards',
-  '[ci] Arming delivery pipelines and rollout checks',
-  '[go] Runtime is hot. Ready for launch',
+const raceLogs = [
+  '[pit] Tyre temps stabilized and launch map loaded',
+  '[cloud] AWS, Azure, and GCP control-plane synchronized',
+  '[sec] Guardrails enabled across CI/CD and runtime',
+  '[deploy] Pipeline confidence at race-ready state',
+  '[go] Grid clear. Entering portfolio cockpit',
 ];
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 const FrontGate = ({ exiting = false, onEnter }) => {
-  const [step, setStep] = useState(0);
+  const [logIndex, setLogIndex] = useState(0);
   const [telemetry, setTelemetry] = useState({
-    speed: randomInt(286, 344),
-    score: randomInt(96, 100),
-    latency: randomInt(18, 42),
+    speed: randomInt(288, 346),
+    latency: randomInt(18, 39),
+    reliability: randomInt(97, 100),
   });
   const doneRef = useRef(false);
 
@@ -29,36 +29,27 @@ const FrontGate = ({ exiting = false, onEnter }) => {
   }, [onEnter]);
 
   useEffect(() => {
-    const stepInterval = window.setInterval(() => {
-      setStep((prev) => {
-        if (prev >= bootSteps.length - 1) {
-          window.clearInterval(stepInterval);
-          return prev;
-        }
-        return prev + 1;
-      });
-    }, 500);
+    const logTimer = window.setInterval(() => {
+      setLogIndex((prev) => (prev >= raceLogs.length - 1 ? prev : prev + 1));
+    }, 520);
 
-    return () => window.clearInterval(stepInterval);
+    return () => window.clearInterval(logTimer);
   }, []);
 
   useEffect(() => {
-    const telemetryInterval = window.setInterval(() => {
+    const telemetryTimer = window.setInterval(() => {
       setTelemetry({
-        speed: randomInt(286, 344),
-        score: randomInt(96, 100),
-        latency: randomInt(18, 42),
+        speed: randomInt(288, 346),
+        latency: randomInt(18, 39),
+        reliability: randomInt(97, 100),
       });
-    }, 620);
+    }, 560);
 
-    return () => window.clearInterval(telemetryInterval);
+    return () => window.clearInterval(telemetryTimer);
   }, []);
 
   useEffect(() => {
-    const autoEnter = window.setTimeout(() => {
-      finish();
-    }, 5600);
-
+    const autoEnter = window.setTimeout(() => finish(), 5200);
     return () => window.clearTimeout(autoEnter);
   }, [finish]);
 
@@ -73,20 +64,27 @@ const FrontGate = ({ exiting = false, onEnter }) => {
     return () => window.removeEventListener('keydown', onKey);
   }, [finish]);
 
+  const activeLogs = useMemo(() => raceLogs.slice(0, logIndex + 1), [logIndex]);
+
   return (
     <section className={`front-gate ${exiting ? 'is-exiting' : ''}`}>
-      <div className="front-gate-noise" />
-      <div className="front-gate-grid" />
-
-      <div className="front-gate-topbar">
-        <div className="fg-pill"><Flag size={13} /> launch control</div>
-        <div className="fg-pill"><Cloud size={13} /> cloud runtime</div>
-        <div className="fg-pill"><TerminalSquare size={13} /> linux stack</div>
+      <div className="fg-backdrop" />
+      <div className="fg-grid" />
+      <div className="fg-speed-lines" aria-hidden="true">
+        {Array.from({ length: 9 }).map((_, idx) => (
+          <span key={`fg-line-${idx}`} style={{ animationDelay: `${idx * 120}ms` }} />
+        ))}
       </div>
 
-      <div className="front-gate-layout">
-        <div className="front-gate-copy">
-          <p className="fg-kicker">F1 Velocity x DevOps Reliability</p>
+      <div className="fg-hud-top">
+        <span><Flag size={13} /> race control</span>
+        <span><Cloud size={13} /> multi-cloud runtime</span>
+        <span><Gauge size={13} /> lap launch mode</span>
+      </div>
+
+      <div className="fg-shell">
+        <div className="fg-left">
+          <p className="fg-kicker">F1 Styled Launch</p>
           <h1>{portfolioData.personal.name}</h1>
           <p className="fg-role">{portfolioData.personal.title}</p>
           <p className="fg-tagline">{portfolioData.personal.tagline}</p>
@@ -94,17 +92,17 @@ const FrontGate = ({ exiting = false, onEnter }) => {
           <div className="fg-command">
             <span className="prompt">$</span>{' '}
             <TypingEffect
-              text="./launch_portfolio --style race-linux --persona nitin"
+              text="./ignite_portfolio --mode f1 --persona nitin --smooth"
               speed={22}
               cursorChar="_"
               persistCursor
             />
           </div>
 
-          <div className="fg-interest-row">
-            <span>Linux-first</span>
-            <span>Cloud automation</span>
-            <span>F1 fan mode</span>
+          <div className="fg-pill-row">
+            <span>linux native</span>
+            <span>cloud reliability</span>
+            <span>f1 pace</span>
           </div>
 
           <button type="button" className="fg-enter-btn" onClick={finish}>
@@ -112,48 +110,52 @@ const FrontGate = ({ exiting = false, onEnter }) => {
           </button>
         </div>
 
-        <aside className="front-gate-console">
-          <div className="fg-console-head">
-            <span />
-            <span />
-            <span />
-            <p>nitin@race-shell:~/launch</p>
+        <aside className="fg-right">
+          <div className="fg-right-head">
+            <div className="fg-lights" aria-hidden="true">
+              <span className="on" />
+              <span className="on" />
+              <span className="on" />
+              <span className="on" />
+              <span className="go" />
+            </div>
+            <p>nitin@pit-wall:~/launch-grid</p>
           </div>
 
-          <div className="fg-console-body">
-            {bootSteps.slice(0, step + 1).map((line) => (
+          <div className="fg-log-block">
+            {activeLogs.map((line) => (
               <div key={line} className="fg-log-line">{line}</div>
             ))}
+          </div>
 
-            <div className="fg-metrics">
-              <div>
-                <Zap size={13} />
-                <strong>{telemetry.speed} km/h</strong>
-                <small>pace</small>
-              </div>
-              <div>
-                <ShieldCheck size={13} />
-                <strong>{telemetry.score}%</strong>
-                <small>health</small>
-              </div>
-              <div>
-                <Cloud size={13} />
-                <strong>{telemetry.latency} ms</strong>
-                <small>latency</small>
-              </div>
+          <div className="fg-metric-row">
+            <div>
+              <Gauge size={13} />
+              <strong>{telemetry.speed} km/h</strong>
+              <small>velocity</small>
             </div>
+            <div>
+              <Timer size={13} />
+              <strong>{telemetry.latency} ms</strong>
+              <small>latency</small>
+            </div>
+            <div>
+              <ShieldCheck size={13} />
+              <strong>{telemetry.reliability}%</strong>
+              <small>reliability</small>
+            </div>
+          </div>
 
-            <div className="fg-track-bars">
-              {Array.from({ length: 28 }).map((_, idx) => (
-                <span
-                  key={`bar-${idx}`}
-                  style={{
-                    height: `${22 + Math.abs(Math.sin((idx + telemetry.speed) * 0.32)) * 72}%`,
-                    animationDelay: `${idx * 30}ms`,
-                  }}
-                />
-              ))}
-            </div>
+          <div className="fg-wave-bars" aria-hidden="true">
+            {Array.from({ length: 26 }).map((_, idx) => (
+              <span
+                key={`wave-${idx}`}
+                style={{
+                  height: `${20 + Math.abs(Math.sin((idx + telemetry.speed) * 0.31)) * 74}%`,
+                  animationDelay: `${idx * 36}ms`,
+                }}
+              />
+            ))}
           </div>
         </aside>
       </div>
