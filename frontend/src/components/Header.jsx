@@ -105,7 +105,7 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-mono ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-mono linux-header-shell ${
         isScrolled
           ? 'bg-black/78 backdrop-blur-xl border-b border-cyan-400/35 shadow-[0_8px_28px_rgba(8,145,178,0.2)]'
           : 'bg-black/58 backdrop-blur-md border-b border-cyan-500/20'
@@ -128,7 +128,7 @@ const Header = () => {
 
           <div className="hidden md:flex items-center gap-3">
             {/* Desktop Navigation - Terminal Commands */}
-            <nav className="flex items-center gap-1 text-xs rounded-full border border-cyan-500/25 bg-zinc-950/65 px-2 py-1">
+            <nav className="flex items-center gap-1 text-xs rounded-full border border-cyan-500/25 bg-zinc-950/65 px-2 py-1 linux-nav-shell">
               <button
                 onClick={() => scrollToSection('about')}
                 className={navLinkClass(activeSection === 'about')}
@@ -176,7 +176,7 @@ const Header = () => {
               </Button>
             </nav>
 
-            <div className="hidden xl:flex items-center gap-2 rounded-full border border-cyan-500/25 bg-zinc-950/65 px-3 py-1 text-[10px] text-zinc-300">
+            <div className="hidden xl:flex items-center gap-2 rounded-full border border-cyan-500/25 bg-zinc-950/65 px-3 py-1 text-[10px] text-zinc-300 linux-top-shell">
               <span className="text-cyan-400">$ top -b -n1</span>
               <span className="inline-flex items-center gap-1 uppercase tracking-wider text-[10px] text-green-400">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
