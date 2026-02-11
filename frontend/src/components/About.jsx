@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react';
 import {
-  UserCircle2,
   Compass,
   Camera,
   Music2,
@@ -52,9 +51,13 @@ const About = () => {
           <article className="glass-card about-main-card">
             <div className="section-command static">$ whoami</div>
 
-            <div className="about-main-meta">
-              <UserCircle2 size={22} />
-              <span>Cloud DevOps Engineer | Toronto</span>
+            <div className="about-hobby-preview">
+              <div className="about-hobby-title">operator summary</div>
+              <div className="about-hobby-row">
+                <span className="hobby-icon"><TerminalSquare size={14} /></span>
+                <span>{portfolioData.personal.title}</span>
+              </div>
+              <p>{portfolioData.about.bio}</p>
             </div>
 
             <ul className="about-whoami-list">
@@ -65,15 +68,6 @@ const About = () => {
                 </li>
               ))}
             </ul>
-
-            <div className="about-hobby-preview">
-              <div className="about-hobby-title">operator summary</div>
-              <div className="about-hobby-row">
-                <span className="hobby-icon"><TerminalSquare size={14} /></span>
-                <span>{portfolioData.personal.title}</span>
-              </div>
-              <p>{portfolioData.about.bio}</p>
-            </div>
           </article>
 
           <aside className="glass-card about-side-card">

@@ -2097,14 +2097,9 @@ html[data-live-theme='race'] body {
 }
 
 /* Pointer customization */
-:root {
-  --cursor-default: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='5.2' fill='none' stroke='%2322d3ee' stroke-width='1.5'/%3E%3Crect x='3' y='15.3' width='6' height='1.4' fill='%2322d3ee'/%3E%3Crect x='23' y='15.3' width='6' height='1.4' fill='%2322d3ee'/%3E%3Ccircle cx='16' cy='16' r='1.8' fill='%23ef4444'/%3E%3C/svg%3E") 16 16, auto;
-  --cursor-action: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='%23ef4444' stroke-width='1.6'/%3E%3Cpath d='M16 8L21 16L16 24L11 16Z' fill='%2322d3ee'/%3E%3C/svg%3E") 16 16, pointer;
-}
-
 html,
 body {
-  cursor: var(--cursor-default);
+  cursor: default;
 }
 
 a[href],
@@ -2117,7 +2112,7 @@ input[type='submit'],
 .skill-nav-btn,
 .live-pill-btn,
 .live-dock-toggle {
-  cursor: var(--cursor-action);
+  cursor: pointer;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
