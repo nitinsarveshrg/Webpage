@@ -11,6 +11,7 @@ import Certifications from './components/Certifications';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import CloudParticles from './components/CloudParticles';
+import LiveControlPanel from './components/LiveControlPanel';
 import { Toaster } from './components/ui/toaster';
 import { scrollToSectionById } from './lib/sectionScroll';
 
@@ -31,6 +32,16 @@ const Home = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const updatePointer = (event) => {
+      document.documentElement.style.setProperty('--mx', `${event.clientX}px`);
+      document.documentElement.style.setProperty('--my', `${event.clientY}px`);
+    };
+
+    window.addEventListener('pointermove', updatePointer);
+    return () => window.removeEventListener('pointermove', updatePointer);
+  }, []);
+
   return (
     <div className="overhaul-root">
       <CloudParticles />
@@ -45,6 +56,7 @@ const Home = () => {
         <Contact />
       </main>
       <Footer />
+      <LiveControlPanel />
     </div>
   );
 };

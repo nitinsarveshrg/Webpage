@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react';
-import { Cloud, Container, Code2, Activity } from 'lucide-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Cloud, Container, Code2, Activity, Waves } from 'lucide-react';
 import { portfolioData } from '../mock';
 
 const categories = [
@@ -9,13 +9,22 @@ const categories = [
   { key: 'monitoring', label: 'Observability', icon: Activity },
 ];
 
+const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+
 const Skills = () => {
   const [active, setActive] = useState('devops');
+  const [volatility, setVolatility] = useState(2);
+  const [pulseSeed, setPulseSeed] = useState(0);
 
-  const allSkills = useMemo(
-    () => Object.values(portfolioData.skills).flat(),
-    []
-  );
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setPulseSeed((prev) => prev + 1);
+    }, 1300);
+
+    return () => window.clearInterval(id);
+  }, []);
+
+  const allSkills = useMemo(() => Object.values(portfolioData.skills).flat(), []);
 
   const avgSkill = useMemo(() => {
     if (allSkills.length === 0) return 0;
@@ -24,6 +33,14 @@ const Skills = () => {
   }, [allSkills]);
 
   const activeSkills = portfolioData.skills[active] || [];
+
+  const liveSkills = useMemo(() => {
+    return activeSkills.map((skill, index) => {
+      const wave = Math.sin((pulseSeed + index) * 0.85) * volatility;
+      const level = clamp(Math.round(skill.level + wave), Math.max(skill.level - 5, 40), 100);
+      return { ...skill, liveLevel: level };
+    });
+  }, [activeSkills, pulseSeed, volatility]);
 
   return (
     <section id="skills" className="page-section section-band alt">
@@ -70,15 +87,27 @@ const Skills = () => {
               <span>live proficiency feed</span>
             </div>
 
+            <div className="skill-live-control">
+              <span><Waves size={14} /> pulse</span>
+              <input
+                type="range"
+                min={1}
+                max={6}
+                value={volatility}
+                onChange={(event) => setVolatility(Number(event.target.value))}
+              />
+              <small>intensity {volatility}</small>
+            </div>
+
             <div className="skill-rows-new">
-              {activeSkills.map((skill) => (
+              {liveSkills.map((skill) => (
                 <div key={skill.name} className="skill-row-new">
                   <div className="skill-row-meta">
                     <span>{skill.name}</span>
-                    <span>{skill.level}%</span>
+                    <span>{skill.liveLevel}%</span>
                   </div>
                   <div className="skill-row-track">
-                    <div className="skill-row-fill" style={{ width: `${skill.level}%` }} />
+                    <div className="skill-row-fill" style={{ width: `${skill.liveLevel}%` }} />
                   </div>
                 </div>
               ))}

@@ -12,6 +12,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
+  const [scrollProgress, setScrollProgress] = useState(0);
   const [topMetrics, setTopMetrics] = useState({
     cpu: randomInt(18, 71),
     mem: randomInt(34, 78),
@@ -19,7 +20,14 @@ const Header = () => {
   });
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 28);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 28);
+      const doc = document.documentElement;
+      const maxScroll = Math.max(1, doc.scrollHeight - window.innerHeight);
+      setScrollProgress(Math.min(100, Math.max(0, (window.scrollY / maxScroll) * 100)));
+    };
+
+    handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -80,6 +88,8 @@ const Header = () => {
 
   return (
     <header className={`pit-header ${isScrolled ? 'pit-header-scrolled' : ''}`}>
+      <div className="pit-header-progress" style={{ width: `${scrollProgress}%` }} />
+
       <div className="pit-header-inner">
         <button className="pit-brand" onClick={() => jump('hero')}>
           <span className="pit-brand-dot" />

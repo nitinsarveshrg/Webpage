@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button } from './ui/button';
 import { ChevronDown, Gauge, RadioTower, Cpu } from 'lucide-react';
 import TypingEffect from './TypingEffect';
@@ -16,6 +16,7 @@ const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + mi
 
 const Hero = () => {
   const [commandIndex, setCommandIndex] = useState(0);
+  const [autoRotate, setAutoRotate] = useState(true);
   const [metrics, setMetrics] = useState({
     cpu: randomInt(22, 67),
     mem: randomInt(38, 79),
@@ -23,10 +24,16 @@ const Hero = () => {
   });
 
   useEffect(() => {
+    if (!autoRotate) return undefined;
+
     const rotateId = window.setInterval(() => {
       setCommandIndex((prev) => (prev + 1) % commands.length);
     }, 2600);
 
+    return () => window.clearInterval(rotateId);
+  }, [autoRotate]);
+
+  useEffect(() => {
     const metricId = window.setInterval(() => {
       setMetrics({
         cpu: randomInt(22, 67),
@@ -35,13 +42,18 @@ const Hero = () => {
       });
     }, 1400);
 
-    return () => {
-      window.clearInterval(rotateId);
-      window.clearInterval(metricId);
-    };
+    return () => window.clearInterval(metricId);
   }, []);
 
   const jump = (id) => scrollToSectionById(id);
+
+  const commandSignal = useMemo(() => {
+    return Array.from({ length: 28 }).map((_, index) => {
+      const base = Math.sin((index + commandIndex) * 0.4) * 20 + 36;
+      const pulse = Math.cos((index + metrics.cpu) * 0.2) * 8;
+      return Math.max(10, Math.min(76, Math.round(base + pulse)));
+    });
+  }, [commandIndex, metrics.cpu]);
 
   return (
     <section id="hero" className="page-section hero-stage">
@@ -85,6 +97,24 @@ const Hero = () => {
             </div>
 
             <div className="hero-console-body">
+              <div className="hero-command-chip-row">
+                {commands.map((cmd, index) => (
+                  <button
+                    key={cmd}
+                    className={`hero-command-chip ${index === commandIndex ? 'active' : ''}`}
+                    onClick={() => {
+                      setCommandIndex(index);
+                      setAutoRotate(false);
+                    }}
+                  >
+                    cmd {index + 1}
+                  </button>
+                ))}
+                <button className="hero-command-chip" onClick={() => setAutoRotate((prev) => !prev)}>
+                  {autoRotate ? 'auto on' : 'auto off'}
+                </button>
+              </div>
+
               <div className="hero-command-line">
                 <span className="prompt">$</span>{' '}
                 <TypingEffect key={commands[commandIndex]} text={commands[commandIndex]} speed={24} cursorChar="_" persistCursor />
@@ -95,6 +125,12 @@ const Hero = () => {
                 <div>[ok] release lanes green</div>
                 <div>[ok] telemetry stream active</div>
                 <div>[info] mercedes + max weekend mode</div>
+              </div>
+
+              <div className="hero-signal-bars">
+                {commandSignal.map((value, index) => (
+                  <span key={`${value}-${index}`} style={{ height: `${value}%` }} />
+                ))}
               </div>
 
               <div className="hero-metric-rail">
