@@ -93,21 +93,6 @@ const About = () => {
               ))}
             </ul>
 
-            <ul className="about-fact-list">
-              <li>
-                <span className="label">location</span>
-                <span>{portfolioData.personal.location}</span>
-              </li>
-              <li>
-                <span className="label">experience</span>
-                <span>5+ years</span>
-              </li>
-              <li>
-                <span className="label">focus</span>
-                <span>AWS, IaC, CI/CD, SRE</span>
-              </li>
-            </ul>
-
             <div className="about-hobby-preview">
               <div className="about-hobby-title">selected hobby</div>
               <div className="about-hobby-row">
