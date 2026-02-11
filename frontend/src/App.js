@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
+import Certifications from './components/Certifications';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
 import Experience from './components/Experience';
@@ -66,7 +67,7 @@ const Home = () => {
     if (gateStage !== 'done') return undefined;
 
     setIsPortfolioRevealing(true);
-    const timer = setTimeout(() => setIsPortfolioRevealing(false), 1050);
+    const timer = setTimeout(() => setIsPortfolioRevealing(false), 640);
 
     return () => clearTimeout(timer);
   }, [gateStage]);
@@ -89,9 +90,10 @@ const Home = () => {
       <main className={`portfolio-shell ${gateLocked ? 'portfolio-preload' : 'portfolio-live'} ${isPortfolioRevealing ? 'portfolio-reveal' : ''}`}>
         <Hero />
         <About />
+        <Certifications />
         <Skills />
-        <Projects />
         <Experience />
+        <Projects />
         <Contact />
       </main>
 

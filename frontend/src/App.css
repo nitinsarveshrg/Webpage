@@ -14,6 +14,7 @@ body,
 
 .portfolio-shell {
   position: relative;
+  will-change: transform, opacity;
   transition:
     filter 460ms cubic-bezier(0.22, 0.8, 0.24, 1),
     opacity 460ms cubic-bezier(0.22, 0.8, 0.24, 1),
@@ -21,9 +22,9 @@ body,
 }
 
 .portfolio-preload {
-  opacity: 0.62;
-  filter: blur(2px) saturate(0.9);
-  transform: scale(1.004);
+  opacity: 0.72;
+  filter: saturate(0.95);
+  transform: translate3d(0, 10px, 0);
   pointer-events: none;
 }
 
@@ -35,8 +36,7 @@ body,
 
 .portfolio-reveal {
   position: relative;
-  isolation: isolate;
-  animation: portfolioLiftIn 920ms cubic-bezier(0.2, 0.86, 0.22, 1) both;
+  animation: portfolioLiftIn 520ms cubic-bezier(0.22, 0.86, 0.24, 1) both;
 }
 
 .portfolio-reveal::after {
@@ -45,25 +45,15 @@ body,
   inset: 0;
   z-index: 165;
   pointer-events: none;
-  background:
-    linear-gradient(0deg, rgba(2, 6, 23, 0.96) 0%, rgba(2, 6, 23, 0.68) 42%, rgba(2, 6, 23, 0) 82%);
-  animation: portfolioSweepUp 900ms cubic-bezier(0.17, 0.84, 0.2, 1) forwards;
+  background: linear-gradient(
+    0deg,
+    rgba(2, 6, 23, 0.92) 0%,
+    rgba(2, 6, 23, 0.62) 46%,
+    rgba(2, 6, 23, 0) 86%
+  );
+  transform: translate3d(0, 100%, 0);
+  animation: portfolioSweepUp 560ms cubic-bezier(0.22, 0.86, 0.24, 1) forwards;
 }
-
-.portfolio-reveal .page-section,
-.portfolio-reveal footer {
-  opacity: 0;
-  transform: translateY(38px);
-  animation: portfolioSectionRise 760ms cubic-bezier(0.2, 0.84, 0.24, 1) forwards;
-}
-
-.portfolio-reveal .page-section:nth-of-type(1) { animation-delay: 70ms; }
-.portfolio-reveal .page-section:nth-of-type(2) { animation-delay: 115ms; }
-.portfolio-reveal .page-section:nth-of-type(3) { animation-delay: 160ms; }
-.portfolio-reveal .page-section:nth-of-type(4) { animation-delay: 210ms; }
-.portfolio-reveal .page-section:nth-of-type(5) { animation-delay: 250ms; }
-.portfolio-reveal .page-section:nth-of-type(6) { animation-delay: 290ms; }
-.portfolio-reveal footer { animation-delay: 350ms; }
 
 .front-gate {
   position: fixed;
@@ -295,36 +285,24 @@ body,
 
 @keyframes portfolioLiftIn {
   0% {
-    opacity: 0.58;
-    filter: blur(7px);
-    transform: translateY(22px) scale(0.996);
+    opacity: 0.74;
+    filter: none;
+    transform: translate3d(0, 20px, 0);
   }
   100% {
     opacity: 1;
-    filter: none;
-    transform: none;
+    transform: translate3d(0, 0, 0);
   }
 }
 
 @keyframes portfolioSweepUp {
   0% {
-    transform: translateY(0%);
+    transform: translate3d(0, 100%, 0);
     opacity: 1;
   }
   100% {
-    transform: translateY(-120%);
+    transform: translate3d(0, -115%, 0);
     opacity: 0;
-  }
-}
-
-@keyframes portfolioSectionRise {
-  0% {
-    opacity: 0;
-    transform: translateY(38px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
 
