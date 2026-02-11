@@ -2836,6 +2836,70 @@ html[data-live-theme='matrix'] .footer-grid-new {
   font-weight: 700;
 }
 
+.about-cert-grid,
+.about-edu-list {
+  display: grid;
+  gap: 0.58rem;
+}
+
+.about-cert-item,
+.about-edu-item {
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 0.68rem;
+  background: rgba(2, 6, 23, 0.58);
+  padding: 0.58rem 0.62rem;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.about-cert-head,
+.about-edu-item h4 {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #a5f3fc;
+  font-size: 0.92rem;
+}
+
+.about-cert-head strong {
+  color: #e2e8f0;
+  font-size: 0.9rem;
+}
+
+.about-cert-meta,
+.about-edu-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.6rem;
+  color: #94a3b8;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.about-cert-item a {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: #86efac;
+  text-decoration: none;
+  border: 1px solid rgba(52, 211, 153, 0.34);
+  border-radius: 9999px;
+  padding: 0.14rem 0.44rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.about-edu-item p {
+  margin: 0;
+  color: #dbe4f3;
+}
+
 .about-hobby-board {
   display: grid;
   gap: 0.62rem;

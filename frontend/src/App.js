@@ -7,7 +7,6 @@ import About from './components/About';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
 import Experience from './components/Experience';
-import Certifications from './components/Certifications';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import CloudParticles from './components/CloudParticles';
@@ -17,7 +16,7 @@ import { scrollToSectionById } from './lib/sectionScroll';
 
 const Home = () => {
   const [gateStage, setGateStage] = useState('show');
-  const gateLocked = gateStage === 'show';
+  const gateLocked = gateStage !== 'done';
   const gateLockedRef = useRef(gateLocked);
 
   useEffect(() => {
@@ -57,7 +56,7 @@ const Home = () => {
 
       const hash = window.location.hash.replace('#', '');
       if (hash) scrollToSectionById(hash, { behavior: 'auto' });
-    }, 920);
+    }, 640);
 
     return () => clearTimeout(timer);
   }, [gateStage]);
@@ -83,7 +82,6 @@ const Home = () => {
         <Skills />
         <Projects />
         <Experience />
-        <Certifications />
         <Contact />
       </main>
 

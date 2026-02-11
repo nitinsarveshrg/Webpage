@@ -12,20 +12,27 @@ import {
   FileText,
   Heart,
   TerminalSquare,
+  Award,
+  GraduationCap,
+  ExternalLink,
 } from 'lucide-react';
 import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
 
-const commandOrder = ['whoami', 'cat bio.txt', 'cat hobbies.md'];
+const commandOrder = ['whoami', 'cat certs.log', 'cat education.log', 'cat hobbies.md'];
 
 const commandMeta = {
   whoami: {
     label: 'Identity + operating style',
     icon: TerminalSquare,
   },
-  'cat bio.txt': {
-    label: 'Short professional summary',
-    icon: FileText,
+  'cat certs.log': {
+    label: 'Verified certifications',
+    icon: Award,
+  },
+  'cat education.log': {
+    label: 'Academic background',
+    icon: GraduationCap,
   },
   'cat hobbies.md': {
     label: 'Interests outside deployments',
@@ -59,23 +66,46 @@ const About = () => {
     return 'Always learning and building.';
   }, [selectedHobby]);
 
-  const bioLines = useMemo(() => {
-    return portfolioData.about.bio
-      .split('. ')
-      .map((line) => line.trim())
-      .filter(Boolean)
-      .map((line) => (line.endsWith('.') ? line : `${line}.`));
-  }, []);
+  const latestEducation = useMemo(() => portfolioData.education[0], []);
 
   const renderMainContent = () => {
-    if (activeCommand === 'cat bio.txt') {
+    if (activeCommand === 'cat certs.log') {
       return (
-        <div className="about-bio-lines">
-          {bioLines.map((line) => (
-            <div key={line} className="about-bio-line">
-              <span className="prefix">-</span>
-              <span>{line}</span>
-            </div>
+        <div className="about-cert-grid">
+          {portfolioData.certifications.map((cert) => (
+            <article key={cert.id} className="about-cert-item">
+              <div className="about-cert-head">
+                <Award size={14} />
+                <strong>{cert.name}</strong>
+              </div>
+              <div className="about-cert-meta">
+                <span>{cert.issuer}</span>
+                <span>{cert.date}</span>
+                <span>{cert.credentialId}</span>
+              </div>
+              {cert.link && (
+                <a href={cert.link} target="_blank" rel="noreferrer">
+                  <ExternalLink size={12} /> verify
+                </a>
+              )}
+            </article>
+          ))}
+        </div>
+      );
+    }
+
+    if (activeCommand === 'cat education.log') {
+      return (
+        <div className="about-edu-list">
+          {portfolioData.education.map((edu) => (
+            <article key={edu.id} className="about-edu-item">
+              <h4><GraduationCap size={14} /> {edu.degree}</h4>
+              <p>{edu.institution}</p>
+              <div className="about-edu-meta">
+                <span>{edu.period}</span>
+                <span>{edu.location}</span>
+              </div>
+            </article>
           ))}
         </div>
       );
@@ -108,7 +138,6 @@ const About = () => {
           <UserCircle2 size={22} />
           <span>Cloud DevOps Engineer | Toronto</span>
         </div>
-        <p className="about-main-lead">{portfolioData.about.bio}</p>
         <ul className="about-whoami-list">
           {portfolioData.about.highlights.map((item) => (
             <li key={item}>
@@ -189,14 +218,49 @@ const About = () => {
               </li>
             </ul>
 
-            <div className="about-hobby-preview">
-              <div className="about-hobby-title">selected hobby</div>
-              <div className="about-hobby-row">
-                <span className="hobby-icon">{hobbyIcon(selectedHobby)}</span>
-                <span>{selectedHobby}</span>
+            {activeCommand === 'cat certs.log' && (
+              <div className="about-hobby-preview">
+                <div className="about-hobby-title">certification summary</div>
+                <div className="about-hobby-row">
+                  <span className="hobby-icon"><Award size={14} /></span>
+                  <span>{portfolioData.certifications.length} active certifications</span>
+                </div>
+                <p>AWS and Terraform credentials are highlighted in this profile.</p>
               </div>
-              <p>{hobbyNote}</p>
-            </div>
+            )}
+
+            {activeCommand === 'cat education.log' && (
+              <div className="about-hobby-preview">
+                <div className="about-hobby-title">latest education</div>
+                <div className="about-hobby-row">
+                  <span className="hobby-icon"><GraduationCap size={14} /></span>
+                  <span>{latestEducation?.institution}</span>
+                </div>
+                <p>{latestEducation?.degree}</p>
+              </div>
+            )}
+
+            {activeCommand === 'cat hobbies.md' && (
+              <div className="about-hobby-preview">
+                <div className="about-hobby-title">selected hobby</div>
+                <div className="about-hobby-row">
+                  <span className="hobby-icon">{hobbyIcon(selectedHobby)}</span>
+                  <span>{selectedHobby}</span>
+                </div>
+                <p>{hobbyNote}</p>
+              </div>
+            )}
+
+            {activeCommand === 'whoami' && (
+              <div className="about-hobby-preview">
+                <div className="about-hobby-title">operator summary</div>
+                <div className="about-hobby-row">
+                  <span className="hobby-icon"><FileText size={14} /></span>
+                  <span>{portfolioData.personal.title}</span>
+                </div>
+                <p>{portfolioData.about.bio}</p>
+              </div>
+            )}
           </aside>
         </div>
       </div>
