@@ -5,7 +5,7 @@ export const portfolioData = {
   personal: {
     name: "Nitin Sarvesh Raajagopal",
     title: "Cloud DevOps Engineer",
-    tagline: "Building secure, scalable multi-cloud infrastructure with automation and observability",
+    tagline: "Automating secure multi-cloud platforms with production-first DevOps",
     email: "nitinsarveshrg@hotmail.com",
     linkedin: "https://www.linkedin.com/in/nitin-sarvesh-raajagopal/",
     github: "https://github.com/nitinsarveshrg/",
@@ -15,7 +15,7 @@ export const portfolioData = {
 
   // About Section
   about: {
-    bio: "Cloud DevOps Engineer with ~5 years of experience building secure, scalable multi-cloud infrastructure across AWS, Azure and GCP. Skilled in Infrastructure as Code (Terraform, Helm, Ansible), Kubernetes (CKA) and CI/CD automation (Jenkins, ArgoCD, Github Actions). Strong focus on observability, security and automation to enable fast, reliable and secure deployments.",
+    bio: "Cloud DevOps Engineer with ~5 years of hands-on delivery across AWS, Azure, and GCP. I build IaC stacks with Terraform, Helm, and Ansible, run Kubernetes workloads (CKA), and ship CI/CD with Jenkins, ArgoCD, and GitHub Actions. Core focus: reliability, observability, and secure automation.",
     highlights: [
       "5+ years of Cloud & DevOps Engineering experience",
       "AWS & HashiCorp Terraform Certified Professional",
@@ -27,7 +27,8 @@ export const portfolioData = {
       "Travel",
       "Hiking",
       "Listening to music",
-      "Open-source learning"
+      "Open-source learning",
+      "Formula 1 (Mercedes + Max Verstappen fan)"
     ]
   },
 
@@ -72,17 +73,17 @@ export const portfolioData = {
       company: "Viva Tech Solutions",
       location: "Toronto, Canada",
       period: "Oct 2022 - Present",
-      description: "Designing, deploying, and optimizing multi-cloud infrastructure with focus on automation, security, and observability.",
+      description: "Leading production cloud operations with automation-first IaC, CI/CD, and observability.",
       achievements: [
-        "Designed and optimized AWS cloud infrastructure improving availability to 99.99% and reducing latency by 30%",
-        "Automated multi-environment IaC using Terraform & CloudFormation, reducing setup time by 85%",
-        "Built end-to-end GitLab CI/CD pipelines reducing deployment errors by 40% and accelerating releases by 2x",
-        "Developed Python automation frameworks cutting manual ops effort by 60%",
-        "Containerized microservices using Docker and Kubernetes + Helm, reducing release overhead by 50%",
-        "Strengthened cloud security with IAM, encryption, AWS Config reducing security findings by 70%",
-        "Deployed Prometheus & Grafana observability stack reducing MTTR by 45%",
-        "Implemented DR & cross-region replication achieving 100% successful DR drills",
-        "Drove cloud efficiency initiatives reducing AWS costs by 20%"
+        "Raised platform availability to 99.99% and cut latency by 30% on AWS",
+        "Automated multi-env IaC with Terraform and CloudFormation, reducing setup time by 85%",
+        "Built GitLab CI/CD pipelines, cutting deployment errors by 40% and doubling release speed",
+        "Shipped Python automation frameworks, reducing manual operations by 60%",
+        "Standardized Docker + Kubernetes + Helm rollouts, reducing release overhead by 50%",
+        "Hardened IAM, encryption, and AWS Config controls, lowering security findings by 70%",
+        "Rolled out Prometheus/Grafana observability, reducing MTTR by 45%",
+        "Implemented cross-region DR with 100% successful drill outcomes",
+        "Optimized AWS cost posture and reduced spend by 20%"
       ]
     },
     {
@@ -91,14 +92,14 @@ export const portfolioData = {
       company: "Assistanz Network Pvt Ltd",
       location: "India",
       period: "Aug 2021 - Oct 2022",
-      description: "Managed AWS & Azure production workloads ensuring high availability and performance.",
+      description: "Managed AWS/Azure production workloads with reliability, automation, and incident response ownership.",
       achievements: [
-        "Managed AWS & Azure workloads ensuring 99.9% uptime across mission-critical applications",
-        "Automated provisioning using Ansible & Terraform reducing manual intervention by 50%",
-        "Integrated Dockerized services into Jenkins/GitLab CI/CD reducing build times by 30%",
-        "Administered Kubernetes clusters and deployed microservices using Helm",
-        "Optimized CI/CD pipelines reducing test cycle time by 40%",
-        "Resolved cloud & Kubernetes incidents reducing downtime by 35%"
+        "Maintained 99.9% uptime for mission-critical workloads on AWS and Azure",
+        "Automated provisioning via Ansible and Terraform, reducing manual effort by 50%",
+        "Integrated Docker services into Jenkins/GitLab CI/CD, reducing build time by 30%",
+        "Operated Kubernetes clusters and deployed microservices through Helm",
+        "Optimized CI/CD test stages, reducing cycle time by 40%",
+        "Resolved cloud and Kubernetes incidents, reducing downtime by 35%"
       ]
     },
     {
@@ -107,14 +108,14 @@ export const portfolioData = {
       company: "Vimana Web Infotech",
       location: "India",
       period: "May 2020 - Jul 2021",
-      description: "Supported cloud infrastructure setup, automation, and CI/CD pipeline development.",
+      description: "Supported cloud platform setup, Linux automation, and early CI/CD engineering.",
       achievements: [
-        "Automated Linux server tasks with Python & Bash reducing manual effort by 55%",
-        "Built Jenkins CI/CD pipelines improving deployment cycle times by 35%",
-        "Containerized applications using Docker reducing configuration drift by 80%",
-        "Developed reusable Terraform modules increasing IaC standardization by 60%",
-        "Monitored infrastructure using Nagios & Zabbix maintaining 99.9% uptime",
-        "Implemented cloud security best practices reducing unauthorized access risks by 40%"
+        "Automated Linux server tasks with Python and Bash, reducing manual effort by 55%",
+        "Built Jenkins CI/CD pipelines, improving deployment cycle time by 35%",
+        "Containerized applications with Docker, reducing configuration drift by 80%",
+        "Developed reusable Terraform modules, improving IaC standardization by 60%",
+        "Monitored infrastructure with Nagios and Zabbix while sustaining 99.9% uptime",
+        "Applied cloud security best practices, reducing unauthorized access risk by 40%"
       ]
     }
   ],

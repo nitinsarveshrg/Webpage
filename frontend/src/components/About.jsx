@@ -12,6 +12,7 @@ const About = () => {
     Hiking: 'Best place to debug life decisions.',
     'Listening to music': 'Lo-fi for focus, high tempo for deploy days.',
     'Open-source learning': 'Learning from real-world code, issues, and PRs.',
+    'Formula 1 (Mercedes + Max Verstappen fan)': 'Race weekends, strategy calls, and telemetry are my happy place.',
   };
 
   return (
