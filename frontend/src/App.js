@@ -16,6 +16,7 @@ import { scrollToSectionById } from './lib/sectionScroll';
 
 const Home = () => {
   const [gateStage, setGateStage] = useState('show');
+  const [isPortfolioRevealing, setIsPortfolioRevealing] = useState(false);
   const gateLocked = gateStage !== 'done';
   const gateLockedRef = useRef(gateLocked);
 
@@ -62,6 +63,15 @@ const Home = () => {
   }, [gateStage]);
 
   useEffect(() => {
+    if (gateStage !== 'done') return undefined;
+
+    setIsPortfolioRevealing(true);
+    const timer = setTimeout(() => setIsPortfolioRevealing(false), 1050);
+
+    return () => clearTimeout(timer);
+  }, [gateStage]);
+
+  useEffect(() => {
     const updatePointer = (event) => {
       document.documentElement.style.setProperty('--mx', `${event.clientX}px`);
       document.documentElement.style.setProperty('--my', `${event.clientY}px`);
@@ -76,7 +86,7 @@ const Home = () => {
       <CloudParticles />
       <Header />
 
-      <main className={`portfolio-shell ${gateLocked ? 'portfolio-preload' : 'portfolio-live'}`}>
+      <main className={`portfolio-shell ${gateLocked ? 'portfolio-preload' : 'portfolio-live'} ${isPortfolioRevealing ? 'portfolio-reveal' : ''}`}>
         <Hero />
         <About />
         <Skills />
