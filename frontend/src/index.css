@@ -10,10 +10,10 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background:
-        radial-gradient(circle at 12% 12%, rgba(8, 145, 178, 0.28) 0%, rgba(2, 6, 23, 0) 34%),
-        radial-gradient(circle at 88% 18%, rgba(37, 99, 235, 0.2) 0%, rgba(2, 6, 23, 0) 38%),
-        radial-gradient(circle at 52% 92%, rgba(16, 185, 129, 0.14) 0%, rgba(2, 6, 23, 0) 42%),
-        linear-gradient(160deg, #02060b 0%, #03080f 46%, #02050a 100%);
+        radial-gradient(circle at 12% 12%, rgba(16, 185, 129, 0.18) 0%, rgba(2, 6, 23, 0) 34%),
+        radial-gradient(circle at 88% 18%, rgba(6, 182, 212, 0.15) 0%, rgba(2, 6, 23, 0) 38%),
+        radial-gradient(circle at 52% 92%, rgba(250, 204, 21, 0.1) 0%, rgba(2, 6, 23, 0) 42%),
+        linear-gradient(160deg, #020509 0%, #030912 46%, #020409 100%);
     background-size: 150% 150%, 150% 150%, 160% 160%, 100% 100%;
     animation: ambient-shift 22s ease-in-out infinite alternate;
 }
@@ -23,102 +23,156 @@ code {
 }
 
 @layer components {
-    .linux-shell-root {
-        position: relative;
-        padding-top: 4.8rem;
-        padding-bottom: 2rem;
+    .topnav-shell {
+        background: linear-gradient(120deg, rgba(4, 9, 16, 0.8), rgba(5, 12, 22, 0.72));
+        border-bottom: 1px solid rgba(34, 211, 238, 0.16);
+        backdrop-filter: blur(12px);
     }
 
-    .linux-global-frame {
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        z-index: 70;
+    .topnav-shell-scrolled {
+        background: linear-gradient(120deg, rgba(4, 9, 16, 0.9), rgba(8, 47, 73, 0.34));
+        border-bottom-color: rgba(34, 211, 238, 0.32);
+        box-shadow: 0 10px 30px rgba(2, 8, 23, 0.44);
     }
 
-    .linux-frame-top,
-    .linux-frame-bottom {
-        position: fixed;
-        left: 0;
-        right: 0;
-        height: 1.5rem;
-        padding: 0 1rem;
-        display: flex;
+    .brand-pod {
+        display: inline-flex;
         align-items: center;
-        gap: 0.55rem;
-        color: #a1a1aa;
+        gap: 0.5rem;
+        padding: 0.4rem 0.7rem;
+        border-radius: 9999px;
+        border: 1px solid rgba(34, 211, 238, 0.28);
+        background: linear-gradient(120deg, rgba(8, 47, 73, 0.35), rgba(4, 9, 16, 0.65));
+        font-family: "JetBrains Mono", "Courier New", monospace;
+        transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .brand-pod:hover {
+        border-color: rgba(34, 211, 238, 0.55);
+        transform: translateY(-1px);
+    }
+
+    .brand-dot {
+        width: 0.45rem;
+        height: 0.45rem;
+        border-radius: 9999px;
+        background: #4ade80;
+        box-shadow: 0 0 12px rgba(74, 222, 128, 0.75);
+        animation: skills-ping 1.6s ease-in-out infinite;
+    }
+
+    .brand-title {
+        color: #f4f4f5;
+        font-size: 0.78rem;
+        letter-spacing: 0.04em;
+    }
+
+    .brand-sub {
+        color: #22d3ee;
         font-size: 0.62rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+    }
+
+    .topnav-links-wrap {
+        padding: 0.2rem;
+        border-radius: 9999px;
+        border: 1px solid rgba(34, 211, 238, 0.25);
+        background: rgba(3, 7, 13, 0.66);
+        box-shadow: inset 0 0 14px rgba(34, 211, 238, 0.12);
+    }
+
+    .topnav-link {
+        border-radius: 9999px;
+        padding: 0.34rem 0.72rem;
+        font-size: 0.68rem;
+        font-family: "JetBrains Mono", "Courier New", monospace;
         letter-spacing: 0.08em;
         text-transform: uppercase;
+        transition: all 0.2s ease;
+    }
+
+    .topnav-link-idle {
+        color: #a1a1aa;
+    }
+
+    .topnav-link-idle:hover {
+        color: #67e8f9;
+        background: rgba(34, 211, 238, 0.08);
+    }
+
+    .topnav-link-active {
+        color: #e4e4e7;
+        background: linear-gradient(120deg, rgba(34, 211, 238, 0.2), rgba(14, 116, 144, 0.2));
+        box-shadow: inset 0 0 10px rgba(34, 211, 238, 0.15);
+    }
+
+    .topnav-cta {
+        border-radius: 9999px;
+        height: 1.8rem;
+        padding: 0 0.88rem;
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        background: linear-gradient(120deg, #22d3ee, #38bdf8);
+        color: #020617;
+        border: 1px solid rgba(186, 230, 253, 0.85);
         font-family: "JetBrains Mono", "Courier New", monospace;
-        background: linear-gradient(90deg, rgba(2, 6, 23, 0.92), rgba(8, 47, 73, 0.45), rgba(2, 6, 23, 0.92));
-        border-bottom: 1px solid rgba(34, 211, 238, 0.28);
     }
 
-    .linux-frame-top {
-        top: 0;
+    .topnav-live {
+        padding: 0.35rem 0.6rem;
+        border-radius: 9999px;
+        border: 1px solid rgba(34, 211, 238, 0.22);
+        background: rgba(2, 6, 23, 0.66);
+        font-family: "JetBrains Mono", "Courier New", monospace;
+        font-size: 0.62rem;
     }
 
-    .linux-frame-bottom {
-        bottom: 0;
-        border-bottom: none;
-        border-top: 1px solid rgba(34, 211, 238, 0.28);
-    }
-
-    .linux-frame-host {
-        color: #4ade80;
-    }
-
-    .linux-frame-prompt {
+    .topnav-mode {
         color: #22d3ee;
-        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
     }
 
-    .linux-frame-sep {
-        color: rgba(113, 113, 122, 0.95);
+    .topnav-metric {
+        color: #d4d4d8;
     }
 
-    .linux-frame-rail {
-        position: fixed;
-        top: 1.5rem;
-        bottom: 1.5rem;
-        width: 1px;
-        background: linear-gradient(to bottom, rgba(34, 211, 238, 0), rgba(34, 211, 238, 0.4), rgba(34, 211, 238, 0));
-        opacity: 0.8;
+    .topnav-mobile-link {
+        color: #d4d4d8;
+        text-align: left;
+        font-family: "JetBrains Mono", "Courier New", monospace;
+        font-size: 0.75rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        transition: color 0.2s ease;
     }
 
-    .linux-frame-rail-left {
-        left: 0.6rem;
+    .topnav-mobile-link:hover {
+        color: #22d3ee;
     }
 
-    .linux-frame-rail-right {
-        right: 0.6rem;
-    }
-
-    .linux-header-shell {
-        top: 1.5rem;
-        backdrop-filter: blur(14px);
-    }
-
-    .linux-nav-shell {
-        box-shadow: inset 0 0 12px rgba(34, 211, 238, 0.12);
-    }
-
-    .linux-top-shell {
-        box-shadow: inset 0 0 10px rgba(34, 211, 238, 0.1);
+    .topnav-mobile-cta {
+        margin-top: 0.35rem;
+        background: linear-gradient(120deg, #22d3ee, #38bdf8);
+        color: #020617;
+        font-family: "JetBrains Mono", "Courier New", monospace;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
     }
 
     .portfolio-section {
         @apply snap-start relative overflow-x-hidden flex items-start;
         scroll-snap-stop: normal;
         min-height: 100svh;
-        padding-top: 1rem;
+        padding-top: 5.2rem;
         padding-bottom: 0.75rem;
         background:
-            radial-gradient(circle at 10% 10%, rgba(34, 211, 238, 0.2) 0%, rgba(2, 6, 23, 0) 36%),
-            radial-gradient(circle at 86% 14%, rgba(59, 130, 246, 0.18) 0%, rgba(2, 6, 23, 0) 40%),
-            radial-gradient(circle at 46% 78%, rgba(20, 184, 166, 0.12) 0%, rgba(2, 6, 23, 0) 44%),
-            linear-gradient(160deg, #040810 0%, #050a14 52%, #03070f 100%);
+            radial-gradient(circle at 10% 10%, rgba(16, 185, 129, 0.15) 0%, rgba(2, 6, 23, 0) 36%),
+            radial-gradient(circle at 86% 14%, rgba(6, 182, 212, 0.14) 0%, rgba(2, 6, 23, 0) 40%),
+            radial-gradient(circle at 46% 78%, rgba(250, 204, 21, 0.08) 0%, rgba(2, 6, 23, 0) 44%),
+            linear-gradient(160deg, #04080f 0%, #050a13 52%, #03060d 100%);
         background-size: 150% 150%, 150% 150%, 160% 160%, 100% 100%;
         animation: section-aurora-shift 22s ease-in-out infinite alternate;
     }
@@ -205,11 +259,11 @@ code {
     }
 
     .terminal-header {
-        @apply relative bg-zinc-900 border-2 border-cyan-500/50 rounded-t-lg p-3 mb-0 font-mono;
+        @apply relative bg-zinc-900 border-2 border-emerald-400/40 rounded-t-lg p-3 mb-0 font-mono;
         font-family: "JetBrains Mono", "Courier New", monospace;
         background:
-            linear-gradient(90deg, rgba(7, 14, 25, 0.95) 0%, rgba(13, 18, 30, 0.95) 54%, rgba(7, 14, 25, 0.95) 100%);
-        box-shadow: 0 0 24px rgba(34, 211, 238, 0.08);
+            linear-gradient(90deg, rgba(5, 12, 18, 0.96) 0%, rgba(8, 18, 24, 0.95) 54%, rgba(5, 12, 18, 0.96) 100%);
+        box-shadow: 0 0 26px rgba(16, 185, 129, 0.1);
         overflow: hidden;
     }
 
@@ -220,22 +274,33 @@ code {
         left: -140%;
         width: 140%;
         height: 1px;
-        background: linear-gradient(90deg, transparent 0%, rgba(34, 211, 238, 0.9) 55%, transparent 100%);
+        background: linear-gradient(90deg, transparent 0%, rgba(16, 185, 129, 0.88) 55%, transparent 100%);
         animation: terminal-header-scan 5s linear infinite;
     }
 
     .terminal-body {
-        @apply relative bg-black/90 border-2 border-t-0 border-cyan-500/50 rounded-b-lg p-8 font-mono;
+        @apply relative bg-black/90 border-2 border-t-0 border-emerald-400/40 rounded-b-lg p-8 font-mono;
         font-family: "JetBrains Mono", "Courier New", monospace;
+        background:
+            linear-gradient(170deg, rgba(2, 6, 23, 0.9), rgba(2, 11, 18, 0.88)),
+            repeating-linear-gradient(
+                to bottom,
+                rgba(16, 185, 129, 0.03) 0px,
+                rgba(16, 185, 129, 0.03) 1px,
+                transparent 1px,
+                transparent 5px
+            );
         box-shadow:
-            inset 0 0 0 1px rgba(34, 211, 238, 0.08),
+            inset 0 0 0 1px rgba(16, 185, 129, 0.1),
             0 12px 40px rgba(2, 8, 23, 0.6),
-            0 0 26px rgba(34, 211, 238, 0.08);
+            0 0 26px rgba(16, 185, 129, 0.1);
     }
 
     .terminal-panel {
-        @apply relative bg-zinc-900/50 border border-cyan-500/30 rounded p-4 transition-all duration-300;
-        background: linear-gradient(160deg, rgba(9, 14, 24, 0.78), rgba(5, 9, 15, 0.58));
+        @apply relative bg-zinc-900/50 border border-emerald-400/25 rounded p-4 transition-all duration-300;
+        background: linear-gradient(160deg, rgba(9, 14, 24, 0.82), rgba(4, 11, 15, 0.62));
+        border-left-width: 3px;
+        border-left-color: rgba(16, 185, 129, 0.6);
         box-shadow: 0 4px 18px rgba(2, 8, 23, 0.35);
         overflow: hidden;
     }
@@ -246,15 +311,16 @@ code {
         inset: 0;
         pointer-events: none;
         border-radius: inherit;
-        border: 1px solid rgba(34, 211, 238, 0.07);
+        border: 1px solid rgba(16, 185, 129, 0.08);
     }
 
     .terminal-panel:hover {
-        transform: translateY(-3px);
-        border-color: rgba(34, 211, 238, 0.65);
+        transform: translateY(-4px) scale(1.005);
+        border-color: rgba(16, 185, 129, 0.65);
+        border-left-color: rgba(6, 182, 212, 0.72);
         box-shadow:
-            0 0 0 1px rgba(34, 211, 238, 0.2),
-            0 14px 30px rgba(8, 47, 73, 0.28);
+            0 0 0 1px rgba(16, 185, 129, 0.2),
+            0 16px 34px rgba(4, 32, 25, 0.34);
     }
 
     .terminal-icon {

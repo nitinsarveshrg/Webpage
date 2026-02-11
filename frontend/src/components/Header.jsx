@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from './ui/button';
-import { Menu, X, Terminal } from 'lucide-react';
+import { Menu, X, Activity } from 'lucide-react';
 import { scrollToSectionById } from '../lib/sectionScroll';
 
 const randomFloat = (min, max) => (Math.random() * (max - min) + min).toFixed(2);
@@ -13,23 +13,14 @@ const createMonitorSnapshot = () => ({
 });
 
 const SECTION_IDS = ['hero', 'about', 'skills', 'experience', 'projects', 'certifications', 'contact'];
-const SECTION_LABEL = {
-  hero: '~',
-  about: '~/about',
-  skills: '~/skills',
-  experience: '~/experience',
-  projects: '~/projects',
-  certifications: '~/certs',
-  contact: '~/contact',
-};
 const SECTION_MODE = {
-  hero: 'BOOT_SEQUENCE',
-  about: 'IDENTITY_MODE',
-  skills: 'SKILLS_MATRIX',
-  experience: 'OPS_HISTORY',
-  projects: 'BUILD_LAB',
-  certifications: 'TRUST_STORE',
-  contact: 'SECURE_CHANNEL',
+  hero: 'Overview',
+  about: 'Profile',
+  skills: 'Matrix',
+  experience: 'Timeline',
+  projects: 'Builds',
+  certifications: 'Credentials',
+  contact: 'Channel',
 };
 
 const Header = () => {
@@ -37,16 +28,13 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [monitor, setMonitor] = useState(createMonitorSnapshot);
   const [activeSection, setActiveSection] = useState('hero');
+
   const navLinkClass = (isActive) =>
-    `transition-all duration-200 px-3 py-1 rounded-md border ${
-      isActive
-        ? 'text-cyan-200 border-cyan-400/55 bg-cyan-500/18'
-        : 'text-zinc-400 border-transparent hover:text-cyan-300 hover:border-cyan-500/35 hover:bg-cyan-500/10'
-    }`;
+    `topnav-link ${isActive ? 'topnav-link-active' : 'topnav-link-idle'}`;
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 42);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -83,7 +71,7 @@ const Header = () => {
         }
       },
       {
-        threshold: [0.18, 0.32, 0.5, 0.68],
+        threshold: [0.2, 0.4, 0.58, 0.75],
         rootMargin: '-16% 0px -44% 0px',
       }
     );
@@ -105,139 +93,50 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-mono linux-header-shell ${
-        isScrolled
-          ? 'bg-black/78 backdrop-blur-xl border-b border-cyan-400/35 shadow-[0_8px_28px_rgba(8,145,178,0.2)]'
-          : 'bg-black/58 backdrop-blur-md border-b border-cyan-500/20'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled ? 'topnav-shell topnav-shell-scrolled' : 'topnav-shell'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-3">
-        <div className="flex items-center justify-between">
-          {/* Logo/Name - Terminal Style */}
-          <button
-            onClick={() => scrollToSection('hero')}
-            className="flex items-center gap-2 text-sm text-cyan-300 hover:text-cyan-200 transition-colors px-3 py-1 rounded-md border border-cyan-500/20 bg-cyan-500/5"
-          >
-            <Terminal size={16} />
-            <span className="text-green-400">root@cloud-devops</span>
-            <span className="text-white">:</span>
-            <span className="text-blue-400">{SECTION_LABEL[activeSection]}</span>
-            <span className="text-white">$</span>
-            <span className="hidden lg:inline text-[10px] ml-2 text-zinc-400">[{SECTION_MODE[activeSection]}]</span>
+        <div className="flex items-center justify-between gap-3">
+          <button onClick={() => scrollToSection('hero')} className="brand-pod">
+            <span className="brand-dot" />
+            <span className="brand-title">Nitin Sarvesh</span>
+            <span className="brand-sub">Cloud DevOps</span>
           </button>
 
-          <div className="hidden md:flex items-center gap-3">
-            {/* Desktop Navigation - Terminal Commands */}
-            <nav className="flex items-center gap-1 text-xs rounded-full border border-cyan-500/25 bg-zinc-950/65 px-2 py-1 linux-nav-shell">
-              <button
-                onClick={() => scrollToSection('about')}
-                className={navLinkClass(activeSection === 'about')}
-              >
-                ./about
-              </button>
-              <span className="text-zinc-700">|</span>
-              <button
-                onClick={() => scrollToSection('skills')}
-                className={navLinkClass(activeSection === 'skills')}
-              >
-                ./skills
-              </button>
-              <span className="text-zinc-700">|</span>
-              <button
-                onClick={() => scrollToSection('experience')}
-                className={navLinkClass(activeSection === 'experience')}
-              >
-                ./experience
-              </button>
-              <span className="text-zinc-700">|</span>
-              <button
-                onClick={() => scrollToSection('projects')}
-                className={navLinkClass(activeSection === 'projects')}
-              >
-                ./projects
-              </button>
-              <span className="text-zinc-700">|</span>
-              <button
-                onClick={() => scrollToSection('certifications')}
-                className={navLinkClass(activeSection === 'certifications')}
-              >
-                ./certs
-              </button>
-              <span className="text-zinc-700 mx-2">|</span>
-              <Button
-                onClick={() => scrollToSection('contact')}
-                className={`${
-                  activeSection === 'contact'
-                    ? 'bg-cyan-300 border-cyan-100'
-                    : 'bg-cyan-400 hover:bg-cyan-300 border-cyan-200'
-                } text-black font-bold border h-7 px-3 text-xs shadow-[0_0_16px_rgba(34,211,238,0.45)]`}
-              >
-                &gt; contact
-              </Button>
-            </nav>
+          <nav className="hidden md:flex items-center gap-1 topnav-links-wrap">
+            <button onClick={() => scrollToSection('about')} className={navLinkClass(activeSection === 'about')}>about</button>
+            <button onClick={() => scrollToSection('skills')} className={navLinkClass(activeSection === 'skills')}>skills</button>
+            <button onClick={() => scrollToSection('experience')} className={navLinkClass(activeSection === 'experience')}>experience</button>
+            <button onClick={() => scrollToSection('projects')} className={navLinkClass(activeSection === 'projects')}>projects</button>
+            <button onClick={() => scrollToSection('certifications')} className={navLinkClass(activeSection === 'certifications')}>certs</button>
+            <Button onClick={() => scrollToSection('contact')} className="topnav-cta">
+              contact
+            </Button>
+          </nav>
 
-            <div className="hidden xl:flex items-center gap-2 rounded-full border border-cyan-500/25 bg-zinc-950/65 px-3 py-1 text-[10px] text-zinc-300 linux-top-shell">
-              <span className="text-cyan-400">$ top -b -n1</span>
-              <span className="inline-flex items-center gap-1 uppercase tracking-wider text-[10px] text-green-400">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                live
-              </span>
-              <span className="text-zinc-500">|</span>
-              <span className="text-cyan-300">{SECTION_MODE[activeSection]}</span>
-              <span>CPU {monitor.cpu}%</span>
-              <span>MEM {monitor.memory}%</span>
-              <span>LOAD {monitor.load}</span>
-            </div>
+          <div className="hidden lg:flex items-center gap-2 topnav-live">
+            <Activity size={14} className="text-emerald-400" />
+            <span className="topnav-mode">{SECTION_MODE[activeSection]}</span>
+            <span className="topnav-metric">CPU {monitor.cpu}%</span>
+            <span className="topnav-metric">MEM {monitor.memory}%</span>
+            <span className="topnav-metric">LOAD {monitor.load}</span>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-cyan-400"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          <button className="md:hidden text-zinc-200" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+            {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
 
-        {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <nav className="md:hidden mt-4 pb-4 flex flex-col gap-2 text-xs border-t border-cyan-500/30 pt-4">
-            <button
-              onClick={() => scrollToSection('about')}
-              className="text-zinc-400 hover:text-cyan-400 transition-colors text-left"
-            >
-              $ ./about
-            </button>
-            <button
-              onClick={() => scrollToSection('skills')}
-              className="text-zinc-400 hover:text-cyan-400 transition-colors text-left"
-            >
-              $ ./skills
-            </button>
-            <button
-              onClick={() => scrollToSection('experience')}
-              className="text-zinc-400 hover:text-cyan-400 transition-colors text-left"
-            >
-              $ ./experience
-            </button>
-            <button
-              onClick={() => scrollToSection('projects')}
-              className="text-zinc-400 hover:text-cyan-400 transition-colors text-left"
-            >
-              $ ./projects
-            </button>
-            <button
-              onClick={() => scrollToSection('certifications')}
-              className="text-zinc-400 hover:text-cyan-400 transition-colors text-left"
-            >
-              $ ./certs
-            </button>
-            <Button
-              onClick={() => scrollToSection('contact')}
-              className="bg-cyan-500 hover:bg-cyan-600 text-black font-bold w-full border-2 border-cyan-400 h-8 text-xs mt-2"
-            >
-              &gt; contact
-            </Button>
+          <nav className="md:hidden mt-4 pb-3 flex flex-col gap-2 border-t border-white/15 pt-4">
+            <button onClick={() => scrollToSection('about')} className="topnav-mobile-link">about</button>
+            <button onClick={() => scrollToSection('skills')} className="topnav-mobile-link">skills</button>
+            <button onClick={() => scrollToSection('experience')} className="topnav-mobile-link">experience</button>
+            <button onClick={() => scrollToSection('projects')} className="topnav-mobile-link">projects</button>
+            <button onClick={() => scrollToSection('certifications')} className="topnav-mobile-link">certifications</button>
+            <Button onClick={() => scrollToSection('contact')} className="topnav-mobile-cta">contact</Button>
           </nav>
         )}
       </div>

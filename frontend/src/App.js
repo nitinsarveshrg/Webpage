@@ -10,7 +10,6 @@ import Projects from "./components/Projects";
 import Certifications from "./components/Certifications";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-import LinuxGlobalFrame from "./components/LinuxGlobalFrame";
 import { Toaster } from "./components/ui/toaster";
 import { scrollToSectionById } from "./lib/sectionScroll";
 
@@ -31,8 +30,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="bg-zinc-950 linux-shell-root">
-      <LinuxGlobalFrame />
+    <div className="bg-zinc-950">
       <Header />
       <Hero />
       <About />
