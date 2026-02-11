@@ -3,7 +3,7 @@ import { Menu, X, Activity, Flag, Gauge } from 'lucide-react';
 import { Button } from './ui/button';
 import { scrollToSectionById } from '../lib/sectionScroll';
 
-const SECTION_IDS = ['hero', 'about', 'skills', 'projects', 'experience', 'contact'];
+const SECTION_IDS = ['hero', 'about', 'certifications', 'skills', 'experience', 'projects', 'contact'];
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const randomFloat = (min, max) => (Math.random() * (max - min) + min).toFixed(2);
@@ -126,9 +126,10 @@ const Header = () => {
 
         <nav className="pit-nav-desktop">
           <button className={navBtnClass('about')} onClick={() => jump('about')}>profile</button>
+          <button className={navBtnClass('certifications')} onClick={() => jump('certifications')}>certs</button>
           <button className={navBtnClass('skills')} onClick={() => jump('skills')}>stack</button>
-          <button className={navBtnClass('projects')} onClick={() => jump('projects')}>builds</button>
           <button className={navBtnClass('experience')} onClick={() => jump('experience')}>timeline</button>
+          <button className={navBtnClass('projects')} onClick={() => jump('projects')}>builds</button>
           <Button className="pit-contact-btn" onClick={() => jump('contact')}>
             contact
           </Button>
@@ -155,9 +156,10 @@ const Header = () => {
       {isMobileMenuOpen && (
         <div className="pit-mobile-panel">
           <button className={navBtnClass('about')} onClick={() => jump('about')}>profile</button>
+          <button className={navBtnClass('certifications')} onClick={() => jump('certifications')}>certs</button>
           <button className={navBtnClass('skills')} onClick={() => jump('skills')}>stack</button>
-          <button className={navBtnClass('projects')} onClick={() => jump('projects')}>builds</button>
           <button className={navBtnClass('experience')} onClick={() => jump('experience')}>timeline</button>
+          <button className={navBtnClass('projects')} onClick={() => jump('projects')}>builds</button>
           <Button className="pit-contact-btn" onClick={() => jump('contact')}>contact</Button>
         </div>
       )}
