@@ -6,7 +6,10 @@ export const scrollToSectionById = (sectionId, options = {}) => {
   if (!section) return false;
 
   const header = document.querySelector('header');
-  const target = section.querySelector('.terminal-header') || section;
+  const target =
+    section.querySelector('.neo-shell-top') ||
+    section.querySelector('.terminal-header') ||
+    section;
 
   const headerBottom = header ? header.getBoundingClientRect().bottom : 0;
   const targetTop = target.getBoundingClientRect().top;

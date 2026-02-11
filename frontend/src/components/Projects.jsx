@@ -5,6 +5,7 @@ import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
 import TerminalCommand from './TerminalCommand';
 import SectionModeBanner from './SectionModeBanner';
+import SectionFrame from './SectionFrame';
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const fullBlocks = '▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓';
@@ -39,18 +40,7 @@ const Projects = () => {
   return (
     <section id="projects" className="portfolio-section bg-zinc-950">
       <div className={`section-shell max-w-7xl w-full mx-auto px-6 relative z-10 ${frameExpanded ? 'section-frame-grow' : 'section-frame-preroll'}`}>
-        <div className="terminal-header">
-          <div className="flex items-center gap-2">
-            <div className="flex gap-2">
-              <div className="w-3 h-3 rounded-full bg-red-500"></div>
-              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-              <div className="w-3 h-3 rounded-full bg-green-500"></div>
-            </div>
-            <span className="text-cyan-400 text-sm ml-4">root@cloud-devops: ~/projects</span>
-          </div>
-        </div>
-
-        <div className="terminal-body terminal-overlay">
+        <SectionFrame path="root@cloud-devops: ~/projects" label="BUILD_LAB" bodyClassName="terminal-overlay">
           <SectionModeBanner
             className="mb-4"
             mode="BUILD_LAB"
@@ -178,7 +168,7 @@ const Projects = () => {
               </div>
             </div>
           )}
-        </div>
+        </SectionFrame>
       </div>
     </section>
   );

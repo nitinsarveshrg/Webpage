@@ -5,6 +5,7 @@ import ScrollTypingLine from './ScrollTypingLine';
 import TerminalCommand from './TerminalCommand';
 import { scrollToSectionById } from '../lib/sectionScroll';
 import SectionModeBanner from './SectionModeBanner';
+import SectionFrame from './SectionFrame';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -16,18 +17,7 @@ const Footer = () => {
   return (
     <footer className="snap-start py-12 bg-black">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="terminal-header">
-          <div className="flex items-center gap-2">
-            <div className="flex gap-2">
-              <div className="w-3 h-3 rounded-full bg-red-500" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500" />
-              <div className="w-3 h-3 rounded-full bg-green-500" />
-            </div>
-            <span className="text-cyan-400 text-sm ml-4 font-mono">root@cloud-devops: ~/footer</span>
-          </div>
-        </div>
-
-        <div className="terminal-body terminal-overlay">
+        <SectionFrame path="root@cloud-devops: ~/footer" label="SESSION_SUMMARY" bodyClassName="terminal-overlay">
           <SectionModeBanner
             className="mb-6"
             mode="SESSION_SUMMARY"
@@ -102,7 +92,7 @@ const Footer = () => {
               />
             </div>
           </div>
-        </div>
+        </SectionFrame>
       </div>
     </footer>
   );

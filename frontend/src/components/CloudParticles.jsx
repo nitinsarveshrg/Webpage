@@ -43,13 +43,13 @@ const CloudParticles = () => {
 
       draw() {
         const pulse = Math.sin(this.pulsePhase) * 0.3 + 0.7;
-        ctx.fillStyle = `rgba(59, 130, 246, ${this.opacity * pulse})`;
+        ctx.fillStyle = `rgba(251, 191, 36, ${this.opacity * pulse})`;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size * pulse, 0, Math.PI * 2);
         ctx.fill();
 
         // Draw a glow effect
-        ctx.fillStyle = `rgba(59, 130, 246, ${this.opacity * 0.2 * pulse})`;
+        ctx.fillStyle = `rgba(163, 230, 53, ${this.opacity * 0.2 * pulse})`;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size * pulse * 2, 0, Math.PI * 2);
         ctx.fill();
@@ -73,7 +73,7 @@ const CloudParticles = () => {
 
           if (distance < maxDistance) {
             const opacity = (1 - distance / maxDistance) * 0.3;
-            ctx.strokeStyle = `rgba(59, 130, 246, ${opacity})`;
+            ctx.strokeStyle = `rgba(251, 191, 36, ${opacity})`;
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(nodes[i].x, nodes[i].y);
@@ -106,7 +106,7 @@ const CloudParticles = () => {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none"
-      style={{ opacity: 0.15, zIndex: 0 }}
+      style={{ opacity: 0.12, zIndex: 0 }}
     />
   );
 };

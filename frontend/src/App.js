@@ -12,6 +12,7 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import { Toaster } from "./components/ui/toaster";
 import { scrollToSectionById } from "./lib/sectionScroll";
+import CloudParticles from "./components/CloudParticles";
 
 const Home = () => {
   useEffect(() => {
@@ -30,7 +31,8 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="bg-zinc-950">
+    <div className="overhaul-root bg-zinc-950">
+      <CloudParticles />
       <Header />
       <Hero />
       <About />

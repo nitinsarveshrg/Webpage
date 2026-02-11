@@ -4,6 +4,7 @@ import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
 import TerminalCommand from './TerminalCommand';
 import SectionModeBanner from './SectionModeBanner';
+import SectionFrame from './SectionFrame';
 
 const SkillLevelCounter = ({ value, delay = 0 }) => {
   const [displayValue, setDisplayValue] = useState(0);
@@ -115,18 +116,7 @@ const Skills = () => {
   return (
     <section id="skills" className="portfolio-section bg-black">
       <div className={`section-shell max-w-7xl w-full mx-auto px-6 relative z-10 ${frameExpanded ? 'section-frame-grow' : 'section-frame-preroll'}`}>
-        <div className="terminal-header">
-          <div className="flex items-center gap-2">
-            <div className="flex gap-2">
-              <div className="w-3 h-3 rounded-full bg-red-500"></div>
-              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-              <div className="w-3 h-3 rounded-full bg-green-500"></div>
-            </div>
-            <span className="text-cyan-400 text-sm ml-4">root@cloud-devops: ~/skills</span>
-          </div>
-        </div>
-
-        <div className="terminal-body terminal-overlay">
+        <SectionFrame path="root@cloud-devops: ~/skills" label="MATRIX" bodyClassName="terminal-overlay">
           <div className="text-green-400 mb-6">
             <TerminalCommand
               className="mb-1"
@@ -254,7 +244,7 @@ const Skills = () => {
               </div>
             </div>
           )}
-        </div>
+        </SectionFrame>
       </div>
     </section>
   );

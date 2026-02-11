@@ -3,6 +3,7 @@ import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
 import TerminalCommand from './TerminalCommand';
 import SectionModeBanner from './SectionModeBanner';
+import SectionFrame from './SectionFrame';
 
 const About = () => {
   const [showContent, setShowContent] = useState(false);
@@ -19,18 +20,7 @@ const About = () => {
   return (
     <section id="about" className="portfolio-section bg-zinc-950">
       <div className={`section-shell max-w-7xl w-full mx-auto px-6 relative z-10 ${frameExpanded ? 'section-frame-grow' : 'section-frame-preroll'}`}>
-        <div className="terminal-header">
-          <div className="flex items-center gap-2">
-            <div className="flex gap-2">
-              <div className="w-3 h-3 rounded-full bg-red-500"></div>
-              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-              <div className="w-3 h-3 rounded-full bg-green-500"></div>
-            </div>
-            <span className="text-cyan-400 text-sm ml-4">root@cloud-devops: ~/about</span>
-          </div>
-        </div>
-
-        <div className="terminal-body terminal-overlay">
+        <SectionFrame path="root@cloud-devops: ~/about" label="PROFILE" bodyClassName="terminal-overlay">
           <pre className="text-cyan-400 text-xs mb-4 opacity-50">
 {`
               .--~~,__
@@ -121,7 +111,7 @@ const About = () => {
               </div>
             </div>
           )}
-        </div>
+        </SectionFrame>
       </div>
     </section>
   );
