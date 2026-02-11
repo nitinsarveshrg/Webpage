@@ -1,55 +1,52 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Cloud, Flag, Gauge, ShieldCheck, Timer } from 'lucide-react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Cpu, Gauge, RadioTower } from 'lucide-react';
 import TypingEffect from './TypingEffect';
-import { portfolioData } from '../mock';
 
-const raceLogs = [
-  '[pit] Tyre temps stabilized and launch map loaded',
-  '[cloud] AWS, Azure, and GCP control-plane synchronized',
-  '[sec] Guardrails enabled across CI/CD and runtime',
-  '[deploy] Pipeline confidence at race-ready state',
-  '[go] Grid clear. Entering portfolio cockpit',
+const bootLogs = [
+  '[init] loading profile: nitin.cloud-devops',
+  '[ok] shell environment detected (linux mode)',
+  '[ok] aws runtime bindings attached',
+  '[ok] ci/cd delivery hooks registered',
+  '[ok] observability streams online',
+  '[ready] launching portfolio',
 ];
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 const FrontGate = ({ exiting = false, onEnter }) => {
-  const [logIndex, setLogIndex] = useState(0);
-  const [telemetry, setTelemetry] = useState({
-    speed: randomInt(288, 346),
-    latency: randomInt(18, 39),
-    reliability: randomInt(97, 100),
+  const [lineIndex, setLineIndex] = useState(0);
+  const [metrics, setMetrics] = useState({
+    cpu: randomInt(28, 66),
+    mem: randomInt(34, 72),
+    latency: randomInt(16, 41),
   });
-  const doneRef = useRef(false);
 
   const finish = useCallback(() => {
-    if (doneRef.current) return;
-    doneRef.current = true;
     if (onEnter) onEnter();
   }, [onEnter]);
 
   useEffect(() => {
     const logTimer = window.setInterval(() => {
-      setLogIndex((prev) => (prev >= raceLogs.length - 1 ? prev : prev + 1));
-    }, 520);
+      setLineIndex((prev) => (prev >= bootLogs.length - 1 ? prev : prev + 1));
+    }, 210);
 
     return () => window.clearInterval(logTimer);
   }, []);
 
   useEffect(() => {
-    const telemetryTimer = window.setInterval(() => {
-      setTelemetry({
-        speed: randomInt(288, 346),
-        latency: randomInt(18, 39),
-        reliability: randomInt(97, 100),
+    const metricTimer = window.setInterval(() => {
+      setMetrics({
+        cpu: randomInt(28, 66),
+        mem: randomInt(34, 72),
+        latency: randomInt(16, 41),
       });
-    }, 560);
+    }, 320);
 
-    return () => window.clearInterval(telemetryTimer);
+    return () => window.clearInterval(metricTimer);
   }, []);
 
   useEffect(() => {
-    const autoEnter = window.setTimeout(() => finish(), 5200);
+    const autoEnter = window.setTimeout(() => finish(), 2900);
     return () => window.clearTimeout(autoEnter);
   }, [finish]);
 
@@ -64,100 +61,68 @@ const FrontGate = ({ exiting = false, onEnter }) => {
     return () => window.removeEventListener('keydown', onKey);
   }, [finish]);
 
-  const activeLogs = useMemo(() => raceLogs.slice(0, logIndex + 1), [logIndex]);
-
   return (
     <section className={`front-gate ${exiting ? 'is-exiting' : ''}`}>
       <div className="fg-backdrop" />
       <div className="fg-grid" />
-      <div className="fg-speed-lines" aria-hidden="true">
-        {Array.from({ length: 9 }).map((_, idx) => (
-          <span key={`fg-line-${idx}`} style={{ animationDelay: `${idx * 120}ms` }} />
-        ))}
-      </div>
 
-      <div className="fg-hud-top">
-        <span><Flag size={13} /> race control</span>
-        <span><Cloud size={13} /> multi-cloud runtime</span>
-        <span><Gauge size={13} /> lap launch mode</span>
-      </div>
-
-      <div className="fg-shell">
-        <div className="fg-left">
-          <p className="fg-kicker">F1 Styled Launch</p>
-          <h1>{portfolioData.personal.name}</h1>
-          <p className="fg-role">{portfolioData.personal.title}</p>
-          <p className="fg-tagline">{portfolioData.personal.tagline}</p>
-
-          <div className="fg-command">
-            <span className="prompt">$</span>{' '}
-            <TypingEffect
-              text="./ignite_portfolio --mode f1 --persona nitin --smooth"
-              speed={22}
-              cursorChar="_"
-              persistCursor
-            />
-          </div>
-
-          <div className="fg-pill-row">
-            <span>linux native</span>
-            <span>cloud reliability</span>
-            <span>f1 pace</span>
-          </div>
-
-          <button type="button" className="fg-enter-btn" onClick={finish}>
-            Enter Portfolio
-          </button>
-        </div>
-
-        <aside className="fg-right">
-          <div className="fg-right-head">
+      <div className="fg-shell fg-shell-terminal">
+        <div className="fg-terminal">
+          <div className="fg-terminal-top">
             <div className="fg-lights" aria-hidden="true">
-              <span className="on" />
-              <span className="on" />
-              <span className="on" />
-              <span className="on" />
-              <span className="go" />
+              <span className="red" />
+              <span className="yellow" />
+              <span className="green" />
             </div>
-            <p>nitin@pit-wall:~/launch-grid</p>
+            <p>root@cloud-devops:~/boot</p>
           </div>
 
-          <div className="fg-log-block">
-            {activeLogs.map((line) => (
-              <div key={line} className="fg-log-line">{line}</div>
-            ))}
-          </div>
+          <div className="fg-terminal-body">
+            <div className="fg-kicker">Initializing portfolio runtime</div>
 
-          <div className="fg-metric-row">
-            <div>
-              <Gauge size={13} />
-              <strong>{telemetry.speed} km/h</strong>
-              <small>velocity</small>
-            </div>
-            <div>
-              <Timer size={13} />
-              <strong>{telemetry.latency} ms</strong>
-              <small>latency</small>
-            </div>
-            <div>
-              <ShieldCheck size={13} />
-              <strong>{telemetry.reliability}%</strong>
-              <small>reliability</small>
-            </div>
-          </div>
-
-          <div className="fg-wave-bars" aria-hidden="true">
-            {Array.from({ length: 26 }).map((_, idx) => (
-              <span
-                key={`wave-${idx}`}
-                style={{
-                  height: `${20 + Math.abs(Math.sin((idx + telemetry.speed) * 0.31)) * 74}%`,
-                  animationDelay: `${idx * 36}ms`,
-                }}
+            <div className="fg-command">
+              <span className="prompt">$</span>{' '}
+              <TypingEffect
+                text="./bootstrap_portfolio --profile nitin --mode live"
+                speed={12}
+                startDelay={40}
+                cursorChar="_"
+                persistCursor
               />
-            ))}
+            </div>
+
+            <div className="fg-log-block">
+              {bootLogs.slice(0, lineIndex + 1).map((line) => (
+                <div key={line} className="fg-log-line">{line}</div>
+              ))}
+            </div>
+
+            <div className="fg-metric-row">
+              <div>
+                <Cpu size={13} />
+                <strong>{metrics.cpu}%</strong>
+                <small>cpu</small>
+              </div>
+              <div>
+                <RadioTower size={13} />
+                <strong>{metrics.mem}%</strong>
+                <small>mem</small>
+              </div>
+              <div>
+                <Gauge size={13} />
+                <strong>{metrics.latency}ms</strong>
+                <small>latency</small>
+              </div>
+            </div>
+
+            <div className="fg-terminal-actions">
+              <span>Press Enter to skip</span>
+              <button type="button" className="fg-enter-btn" onClick={finish}>
+                Enter Portfolio
+              </button>
+            </div>
           </div>
-        </aside>
+        </div>
       </div>
     </section>
   );
