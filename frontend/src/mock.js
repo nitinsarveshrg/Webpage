@@ -116,40 +116,67 @@ export const portfolioData = {
   projects: [
     {
       id: 1,
-      title: "Automated Deployment of Node.js Microservice on AWS ECS",
-      description: "Built an end-to-end AWS ECS deployment pipeline for a Node.js API with Terraform IaC and GitHub Actions automation.",
-      technologies: ["Node.js", "AWS ECS", "Terraform", "GitHub Actions", "Docker", "Amazon ECR", "ALB", "VPC", "CloudWatch"],
+      title: "Interactive Cloud DevOps Portfolio Runtime",
+      description: "Built a production-ready portfolio platform with terminal-style UX, live telemetry modes, theme engines, and responsive section architecture deployed on Vercel.",
+      technologies: ["React", "JavaScript", "CSS", "HTML", "Tailwind", "Vercel", "Formspree", "hCaptcha"],
       highlights: [
-        "Zero-downtime blue/green deployments behind ALB",
-        "Fully automated GitHub Actions release flow",
-        "Modular Terraform for repeatable infrastructure",
-        "No manual deployment steps in production"
+        "Custom live panels, runtime command animations, and theme switching",
+        "Section-driven Linux/F1 design language with smooth navigation",
+        "Integrated contact pipeline with AJAX submission and inline CAPTCHA",
+        "Continuous delivery through GitHub + Vercel deployment workflow"
+      ],
+      github: "https://github.com/nitinsarveshrg/Webpage",
+      demo: "https://nitinsarvesh.vercel.app"
+    },
+    {
+      id: 2,
+      title: "Product Catalog for Health Applications API",
+      description: "Implemented a Dockerized Node.js product catalog API with health endpoints and an automated AWS ECS Fargate deployment pipeline using Terraform and GitHub Actions.",
+      technologies: ["Node.js", "JavaScript", "TypeScript", "Docker", "Terraform", "AWS ECS Fargate", "ALB", "Amazon ECR", "GitHub Actions", "Shell"],
+      highlights: [
+        "CRUD product management API plus service health checks",
+        "IaC provisioning for network, compute, and load balancing",
+        "Container build, push, and deploy fully automated in CI/CD",
+        "Cloud-ready deployment with repeatable release process"
       ],
       github: "https://github.com/nitinsarveshrg/Product-Catalog-for-health-applications-using-API"
     },
     {
-      id: 2,
-      title: "Scalable AWS Cost Optimization Platform",
-      description: "Engineered a cloud-native FastAPI platform to detect spend anomalies and optimize AWS costs at large account scale.",
-      technologies: ["FastAPI", "AWS (EC2, RDS, S3)", "Terraform", "CI/CD", "Python", "Asynchronous Processing"],
+      id: 3,
+      title: "Cloud Cost Analysis and Optimization Platform",
+      description: "Developed a Python/FastAPI cloud cost analytics solution for anomaly detection, rightsizing recommendations, and large-scale AWS account optimization workflows.",
+      technologies: ["Python", "FastAPI", "AWS Cost Optimization", "Anomaly Detection", "Asynchronous Processing", "Shell", "PowerShell"],
       highlights: [
-        "Designed for 10,000+ AWS accounts",
-        "Automated anomaly detection + spend insights",
-        "Rightsizing and RI planning recommendations",
-        "Asynchronous processing for high-throughput analytics"
+        "Architecture designed for high account scale analysis",
+        "Anomaly detection workflow with optimization recommendations",
+        "API-first integration pattern for operational tooling",
+        "Execution model aligned for automation and extension"
       ],
       github: "https://github.com/nitinsarveshrg/Cloud-Cost-Analysis"
     },
     {
-      id: 3,
-      title: "Multi-Cloud Infrastructure Automation with Azure DevOps",
-      description: "Implemented Azure DevOps pipelines to provision and operate AWS infrastructure through reusable Terraform modules.",
-      technologies: ["Azure DevOps", "AWS", "Terraform", "CI/CD Pipelines", "YAML", "Infrastructure as Code"],
+      id: 4,
+      title: "Ecommerce Selenium BDD Automation Framework",
+      description: "Built a Java-based Selenium automation framework with BDD, TestNG, Jenkins integration, and Allure reporting for scalable test execution.",
+      technologies: ["Java", "Selenium", "BDD", "TestNG", "Maven", "Jenkins", "Allure Reports", "HTML", "CSS", "JavaScript"],
       highlights: [
-        "Hybrid automation across Azure DevOps and AWS",
-        "Reusable Terraform modules for core AWS services",
-        "Automated provisioning for VPC/EC2/RDS/S3",
-        "Consistent cross-platform CI/CD workflows"
+        "Page Object Model framework structure for maintainability",
+        "Data-driven BDD test flows for ecommerce user journeys",
+        "Jenkins-driven automation pipeline for regression runs",
+        "Detailed reporting pipeline with Allure dashboards"
+      ],
+      github: "https://github.com/nitinsarveshrg/ecommerce-selenium--bdd"
+    },
+    {
+      id: 5,
+      title: "AWS Services Provisioning via Azure DevOps",
+      description: "Created infrastructure automation pipelines in Azure DevOps to provision core AWS services through Terraform modules and CI/CD workflows.",
+      technologies: ["Azure DevOps", "AWS", "Terraform", "HCL", "YAML", "CI/CD", "Infrastructure as Code"],
+      highlights: [
+        "Cross-platform delivery flow between Azure DevOps and AWS",
+        "Reusable Terraform modules for repeatable environment builds",
+        "Automated provisioning of VPC, compute, storage, and databases",
+        "Consistent IaC lifecycle from plan to apply"
       ],
       github: "https://github.com/nitinsarveshrg/Creation-of-AWS-services-using-Azure-Devops"
     }

@@ -785,6 +785,18 @@ main {
   gap: 0.7rem;
 }
 
+.project-skill-head {
+  margin-top: 0.72rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #93c5fd;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.6rem;
+  font-family: "JetBrains Mono", monospace;
+}
+
 .project-links a {
   text-decoration: none;
   color: #7dd3fc;
