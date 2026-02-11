@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Cloud, Container, Code2, Activity, Waves } from 'lucide-react';
+import { Cloud, Container, Code2, Activity, Waves, Radar } from 'lucide-react';
 import { portfolioData } from '../mock';
 
 const categories = [
@@ -13,34 +13,57 @@ const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
 const Skills = () => {
   const [active, setActive] = useState('devops');
-  const [volatility, setVolatility] = useState(2);
-  const [pulseSeed, setPulseSeed] = useState(0);
+  const [runtimeTick, setRuntimeTick] = useState(0);
+  const [feedLines, setFeedLines] = useState(['matrix online · profile values locked']);
 
   useEffect(() => {
     const id = window.setInterval(() => {
-      setPulseSeed((prev) => prev + 1);
-    }, 1300);
+      setRuntimeTick((prev) => prev + 1);
+    }, 1050);
 
     return () => window.clearInterval(id);
   }, []);
 
   const allSkills = useMemo(() => Object.values(portfolioData.skills).flat(), []);
 
-  const avgSkill = useMemo(() => {
-    if (allSkills.length === 0) return 0;
-    const sum = allSkills.reduce((acc, skill) => acc + skill.level, 0);
-    return Math.round(sum / allSkills.length);
-  }, [allSkills]);
-
   const activeSkills = useMemo(() => portfolioData.skills[active] || [], [active]);
 
   const liveSkills = useMemo(() => {
     return activeSkills.map((skill, index) => {
-      const wave = Math.sin((pulseSeed + index) * 0.85) * volatility;
-      const level = clamp(Math.round(skill.level + wave), Math.max(skill.level - 5, 40), 100);
-      return { ...skill, liveLevel: level };
+      const waveA = Math.sin((runtimeTick + index) * 0.74);
+      const waveB = Math.cos((runtimeTick + index) * 0.39);
+      const signal = clamp(Math.round(70 + waveA * 17 + waveB * 9), 44, 99);
+      const stability = clamp(Math.round(92 - Math.abs(waveA) * 10), 78, 99);
+      const trend = waveA > 0.15 ? 'rising' : waveA < -0.15 ? 'cooling' : 'steady';
+
+      return {
+        ...skill,
+        liveLevel: skill.level,
+        stability,
+        signal,
+        trend,
+      };
     });
-  }, [activeSkills, pulseSeed, volatility]);
+  }, [activeSkills, runtimeTick]);
+
+  useEffect(() => {
+    if (runtimeTick % 2 !== 0) return;
+
+    const meanLevel =
+      activeSkills.length > 0
+        ? Math.round(activeSkills.reduce((acc, item) => acc + item.level, 0) / activeSkills.length)
+        : 0;
+
+    const meanSignal =
+      liveSkills.length > 0
+        ? Math.round(liveSkills.reduce((acc, item) => acc + item.signal, 0) / liveSkills.length)
+        : 0;
+
+    const line = `${active} lane locked ${String(meanLevel).padStart(2, '0')}% · signal ${meanSignal}%`;
+    setFeedLines((prev) => [line, ...prev].slice(0, 5));
+  }, [runtimeTick, liveSkills, activeSkills, active]);
+
+  const activeCategory = categories.find((item) => item.key === active);
 
   return (
     <section id="skills" className="page-section section-band alt">
@@ -75,28 +98,26 @@ const Skills = () => {
                 <strong>{allSkills.length}</strong>
               </div>
               <div>
-                <span className="label">average score</span>
-                <strong>{avgSkill}%</strong>
+                <span className="label">active lane</span>
+                <strong>{activeCategory?.label || 'matrix'}</strong>
               </div>
             </div>
           </aside>
 
           <div className="glass-card skill-board-card">
             <div className="skill-board-head">
-              <h3>{categories.find((item) => item.key === active)?.label}</h3>
+              <h3>{activeCategory?.label}</h3>
               <span>live proficiency feed</span>
             </div>
 
             <div className="skill-live-control">
-              <span><Waves size={14} /> pulse</span>
-              <input
-                type="range"
-                min={1}
-                max={6}
-                value={volatility}
-                onChange={(event) => setVolatility(Number(event.target.value))}
-              />
-              <small>intensity {volatility}</small>
+              <span><Waves size={14} /> lane telemetry</span>
+              <div className="skill-live-tags" aria-hidden="true">
+                <span className="skill-live-tag">values locked</span>
+                <span className="skill-live-tag">signal tracked</span>
+                <span className="skill-live-tag">runtime synced</span>
+              </div>
+              <small>Skill percentages are fixed from your profile data.</small>
             </div>
 
             <div className="skill-rows-new">
@@ -104,10 +125,20 @@ const Skills = () => {
                 <div key={skill.name} className="skill-row-new">
                   <div className="skill-row-meta">
                     <span>{skill.name}</span>
-                    <span>{skill.liveLevel}%</span>
+                    <span>{skill.level}%</span>
                   </div>
                   <div className="skill-row-track">
-                    <div className="skill-row-fill" style={{ width: `${skill.liveLevel}%` }} />
+                    <div className="skill-row-fill" style={{ width: `${skill.level}%` }}>
+                      <span className="skill-row-scan" />
+                    </div>
+                  </div>
+                  <div className="skill-row-live-meta">
+                    <span>{skill.trend}</span>
+                    <span>stability {skill.stability}%</span>
+                    <span>signal {skill.signal}%</span>
+                  </div>
+                  <div className="skill-row-signal-track">
+                    <div className="skill-row-signal-fill" style={{ width: `${skill.signal}%` }} />
                   </div>
                 </div>
               ))}
@@ -125,6 +156,18 @@ const Skills = () => {
               <div className="skill-live-panel">
                 <span>delivery confidence</span>
                 <strong>race-ready</strong>
+              </div>
+            </div>
+
+            <div className="skill-feed-card">
+              <div className="skill-feed-title"><Radar size={14} /> runtime feed</div>
+              <div className="skill-feed-lines">
+                {feedLines.map((line, index) => (
+                  <div key={`${line}-${index}`} className="skill-feed-line">
+                    <span className="dot" />
+                    <span>{line}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

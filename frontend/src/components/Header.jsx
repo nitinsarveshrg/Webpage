@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Menu, X, Activity } from 'lucide-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Menu, X, Activity, Flag, Gauge } from 'lucide-react';
 import { Button } from './ui/button';
 import { scrollToSectionById } from '../lib/sectionScroll';
 
@@ -7,6 +7,11 @@ const SECTION_IDS = ['hero', 'about', 'skills', 'projects', 'experience', 'certi
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const randomFloat = (min, max) => (Math.random() * (max - min) + min).toFixed(2);
+
+const randomDelta = () => {
+  const value = randomFloat(0.01, 0.89);
+  return Math.random() > 0.5 ? `+${value}` : `-${value}`;
+};
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -17,6 +22,12 @@ const Header = () => {
     cpu: randomInt(18, 71),
     mem: randomInt(34, 78),
     load: randomFloat(0.48, 1.92),
+  });
+  const [raceState, setRaceState] = useState({
+    lap: randomInt(4, 19),
+    sector: randomInt(1, 3),
+    delta: randomDelta(),
+    speed: randomInt(286, 336),
   });
 
   useEffect(() => {
@@ -39,7 +50,14 @@ const Header = () => {
         mem: randomInt(34, 78),
         load: randomFloat(0.48, 1.92),
       });
-    }, 1500);
+
+      setRaceState((prev) => ({
+        lap: prev.lap >= 58 ? 1 : prev.lap + 1,
+        sector: prev.sector === 3 ? 1 : prev.sector + 1,
+        delta: randomDelta(),
+        speed: randomInt(286, 336),
+      }));
+    }, 1400);
 
     return () => window.clearInterval(id);
   }, []);
@@ -86,15 +104,28 @@ const Header = () => {
   const navBtnClass = (sectionId) =>
     `pit-nav-link ${activeSection === sectionId ? 'pit-nav-link-active' : ''}`;
 
+  const telemetryBars = useMemo(() => {
+    return Array.from({ length: 14 }).map((_, index) => {
+      const base = 30 + ((index * 11 + topMetrics.cpu + raceState.sector * 7) % 62);
+      return Math.min(95, Math.max(12, base));
+    });
+  }, [topMetrics.cpu, raceState.sector]);
+
   return (
     <header className={`pit-header ${isScrolled ? 'pit-header-scrolled' : ''}`}>
       <div className="pit-header-progress" style={{ width: `${scrollProgress}%` }} />
 
+      <div className="pit-race-rail" aria-hidden="true">
+        <span className="pit-race-pill"><Flag size={12} /> pit wall live</span>
+        <span className="pit-race-meta">LAP {raceState.lap}/58 · S{raceState.sector} · DELTA {raceState.delta}</span>
+        <span className="pit-race-speed"><Gauge size={12} /> {raceState.speed} km/h</span>
+      </div>
+
       <div className="pit-header-inner">
         <button className="pit-brand" onClick={() => jump('hero')}>
           <span className="pit-brand-dot" />
-          <span className="pit-brand-main">nitin://pitlane</span>
-          <span className="pit-brand-sub">cloud-ops</span>
+          <span className="pit-brand-main">nitin://race-ops</span>
+          <span className="pit-brand-sub">cloud-devops</span>
         </button>
 
         <nav className="pit-nav-desktop">
@@ -110,7 +141,12 @@ const Header = () => {
 
         <div className="pit-top-command" aria-label="top command telemetry">
           <Activity size={14} />
-          <span className="pit-top-prompt">$ top</span>
+          <span className="pit-top-prompt">$ telemetry --race</span>
+          <div className="pit-top-bars" aria-hidden="true">
+            {telemetryBars.map((height, index) => (
+              <span key={`${height}-${index}`} style={{ height: `${height}%` }} />
+            ))}
+          </div>
           <span>CPU {topMetrics.cpu}%</span>
           <span>MEM {topMetrics.mem}%</span>
           <span>LOAD {topMetrics.load}</span>
