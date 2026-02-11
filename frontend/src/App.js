@@ -11,14 +11,13 @@ import Certifications from './components/Certifications';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import CloudParticles from './components/CloudParticles';
-import LiveControlPanel from './components/LiveControlPanel';
 import OpeningGate from './components/OpeningGate';
 import { Toaster } from './components/ui/toaster';
 import { scrollToSectionById } from './lib/sectionScroll';
 
 const Home = () => {
   const [introStage, setIntroStage] = useState('show');
-  const introLocked = introStage !== 'done';
+  const introLocked = introStage === 'show';
   const introLockedRef = useRef(introLocked);
 
   useEffect(() => {
@@ -26,11 +25,11 @@ const Home = () => {
   }, [introLocked]);
 
   useEffect(() => {
-    document.body.style.overflow = introLocked ? 'hidden' : '';
+    document.body.style.overflow = introStage !== 'done' ? 'hidden' : '';
     return () => {
       document.body.style.overflow = '';
     };
-  }, [introLocked]);
+  }, [introStage]);
 
   useEffect(() => {
     const scrollToHashTarget = () => {
@@ -58,7 +57,7 @@ const Home = () => {
 
       const hash = window.location.hash.replace('#', '');
       if (hash) scrollToSectionById(hash, { behavior: 'auto' });
-    }, 900);
+    }, 720);
 
     return () => clearTimeout(timer);
   }, [introStage]);
@@ -87,7 +86,6 @@ const Home = () => {
         <Contact />
       </main>
       <Footer />
-      <LiveControlPanel />
 
       {introStage !== 'done' && (
         <OpeningGate
