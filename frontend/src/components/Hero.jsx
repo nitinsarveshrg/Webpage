@@ -18,6 +18,46 @@ const bootMessages = [
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const randomFloat = (min, max) => (Math.random() * (max - min) + min).toFixed(2);
+const QUICK_COMMANDS = [
+  { id: 'profile', label: 'profile', section: 'about' },
+  { id: 'toolchain', label: 'toolchain', section: 'skills' },
+  { id: 'runbook', label: 'runbook', section: 'experience' },
+  { id: 'cert_store', label: 'cert_store', section: 'certifications' },
+  { id: 'secure_link', label: 'secure_link', section: 'contact' },
+];
+
+const COMMAND_OUTPUT = {
+  profile: [
+    '> identity_decryption.sh',
+    '> Cloud DevOps Engineer | 5+ years hands-on',
+    '> Multi-cloud: AWS, Azure, GCP',
+    '> Personal mode: Mercedes + Max Verstappen fan',
+  ],
+  toolchain: [
+    '> loading capability matrix...',
+    '> IaC: Terraform/Ansible/Helm',
+    '> Containers: Docker + Kubernetes',
+    '> CI/CD: Jenkins, ArgoCD, GitHub Actions',
+  ],
+  runbook: [
+    '> tail -f career.log',
+    '> 99.99% reliability improvements delivered',
+    '> MTTR reduced by 45%',
+    '> cloud cost reduced by 20%',
+  ],
+  cert_store: [
+    '> verify --credentials --active',
+    '> AWS SAA [ACTIVE]',
+    '> HashiCorp Terraform Associate [ACTIVE]',
+    '> secure trust store loaded',
+  ],
+  secure_link: [
+    '> establish_secure_channel --encrypted',
+    '> hCaptcha guard active',
+    '> no external redirect',
+    '> channel ready: transmit_message',
+  ],
+};
 
 const Hero = () => {
   const [visibleLines, setVisibleLines] = useState(0);
@@ -36,6 +76,7 @@ const Hero = () => {
     incidents: randomInt(0, 4),
     p99: randomInt(72, 148),
   });
+  const [activeCommand, setActiveCommand] = useState('profile');
 
   useEffect(() => {
     const startTimer = setTimeout(() => {
@@ -259,6 +300,18 @@ const Hero = () => {
               <div className="hero-side-head">
                 <span className="text-cyan-400">$</span> watch -n 1 /proc/cloud/status
               </div>
+              <div className="hero-command-tabs">
+                {QUICK_COMMANDS.map((cmd) => (
+                  <button
+                    key={cmd.id}
+                    type="button"
+                    onClick={() => setActiveCommand(cmd.id)}
+                    className={`hero-command-tab ${activeCommand === cmd.id ? 'hero-command-tab-active' : ''}`}
+                  >
+                    {cmd.label}
+                  </button>
+                ))}
+              </div>
               <div className="hero-side-grid">
                 <div className="hero-side-chip">
                   <span className="hero-side-label">active_pods</span>
@@ -282,6 +335,23 @@ const Hero = () => {
                 <div>[OK] k8s-workloads: healthy</div>
                 <div>[OK] cicd-queue: flowing</div>
                 <div>[INFO] f1-mode: mercedes + max</div>
+              </div>
+              <div className="hero-command-console">
+                <div className="hero-command-head">
+                  <span className="text-cyan-400">visitor@nitin:~$</span> ./{activeCommand}
+                </div>
+                <div className="hero-command-output">
+                  {COMMAND_OUTPUT[activeCommand].map((line) => (
+                    <div key={`${activeCommand}-${line}`}>{line}</div>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  className="hero-command-jump"
+                  onClick={() => scrollToSection(QUICK_COMMANDS.find((cmd) => cmd.id === activeCommand)?.section || 'about')}
+                >
+                  open section
+                </button>
               </div>
             </aside>
           </div>
@@ -485,6 +555,77 @@ const Hero = () => {
           line-height: 1.55;
           border-top: 1px solid rgba(34, 211, 238, 0.18);
           padding-top: 0.62rem;
+        }
+
+        .hero-command-tabs {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.36rem;
+          margin-bottom: 0.64rem;
+        }
+
+        .hero-command-tab {
+          border: 1px solid rgba(34, 211, 238, 0.22);
+          color: #a1a1aa;
+          font-size: 0.58rem;
+          text-transform: uppercase;
+          letter-spacing: 0.09em;
+          border-radius: 9999px;
+          padding: 0.14rem 0.48rem;
+          transition: all 0.2s ease;
+          background: rgba(2, 6, 23, 0.58);
+        }
+
+        .hero-command-tab:hover {
+          color: #67e8f9;
+          border-color: rgba(34, 211, 238, 0.42);
+        }
+
+        .hero-command-tab-active {
+          color: #e4e4e7;
+          border-color: rgba(34, 211, 238, 0.58);
+          background: rgba(34, 211, 238, 0.14);
+          box-shadow: inset 0 0 8px rgba(34, 211, 238, 0.2);
+        }
+
+        .hero-command-console {
+          margin-top: 0.72rem;
+          border-top: 1px solid rgba(34, 211, 238, 0.18);
+          padding-top: 0.62rem;
+        }
+
+        .hero-command-head {
+          color: #a1a1aa;
+          font-size: 0.64rem;
+          letter-spacing: 0.05em;
+          margin-bottom: 0.36rem;
+        }
+
+        .hero-command-output {
+          display: grid;
+          gap: 0.22rem;
+          color: #d4d4d8;
+          font-size: 0.66rem;
+          line-height: 1.45;
+          min-height: 4.8rem;
+        }
+
+        .hero-command-jump {
+          margin-top: 0.45rem;
+          border: 1px solid rgba(34, 211, 238, 0.34);
+          border-radius: 9999px;
+          color: #22d3ee;
+          font-size: 0.6rem;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          padding: 0.2rem 0.52rem;
+          transition: all 0.2s ease;
+        }
+
+        .hero-command-jump:hover {
+          color: #ecfeff;
+          border-color: rgba(34, 211, 238, 0.55);
+          background: rgba(34, 211, 238, 0.14);
         }
 
         .terminal-scanlines {
