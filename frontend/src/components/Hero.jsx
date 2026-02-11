@@ -11,6 +11,7 @@ const commandProfiles = [
     command: './boot-profile --mode race-weekend',
     graph: 'ramp',
     note: 'cold-start validation + infra warm-up',
+    targetSection: 'about',
     logs: [
       '[boot] loading profile modules',
       '[ok] telemetry drivers initialized',
@@ -23,6 +24,7 @@ const commandProfiles = [
     command: './sync-cloud --providers aws,azure,gcp',
     graph: 'pulse',
     note: 'multi-cloud control-plane sync',
+    targetSection: 'skills',
     logs: [
       '[sync] comparing drift across providers',
       '[ok] policy baseline matched',
@@ -35,6 +37,7 @@ const commandProfiles = [
     command: './stream-observability --realtime',
     graph: 'scan',
     note: 'log + metrics + traces stream fusion',
+    targetSection: 'experience',
     logs: [
       '[obs] attaching trace collectors',
       '[ok] p95 latency alerts armed',
@@ -47,6 +50,7 @@ const commandProfiles = [
     command: './deploy-fast --safe-rollout',
     graph: 'burst',
     note: 'canary rollout with rollback guardrails',
+    targetSection: 'projects',
     logs: [
       '[deploy] canary lane prepared',
       '[ok] health probes green',
@@ -54,6 +58,14 @@ const commandProfiles = [
       '[info] rollout complete with zero incidents',
     ],
   },
+];
+
+const sectionShortcuts = [
+  { id: 'about', label: './about' },
+  { id: 'skills', label: './skills' },
+  { id: 'experience', label: './experience' },
+  { id: 'projects', label: './projects' },
+  { id: 'contact', label: './contact' },
 ];
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
@@ -127,16 +139,13 @@ const Hero = () => {
     });
   }, [activeProfile.graph, runtimeTick, commandIndex, metrics.queue]);
 
-  const topCertifications = useMemo(
-    () => (portfolioData.certifications || []).slice(0, 2),
-    []
-  );
+  const topCertifications = useMemo(() => (portfolioData.certifications || []).slice(0, 2), []);
 
   return (
     <section id="hero" className="page-section hero-stage">
       <div className="section-anchor" aria-hidden="true" />
       <div className="hero-shell">
-        <div className="hero-grid-new">
+        <div className="hero-grid-new hero-grid-solo">
           <div className="hero-copy-new">
             <div className="hero-chip">LIVE | CLOUD DEVOPS | F1 MODE</div>
             <h1 className="hero-title-new">
@@ -149,15 +158,6 @@ const Hero = () => {
             <div className="hero-hiring-cta">
               <span className="hero-hiring-dot" aria-hidden="true" />
               <span>Open to Cloud / DevOps / SRE roles in Canada • Available immediately</span>
-            </div>
-
-            <div className="hero-cert-strip">
-              {topCertifications.map((cert) => (
-                <div key={cert.id} className="hero-cert-pill">
-                  <Award size={13} />
-                  <span>{cert.name}</span>
-                </div>
-              ))}
             </div>
 
             <div className="hero-cta-row">
@@ -176,77 +176,115 @@ const Hero = () => {
               <div className="hero-stat-box"><span>99.9%</span><small>uptime</small></div>
             </div>
           </div>
+        </div>
 
-          <aside className="hero-console-new">
-            <div className="hero-console-top">
-              <div className="hero-console-dots">
-                <span />
-                <span />
-                <span />
-              </div>
-              <div className="hero-console-path">nitin@pitlane:~/runtime</div>
+        <div className="glass-card hero-runtime-panel">
+          <div className="hero-console-top">
+            <div className="hero-console-dots">
+              <span />
+              <span />
+              <span />
+            </div>
+            <div className="hero-console-path">nitin@pitlane:~/runtime</div>
+          </div>
+
+          <div className="hero-console-body">
+            <div className="hero-command-chip-row">
+              {commandProfiles.map((profile, index) => (
+                <button
+                  key={profile.command}
+                  className={`hero-command-chip ${index === commandIndex ? 'active' : ''}`}
+                  onClick={() => {
+                    setCommandIndex(index);
+                    setAutoRotate(false);
+                  }}
+                >
+                  cmd {index + 1}
+                </button>
+              ))}
+              <button className="hero-command-chip" onClick={() => setAutoRotate((prev) => !prev)}>
+                {autoRotate ? 'auto on' : 'auto off'}
+              </button>
             </div>
 
-            <div className="hero-console-body">
-              <div className="hero-command-chip-row">
-                {commandProfiles.map((profile, index) => (
+            <div className="hero-command-line">
+              <span className="prompt">$</span>{' '}
+              <TypingEffect
+                key={activeProfile.command}
+                text={activeProfile.command}
+                speed={24}
+                cursorChar="_"
+                persistCursor
+              />
+            </div>
+
+            <div className="hero-runtime-note">{activeProfile.note}</div>
+
+            <div className="hero-log-lines">
+              {activeProfile.logs.map((line) => (
+                <div key={`${activeProfile.id}-${line}`}>{line}</div>
+              ))}
+            </div>
+
+            <div className={`hero-signal-bars mode-${activeProfile.graph}`}>
+              {commandSignal.map((value, index) => (
+                <span key={`${activeProfile.id}-${value}-${index}`} style={{ height: `${value}%` }} />
+              ))}
+            </div>
+
+            <div className="hero-metric-rail">
+              <div className="hero-metric-card">
+                <Cpu size={14} />
+                <span>queue {metrics.queue}</span>
+              </div>
+              <div className="hero-metric-card">
+                <Gauge size={14} />
+                <span>latency {metrics.latency}ms</span>
+              </div>
+              <div className="hero-metric-card">
+                <RadioTower size={14} />
+                <span>success {metrics.success}%</span>
+              </div>
+            </div>
+
+            <div className="hero-runtime-actions">
+              <button className="hero-runtime-link" onClick={() => jump(activeProfile.targetSection)}>
+                open ./{activeProfile.targetSection}
+              </button>
+              <div className="hero-section-links">
+                {sectionShortcuts.map((shortcut) => (
                   <button
-                    key={profile.command}
-                    className={`hero-command-chip ${index === commandIndex ? 'active' : ''}`}
-                    onClick={() => {
-                      setCommandIndex(index);
-                      setAutoRotate(false);
-                    }}
+                    key={shortcut.id}
+                    className={`hero-section-link ${activeProfile.targetSection === shortcut.id ? 'active' : ''}`}
+                    onClick={() => jump(shortcut.id)}
                   >
-                    cmd {index + 1}
+                    {shortcut.label}
                   </button>
                 ))}
-                <button className="hero-command-chip" onClick={() => setAutoRotate((prev) => !prev)}>
-                  {autoRotate ? 'auto on' : 'auto off'}
-                </button>
-              </div>
-
-              <div className="hero-command-line">
-                <span className="prompt">$</span>{' '}
-                <TypingEffect
-                  key={activeProfile.command}
-                  text={activeProfile.command}
-                  speed={24}
-                  cursorChar="_"
-                  persistCursor
-                />
-              </div>
-
-              <div className="hero-runtime-note">{activeProfile.note}</div>
-
-              <div className="hero-log-lines">
-                {activeProfile.logs.map((line) => (
-                  <div key={`${activeProfile.id}-${line}`}>{line}</div>
-                ))}
-              </div>
-
-              <div className={`hero-signal-bars mode-${activeProfile.graph}`}>
-                {commandSignal.map((value, index) => (
-                  <span key={`${activeProfile.id}-${value}-${index}`} style={{ height: `${value}%` }} />
-                ))}
-              </div>
-
-              <div className="hero-metric-rail">
-                <div className="hero-metric-card">
-                  <Cpu size={14} />
-                  <span>queue {metrics.queue}</span>
-                </div>
-                <div className="hero-metric-card">
-                  <Gauge size={14} />
-                  <span>latency {metrics.latency}ms</span>
-                </div>
-                <div className="hero-metric-card">
-                  <RadioTower size={14} />
-                  <span>success {metrics.success}%</span>
-                </div>
               </div>
             </div>
-          </aside>
+          </div>
+        </div>
+
+        <div className="glass-card hero-cert-band">
+          <div className="hero-cert-band-head">
+            <span>certifications</span>
+            <small>Trust signals above the fold</small>
+          </div>
+          <div className="hero-cert-band-list">
+            {topCertifications.map((cert) => (
+              <a
+                key={cert.id}
+                className="hero-cert-badge"
+                href={cert.link}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Award size={14} />
+                <span>{cert.name}</span>
+              </a>
+            ))}
+          </div>
         </div>
       </div>
 
