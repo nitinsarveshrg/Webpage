@@ -1,99 +1,34 @@
 import React from 'react';
-import { Github, Linkedin, Mail, Terminal } from 'lucide-react';
+import { Github, Linkedin, Mail } from 'lucide-react';
 import { portfolioData } from '../mock';
-import ScrollTypingLine from './ScrollTypingLine';
-import TerminalCommand from './TerminalCommand';
 import { scrollToSectionById } from '../lib/sectionScroll';
-import SectionModeBanner from './SectionModeBanner';
-import SectionFrame from './SectionFrame';
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
-
-  const scrollToSection = (sectionId) => {
-    scrollToSectionById(sectionId);
-  };
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="snap-start py-12 bg-black">
-      <div className="max-w-7xl mx-auto px-6">
-        <SectionFrame path="root@cloud-devops: ~/footer" label="SESSION_SUMMARY" bodyClassName="terminal-overlay">
-          <SectionModeBanner
-            className="mb-6"
-            mode="SESSION_SUMMARY"
-            command="cat /var/log/portfolio-session.log"
-            status="STABLE"
-            tags={['LINUX_STYLE', 'PUBLIC_PROFILE', 'READY']}
-          />
+    <footer className="footer-new">
+      <div className="content-wrap footer-grid-new">
+        <div>
+          <div className="footer-name">{portfolioData.personal.name}</div>
+          <div className="footer-role">{portfolioData.personal.title}</div>
+          <div className="footer-note">Built for cloud engineering roles and production-focused teams.</div>
+        </div>
 
-          <div className="grid md:grid-cols-3 gap-8 mb-8 relative z-10">
-            <div>
-              <div className="flex items-center gap-2 mb-3 text-cyan-400 font-mono">
-                <Terminal size={18} />
-                <span>{portfolioData.personal.name}</span>
-              </div>
-              <p className="text-zinc-400 text-sm font-mono">{portfolioData.personal.title}</p>
-              <p className="text-zinc-500 text-xs font-mono mt-2">Toronto, Canada • Linux-first cloud operations</p>
-            </div>
+        <nav className="footer-nav-new">
+          <button onClick={() => scrollToSectionById('about')}>profile</button>
+          <button onClick={() => scrollToSectionById('skills')}>stack</button>
+          <button onClick={() => scrollToSectionById('projects')}>builds</button>
+          <button onClick={() => scrollToSectionById('contact')}>contact</button>
+        </nav>
 
-            <div>
-              <h4 className="text-cyan-400 font-mono text-sm mb-3">$ ls sections/</h4>
-              <nav className="flex flex-col gap-2">
-                <button onClick={() => scrollToSection('about')} className="text-zinc-300 hover:text-cyan-400 transition-colors text-left text-sm font-mono">./about</button>
-                <button onClick={() => scrollToSection('skills')} className="text-zinc-300 hover:text-cyan-400 transition-colors text-left text-sm font-mono">./skills</button>
-                <button onClick={() => scrollToSection('experience')} className="text-zinc-300 hover:text-cyan-400 transition-colors text-left text-sm font-mono">./experience</button>
-                <button onClick={() => scrollToSection('projects')} className="text-zinc-300 hover:text-cyan-400 transition-colors text-left text-sm font-mono">./projects</button>
-              </nav>
-            </div>
-
-            <div>
-              <h4 className="text-cyan-400 font-mono text-sm mb-3">$ ls socials/</h4>
-              <div className="flex gap-3">
-                <a
-                  href={portfolioData.personal.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 terminal-icon flex items-center justify-center text-zinc-300 hover:text-[#0A66C2] hover:border-[#0A66C2]/80 transition-colors"
-                >
-                  <Linkedin size={18} />
-                </a>
-                <a
-                  href={portfolioData.personal.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 terminal-icon flex items-center justify-center text-zinc-300 hover:text-white hover:border-white/70 transition-colors"
-                >
-                  <Github size={18} />
-                </a>
-                <a
-                  href={`mailto:${portfolioData.personal.email}`}
-                  className="w-10 h-10 terminal-icon flex items-center justify-center text-zinc-300 hover:text-[#EA4335] hover:border-[#EA4335]/80 transition-colors"
-                >
-                  <Mail size={18} />
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div className="pt-6 border-t border-cyan-500/20 flex flex-col md:flex-row items-center justify-between gap-4 relative z-10 font-mono text-xs">
-            <p className="text-zinc-400">© {currentYear} {portfolioData.personal.name}. All rights reserved.</p>
-            <div className="text-green-400">
-              <TerminalCommand
-                className="mb-0"
-                outputClassName=""
-                prompt="root@cloud-devops:~$"
-                command="cat stack.txt"
-                outputLines={[
-                  'UI_LAYER=React',
-                  'API_CORE=FastAPI',
-                  'INFRA=Terraform+Kubernetes',
-                  'CI_PIPELINE=GitHubActions',
-                ]}
-              />
-            </div>
-          </div>
-        </SectionFrame>
+        <div className="footer-social-new">
+          <a href={portfolioData.personal.linkedin} target="_blank" rel="noopener noreferrer"><Linkedin size={15} /></a>
+          <a href={portfolioData.personal.github} target="_blank" rel="noopener noreferrer"><Github size={15} /></a>
+          <a href={`mailto:${portfolioData.personal.email}`}><Mail size={15} /></a>
+        </div>
       </div>
+      <div className="footer-bottom-new">© {year} {portfolioData.personal.name}</div>
     </footer>
   );
 };

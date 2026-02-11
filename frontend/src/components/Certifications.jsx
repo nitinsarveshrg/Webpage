@@ -1,113 +1,46 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ExternalLink, ShieldCheck, GraduationCap } from 'lucide-react';
-import { Badge } from './ui/badge';
 import { portfolioData } from '../mock';
-import ScrollTypingLine from './ScrollTypingLine';
-import TerminalCommand from './TerminalCommand';
-import SectionModeBanner from './SectionModeBanner';
-import SectionFrame from './SectionFrame';
 
 const Certifications = () => {
-  const [showContent, setShowContent] = useState(false);
-  const [frameExpanded, setFrameExpanded] = useState(false);
-
   return (
-    <section id="certifications" className="portfolio-section bg-zinc-950">
-      <div className={`section-shell max-w-7xl w-full mx-auto px-6 relative z-10 ${frameExpanded ? 'section-frame-grow' : 'section-frame-preroll'}`}>
-        <SectionFrame path="root@cloud-devops: ~/certifications" label="TRUST_STORE" bodyClassName="terminal-overlay">
-          <div className="text-green-400 mb-6">
-            <TerminalCommand
-              className="mb-1"
-              prompt="root@cloud-devops:~$"
-              command="cat /etc/credentials/verified.list"
-              onRunStart={() => setFrameExpanded(true)}
-              onCompleteChange={() => setShowContent(true)}
-              outputClassName="ml-4 text-zinc-400 text-sm"
-              outputLines={[
-                'Reading verified credentials...',
-                `[✓] Found ${portfolioData.certifications.length} active certifications`,
-              ]}
-            />
+    <section id="certifications" className="page-section section-band">
+      <div className="section-anchor" aria-hidden="true" />
+      <div className="content-wrap">
+        <div className="section-headline">
+          <span className="section-label">certs</span>
+          <h2>Credentials + Education</h2>
+          <p>Validated cloud certifications and formal academic grounding in networking, security, and virtualization.</p>
+        </div>
+
+        <div className="cert-layout-new">
+          <div className="cert-column">
+            {portfolioData.certifications.map((cert) => (
+              <article key={cert.id} className="glass-card cert-card-new">
+                <div className="cert-status">active</div>
+                <h3><ShieldCheck size={16} /> {cert.name}</h3>
+                <p>{cert.issuer}</p>
+                <div className="cert-meta">{cert.date} · {cert.credentialId}</div>
+                {cert.link && (
+                  <a href={cert.link} target="_blank" rel="noopener noreferrer" className="cert-link">
+                    <ExternalLink size={14} /> verify
+                  </a>
+                )}
+              </article>
+            ))}
           </div>
 
-          {showContent && (
-            <div className="section-elongate-load">
-              <SectionModeBanner
-                className="mb-6"
-                mode="TRUST_STORE"
-                command="cat /etc/credentials/verified.list"
-                status="VERIFIED"
-                tags={['CLOUD_CERTS', 'SECURITY', 'ACTIVE']}
-              />
-
-              <div className="grid md:grid-cols-2 gap-6">
-                {portfolioData.certifications.map((cert, index) => (
-                  <div
-                    key={cert.id}
-                    className="terminal-panel hover:border-cyan-500 group terminal-stagger-reveal"
-                    style={{ '--reveal-delay': `${120 + index * 160}ms` }}
-                  >
-                    <div className="flex items-center justify-between mb-3 pb-2 border-b border-cyan-500/20">
-                      <div className="flex items-center gap-1 px-2 py-0.5 bg-green-500/10 border border-green-500/30 rounded text-[10px] text-green-400">
-                        <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
-                        ACTIVE
-                      </div>
-                      {cert.link && (
-                        <a href={cert.link} target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-cyan-400 transition-colors">
-                          <ExternalLink size={14} />
-                        </a>
-                      )}
-                    </div>
-
-                    <div className="flex items-start gap-3">
-                      <ShieldCheck className="text-cyan-400 flex-shrink-0" size={20} />
-                      <div className="flex-1">
-                        <h3 className="text-white font-bold text-sm mb-1 group-hover:text-cyan-400 transition-colors">{cert.name}</h3>
-                        <p className="text-green-400 text-xs mb-2">&gt; {cert.issuer}</p>
-                        <div className="flex items-center gap-2 text-[10px] text-zinc-400">
-                          <Badge className="bg-zinc-800 text-zinc-300 border border-zinc-700 text-[9px] px-1.5 py-0">{cert.date}</Badge>
-                          <span>ID: {cert.credentialId}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-8 pt-6 border-t border-cyan-500/30">
-                <div className="text-green-400 mb-4">
-                  <ScrollTypingLine prompt="$" text="cat education.log" speed={24} />
-                </div>
-                {portfolioData.education.map((edu, index) => (
-                  <div
-                    key={edu.id}
-                    className="terminal-panel max-w-2xl mx-auto terminal-stagger-reveal"
-                    style={{ '--reveal-delay': `${360 + index * 140}ms` }}
-                  >
-                    <div className="flex items-start gap-3">
-                      <GraduationCap className="text-cyan-400 flex-shrink-0" size={20} />
-                      <div>
-                        <div className="text-white font-bold text-sm mb-1">{edu.degree}</div>
-                        <div className="text-green-400 text-xs mb-1">&gt; {edu.institution}</div>
-                        <div className="flex items-center gap-3 text-xs text-zinc-400">
-                          <span>{edu.period}</span>
-                          <span>•</span>
-                          <span>{edu.location}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-6 text-green-400 text-sm terminal-stagger-reveal" style={{ '--reveal-delay': '700ms' }}>
-                <ScrollTypingLine prompt="$" text={`echo "All credentials verified and active"`} speed={24} />
-                <div className="ml-4">All credentials verified and active</div>
-                <div className="mt-2"><span className="text-cyan-400">$</span> <span className="animate-pulse">_</span></div>
-              </div>
-            </div>
-          )}
-        </SectionFrame>
+          <div className="edu-column">
+            {portfolioData.education.map((edu) => (
+              <article key={edu.id} className="glass-card edu-card-new">
+                <h4><GraduationCap size={16} /> {edu.degree}</h4>
+                <p>{edu.institution}</p>
+                <div>{edu.period}</div>
+                <small>{edu.location}</small>
+              </article>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
