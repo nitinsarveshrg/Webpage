@@ -9,11 +9,9 @@ import {
   Mountain,
   GitBranch,
   Flag,
+  TerminalSquare,
 } from 'lucide-react';
 import { portfolioData } from '../mock';
-import ScrollTypingLine from './ScrollTypingLine';
-
-const commandOrder = ['whoami', 'cat hobbies.md'];
 
 const hobbyIcon = (hobby) => {
   const value = hobby.toLowerCase();
@@ -28,7 +26,6 @@ const hobbyIcon = (hobby) => {
 
 const About = () => {
   const [selectedHobby, setSelectedHobby] = useState(portfolioData.about.hobbies[0] || '');
-  const [activeCommand, setActiveCommand] = useState('whoami');
 
   const hobbyNote = useMemo(() => {
     const lower = selectedHobby.toLowerCase();
@@ -41,44 +38,6 @@ const About = () => {
     return 'Always learning and building.';
   }, [selectedHobby]);
 
-  const renderMainContent = () => {
-    if (activeCommand === 'cat hobbies.md') {
-      return (
-        <div className="about-bio-lines">
-          <div className="about-bio-line">
-            <span className="prefix">{'>'}</span>
-            <span>Hobbies are pinned in the right panel.</span>
-          </div>
-          <div className="about-bio-line">
-            <span className="prefix">{'>'}</span>
-            <span>Selected: {selectedHobby}</span>
-          </div>
-          <div className="about-bio-line">
-            <span className="prefix">{'>'}</span>
-            <span>{hobbyNote}</span>
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <>
-        <div className="about-main-meta">
-          <UserCircle2 size={22} />
-          <span>Cloud DevOps Engineer | Toronto</span>
-        </div>
-        <ul className="about-whoami-list">
-          {portfolioData.about.highlights.map((item) => (
-            <li key={item}>
-              <MoveRight size={13} />
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-      </>
-    );
-  };
-
   return (
     <section id="about" className="page-section section-band">
       <div className="section-anchor" aria-hidden="true" />
@@ -89,25 +48,32 @@ const About = () => {
           <p>Short snapshot of how I think, ship, and operate in production.</p>
         </div>
 
-        <div className="about-command-row glass-card">
-          {commandOrder.map((cmd) => (
-            <button
-              key={cmd}
-              className={`about-command-btn ${activeCommand === cmd ? 'active' : ''}`}
-              onClick={() => setActiveCommand(cmd)}
-            >
-              {cmd}
-            </button>
-          ))}
-          <div className="about-command-live">
-            <span>$</span> {activeCommand}
-          </div>
-        </div>
-
         <div className="about-layout-new">
           <article className="glass-card about-main-card">
-            <ScrollTypingLine prompt="$" text={activeCommand} className="section-command" speed={20} />
-            {renderMainContent()}
+            <div className="section-command static">$ whoami</div>
+
+            <div className="about-main-meta">
+              <UserCircle2 size={22} />
+              <span>Cloud DevOps Engineer | Toronto</span>
+            </div>
+
+            <ul className="about-whoami-list">
+              {portfolioData.about.highlights.map((item) => (
+                <li key={item}>
+                  <MoveRight size={13} />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div className="about-hobby-preview">
+              <div className="about-hobby-title">operator summary</div>
+              <div className="about-hobby-row">
+                <span className="hobby-icon"><TerminalSquare size={14} /></span>
+                <span>{portfolioData.personal.title}</span>
+              </div>
+              <p>{portfolioData.about.bio}</p>
+            </div>
           </article>
 
           <aside className="glass-card about-side-card">
