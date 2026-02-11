@@ -12,12 +12,37 @@ const createMonitorSnapshot = () => ({
   load: randomFloat(0.42, 1.58),
 });
 
+const SECTION_IDS = ['hero', 'about', 'skills', 'experience', 'projects', 'certifications', 'contact'];
+const SECTION_LABEL = {
+  hero: '~',
+  about: '~/about',
+  skills: '~/skills',
+  experience: '~/experience',
+  projects: '~/projects',
+  certifications: '~/certs',
+  contact: '~/contact',
+};
+const SECTION_MODE = {
+  hero: 'BOOT_SEQUENCE',
+  about: 'IDENTITY_MODE',
+  skills: 'SKILLS_MATRIX',
+  experience: 'OPS_HISTORY',
+  projects: 'BUILD_LAB',
+  certifications: 'TRUST_STORE',
+  contact: 'SECURE_CHANNEL',
+};
+
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [monitor, setMonitor] = useState(createMonitorSnapshot);
-  const navLinkClass =
-    'text-zinc-400 hover:text-cyan-300 transition-all duration-200 px-3 py-1 rounded-md border border-transparent hover:border-cyan-500/35 hover:bg-cyan-500/10';
+  const [activeSection, setActiveSection] = useState('hero');
+  const navLinkClass = (isActive) =>
+    `transition-all duration-200 px-3 py-1 rounded-md border ${
+      isActive
+        ? 'text-cyan-200 border-cyan-400/55 bg-cyan-500/18'
+        : 'text-zinc-400 border-transparent hover:text-cyan-300 hover:border-cyan-500/35 hover:bg-cyan-500/10'
+    }`;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,8 +60,45 @@ const Header = () => {
     return () => window.clearInterval(id);
   }, []);
 
+  useEffect(() => {
+    const sectionRatios = new Map();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          sectionRatios.set(entry.target.id, entry.isIntersecting ? entry.intersectionRatio : 0);
+        });
+
+        let nextSection = 'hero';
+        let maxRatio = 0;
+        SECTION_IDS.forEach((sectionId) => {
+          const ratio = sectionRatios.get(sectionId) || 0;
+          if (ratio >= maxRatio) {
+            maxRatio = ratio;
+            nextSection = sectionId;
+          }
+        });
+
+        if (maxRatio > 0) {
+          setActiveSection((previous) => (previous === nextSection ? previous : nextSection));
+        }
+      },
+      {
+        threshold: [0.18, 0.32, 0.5, 0.68],
+        rootMargin: '-16% 0px -44% 0px',
+      }
+    );
+
+    SECTION_IDS.forEach((sectionId) => {
+      const sectionElement = document.getElementById(sectionId);
+      if (sectionElement) observer.observe(sectionElement);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   const scrollToSection = (sectionId) => {
     if (scrollToSectionById(sectionId)) {
+      setActiveSection(sectionId);
       setIsMobileMenuOpen(false);
     }
   };
@@ -59,8 +121,9 @@ const Header = () => {
             <Terminal size={16} />
             <span className="text-green-400">root@cloud-devops</span>
             <span className="text-white">:</span>
-            <span className="text-blue-400">~</span>
+            <span className="text-blue-400">{SECTION_LABEL[activeSection]}</span>
             <span className="text-white">$</span>
+            <span className="hidden lg:inline text-[10px] ml-2 text-zinc-400">[{SECTION_MODE[activeSection]}]</span>
           </button>
 
           <div className="hidden md:flex items-center gap-3">
@@ -68,53 +131,59 @@ const Header = () => {
             <nav className="flex items-center gap-1 text-xs rounded-full border border-cyan-500/25 bg-zinc-950/65 px-2 py-1">
               <button
                 onClick={() => scrollToSection('about')}
-                className={navLinkClass}
+                className={navLinkClass(activeSection === 'about')}
               >
                 ./about
               </button>
               <span className="text-zinc-700">|</span>
               <button
                 onClick={() => scrollToSection('skills')}
-                className={navLinkClass}
+                className={navLinkClass(activeSection === 'skills')}
               >
                 ./skills
               </button>
               <span className="text-zinc-700">|</span>
               <button
                 onClick={() => scrollToSection('experience')}
-                className={navLinkClass}
+                className={navLinkClass(activeSection === 'experience')}
               >
                 ./experience
               </button>
               <span className="text-zinc-700">|</span>
               <button
                 onClick={() => scrollToSection('projects')}
-                className={navLinkClass}
+                className={navLinkClass(activeSection === 'projects')}
               >
                 ./projects
               </button>
               <span className="text-zinc-700">|</span>
               <button
                 onClick={() => scrollToSection('certifications')}
-                className={navLinkClass}
+                className={navLinkClass(activeSection === 'certifications')}
               >
                 ./certs
               </button>
               <span className="text-zinc-700 mx-2">|</span>
               <Button
                 onClick={() => scrollToSection('contact')}
-                className="bg-cyan-400 hover:bg-cyan-300 text-black font-bold border border-cyan-200 h-7 px-3 text-xs shadow-[0_0_16px_rgba(34,211,238,0.45)]"
+                className={`${
+                  activeSection === 'contact'
+                    ? 'bg-cyan-300 border-cyan-100'
+                    : 'bg-cyan-400 hover:bg-cyan-300 border-cyan-200'
+                } text-black font-bold border h-7 px-3 text-xs shadow-[0_0_16px_rgba(34,211,238,0.45)]`}
               >
                 &gt; contact
               </Button>
             </nav>
 
             <div className="hidden xl:flex items-center gap-2 rounded-full border border-cyan-500/25 bg-zinc-950/65 px-3 py-1 text-[10px] text-zinc-300">
-              <span className="text-cyan-400">$ top</span>
+              <span className="text-cyan-400">$ top -b -n1</span>
               <span className="inline-flex items-center gap-1 uppercase tracking-wider text-[10px] text-green-400">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
                 live
               </span>
+              <span className="text-zinc-500">|</span>
+              <span className="text-cyan-300">{SECTION_MODE[activeSection]}</span>
               <span>CPU {monitor.cpu}%</span>
               <span>MEM {monitor.memory}%</span>
               <span>LOAD {monitor.load}</span>

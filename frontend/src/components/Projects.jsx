@@ -4,6 +4,7 @@ import { Badge } from './ui/badge';
 import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
 import TerminalCommand from './TerminalCommand';
+import SectionModeBanner from './SectionModeBanner';
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const fullBlocks = '▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓';
@@ -50,6 +51,14 @@ const Projects = () => {
         </div>
 
         <div className="terminal-body terminal-overlay">
+          <SectionModeBanner
+            className="mb-4"
+            mode="BUILD_LAB"
+            command="watch -n 2 status/rack-health --live"
+            status="NOMINAL"
+            tags={['SERVER_NODES', 'TELEMETRY', 'DEPLOYED']}
+          />
+
           <div className="server-rack mb-4 terminal-stagger-reveal" style={{ '--reveal-delay': '70ms' }}>
             <div className="server-rack-command">
               <span className="text-cyan-400">$</span> {rackCommand}

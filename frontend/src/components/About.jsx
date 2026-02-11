@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
 import TerminalCommand from './TerminalCommand';
+import SectionModeBanner from './SectionModeBanner';
 
 const About = () => {
   const [showContent, setShowContent] = useState(false);
@@ -54,6 +55,14 @@ const About = () => {
 
           {showContent && (
             <div className="section-elongate-load">
+              <SectionModeBanner
+                className="mb-6"
+                mode="IDENTITY_MODE"
+                command="cat /etc/profile.d/operator.conf"
+                status="ONLINE"
+                tags={['LINUX', 'CLOUD_OPS', 'F1_TELEMETRY']}
+              />
+
               <div className="grid md:grid-cols-2 gap-8 items-start">
                 <div className="terminal-panel terminal-stagger-reveal" style={{ '--reveal-delay': '100ms' }}>
                   <ScrollTypingLine className="text-green-400 text-sm mb-3" prompt="$" text="cat profile.txt" speed={24} />

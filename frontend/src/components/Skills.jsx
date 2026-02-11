@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Cloud, Container, Code, Activity } from 'lucide-react';
 import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
 import TerminalCommand from './TerminalCommand';
+import SectionModeBanner from './SectionModeBanner';
 
 const SkillLevelCounter = ({ value, delay = 0 }) => {
   const [displayValue, setDisplayValue] = useState(0);
@@ -55,9 +56,21 @@ const SkillMeterRow = ({ name, level, revealDelay = '0ms', countDelay = 0 }) => 
   );
 };
 
+const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+const seedMetrics = () => ({
+  cpu: randomInt(31, 66),
+  mem: randomInt(44, 78),
+  pods: randomInt(19, 34),
+  latency: randomInt(11, 29),
+  spark: Array.from({ length: 24 }, () => randomInt(28, 86)),
+});
+
 const Skills = () => {
   const [showContent, setShowContent] = useState(false);
   const [frameExpanded, setFrameExpanded] = useState(false);
+  const [liveMetrics, setLiveMetrics] = useState(seedMetrics);
 
   const skillCategories = [
     { title: 'Cloud Platforms', skills: portfolioData.skills.cloud, icon: Cloud },
@@ -66,6 +79,29 @@ const Skills = () => {
     { title: 'Monitoring', skills: portfolioData.skills.monitoring, icon: Activity },
   ];
   const allSkills = skillCategories.flatMap((category) => category.skills);
+  const sparkPoints = useMemo(
+    () => liveMetrics.spark.map((value, index) => `${(index / (liveMetrics.spark.length - 1)) * 100},${100 - value}`).join(' '),
+    [liveMetrics.spark]
+  );
+
+  useEffect(() => {
+    if (!showContent) return undefined;
+
+    const intervalId = window.setInterval(() => {
+      setLiveMetrics((previous) => {
+        const nextPoint = clamp(previous.spark[previous.spark.length - 1] + randomInt(-11, 11), 18, 92);
+        return {
+          cpu: clamp(previous.cpu + randomInt(-4, 4), 24, 78),
+          mem: clamp(previous.mem + randomInt(-3, 3), 34, 86),
+          pods: clamp(previous.pods + randomInt(-2, 2), 14, 39),
+          latency: clamp(previous.latency + randomInt(-3, 3), 7, 34),
+          spark: [...previous.spark.slice(1), nextPoint],
+        };
+      });
+    }, 1500);
+
+    return () => window.clearInterval(intervalId);
+  }, [showContent]);
 
   return (
     <section id="skills" className="portfolio-section bg-black">
@@ -110,12 +146,47 @@ const Skills = () => {
 
           {showContent && (
             <div className="section-elongate-load">
+              <SectionModeBanner
+                className="mb-4"
+                mode="SKILLS_MATRIX"
+                command="watch -n 1 /usr/bin/skill-probe --stream"
+                status="STREAMING"
+                tags={['LINUX_KERNEL', 'AUTO_TUNED', 'PROD_SIGNAL']}
+              />
+
               <div className="skills-topbar terminal-stagger-reveal" style={{ '--reveal-delay': '40ms' }}>
                 <div className="skills-top-title">LIVE PROFICIENCY CONSOLE</div>
                 <div className="skills-top-tags">
                   <span className="skills-top-tag">{allSkills.length} SKILLS TRACKED</span>
                   <span className="skills-top-tag">AUTO-TUNED</span>
                   <span className="skills-top-tag">ZERO DOWNTIME</span>
+                </div>
+              </div>
+
+              <div className="skills-live-grid terminal-stagger-reveal" style={{ '--reveal-delay': '90ms' }}>
+                <div className="linux-live-chip">
+                  <span className="linux-live-label">CPU</span>
+                  <span className="linux-live-value">{liveMetrics.cpu}%</span>
+                </div>
+                <div className="linux-live-chip">
+                  <span className="linux-live-label">MEM</span>
+                  <span className="linux-live-value">{liveMetrics.mem}%</span>
+                </div>
+                <div className="linux-live-chip">
+                  <span className="linux-live-label">PODS</span>
+                  <span className="linux-live-value">{liveMetrics.pods}</span>
+                </div>
+                <div className="linux-live-chip">
+                  <span className="linux-live-label">LATENCY</span>
+                  <span className="linux-live-value">{liveMetrics.latency}ms</span>
+                </div>
+                <div className="skills-spark-panel">
+                  <div className="skills-spark-head">
+                    <span className="text-cyan-400">$</span> tail -f /var/log/perf.log
+                  </div>
+                  <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="skills-sparkline">
+                    <polyline points={sparkPoints} />
+                  </svg>
                 </div>
               </div>
 

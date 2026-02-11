@@ -3,6 +3,7 @@ import { Calendar, MapPin, Briefcase } from 'lucide-react';
 import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
 import TerminalCommand from './TerminalCommand';
+import SectionModeBanner from './SectionModeBanner';
 
 const Experience = () => {
   const [showContent, setShowContent] = useState(false);
@@ -37,6 +38,14 @@ const Experience = () => {
 
           {showContent && (
             <div className="section-elongate-load">
+              <SectionModeBanner
+                className="mb-6"
+                mode="OPS_HISTORY"
+                command="journalctl -u career.service --since='5 years ago'"
+                status="INDEXED"
+                tags={['TIMELINE', 'PRODUCTION', 'IMPACT']}
+              />
+
               <div className="space-y-6">
                 {portfolioData.experience.map((job, index) => (
                   <div

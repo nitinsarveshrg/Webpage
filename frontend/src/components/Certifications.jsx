@@ -4,6 +4,7 @@ import { Badge } from './ui/badge';
 import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
 import TerminalCommand from './TerminalCommand';
+import SectionModeBanner from './SectionModeBanner';
 
 const Certifications = () => {
   const [showContent, setShowContent] = useState(false);
@@ -41,6 +42,14 @@ const Certifications = () => {
 
           {showContent && (
             <div className="section-elongate-load">
+              <SectionModeBanner
+                className="mb-6"
+                mode="TRUST_STORE"
+                command="cat /etc/credentials/verified.list"
+                status="VERIFIED"
+                tags={['CLOUD_CERTS', 'SECURITY', 'ACTIVE']}
+              />
+
               <div className="grid md:grid-cols-2 gap-6">
                 {portfolioData.certifications.map((cert, index) => (
                   <div

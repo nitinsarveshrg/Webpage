@@ -11,11 +11,12 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background:
-        radial-gradient(circle at 12% 12%, rgba(8, 145, 178, 0.22) 0%, rgba(2, 6, 23, 0) 34%),
-        radial-gradient(circle at 88% 18%, rgba(37, 99, 235, 0.18) 0%, rgba(2, 6, 23, 0) 38%),
+        radial-gradient(circle at 12% 12%, rgba(8, 145, 178, 0.28) 0%, rgba(2, 6, 23, 0) 34%),
+        radial-gradient(circle at 88% 18%, rgba(37, 99, 235, 0.2) 0%, rgba(2, 6, 23, 0) 38%),
+        radial-gradient(circle at 52% 92%, rgba(16, 185, 129, 0.14) 0%, rgba(2, 6, 23, 0) 42%),
         linear-gradient(160deg, #02060b 0%, #03080f 46%, #02050a 100%);
-    background-size: 140% 140%, 140% 140%, 100% 100%;
-    animation: ambient-shift 18s ease-in-out infinite alternate;
+    background-size: 150% 150%, 150% 150%, 160% 160%, 100% 100%;
+    animation: ambient-shift 22s ease-in-out infinite alternate;
 }
 
 code {
@@ -31,11 +32,12 @@ code {
         padding-top: 0.5rem;
         padding-bottom: 0.75rem;
         background:
-            radial-gradient(circle at 12% 8%, rgba(34, 211, 238, 0.12) 0%, rgba(2, 6, 23, 0) 38%),
-            radial-gradient(circle at 86% 14%, rgba(59, 130, 246, 0.1) 0%, rgba(2, 6, 23, 0) 40%),
+            radial-gradient(circle at 10% 10%, rgba(34, 211, 238, 0.2) 0%, rgba(2, 6, 23, 0) 36%),
+            radial-gradient(circle at 86% 14%, rgba(59, 130, 246, 0.18) 0%, rgba(2, 6, 23, 0) 40%),
+            radial-gradient(circle at 46% 78%, rgba(20, 184, 166, 0.12) 0%, rgba(2, 6, 23, 0) 44%),
             linear-gradient(160deg, #040810 0%, #050a14 52%, #03070f 100%);
-        background-size: 140% 140%, 140% 140%, 100% 100%;
-        animation: section-aurora-shift 20s ease-in-out infinite alternate;
+        background-size: 150% 150%, 150% 150%, 160% 160%, 100% 100%;
+        animation: section-aurora-shift 22s ease-in-out infinite alternate;
     }
 
     .portfolio-section::before {
@@ -44,8 +46,32 @@ code {
         inset: 0;
         pointer-events: none;
         background:
-            radial-gradient(circle at 50% 0%, rgba(34, 211, 238, 0.08), transparent 60%),
-            linear-gradient(to bottom, rgba(34, 211, 238, 0.025), transparent 24%);
+            radial-gradient(circle at 50% 0%, rgba(34, 211, 238, 0.12), transparent 58%),
+            linear-gradient(to bottom, rgba(34, 211, 238, 0.035), transparent 24%);
+    }
+
+    .portfolio-section::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+            repeating-linear-gradient(
+                to right,
+                rgba(34, 211, 238, 0.045) 0px,
+                rgba(34, 211, 238, 0.045) 1px,
+                transparent 1px,
+                transparent 96px
+            ),
+            repeating-linear-gradient(
+                to bottom,
+                rgba(56, 189, 248, 0.03) 0px,
+                rgba(56, 189, 248, 0.03) 1px,
+                transparent 1px,
+                transparent 72px
+            );
+        opacity: 0.34;
+        animation: section-grid-drift 30s linear infinite;
     }
 
     .portfolio-section > .section-shell {
@@ -150,6 +176,108 @@ code {
         @apply bg-zinc-900/50 border border-cyan-500/30 rounded transition-all duration-300;
     }
 
+    .linux-mode-banner {
+        border: 1px solid rgba(34, 211, 238, 0.3);
+        border-radius: 0.68rem;
+        background: linear-gradient(165deg, rgba(6, 12, 22, 0.86), rgba(4, 9, 16, 0.8));
+        padding: 0.6rem 0.7rem;
+        box-shadow:
+            inset 0 0 14px rgba(34, 211, 238, 0.11),
+            0 8px 20px rgba(2, 8, 23, 0.42);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .linux-mode-banner::after {
+        content: "";
+        position: absolute;
+        left: -120%;
+        top: 0;
+        width: 120%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent 0%, rgba(34, 211, 238, 0.92) 55%, transparent 100%);
+        animation: linux-banner-scan 3.8s linear infinite;
+    }
+
+    .linux-mode-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.7rem;
+        flex-wrap: wrap;
+        margin-bottom: 0.36rem;
+    }
+
+    .linux-mode-line {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        color: #a1a1aa;
+        font-size: 0.72rem;
+    }
+
+    .linux-mode-prompt {
+        color: #22d3ee;
+        font-weight: 700;
+    }
+
+    .linux-mode-command {
+        color: #22c55e;
+    }
+
+    .linux-mode-state {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        color: #86efac;
+        font-size: 0.62rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+    }
+
+    .linux-mode-dot {
+        width: 0.42rem;
+        height: 0.42rem;
+        border-radius: 9999px;
+        background: #4ade80;
+        box-shadow: 0 0 10px rgba(74, 222, 128, 0.72);
+        animation: skills-ping 1.5s ease-in-out infinite;
+    }
+
+    .linux-mode-meta {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+    }
+
+    .linux-mode-label {
+        color: #22d3ee;
+        font-size: 0.66rem;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+    .linux-mode-tags {
+        display: inline-flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+
+    .linux-mode-tag {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid rgba(34, 211, 238, 0.24);
+        border-radius: 9999px;
+        background: rgba(8, 47, 73, 0.2);
+        padding: 0.12rem 0.46rem;
+        color: #67e8f9;
+        font-size: 0.56rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+    }
+
     .skills-command-stream {
         display: grid;
         gap: 0.35rem;
@@ -252,6 +380,72 @@ code {
         text-transform: uppercase;
     }
 
+    .skills-live-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.55rem;
+        margin-bottom: 1rem;
+    }
+
+    .linux-live-chip {
+        border: 1px solid rgba(34, 211, 238, 0.22);
+        border-radius: 0.62rem;
+        background: rgba(4, 9, 16, 0.78);
+        padding: 0.38rem 0.54rem;
+        box-shadow: inset 0 0 10px rgba(34, 211, 238, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+    }
+
+    .linux-live-label {
+        color: #71717a;
+        font-size: 0.58rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+    }
+
+    .linux-live-value {
+        color: #22d3ee;
+        font-size: 0.72rem;
+        letter-spacing: 0.06em;
+        text-shadow: 0 0 10px rgba(34, 211, 238, 0.34);
+    }
+
+    .skills-spark-panel {
+        grid-column: span 4 / span 4;
+        border: 1px solid rgba(34, 211, 238, 0.24);
+        border-radius: 0.64rem;
+        background: linear-gradient(160deg, rgba(4, 9, 16, 0.84), rgba(8, 47, 73, 0.12));
+        overflow: hidden;
+    }
+
+    .skills-spark-head {
+        color: #a1a1aa;
+        font-size: 0.64rem;
+        padding: 0.36rem 0.58rem;
+        border-bottom: 1px solid rgba(34, 211, 238, 0.18);
+        letter-spacing: 0.06em;
+    }
+
+    .skills-sparkline {
+        width: 100%;
+        height: 62px;
+        display: block;
+        background: linear-gradient(to bottom, rgba(34, 211, 238, 0.08), rgba(0, 0, 0, 0));
+    }
+
+    .skills-sparkline polyline {
+        fill: none;
+        stroke: #22d3ee;
+        stroke-width: 2;
+        filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.42));
+        stroke-linejoin: round;
+        stroke-linecap: round;
+        animation: skills-spark-pulse 1.5s ease-in-out infinite;
+    }
+
     @media (max-width: 767px) {
         .skills-topbar {
             align-items: flex-start;
@@ -259,6 +453,14 @@ code {
 
         .skills-top-tags {
             margin-left: 0;
+        }
+
+        .skills-live-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .skills-spark-panel {
+            grid-column: span 2 / span 2;
         }
     }
 
@@ -500,19 +702,28 @@ code {
 
 @keyframes ambient-shift {
     0% {
-        background-position: 0% 0%, 100% 0%, 50% 50%;
+        background-position: 0% 0%, 100% 0%, 50% 50%, 50% 50%;
     }
     100% {
-        background-position: 25% 18%, 76% 20%, 50% 50%;
+        background-position: 25% 18%, 76% 20%, 43% 78%, 50% 50%;
     }
 }
 
 @keyframes section-aurora-shift {
     0% {
-        background-position: 0% 0%, 100% 0%, 50% 50%;
+        background-position: 0% 0%, 100% 0%, 40% 100%, 50% 50%;
     }
     100% {
-        background-position: 18% 14%, 84% 20%, 50% 50%;
+        background-position: 18% 14%, 84% 20%, 58% 72%, 50% 50%;
+    }
+}
+
+@keyframes section-grid-drift {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(-46px, -34px, 0);
     }
 }
 
@@ -565,6 +776,15 @@ code {
     }
     100% {
         transform: translateX(190%);
+    }
+}
+
+@keyframes linux-banner-scan {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(220%);
     }
 }
 
@@ -628,6 +848,16 @@ code {
     }
     100% {
         transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes skills-spark-pulse {
+    0%,
+    100% {
+        opacity: 0.82;
+    }
+    50% {
         opacity: 1;
     }
 }

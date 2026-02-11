@@ -6,6 +6,7 @@ import { Mail, Linkedin, Github, MapPin, Phone, Send, Loader2 } from 'lucide-rea
 import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
 import TerminalCommand from './TerminalCommand';
+import SectionModeBanner from './SectionModeBanner';
 
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xbdyerqo';
 const HCAPTCHA_SITE_KEY = process.env.REACT_APP_HCAPTCHA_SITE_KEY || '860a4082-9bc0-43fc-8456-bf88da424c0a';
@@ -138,6 +139,14 @@ const Contact = () => {
 
           {showContent && (
             <div className="section-elongate-load">
+              <SectionModeBanner
+                className="mb-6"
+                mode="SECURE_CHANNEL"
+                command="openssl s_client -connect contact.gateway:443"
+                status="ENCRYPTED"
+                tags={['FORMS', 'HCAPTCHA', 'NO_REDIRECT']}
+              />
+
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="terminal-stagger-reveal" style={{ '--reveal-delay': '120ms' }}>
                   <ScrollTypingLine className="text-green-400 text-sm mb-4" prompt="$" text="cat contact_info.dat" speed={24} />

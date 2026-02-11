@@ -13,13 +13,23 @@ const bootMessages = [
   '[OK] CI/CD Pipeline: RUNNING',
   '[OK] Terraform State: SYNCED',
   '[OK] Monitoring: ALL SYSTEMS NOMINAL',
+  '[OK] Race Telemetry Profile: MERCEDES + VERSTAPPEN',
 ];
+
+const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+const randomFloat = (min, max) => (Math.random() * (max - min) + min).toFixed(2);
 
 const Hero = () => {
   const [visibleLines, setVisibleLines] = useState(0);
   const [bootComplete, setBootComplete] = useState(false);
   const [showContent, setShowContent] = useState(false);
   const [heroRevealStep, setHeroRevealStep] = useState(0);
+  const [runtimeStats, setRuntimeStats] = useState({
+    cpu: randomInt(28, 61),
+    mem: randomInt(42, 76),
+    load: randomFloat(0.62, 1.84),
+    net: randomInt(380, 980),
+  });
 
   useEffect(() => {
     const startTimer = setTimeout(() => {
@@ -58,6 +68,21 @@ const Hero = () => {
 
     return () => timers.forEach((timer) => clearTimeout(timer));
   }, [showContent]);
+
+  useEffect(() => {
+    if (!bootComplete) return undefined;
+
+    const intervalId = window.setInterval(() => {
+      setRuntimeStats({
+        cpu: randomInt(28, 63),
+        mem: randomInt(42, 79),
+        load: randomFloat(0.62, 1.84),
+        net: randomInt(380, 980),
+      });
+    }, 1700);
+
+    return () => window.clearInterval(intervalId);
+  }, [bootComplete]);
 
   const scrollToSection = (sectionId) => {
     scrollToSectionById(sectionId);
@@ -104,6 +129,16 @@ const Hero = () => {
             <div className="terminal-flicker" />
           </div>
         </div>
+
+        {bootComplete && (
+          <div className="hero-runtime-strip">
+            <span className="hero-runtime-chip"><span className="hero-runtime-label">MODE</span><span className="hero-runtime-value">LINUX_OPS</span></span>
+            <span className="hero-runtime-chip"><span className="hero-runtime-label">CPU</span><span className="hero-runtime-value">{runtimeStats.cpu}%</span></span>
+            <span className="hero-runtime-chip"><span className="hero-runtime-label">MEM</span><span className="hero-runtime-value">{runtimeStats.mem}%</span></span>
+            <span className="hero-runtime-chip"><span className="hero-runtime-label">LOAD</span><span className="hero-runtime-value">{runtimeStats.load}</span></span>
+            <span className="hero-runtime-chip"><span className="hero-runtime-label">NET</span><span className="hero-runtime-value">{runtimeStats.net}mb/s</span></span>
+          </div>
+        )}
 
         {showContent && (
           <div className="text-center space-y-8 section-elongate-load">
@@ -292,6 +327,38 @@ const Hero = () => {
 
         .hero-title-glow {
           text-shadow: 0 0 18px rgba(34, 211, 238, 0.15);
+        }
+
+        .hero-runtime-strip {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+          justify-content: center;
+          margin: -0.1rem 0 1.8rem;
+          animation: hero-block-reveal 0.65s ease;
+        }
+
+        .hero-runtime-chip {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          border: 1px solid rgba(34, 211, 238, 0.36);
+          background: rgba(8, 15, 25, 0.82);
+          border-radius: 9999px;
+          padding: 0.2rem 0.62rem;
+          box-shadow: inset 0 0 10px rgba(34, 211, 238, 0.12);
+        }
+
+        .hero-runtime-label {
+          color: #71717a;
+          font-size: 0.62rem;
+          letter-spacing: 0.11em;
+        }
+
+        .hero-runtime-value {
+          color: #22d3ee;
+          font-size: 0.68rem;
+          letter-spacing: 0.05em;
         }
 
         .terminal-scanlines {
