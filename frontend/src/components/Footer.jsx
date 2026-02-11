@@ -4,6 +4,7 @@ import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
 import TerminalCommand from './TerminalCommand';
 import { scrollToSectionById } from '../lib/sectionScroll';
+import SectionModeBanner from './SectionModeBanner';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -27,6 +28,14 @@ const Footer = () => {
         </div>
 
         <div className="terminal-body terminal-overlay">
+          <SectionModeBanner
+            className="mb-6"
+            mode="SESSION_SUMMARY"
+            command="cat /var/log/portfolio-session.log"
+            status="STABLE"
+            tags={['LINUX_STYLE', 'PUBLIC_PROFILE', 'READY']}
+          />
+
           <div className="grid md:grid-cols-3 gap-8 mb-8 relative z-10">
             <div>
               <div className="flex items-center gap-2 mb-3 text-cyan-400 font-mono">
@@ -34,6 +43,7 @@ const Footer = () => {
                 <span>{portfolioData.personal.name}</span>
               </div>
               <p className="text-zinc-400 text-sm font-mono">{portfolioData.personal.title}</p>
+              <p className="text-zinc-500 text-xs font-mono mt-2">Toronto, Canada • Linux-first cloud operations</p>
             </div>
 
             <div>

@@ -75,15 +75,11 @@ export const portfolioData = {
       period: "Oct 2022 - Present",
       description: "Leading production cloud operations with automation-first IaC, CI/CD, and observability.",
       achievements: [
-        "Raised platform availability to 99.99% and cut latency by 30% on AWS",
-        "Automated multi-env IaC with Terraform and CloudFormation, reducing setup time by 85%",
-        "Built GitLab CI/CD pipelines, cutting deployment errors by 40% and doubling release speed",
-        "Shipped Python automation frameworks, reducing manual operations by 60%",
-        "Standardized Docker + Kubernetes + Helm rollouts, reducing release overhead by 50%",
-        "Hardened IAM, encryption, and AWS Config controls, lowering security findings by 70%",
-        "Rolled out Prometheus/Grafana observability, reducing MTTR by 45%",
-        "Implemented cross-region DR with 100% successful drill outcomes",
-        "Optimized AWS cost posture and reduced spend by 20%"
+        "Improved AWS reliability to 99.99% and reduced latency by 30%",
+        "Automated Terraform/CloudFormation environments and cut provisioning time by 85%",
+        "Built CI/CD pipelines that reduced deployment errors by 40% and doubled release speed",
+        "Implemented observability + security controls and reduced MTTR by 45% and findings by 70%",
+        "Optimized cloud architecture and reduced infrastructure cost by 20%"
       ]
     },
     {
@@ -94,12 +90,10 @@ export const portfolioData = {
       period: "Aug 2021 - Oct 2022",
       description: "Managed AWS/Azure production workloads with reliability, automation, and incident response ownership.",
       achievements: [
-        "Maintained 99.9% uptime for mission-critical workloads on AWS and Azure",
-        "Automated provisioning via Ansible and Terraform, reducing manual effort by 50%",
-        "Integrated Docker services into Jenkins/GitLab CI/CD, reducing build time by 30%",
-        "Operated Kubernetes clusters and deployed microservices through Helm",
-        "Optimized CI/CD test stages, reducing cycle time by 40%",
-        "Resolved cloud and Kubernetes incidents, reducing downtime by 35%"
+        "Maintained 99.9% uptime across AWS/Azure production workloads",
+        "Automated provisioning with Ansible/Terraform and cut manual work by 50%",
+        "Improved CI/CD throughput by reducing build/test cycle time by 30-40%",
+        "Operated Kubernetes + Helm workloads and reduced incident downtime by 35%"
       ]
     },
     {
@@ -110,12 +104,10 @@ export const portfolioData = {
       period: "May 2020 - Jul 2021",
       description: "Supported cloud platform setup, Linux automation, and early CI/CD engineering.",
       achievements: [
-        "Automated Linux server tasks with Python and Bash, reducing manual effort by 55%",
-        "Built Jenkins CI/CD pipelines, improving deployment cycle time by 35%",
-        "Containerized applications with Docker, reducing configuration drift by 80%",
-        "Developed reusable Terraform modules, improving IaC standardization by 60%",
-        "Monitored infrastructure with Nagios and Zabbix while sustaining 99.9% uptime",
-        "Applied cloud security best practices, reducing unauthorized access risk by 40%"
+        "Automated Linux operations with Python/Bash and reduced manual effort by 55%",
+        "Built Jenkins CI/CD pipelines and improved deployment cycle time by 35%",
+        "Containerized workloads with Docker and reduced config drift by 80%",
+        "Built reusable Terraform modules and improved IaC consistency by 60%"
       ]
     }
   ],
@@ -125,39 +117,39 @@ export const portfolioData = {
     {
       id: 1,
       title: "Automated Deployment of Node.js Microservice on AWS ECS",
-      description: "Designed and implemented a fully automated CI/CD pipeline for a Node.js REST API (Product Catalog Service). Developed modular Terraform configurations to provision AWS infrastructure including VPC, ALB, ECS cluster, task definitions, and CloudWatch logging. Configured GitHub Actions workflows for automated blue/green ECS deployments.",
+      description: "Built an end-to-end AWS ECS deployment pipeline for a Node.js API with Terraform IaC and GitHub Actions automation.",
       technologies: ["Node.js", "AWS ECS", "Terraform", "GitHub Actions", "Docker", "Amazon ECR", "ALB", "VPC", "CloudWatch"],
       highlights: [
         "Zero-downtime blue/green deployments behind ALB",
-        "Fully automated CI/CD with GitHub Actions",
-        "Infrastructure as Code with modular Terraform",
-        "Eliminated manual deployment steps"
+        "Fully automated GitHub Actions release flow",
+        "Modular Terraform for repeatable infrastructure",
+        "No manual deployment steps in production"
       ],
       github: "https://github.com/nitinsarveshrg/Product-Catalog-for-health-applications-using-API"
     },
     {
       id: 2,
       title: "Scalable AWS Cost Optimization Platform",
-      description: "Designed and developed a cloud-native cost optimization and analytics platform capable of scaling to 10,000+ AWS accounts. Built a FastAPI-based microservice with authentication, caching, structured logging, and circuit-breaker pattern. Implemented cost anomaly detection and optimization algorithms for rightsizing, Reserved Instance planning, and lifecycle-based storage cost reduction.",
+      description: "Engineered a cloud-native FastAPI platform to detect spend anomalies and optimize AWS costs at large account scale.",
       technologies: ["FastAPI", "AWS (EC2, RDS, S3)", "Terraform", "CI/CD", "Python", "Asynchronous Processing"],
       highlights: [
-        "Scalable to 10,000+ AWS accounts",
-        "Cost anomaly detection algorithms",
-        "Rightsizing and Reserved Instance planning",
-        "Asynchronous processing for high throughput"
+        "Designed for 10,000+ AWS accounts",
+        "Automated anomaly detection + spend insights",
+        "Rightsizing and RI planning recommendations",
+        "Asynchronous processing for high-throughput analytics"
       ],
       github: "https://github.com/nitinsarveshrg/Cloud-Cost-Analysis"
     },
     {
       id: 3,
       title: "Multi-Cloud Infrastructure Automation with Azure DevOps",
-      description: "Implemented cross-cloud infrastructure provisioning using Azure DevOps pipelines to manage AWS resources. Built automated CI/CD workflows that provision and configure AWS services including VPC, EC2, RDS, and S3 using Terraform modules. Achieved seamless integration between Azure DevOps and AWS cloud, enabling consistent infrastructure deployment patterns across hybrid cloud environments.",
+      description: "Implemented Azure DevOps pipelines to provision and operate AWS infrastructure through reusable Terraform modules.",
       technologies: ["Azure DevOps", "AWS", "Terraform", "CI/CD Pipelines", "YAML", "Infrastructure as Code"],
       highlights: [
-        "Hybrid cloud automation (Azure DevOps + AWS)",
-        "Reusable Terraform modules for AWS services",
-        "Automated infrastructure provisioning",
-        "Cross-platform CI/CD integration"
+        "Hybrid automation across Azure DevOps and AWS",
+        "Reusable Terraform modules for core AWS services",
+        "Automated provisioning for VPC/EC2/RDS/S3",
+        "Consistent cross-platform CI/CD workflows"
       ],
       github: "https://github.com/nitinsarveshrg/Creation-of-AWS-services-using-Azure-Devops"
     }
