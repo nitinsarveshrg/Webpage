@@ -17,16 +17,24 @@ import { Toaster } from './components/ui/toaster';
 import { scrollToSectionById } from './lib/sectionScroll';
 
 const Home = () => {
-  const [showOpening, setShowOpening] = useState(true);
-  const openingRef = useRef(showOpening);
+  const [introStage, setIntroStage] = useState('show');
+  const introLocked = introStage !== 'done';
+  const introLockedRef = useRef(introLocked);
 
   useEffect(() => {
-    openingRef.current = showOpening;
-  }, [showOpening]);
+    introLockedRef.current = introLocked;
+  }, [introLocked]);
+
+  useEffect(() => {
+    document.body.style.overflow = introLocked ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [introLocked]);
 
   useEffect(() => {
     const scrollToHashTarget = () => {
-      if (openingRef.current) return;
+      if (introLockedRef.current) return;
 
       const hash = window.location.hash.replace('#', '');
       if (!hash) return;
@@ -43,16 +51,17 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (showOpening) return undefined;
+    if (introStage !== 'exit') return undefined;
 
     const timer = setTimeout(() => {
+      setIntroStage('done');
+
       const hash = window.location.hash.replace('#', '');
-      if (!hash) return;
-      scrollToSectionById(hash, { behavior: 'auto' });
-    }, 140);
+      if (hash) scrollToSectionById(hash, { behavior: 'auto' });
+    }, 900);
 
     return () => clearTimeout(timer);
-  }, [showOpening]);
+  }, [introStage]);
 
   useEffect(() => {
     const updatePointer = (event) => {
@@ -64,19 +73,11 @@ const Home = () => {
     return () => window.removeEventListener('pointermove', updatePointer);
   }, []);
 
-  if (showOpening) {
-    return (
-      <div className="overhaul-root">
-        <OpeningGate onComplete={() => setShowOpening(false)} />
-      </div>
-    );
-  }
-
   return (
     <div className="overhaul-root">
       <CloudParticles />
       <Header />
-      <main>
+      <main className={`portfolio-shell ${introLocked ? 'portfolio-preload' : 'portfolio-live'}`}>
         <Hero />
         <About />
         <Skills />
@@ -87,6 +88,13 @@ const Home = () => {
       </main>
       <Footer />
       <LiveControlPanel />
+
+      {introStage !== 'done' && (
+        <OpeningGate
+          exiting={introStage === 'exit'}
+          onComplete={() => setIntroStage((prev) => (prev === 'show' ? 'exit' : prev))}
+        />
+      )}
     </div>
   );
 };
