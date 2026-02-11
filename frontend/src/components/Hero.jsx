@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Button } from './ui/button';
-import { ChevronDown, Gauge, RadioTower, Cpu } from 'lucide-react';
+import { ChevronDown, Gauge, RadioTower, Cpu, Award } from 'lucide-react';
 import TypingEffect from './TypingEffect';
 import { portfolioData } from '../mock';
 import { scrollToSectionById } from '../lib/sectionScroll';
@@ -127,6 +127,11 @@ const Hero = () => {
     });
   }, [activeProfile.graph, runtimeTick, commandIndex, metrics.queue]);
 
+  const topCertifications = useMemo(
+    () => (portfolioData.certifications || []).slice(0, 2),
+    []
+  );
+
   return (
     <section id="hero" className="page-section hero-stage">
       <div className="section-anchor" aria-hidden="true" />
@@ -140,6 +145,20 @@ const Hero = () => {
             </h1>
             <p className="hero-role-new">{portfolioData.personal.title}</p>
             <p className="hero-tagline-new">{portfolioData.personal.tagline}</p>
+
+            <div className="hero-hiring-cta">
+              <span className="hero-hiring-dot" aria-hidden="true" />
+              <span>Open to Cloud / DevOps / SRE roles in Canada • Available immediately</span>
+            </div>
+
+            <div className="hero-cert-strip">
+              {topCertifications.map((cert) => (
+                <div key={cert.id} className="hero-cert-pill">
+                  <Award size={13} />
+                  <span>{cert.name}</span>
+                </div>
+              ))}
+            </div>
 
             <div className="hero-cta-row">
               <Button className="hero-btn-solid" onClick={() => jump('projects')}>

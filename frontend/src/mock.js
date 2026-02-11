@@ -5,7 +5,7 @@ export const portfolioData = {
   personal: {
     name: "Nitin Sarvesh Raajagopal",
     title: "Cloud DevOps Engineer",
-    tagline: "Automating secure multi-cloud platforms with production-first DevOps",
+    tagline: "Automating secure AWS cloud platforms with production-grade DevOps and Infrastructure as Code",
     email: "nitinsarveshrg@hotmail.com",
     linkedin: "https://www.linkedin.com/in/nitin-sarvesh-raajagopal/",
     github: "https://github.com/nitinsarveshrg/",

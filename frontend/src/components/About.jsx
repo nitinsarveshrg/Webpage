@@ -1,11 +1,16 @@
 import React, { useMemo, useState } from 'react';
-import { UserCircle2, Compass, Camera, Music2, MoveRight } from 'lucide-react';
+import { UserCircle2, Compass, Camera, Music2, MoveRight, Plane, Mountain, GitBranch, Flag } from 'lucide-react';
 import { portfolioData } from '../mock';
 import ScrollTypingLine from './ScrollTypingLine';
 
 const hobbyIcon = (hobby) => {
-  if (hobby.toLowerCase().includes('photography')) return <Camera size={14} />;
-  if (hobby.toLowerCase().includes('music')) return <Music2 size={14} />;
+  const value = hobby.toLowerCase();
+  if (value.includes('photography')) return <Camera size={14} />;
+  if (value.includes('travel')) return <Plane size={14} />;
+  if (value.includes('hiking')) return <Mountain size={14} />;
+  if (value.includes('music')) return <Music2 size={14} />;
+  if (value.includes('open-source') || value.includes('open source')) return <GitBranch size={14} />;
+  if (value.includes('formula 1') || value.includes('f1')) return <Flag size={14} />;
   return <Compass size={14} />;
 };
 

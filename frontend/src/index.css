@@ -45,6 +45,13 @@ body {
     radial-gradient(circle at 50% 120%, rgba(52, 211, 153, 0.14), transparent 44%),
     linear-gradient(140deg, #070b14 0%, #0c1220 52%, #090e18 100%);
   background-attachment: fixed;
+  overflow-x: hidden;
+}
+
+@supports (-webkit-touch-callout: none) {
+  body {
+    background-attachment: scroll;
+  }
 }
 
 code {
@@ -2079,8 +2086,8 @@ html[data-live-theme='race'] body {
 
 /* Pointer customization */
 :root {
-  --cursor-default: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Ccircle cx='14' cy='14' r='6' fill='none' stroke='%2338bdf8' stroke-width='1.5'/%3E%3Ccircle cx='14' cy='14' r='1.7' fill='%23ef4444'/%3E%3C/svg%3E") 14 14, auto;
-  --cursor-action: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Ccircle cx='14' cy='14' r='7' fill='none' stroke='%23ef4444' stroke-width='1.6'/%3E%3Ccircle cx='14' cy='14' r='2' fill='%2338bdf8'/%3E%3C/svg%3E") 14 14, pointer;
+  --cursor-default: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='5.2' fill='none' stroke='%2322d3ee' stroke-width='1.5'/%3E%3Crect x='3' y='15.3' width='6' height='1.4' fill='%2322d3ee'/%3E%3Crect x='23' y='15.3' width='6' height='1.4' fill='%2322d3ee'/%3E%3Ccircle cx='16' cy='16' r='1.8' fill='%23ef4444'/%3E%3C/svg%3E") 16 16, auto;
+  --cursor-action: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='%23ef4444' stroke-width='1.6'/%3E%3Cpath d='M16 8L21 16L16 24L11 16Z' fill='%2322d3ee'/%3E%3C/svg%3E") 16 16, pointer;
 }
 
 html,
@@ -2088,7 +2095,7 @@ body {
   cursor: var(--cursor-default);
 }
 
-a,
+a[href],
 button,
 [role='button'],
 input[type='button'],
@@ -2099,12 +2106,57 @@ input[type='submit'],
 .live-pill-btn,
 .live-dock-toggle {
   cursor: var(--cursor-action);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+[role='button'],
+input[type='button'],
+input[type='submit'],
+.pit-nav-link,
+.hero-command-chip,
+.skill-nav-btn,
+.live-pill-btn,
+.live-dock-toggle,
+.project-filter-btn,
+.project-links a,
+.contact-social-link,
+.fg-enter-btn {
+  transition: transform 120ms ease, filter 120ms ease, box-shadow 180ms ease;
+}
+
+button:active,
+[role='button']:active,
+input[type='button']:active,
+input[type='submit']:active,
+.pit-nav-link:active,
+.hero-command-chip:active,
+.skill-nav-btn:active,
+.live-pill-btn:active,
+.live-dock-toggle:active,
+.project-filter-btn:active,
+.project-links a:active,
+.contact-social-link:active,
+.fg-enter-btn:active {
+  transform: translateY(1px) scale(0.985);
+  filter: brightness(1.08);
+}
+
+a[href]:focus-visible,
+button:focus-visible,
+[role='button']:focus-visible,
+input[type='button']:focus-visible,
+input[type='submit']:focus-visible {
+  outline: 2px solid rgba(56, 189, 248, 0.72);
+  outline-offset: 2px;
 }
 
 input,
 textarea,
 select {
   cursor: text;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Stronger motion mode differentiation */
@@ -2677,4 +2729,61 @@ html[data-live-theme='matrix'] .cert-layout-new,
 html[data-live-theme='matrix'] .contact-layout-new,
 html[data-live-theme='matrix'] .footer-grid-new {
   gap: 0.55rem;
+}
+
+/* Skills proficiency format (no percentages) */
+.skills-level-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.skill-level-card {
+  padding: 0.95rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.skill-level-head {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #67e8f9;
+}
+
+.skill-level-head h3 {
+  margin: 0;
+  color: #e2e8f0;
+}
+
+.skill-level-list {
+  margin: 0;
+  padding-left: 1rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.skill-level-list li {
+  color: #dbe4f3;
+  line-height: 1.4;
+}
+
+.skill-level-name {
+  color: #e2e8f0;
+  font-weight: 700;
+}
+
+.skill-level-sep {
+  color: #94a3b8;
+}
+
+.skill-level-rank {
+  color: #86efac;
+  font-weight: 600;
+}
+
+@media (max-width: 980px) {
+  .skills-level-grid {
+    grid-template-columns: 1fr;
+  }
 }
