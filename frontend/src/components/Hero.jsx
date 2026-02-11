@@ -5,19 +5,90 @@ import TypingEffect from './TypingEffect';
 import { portfolioData } from '../mock';
 import { scrollToSectionById } from '../lib/sectionScroll';
 
-const commands = [
-  './boot-profile --mode race-weekend',
-  './sync-cloud --providers aws,azure,gcp',
-  './stream-observability --realtime',
-  './deploy-fast --safe-rollout',
+const commandProfiles = [
+  {
+    id: 'boot',
+    command: './boot-profile --mode race-weekend',
+    graph: 'ramp',
+    note: 'cold-start validation + infra warm-up',
+    logs: [
+      '[boot] loading profile modules',
+      '[ok] telemetry drivers initialized',
+      '[ok] autoscale policies attached',
+      '[info] pit strategy profile active',
+    ],
+  },
+  {
+    id: 'sync',
+    command: './sync-cloud --providers aws,azure,gcp',
+    graph: 'pulse',
+    note: 'multi-cloud control-plane sync',
+    logs: [
+      '[sync] comparing drift across providers',
+      '[ok] policy baseline matched',
+      '[ok] shared secrets rotation complete',
+      '[info] all regions report healthy',
+    ],
+  },
+  {
+    id: 'observe',
+    command: './stream-observability --realtime',
+    graph: 'scan',
+    note: 'log + metrics + traces stream fusion',
+    logs: [
+      '[obs] attaching trace collectors',
+      '[ok] p95 latency alerts armed',
+      '[ok] anomaly detector sensitivity tuned',
+      '[info] dashboards now live',
+    ],
+  },
+  {
+    id: 'deploy',
+    command: './deploy-fast --safe-rollout',
+    graph: 'burst',
+    note: 'canary rollout with rollback guardrails',
+    logs: [
+      '[deploy] canary lane prepared',
+      '[ok] health probes green',
+      '[ok] traffic shifted incrementally',
+      '[info] rollout complete with zero incidents',
+    ],
+  },
 ];
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const randomFloat = (min, max) => (Math.random() * (max - min) + min).toFixed(1);
 
+const signalFromMode = (mode, tick, index, commandIndex, queue) => {
+  const phase = tick + index + commandIndex * 3;
+
+  if (mode === 'ramp') {
+    const ramp = (index / 27) * 55 + 18;
+    const wave = Math.sin(phase * 0.22) * 10;
+    return Math.max(8, Math.min(92, Math.round(ramp + wave)));
+  }
+
+  if (mode === 'pulse') {
+    const pulse = Math.abs(Math.sin((phase + queue) * 0.32)) * 62;
+    const base = index % 2 === 0 ? 16 : 26;
+    return Math.max(8, Math.min(95, Math.round(base + pulse)));
+  }
+
+  if (mode === 'scan') {
+    const saw = ((phase * 7) % 100);
+    const wave = Math.cos(phase * 0.41) * 8;
+    return Math.max(10, Math.min(90, Math.round(saw * 0.62 + wave)));
+  }
+
+  const burst = Math.sin(phase * 0.5) > 0.62 ? 82 : 24;
+  const shake = Math.abs(Math.cos(phase * 0.35)) * 16;
+  return Math.max(8, Math.min(96, Math.round(burst + shake)));
+};
+
 const Hero = () => {
   const [commandIndex, setCommandIndex] = useState(0);
   const [autoRotate, setAutoRotate] = useState(true);
+  const [runtimeTick, setRuntimeTick] = useState(0);
   const [metrics, setMetrics] = useState({
     queue: randomInt(3, 18),
     latency: randomInt(18, 52),
@@ -28,8 +99,8 @@ const Hero = () => {
     if (!autoRotate) return undefined;
 
     const rotateId = window.setInterval(() => {
-      setCommandIndex((prev) => (prev + 1) % commands.length);
-    }, 2600);
+      setCommandIndex((prev) => (prev + 1) % commandProfiles.length);
+    }, 3200);
 
     return () => window.clearInterval(rotateId);
   }, [autoRotate]);
@@ -41,20 +112,20 @@ const Hero = () => {
         latency: randomInt(18, 52),
         success: randomFloat(99.2, 99.99),
       });
-    }, 1400);
+      setRuntimeTick((prev) => prev + 1);
+    }, 980);
 
     return () => window.clearInterval(metricId);
   }, []);
 
   const jump = (id) => scrollToSectionById(id);
+  const activeProfile = commandProfiles[commandIndex];
 
   const commandSignal = useMemo(() => {
     return Array.from({ length: 28 }).map((_, index) => {
-      const base = Math.sin((index + commandIndex) * 0.4) * 20 + 36;
-      const pulse = Math.cos((index + metrics.queue) * 0.2) * 8;
-      return Math.max(10, Math.min(76, Math.round(base + pulse)));
+      return signalFromMode(activeProfile.graph, runtimeTick, index, commandIndex, metrics.queue);
     });
-  }, [commandIndex, metrics.queue]);
+  }, [activeProfile.graph, runtimeTick, commandIndex, metrics.queue]);
 
   return (
     <section id="hero" className="page-section hero-stage">
@@ -99,9 +170,9 @@ const Hero = () => {
 
             <div className="hero-console-body">
               <div className="hero-command-chip-row">
-                {commands.map((cmd, index) => (
+                {commandProfiles.map((profile, index) => (
                   <button
-                    key={cmd}
+                    key={profile.command}
                     className={`hero-command-chip ${index === commandIndex ? 'active' : ''}`}
                     onClick={() => {
                       setCommandIndex(index);
@@ -118,19 +189,26 @@ const Hero = () => {
 
               <div className="hero-command-line">
                 <span className="prompt">$</span>{' '}
-                <TypingEffect key={commands[commandIndex]} text={commands[commandIndex]} speed={24} cursorChar="_" persistCursor />
+                <TypingEffect
+                  key={activeProfile.command}
+                  text={activeProfile.command}
+                  speed={24}
+                  cursorChar="_"
+                  persistCursor
+                />
               </div>
+
+              <div className="hero-runtime-note">{activeProfile.note}</div>
 
               <div className="hero-log-lines">
-                <div>[ok] control-plane synced</div>
-                <div>[ok] release lanes green</div>
-                <div>[ok] telemetry stream active</div>
-                <div>[info] mercedes + max weekend mode</div>
+                {activeProfile.logs.map((line) => (
+                  <div key={`${activeProfile.id}-${line}`}>{line}</div>
+                ))}
               </div>
 
-              <div className="hero-signal-bars">
+              <div className={`hero-signal-bars mode-${activeProfile.graph}`}>
                 {commandSignal.map((value, index) => (
-                  <span key={`${value}-${index}`} style={{ height: `${value}%` }} />
+                  <span key={`${activeProfile.id}-${value}-${index}`} style={{ height: `${value}%` }} />
                 ))}
               </div>
 

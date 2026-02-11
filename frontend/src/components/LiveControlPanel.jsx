@@ -60,6 +60,33 @@ const initialProcesses = PROCESS_NAMES.slice(0, 3).map((name) => ({
 
 const themeModes = ['race', 'stealth', 'ember', 'matrix'];
 
+const motionProfiles = {
+  calm: {
+    label: 'calm',
+    note: 'slow updates, softer graphs, minimal flicker',
+    tickMs: 1450,
+    drift: 2,
+    eventChance: 0.42,
+    spectrumBlend: 0.3,
+  },
+  balanced: {
+    label: 'balanced',
+    note: 'steady updates with normal signal variation',
+    tickMs: 980,
+    drift: 4,
+    eventChance: 0.62,
+    spectrumBlend: 0.55,
+  },
+  turbo: {
+    label: 'turbo',
+    note: 'fast updates, aggressive spikes, rapid event feed',
+    tickMs: 620,
+    drift: 7,
+    eventChance: 0.8,
+    spectrumBlend: 0.82,
+  },
+};
+
 const LiveControlPanel = () => {
   const [open, setOpen] = useState(true);
   const [command, setCommand] = useState('');
@@ -73,10 +100,8 @@ const LiveControlPanel = () => {
   const [events, setEvents] = useState(() => ['runtime initialized']);
   const [log, setLog] = useState('ready');
 
-  const tickMs = motion === 'calm' ? 1450 : motion === 'turbo' ? 620 : 980;
-  const drift = motion === 'calm' ? 2 : motion === 'turbo' ? 7 : 4;
-  const eventChance = motion === 'calm' ? 0.42 : motion === 'turbo' ? 0.8 : 0.62;
-  const spectrumBlend = motion === 'calm' ? 0.3 : motion === 'turbo' ? 0.82 : 0.55;
+  const selectedMotion = motionProfiles[motion] || motionProfiles.balanced;
+  const { label: motionLabel, note: motionNote, tickMs, drift, eventChance, spectrumBlend } = selectedMotion;
 
   useEffect(() => {
     const id = window.setInterval(() => {
@@ -180,10 +205,11 @@ const LiveControlPanel = () => {
           </div>
 
           <div className="live-motion-readout">
-            <span>motion {motion}</span>
+            <span>motion {motionLabel}</span>
             <span>tick {tickMs}ms</span>
             <span>drift {drift}</span>
           </div>
+          <div className="live-motion-note">{motionNote}</div>
 
           <div className="live-spectrum" aria-hidden="true">
             {spectrum.map((value, index) => (
@@ -245,7 +271,7 @@ const LiveControlPanel = () => {
 
           <div className="live-pill-row">
             <span className="live-pill-label"><Zap size={12} /> motion</span>
-            {['calm', 'balanced', 'turbo'].map((item) => (
+            {Object.keys(motionProfiles).map((item) => (
               <button
                 key={item}
                 className={`live-pill-btn ${motion === item ? 'active' : ''}`}
