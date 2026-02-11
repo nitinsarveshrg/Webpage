@@ -14,13 +14,13 @@ const createMonitorSnapshot = () => ({
 
 const SECTION_IDS = ['hero', 'about', 'skills', 'experience', 'projects', 'certifications', 'contact'];
 const SECTION_MODE = {
-  hero: 'Overview',
-  about: 'Profile',
-  skills: 'Matrix',
-  experience: 'Timeline',
-  projects: 'Builds',
-  certifications: 'Credentials',
-  contact: 'Channel',
+  hero: 'BOOT',
+  about: 'PROFILE',
+  skills: 'MATRIX',
+  experience: 'OPS_LOG',
+  projects: 'BUILDS',
+  certifications: 'CERTS',
+  contact: 'CHANNEL',
 };
 
 const Header = () => {
@@ -101,24 +101,26 @@ const Header = () => {
         <div className="flex items-center justify-between gap-3">
           <button onClick={() => scrollToSection('hero')} className="brand-pod">
             <span className="brand-dot" />
-            <span className="brand-title">Nitin Sarvesh</span>
-            <span className="brand-sub">Cloud DevOps</span>
+            <span className="brand-title">nitin@trackside</span>
+            <span className="brand-sub">linux-cloud-ops</span>
           </button>
 
           <nav className="hidden md:flex items-center gap-1 topnav-links-wrap">
-            <button onClick={() => scrollToSection('about')} className={navLinkClass(activeSection === 'about')}>about</button>
-            <button onClick={() => scrollToSection('skills')} className={navLinkClass(activeSection === 'skills')}>skills</button>
-            <button onClick={() => scrollToSection('experience')} className={navLinkClass(activeSection === 'experience')}>experience</button>
-            <button onClick={() => scrollToSection('projects')} className={navLinkClass(activeSection === 'projects')}>projects</button>
-            <button onClick={() => scrollToSection('certifications')} className={navLinkClass(activeSection === 'certifications')}>certs</button>
+            <button onClick={() => scrollToSection('about')} className={navLinkClass(activeSection === 'about')}>./about</button>
+            <button onClick={() => scrollToSection('skills')} className={navLinkClass(activeSection === 'skills')}>./skills</button>
+            <button onClick={() => scrollToSection('experience')} className={navLinkClass(activeSection === 'experience')}>./experience</button>
+            <button onClick={() => scrollToSection('projects')} className={navLinkClass(activeSection === 'projects')}>./projects</button>
+            <button onClick={() => scrollToSection('certifications')} className={navLinkClass(activeSection === 'certifications')}>./certs</button>
             <Button onClick={() => scrollToSection('contact')} className="topnav-cta">
-              contact
+              ./contact
             </Button>
           </nav>
 
           <div className="hidden lg:flex items-center gap-2 topnav-live">
             <Activity size={14} className="text-emerald-400" />
-            <span className="topnav-mode">{SECTION_MODE[activeSection]}</span>
+            <span className="topnav-prompt">$</span>
+            <span className="topnav-mode">top -d 1</span>
+            <span className="topnav-metric">MODE {SECTION_MODE[activeSection]}</span>
             <span className="topnav-metric">CPU {monitor.cpu}%</span>
             <span className="topnav-metric">MEM {monitor.memory}%</span>
             <span className="topnav-metric">LOAD {monitor.load}</span>
@@ -131,12 +133,12 @@ const Header = () => {
 
         {isMobileMenuOpen && (
           <nav className="md:hidden mt-4 pb-3 flex flex-col gap-2 border-t border-white/15 pt-4">
-            <button onClick={() => scrollToSection('about')} className="topnav-mobile-link">about</button>
-            <button onClick={() => scrollToSection('skills')} className="topnav-mobile-link">skills</button>
-            <button onClick={() => scrollToSection('experience')} className="topnav-mobile-link">experience</button>
-            <button onClick={() => scrollToSection('projects')} className="topnav-mobile-link">projects</button>
-            <button onClick={() => scrollToSection('certifications')} className="topnav-mobile-link">certifications</button>
-            <Button onClick={() => scrollToSection('contact')} className="topnav-mobile-cta">contact</Button>
+            <button onClick={() => scrollToSection('about')} className="topnav-mobile-link">./about</button>
+            <button onClick={() => scrollToSection('skills')} className="topnav-mobile-link">./skills</button>
+            <button onClick={() => scrollToSection('experience')} className="topnav-mobile-link">./experience</button>
+            <button onClick={() => scrollToSection('projects')} className="topnav-mobile-link">./projects</button>
+            <button onClick={() => scrollToSection('certifications')} className="topnav-mobile-link">./certifications</button>
+            <Button onClick={() => scrollToSection('contact')} className="topnav-mobile-cta">./contact</Button>
           </nav>
         )}
       </div>

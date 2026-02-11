@@ -7,13 +7,13 @@ import MatrixRain from './MatrixRain';
 import { scrollToSectionById } from '../lib/sectionScroll';
 
 const bootMessages = [
-  '[BOOT] Initializing cloud runtime...',
-  '[OK] AWS Services: ONLINE',
-  '[OK] Kubernetes Cluster: ACTIVE',
-  '[OK] CI/CD Pipeline: RUNNING',
-  '[OK] Terraform State: SYNCED',
-  '[OK] Monitoring: ALL SYSTEMS NOMINAL',
-  '[OK] Race Telemetry Profile: MERCEDES + VERSTAPPEN',
+  '[BOOT] Spinning up Linux runtime...',
+  '[OK] Multi-cloud fabric: ONLINE',
+  '[OK] Kubernetes control plane: HEALTHY',
+  '[OK] Delivery pipelines: FLOWING',
+  '[OK] Terraform drift check: CLEAN',
+  '[OK] Observability feed: LOCKED',
+  '[OK] Race mode loaded: MERCEDES + MAX',
 ];
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
@@ -28,34 +28,34 @@ const QUICK_COMMANDS = [
 
 const COMMAND_OUTPUT = {
   profile: [
-    '> identity_decryption.sh',
-    '> Cloud DevOps Engineer | 5+ years hands-on',
-    '> Multi-cloud: AWS, Azure, GCP',
-    '> Personal mode: Mercedes + Max Verstappen fan',
+    '> ./decode_profile.sh',
+    '> Cloud DevOps Engineer | 5+ years in production',
+    '> AWS + Azure + GCP operator',
+    '> Weekend mode: F1 race strategy + photography',
   ],
   toolchain: [
-    '> loading capability matrix...',
-    '> IaC: Terraform/Ansible/Helm',
-    '> Containers: Docker + Kubernetes',
-    '> CI/CD: Jenkins, ArgoCD, GitHub Actions',
+    '> loading execution stack...',
+    '> IaC :: Terraform / Ansible / Helm',
+    '> Containers :: Docker / Kubernetes',
+    '> CI/CD :: Jenkins / ArgoCD / GitHub Actions',
   ],
   runbook: [
-    '> tail -f career.log',
-    '> 99.99% reliability improvements delivered',
-    '> MTTR reduced by 45%',
-    '> cloud cost reduced by 20%',
+    '> tail -f ops_timeline.log',
+    '> Reliability uplift pushed to 99.99%',
+    '> MTTR cut by 45%',
+    '> Cloud spend reduced by ~20%',
   ],
   cert_store: [
-    '> verify --credentials --active',
-    '> AWS SAA [ACTIVE]',
-    '> HashiCorp Terraform Associate [ACTIVE]',
-    '> secure trust store loaded',
+    '> verify --credentials --secure',
+    '> AWS SAA :: VALID',
+    '> HashiCorp Terraform Associate :: VALID',
+    '> credential vault synced',
   ],
   secure_link: [
-    '> establish_secure_channel --encrypted',
-    '> hCaptcha guard active',
-    '> no external redirect',
-    '> channel ready: transmit_message',
+    '> establish_secure_channel --tls',
+    '> hCaptcha guard :: active',
+    '> no redirect :: in-page submit',
+    '> secure channel ready',
   ],
 };
 
@@ -151,12 +151,12 @@ const Hero = () => {
   };
 
   return (
-    <section id="hero" className="portfolio-section justify-center bg-black">
+    <section id="hero" className="portfolio-section hero-section justify-center bg-black">
       <MatrixRain />
 
       <div className={`section-shell max-w-7xl mx-auto px-6 py-20 relative z-10 w-full ${visibleLines > 0 ? 'section-frame-grow' : 'section-frame-preroll'}`}>
-        <div className="relative bg-black/85 backdrop-blur-sm border border-cyan-500/40 rounded-lg mb-8 font-mono text-sm shadow-2xl shadow-cyan-500/20 overflow-hidden">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-cyan-500/30 text-cyan-300">
+        <div className="hero-boot-console relative mb-8 font-mono text-sm overflow-hidden">
+          <div className="flex items-center justify-between px-4 py-3 hero-boot-head">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
               <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
@@ -164,7 +164,7 @@ const Hero = () => {
             </div>
             <div className="flex items-center gap-2">
               <Terminal size={15} />
-              <span className="text-xs tracking-wide">visitor@cloud-shell: ~/portfolio</span>
+              <span className="text-xs tracking-wide">visitor@grid-shell: ~/portfolio</span>
             </div>
           </div>
 
@@ -179,7 +179,7 @@ const Hero = () => {
               <div className="pt-3 text-cyan-300">
                 <span>visitor@portfolio:~$ </span>
                 <TypingEffect
-                  text="./render-profile --full --interactive"
+                  text="./launch_portfolio --mode live"
                   speed={14}
                   cursorChar="█"
                   persistCursor
@@ -207,7 +207,7 @@ const Hero = () => {
             <div className="hero-left">
               {heroRevealStep >= 1 && (
                 <div className="hero-block-reveal">
-                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 rounded text-sm text-cyan-400 font-mono">
+                  <div className="hero-status-pill inline-flex items-center gap-2 px-4 py-2 rounded text-sm font-mono">
                     <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                     <span>&gt; STATUS: ONLINE | AVAILABLE_FOR_HIRE</span>
                   </div>
@@ -260,7 +260,7 @@ const Hero = () => {
                   <Button
                     size="lg"
                     onClick={() => scrollToSection('projects')}
-                    className="bg-cyan-500 hover:bg-cyan-600 text-black font-bold border-2 border-cyan-400"
+                    className="hero-main-btn hero-main-btn-primary font-bold border-2"
                   >
                     &gt; VIEW_PROJECTS
                   </Button>
@@ -268,7 +268,7 @@ const Hero = () => {
                     size="lg"
                     variant="outline"
                     onClick={() => scrollToSection('contact')}
-                    className="border-2 border-cyan-500 text-cyan-400 hover:bg-cyan-500/20 font-bold"
+                    className="hero-main-btn hero-main-btn-secondary border-2 font-bold"
                   >
                     &gt; INIT_CONTACT
                   </Button>
@@ -285,10 +285,10 @@ const Hero = () => {
                   ].map((stat, idx) => (
                     <div
                       key={idx}
-                      className="bg-cyan-500/5 border border-cyan-500/30 rounded p-4 hero-stat-reveal"
+                      className="hero-stat-card rounded p-4 hero-stat-reveal"
                       style={{ animationDelay: `${idx * 140}ms` }}
                     >
-                      <div className="text-3xl font-bold text-cyan-400 font-mono">{stat.value}</div>
+                      <div className="text-3xl font-bold hero-stat-value font-mono">{stat.value}</div>
                       <div className="text-xs text-zinc-500 mt-1 font-mono">{stat.label}</div>
                     </div>
                   ))}
@@ -298,7 +298,7 @@ const Hero = () => {
 
             <aside className="hero-side-console hero-block-reveal">
               <div className="hero-side-head">
-                <span className="text-cyan-400">$</span> watch -n 1 /proc/cloud/status
+                <span className="text-cyan-400">$</span> watch -n 1 /proc/trackside/runtime
               </div>
               <div className="hero-command-tabs">
                 {QUICK_COMMANDS.map((cmd) => (
@@ -331,14 +331,14 @@ const Hero = () => {
                 </div>
               </div>
               <div className="hero-side-feed">
-                <div>[OK] aws-control-plane: stable</div>
-                <div>[OK] k8s-workloads: healthy</div>
-                <div>[OK] cicd-queue: flowing</div>
-                <div>[INFO] f1-mode: mercedes + max</div>
+                <div>[OK] control-plane: stable</div>
+                <div>[OK] workloads: healthy</div>
+                <div>[OK] release-queue: flowing</div>
+                <div>[INFO] race telemetry feed: attached</div>
               </div>
               <div className="hero-command-console">
                 <div className="hero-command-head">
-                  <span className="text-cyan-400">visitor@nitin:~$</span> ./{activeCommand}
+                  <span className="text-cyan-400">visitor@nitin:~$</span> run ./{activeCommand}
                 </div>
                 <div className="hero-command-output">
                   {COMMAND_OUTPUT[activeCommand].map((line) => (
@@ -350,7 +350,7 @@ const Hero = () => {
                   className="hero-command-jump"
                   onClick={() => scrollToSection(QUICK_COMMANDS.find((cmd) => cmd.id === activeCommand)?.section || 'about')}
                 >
-                  open section
+                  jump
                 </button>
               </div>
             </aside>
@@ -402,10 +402,28 @@ const Hero = () => {
           animation: gradient 3s linear infinite;
         }
 
+        .hero-boot-console {
+          border: 1px solid rgba(251, 191, 36, 0.35);
+          border-radius: 1rem;
+          background:
+            radial-gradient(circle at 12% -20%, rgba(161, 98, 7, 0.34), transparent 50%),
+            radial-gradient(circle at 88% 0%, rgba(20, 184, 166, 0.24), transparent 44%),
+            linear-gradient(155deg, rgba(12, 14, 20, 0.93), rgba(10, 12, 17, 0.95));
+          box-shadow:
+            inset 0 0 26px rgba(251, 191, 36, 0.06),
+            0 22px 52px rgba(0, 0, 0, 0.48);
+        }
+
+        .hero-boot-head {
+          border-bottom: 1px solid rgba(251, 191, 36, 0.3);
+          color: #fde68a;
+          background: linear-gradient(90deg, rgba(34, 20, 6, 0.45), rgba(17, 24, 39, 0.65));
+        }
+
         @keyframes hero-block-reveal {
           from {
             opacity: 0;
-            transform: translateY(20px) scale(0.985);
+            transform: translateY(20px) scale(0.975);
           }
           to {
             opacity: 1;
@@ -449,7 +467,49 @@ const Hero = () => {
         }
 
         .hero-title-glow {
-          text-shadow: 0 0 18px rgba(34, 211, 238, 0.15);
+          text-shadow: 0 0 18px rgba(251, 191, 36, 0.22);
+        }
+
+        .hero-status-pill {
+          color: #fef08a;
+          border: 1px solid rgba(250, 204, 21, 0.38);
+          background: linear-gradient(120deg, rgba(113, 63, 18, 0.42), rgba(8, 47, 73, 0.32));
+          box-shadow: inset 0 0 12px rgba(250, 204, 21, 0.14);
+        }
+
+        .hero-main-btn {
+          font-family: "JetBrains Mono", "Courier New", monospace;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        .hero-main-btn:hover {
+          transform: translateY(-1px);
+        }
+
+        .hero-main-btn-primary {
+          color: #080b12;
+          border-color: rgba(253, 224, 71, 0.9);
+          background: linear-gradient(120deg, #facc15, #f59e0b);
+          box-shadow: 0 10px 24px rgba(202, 138, 4, 0.38);
+        }
+
+        .hero-main-btn-primary:hover {
+          background: linear-gradient(120deg, #fde047, #f59e0b);
+          box-shadow: 0 12px 26px rgba(202, 138, 4, 0.45);
+        }
+
+        .hero-main-btn-secondary {
+          color: #bef264;
+          border-color: rgba(190, 242, 100, 0.56);
+          background: rgba(12, 20, 11, 0.68);
+          box-shadow: inset 0 0 10px rgba(190, 242, 100, 0.12);
+        }
+
+        .hero-main-btn-secondary:hover {
+          color: #ecfccb;
+          background: rgba(101, 163, 13, 0.22);
         }
 
         .hero-runtime-strip {
@@ -465,23 +525,24 @@ const Hero = () => {
           display: inline-flex;
           align-items: center;
           gap: 0.4rem;
-          border: 1px solid rgba(34, 211, 238, 0.36);
-          background: rgba(8, 15, 25, 0.82);
+          border: 1px solid rgba(250, 204, 21, 0.32);
+          background: rgba(22, 17, 8, 0.75);
           border-radius: 9999px;
           padding: 0.2rem 0.62rem;
-          box-shadow: inset 0 0 10px rgba(34, 211, 238, 0.12);
+          box-shadow: inset 0 0 10px rgba(250, 204, 21, 0.15);
         }
 
         .hero-runtime-label {
-          color: #71717a;
+          color: #a1a1aa;
           font-size: 0.62rem;
           letter-spacing: 0.11em;
         }
 
         .hero-runtime-value {
-          color: #22d3ee;
+          color: #fde68a;
           font-size: 0.68rem;
           letter-spacing: 0.05em;
+          text-shadow: 0 0 10px rgba(250, 204, 21, 0.26);
         }
 
         .hero-overhaul-grid {
@@ -501,18 +562,18 @@ const Hero = () => {
         }
 
         .hero-side-console {
-          border: 1px solid rgba(34, 211, 238, 0.34);
+          border: 1px solid rgba(250, 204, 21, 0.32);
           border-radius: 0.8rem;
-          background: linear-gradient(160deg, rgba(4, 9, 16, 0.88), rgba(8, 47, 73, 0.18));
+          background: linear-gradient(160deg, rgba(15, 11, 5, 0.88), rgba(17, 24, 39, 0.52));
           padding: 0.9rem 0.88rem;
           box-shadow:
-            inset 0 0 16px rgba(34, 211, 238, 0.12),
-            0 10px 30px rgba(2, 8, 23, 0.45);
+            inset 0 0 16px rgba(250, 204, 21, 0.1),
+            0 10px 30px rgba(1, 4, 9, 0.5);
         }
 
         .hero-side-head {
-          color: #a1a1aa;
-          border-bottom: 1px solid rgba(34, 211, 238, 0.24);
+          color: #d4d4d8;
+          border-bottom: 1px solid rgba(250, 204, 21, 0.24);
           padding-bottom: 0.5rem;
           margin-bottom: 0.65rem;
           font-size: 0.7rem;
@@ -526,34 +587,34 @@ const Hero = () => {
         }
 
         .hero-side-chip {
-          border: 1px solid rgba(34, 211, 238, 0.22);
+          border: 1px solid rgba(250, 204, 21, 0.2);
           border-radius: 0.6rem;
-          background: rgba(2, 6, 23, 0.78);
+          background: rgba(18, 15, 10, 0.78);
           padding: 0.42rem 0.5rem;
           display: grid;
           gap: 0.14rem;
         }
 
         .hero-side-label {
-          color: #71717a;
+          color: #a1a1aa;
           font-size: 0.56rem;
           letter-spacing: 0.1em;
           text-transform: uppercase;
         }
 
         .hero-side-value {
-          color: #22d3ee;
+          color: #fde68a;
           font-size: 0.94rem;
           letter-spacing: 0.04em;
-          text-shadow: 0 0 10px rgba(34, 211, 238, 0.36);
+          text-shadow: 0 0 10px rgba(250, 204, 21, 0.3);
         }
 
         .hero-side-feed {
           margin-top: 0.72rem;
-          color: #a1a1aa;
+          color: #d4d4d8;
           font-size: 0.68rem;
           line-height: 1.55;
-          border-top: 1px solid rgba(34, 211, 238, 0.18);
+          border-top: 1px solid rgba(250, 204, 21, 0.18);
           padding-top: 0.62rem;
         }
 
@@ -565,37 +626,37 @@ const Hero = () => {
         }
 
         .hero-command-tab {
-          border: 1px solid rgba(34, 211, 238, 0.22);
-          color: #a1a1aa;
+          border: 1px solid rgba(250, 204, 21, 0.24);
+          color: #d4d4d8;
           font-size: 0.58rem;
           text-transform: uppercase;
           letter-spacing: 0.09em;
           border-radius: 9999px;
           padding: 0.14rem 0.48rem;
           transition: all 0.2s ease;
-          background: rgba(2, 6, 23, 0.58);
+          background: rgba(15, 11, 5, 0.6);
         }
 
         .hero-command-tab:hover {
-          color: #67e8f9;
-          border-color: rgba(34, 211, 238, 0.42);
+          color: #fde68a;
+          border-color: rgba(250, 204, 21, 0.45);
         }
 
         .hero-command-tab-active {
-          color: #e4e4e7;
-          border-color: rgba(34, 211, 238, 0.58);
-          background: rgba(34, 211, 238, 0.14);
-          box-shadow: inset 0 0 8px rgba(34, 211, 238, 0.2);
+          color: #fef3c7;
+          border-color: rgba(250, 204, 21, 0.58);
+          background: rgba(202, 138, 4, 0.2);
+          box-shadow: inset 0 0 8px rgba(250, 204, 21, 0.16);
         }
 
         .hero-command-console {
           margin-top: 0.72rem;
-          border-top: 1px solid rgba(34, 211, 238, 0.18);
+          border-top: 1px solid rgba(250, 204, 21, 0.18);
           padding-top: 0.62rem;
         }
 
         .hero-command-head {
-          color: #a1a1aa;
+          color: #d4d4d8;
           font-size: 0.64rem;
           letter-spacing: 0.05em;
           margin-bottom: 0.36rem;
@@ -612,9 +673,9 @@ const Hero = () => {
 
         .hero-command-jump {
           margin-top: 0.45rem;
-          border: 1px solid rgba(34, 211, 238, 0.34);
+          border: 1px solid rgba(190, 242, 100, 0.4);
           border-radius: 9999px;
-          color: #22d3ee;
+          color: #bef264;
           font-size: 0.6rem;
           text-transform: uppercase;
           letter-spacing: 0.1em;
@@ -623,9 +684,20 @@ const Hero = () => {
         }
 
         .hero-command-jump:hover {
-          color: #ecfeff;
-          border-color: rgba(34, 211, 238, 0.55);
-          background: rgba(34, 211, 238, 0.14);
+          color: #ecfccb;
+          border-color: rgba(190, 242, 100, 0.58);
+          background: rgba(101, 163, 13, 0.22);
+        }
+
+        .hero-stat-card {
+          border: 1px solid rgba(250, 204, 21, 0.26);
+          background: linear-gradient(155deg, rgba(21, 15, 7, 0.7), rgba(14, 21, 26, 0.72));
+          box-shadow: inset 0 0 16px rgba(250, 204, 21, 0.09);
+        }
+
+        .hero-stat-value {
+          color: #fde68a;
+          text-shadow: 0 0 14px rgba(250, 204, 21, 0.2);
         }
 
         .terminal-scanlines {
@@ -634,8 +706,8 @@ const Hero = () => {
           inset: 0;
           background: repeating-linear-gradient(
             to bottom,
-            rgba(120, 255, 255, 0.05) 0px,
-            rgba(120, 255, 255, 0.05) 1px,
+            rgba(253, 224, 71, 0.04) 0px,
+            rgba(253, 224, 71, 0.04) 1px,
             transparent 2px,
             transparent 4px
           );
@@ -645,7 +717,7 @@ const Hero = () => {
           pointer-events: none;
           position: absolute;
           inset: 0;
-          background: radial-gradient(circle at top, rgba(34, 211, 238, 0.08), transparent 55%);
+          background: radial-gradient(circle at top, rgba(250, 204, 21, 0.09), transparent 55%);
           animation: flicker 0.22s infinite;
         }
       `}</style>

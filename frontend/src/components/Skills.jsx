@@ -79,6 +79,15 @@ const Skills = () => {
     { title: 'Monitoring', skills: portfolioData.skills.monitoring, icon: Activity },
   ];
   const allSkills = skillCategories.flatMap((category) => category.skills);
+  const moduleTelemetry = useMemo(
+    () => [
+      { label: 'scheduler', load: clamp(Math.round(liveMetrics.cpu * 0.92), 24, 99), state: 'RUNNING' },
+      { label: 'autoscaler', load: clamp(Math.round(liveMetrics.mem * 0.88), 24, 99), state: 'HEALTHY' },
+      { label: 'deploy-gate', load: clamp(Math.round(liveMetrics.pods * 2.2), 24, 99), state: 'SYNCED' },
+      { label: 'telemetry', load: clamp(Math.round((38 - liveMetrics.latency) * 2.5), 24, 99), state: 'STREAMING' },
+    ],
+    [liveMetrics]
+  );
   const sparkPoints = useMemo(
     () => liveMetrics.spark.map((value, index) => `${(index / (liveMetrics.spark.length - 1)) * 100},${100 - value}`).join(' '),
     [liveMetrics.spark]
@@ -154,12 +163,27 @@ const Skills = () => {
                 tags={['LINUX_KERNEL', 'AUTO_TUNED', 'PROD_SIGNAL']}
               />
 
+              <div className="skills-module-wall terminal-stagger-reveal" style={{ '--reveal-delay': '25ms' }}>
+                {moduleTelemetry.map((module, index) => (
+                  <div key={module.label} className="skills-module-card" style={{ '--module-delay': `${index * 120}ms` }}>
+                    <div className="skills-module-head">
+                      <span className="skills-module-name">{module.label}</span>
+                      <span className="skills-module-state">{module.state}</span>
+                    </div>
+                    <div className="skills-module-meter">
+                      <span className="skills-module-fill" style={{ '--module-width': `${module.load}%` }} />
+                    </div>
+                    <div className="skills-module-foot">load {module.load}%</div>
+                  </div>
+                ))}
+              </div>
+
               <div className="skills-topbar terminal-stagger-reveal" style={{ '--reveal-delay': '40ms' }}>
-                <div className="skills-top-title">LIVE PROFICIENCY CONSOLE</div>
+                <div className="skills-top-title">TACTICAL SKILL MAP</div>
                 <div className="skills-top-tags">
                   <span className="skills-top-tag">{allSkills.length} SKILLS TRACKED</span>
-                  <span className="skills-top-tag">AUTO-TUNED</span>
-                  <span className="skills-top-tag">ZERO DOWNTIME</span>
+                  <span className="skills-top-tag">LIVE TELEMETRY</span>
+                  <span className="skills-top-tag">RACE READY</span>
                 </div>
               </div>
 
