@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
@@ -12,12 +12,22 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import CloudParticles from './components/CloudParticles';
 import LiveControlPanel from './components/LiveControlPanel';
+import OpeningGate from './components/OpeningGate';
 import { Toaster } from './components/ui/toaster';
 import { scrollToSectionById } from './lib/sectionScroll';
 
 const Home = () => {
+  const [showOpening, setShowOpening] = useState(true);
+  const openingRef = useRef(showOpening);
+
+  useEffect(() => {
+    openingRef.current = showOpening;
+  }, [showOpening]);
+
   useEffect(() => {
     const scrollToHashTarget = () => {
+      if (openingRef.current) return;
+
       const hash = window.location.hash.replace('#', '');
       if (!hash) return;
       scrollToSectionById(hash, { behavior: 'auto' });
@@ -33,6 +43,18 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    if (showOpening) return undefined;
+
+    const timer = setTimeout(() => {
+      const hash = window.location.hash.replace('#', '');
+      if (!hash) return;
+      scrollToSectionById(hash, { behavior: 'auto' });
+    }, 140);
+
+    return () => clearTimeout(timer);
+  }, [showOpening]);
+
+  useEffect(() => {
     const updatePointer = (event) => {
       document.documentElement.style.setProperty('--mx', `${event.clientX}px`);
       document.documentElement.style.setProperty('--my', `${event.clientY}px`);
@@ -41,6 +63,14 @@ const Home = () => {
     window.addEventListener('pointermove', updatePointer);
     return () => window.removeEventListener('pointermove', updatePointer);
   }, []);
+
+  if (showOpening) {
+    return (
+      <div className="overhaul-root">
+        <OpeningGate onComplete={() => setShowOpening(false)} />
+      </div>
+    );
+  }
 
   return (
     <div className="overhaul-root">
