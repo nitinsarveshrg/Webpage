@@ -6,14 +6,13 @@ export const scrollToSectionById = (sectionId, options = {}) => {
   if (!section) return false;
 
   const header = document.querySelector('header');
+  const contentTarget = section.querySelector('.content-wrap') || section.querySelector('.hero-shell');
   const anchor = section.querySelector('.section-anchor');
-  const target = anchor || section;
+  const target = contentTarget || anchor || section;
 
   const headerBottom = header ? header.getBoundingClientRect().bottom : 0;
   const targetTop = target.getBoundingClientRect().top;
-
-  // If section defines its own anchor, avoid double-offsetting with header height.
-  const offset = anchor ? 8 : (headerBottom + 8);
+  const offset = headerBottom + 10;
   const y = Math.max(0, Math.round(window.scrollY + targetTop - offset));
 
   window.scrollTo({ top: y, behavior });
