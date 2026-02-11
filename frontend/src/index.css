@@ -2787,3 +2787,232 @@ html[data-live-theme='matrix'] .footer-grid-new {
     grid-template-columns: 1fr;
   }
 }
+
+/* About command panel refresh */
+.about-main-lead {
+  margin: 0;
+  color: #cbd5e1;
+  line-height: 1.58;
+}
+
+.about-whoami-list {
+  margin: 0.86rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.about-whoami-list li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.44rem;
+  border: 1px solid rgba(52, 211, 153, 0.28);
+  border-radius: 0.66rem;
+  background: rgba(6, 78, 59, 0.24);
+  color: #ccfbf1;
+  padding: 0.48rem 0.56rem;
+}
+
+.about-bio-lines {
+  display: grid;
+  gap: 0.48rem;
+}
+
+.about-bio-line {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.45rem;
+  border: 1px solid rgba(148, 163, 184, 0.23);
+  border-radius: 0.64rem;
+  padding: 0.5rem 0.56rem;
+  background: rgba(15, 23, 42, 0.64);
+  color: #dbe4f3;
+}
+
+.about-bio-line .prefix {
+  color: #67e8f9;
+  font-weight: 700;
+}
+
+.about-hobby-board {
+  display: grid;
+  gap: 0.62rem;
+}
+
+.about-file-grid {
+  display: grid;
+  gap: 0.45rem;
+  margin-bottom: 0.78rem;
+}
+
+.about-file-tile {
+  width: 100%;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 0.66rem;
+  background: rgba(15, 23, 42, 0.58);
+  color: #dbe4f3;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.45rem;
+  align-items: center;
+  padding: 0.48rem 0.56rem;
+  text-align: left;
+}
+
+.about-file-tile.active {
+  border-color: rgba(56, 189, 248, 0.56);
+  background: linear-gradient(110deg, rgba(8, 47, 73, 0.45), rgba(15, 23, 42, 0.76));
+}
+
+.about-file-icon {
+  color: #67e8f9;
+  display: inline-flex;
+}
+
+.about-file-copy {
+  display: grid;
+  gap: 0.12rem;
+}
+
+.about-file-copy strong {
+  color: #e2e8f0;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.74rem;
+}
+
+.about-file-copy small {
+  color: #94a3b8;
+  font-size: 0.68rem;
+}
+
+.about-fact-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.about-fact-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  color: #dbe4f3;
+  border-bottom: 1px dashed rgba(148, 163, 184, 0.24);
+  padding-bottom: 0.35rem;
+  font-size: 0.82rem;
+}
+
+.about-fact-list .label {
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.58rem;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.about-hobby-preview {
+  margin-top: 0.72rem;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 0.66rem;
+  background: rgba(2, 6, 23, 0.58);
+  padding: 0.55rem;
+  display: grid;
+  gap: 0.38rem;
+}
+
+.about-hobby-title {
+  color: #94a3b8;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.about-hobby-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  color: #a7f3d0;
+  font-weight: 600;
+}
+
+.about-hobby-preview p {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+/* Skills manifest refresh */
+.skills-manifest-card {
+  padding: 1rem;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.skills-manifest-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.skills-manifest-group {
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 0.75rem;
+  background: rgba(2, 6, 23, 0.56);
+  padding: 0.72rem;
+  display: grid;
+  gap: 0.58rem;
+}
+
+.skills-manifest-group h3 {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  color: #67e8f9;
+  font-size: 1.02rem;
+}
+
+.skills-manifest-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.skills-manifest-list li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.42rem;
+  border-bottom: 1px dashed rgba(148, 163, 184, 0.24);
+  padding-bottom: 0.34rem;
+}
+
+.skills-manifest-list .dot {
+  color: #a7f3d0;
+}
+
+.skills-manifest-list .name {
+  color: #e2e8f0;
+}
+
+.skills-manifest-list .level {
+  color: #86efac;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 980px) {
+  .skills-manifest-grid {
+    grid-template-columns: 1fr;
+  }
+}

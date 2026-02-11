@@ -1,81 +1,96 @@
-import React, { useMemo, useState } from 'react';
-import { Cloud, Container, Code2, Activity } from 'lucide-react';
-import { portfolioData } from '../mock';
+import React from 'react';
+import { Activity, Cloud, Code2, Container, GitBranch } from 'lucide-react';
 
-const categories = [
-  { key: 'cloud', label: 'Cloud Platforming', icon: Cloud },
-  { key: 'devops', label: 'Delivery Toolchain', icon: Container },
-  { key: 'programming', label: 'Automation Coding', icon: Code2 },
-  { key: 'monitoring', label: 'Observability', icon: Activity },
+const skillManifest = [
+  {
+    key: 'cloud',
+    title: 'Cloud',
+    icon: Cloud,
+    items: [
+      ['AWS', 'Advanced'],
+      ['Azure', 'Intermediate'],
+      ['GCP', 'Basic-Intermediate'],
+    ],
+  },
+  {
+    key: 'containers-iac',
+    title: 'Containers & IaC',
+    icon: Container,
+    items: [
+      ['Terraform', 'Advanced'],
+      ['Docker', 'Advanced'],
+      ['Kubernetes', 'Intermediate+'],
+      ['Helm / Ansible', 'Intermediate'],
+    ],
+  },
+  {
+    key: 'cicd',
+    title: 'CI/CD',
+    icon: GitBranch,
+    items: [
+      ['GitHub Actions, Jenkins, ArgoCD', 'Advanced-Intermediate'],
+    ],
+  },
+  {
+    key: 'coding',
+    title: 'Coding',
+    icon: Code2,
+    items: [
+      ['Python, Bash', 'Intermediate+'],
+      ['SQL', 'Intermediate'],
+      ['JavaScript/TypeScript', 'Basic-Intermediate'],
+    ],
+  },
+  {
+    key: 'observability',
+    title: 'Observability',
+    icon: Activity,
+    items: [
+      ['CloudWatch', 'Advanced-Intermediate'],
+      ['Prometheus/Grafana', 'Intermediate+'],
+      ['ELK, Datadog, Dynatrace', 'Basic-Intermediate'],
+    ],
+  },
 ];
 
 const Skills = () => {
-  const [active, setActive] = useState('devops');
-
-  const allSkills = useMemo(() => Object.values(portfolioData.skills).flat(), []);
-  const activeSkills = useMemo(() => portfolioData.skills[active] || [], [active]);
-  const activeCategory = categories.find((item) => item.key === active);
-
   return (
     <section id="skills" className="page-section section-band alt">
       <div className="section-anchor" aria-hidden="true" />
       <div className="content-wrap">
         <div className="section-headline">
           <span className="section-label">stack</span>
-          <h2>Capability Matrix</h2>
-          <p>Hands-on engineering depth across cloud, delivery, coding, and observability.</p>
+          <h2>Skill Levels</h2>
+          <p>Practical proficiency mapped as production-ready levels.</p>
         </div>
 
-        <div className="skills-layout-new">
-          <aside className="glass-card skill-nav-card">
-            {categories.map((category) => {
-              const Icon = category.icon;
-              const isActive = category.key === active;
+        <article className="glass-card skills-manifest-card">
+          <div className="section-command static">$ cat skills.levels</div>
+
+          <div className="skills-manifest-grid">
+            {skillManifest.map((group) => {
+              const Icon = group.icon;
               return (
-                <button
-                  key={category.key}
-                  className={`skill-nav-btn ${isActive ? 'skill-nav-btn-active' : ''}`}
-                  onClick={() => setActive(category.key)}
-                >
-                  <Icon size={16} />
-                  <span>{category.label}</span>
-                </button>
+                <section key={group.key} className="skills-manifest-group">
+                  <h3>
+                    <Icon size={16} />
+                    <span>{group.title}</span>
+                  </h3>
+
+                  <ul className="skills-manifest-list">
+                    {group.items.map(([name, level]) => (
+                      <li key={name}>
+                        <span className="dot">•</span>
+                        <span className="name">{name}</span>
+                        <span className="level">{level}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
               );
             })}
-
-            <div className="skill-summary">
-              <div>
-                <span className="label">skills tracked</span>
-                <strong>{allSkills.length}</strong>
-              </div>
-              <div>
-                <span className="label">active lane</span>
-                <strong>{activeCategory?.label || 'matrix'}</strong>
-              </div>
-            </div>
-          </aside>
-
-          <div className="glass-card skill-board-card">
-            <div className="skill-board-head">
-              <h3>{activeCategory?.label}</h3>
-              <span>verified proficiency</span>
-            </div>
-
-            <div className="skill-rows-new">
-              {activeSkills.map((skill) => (
-                <div key={skill.name} className="skill-row-new">
-                  <div className="skill-row-meta">
-                    <span>{skill.name}</span>
-                    <span>{skill.level}%</span>
-                  </div>
-                  <div className="skill-row-track">
-                    <div className="skill-row-fill" style={{ width: `${skill.level}%` }} />
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
-        </div>
+        </article>
       </div>
     </section>
   );
