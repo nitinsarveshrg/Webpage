@@ -1382,7 +1382,7 @@ body::after {
   margin-bottom: 0.9rem;
   padding: 0.7rem;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto 1fr auto auto;
   gap: 0.7rem;
   align-items: center;
 }
@@ -1442,6 +1442,29 @@ body::after {
   font-size: 0.66rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
+}
+
+.project-sync-state {
+  justify-self: end;
+  color: #67e8f9;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.project-sync-state.warn {
+  color: #fda4af;
+}
+
+.project-tech-row-skill {
+  margin-top: 0.5rem;
+}
+
+.skill-chip {
+  border-color: rgba(34, 197, 94, 0.38);
+  color: #a7f3d0;
+  background: rgba(6, 78, 59, 0.22);
 }
 
 .project-empty-state {
@@ -1633,6 +1656,11 @@ html[data-motion='turbo'] .skill-row-fill {
   .project-controls-row,
   .skill-live-control {
     grid-template-columns: 1fr;
+  }
+
+  .project-count,
+  .project-sync-state {
+    justify-self: start;
   }
 
   .about-command-live {
