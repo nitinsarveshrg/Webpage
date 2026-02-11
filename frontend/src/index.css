@@ -2051,3 +2051,217 @@ html[data-live-theme='race'] body {
     grid-template-columns: 1fr;
   }
 }
+
+/* Pointer customization */
+:root {
+  --cursor-default: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Ccircle cx='14' cy='14' r='6' fill='none' stroke='%2338bdf8' stroke-width='1.5'/%3E%3Ccircle cx='14' cy='14' r='1.7' fill='%23ef4444'/%3E%3C/svg%3E") 14 14, auto;
+  --cursor-action: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Ccircle cx='14' cy='14' r='7' fill='none' stroke='%23ef4444' stroke-width='1.6'/%3E%3Ccircle cx='14' cy='14' r='2' fill='%2338bdf8'/%3E%3C/svg%3E") 14 14, pointer;
+}
+
+html,
+body {
+  cursor: var(--cursor-default);
+}
+
+a,
+button,
+[role='button'],
+input[type='button'],
+input[type='submit'],
+.pit-nav-link,
+.hero-command-chip,
+.skill-nav-btn,
+.live-pill-btn,
+.live-dock-toggle {
+  cursor: var(--cursor-action);
+}
+
+input,
+textarea,
+select {
+  cursor: text;
+}
+
+/* Stronger motion mode differentiation */
+.live-motion-readout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.57rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #93c5fd;
+}
+
+.live-motion-readout span {
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 9999px;
+  padding: 0.12rem 0.4rem;
+  background: rgba(2, 6, 23, 0.56);
+}
+
+html[data-motion='calm'] .live-spectrum span {
+  animation-duration: 3.6s;
+  filter: saturate(85%);
+}
+
+html[data-motion='calm'] .live-event-line {
+  opacity: 0.85;
+}
+
+html[data-motion='balanced'] .live-spectrum span {
+  animation-duration: 2s;
+}
+
+html[data-motion='turbo'] .live-spectrum span {
+  animation-duration: 0.72s;
+  filter: saturate(140%);
+}
+
+html[data-motion='turbo'] .live-event-line {
+  animation: event-blink 0.9s steps(2, end) infinite;
+}
+
+html[data-motion='turbo'] .pit-top-bars span {
+  box-shadow: 0 0 9px rgba(239, 68, 68, 0.65);
+}
+
+@keyframes event-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.78;
+  }
+}
+
+/* Theme language overhaul */
+html[data-live-theme='race'] .section-label {
+  border-color: rgba(248, 113, 113, 0.55);
+  color: #fecaca;
+}
+
+html[data-live-theme='stealth'] body {
+  background:
+    radial-gradient(circle at 50% -8%, rgba(148, 163, 184, 0.16), transparent 36%),
+    linear-gradient(145deg, #090a0d 0%, #0d1016 48%, #0b0f17 100%);
+}
+
+html[data-live-theme='stealth'] body::before {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(148, 163, 184, 0.05) 0px,
+      rgba(148, 163, 184, 0.05) 1px,
+      transparent 1px,
+      transparent 48px
+    );
+}
+
+html[data-live-theme='stealth'] .pit-header,
+html[data-live-theme='stealth'] .hero-copy-new,
+html[data-live-theme='stealth'] .hero-console-new,
+html[data-live-theme='stealth'] .glass-card,
+html[data-live-theme='stealth'] .live-dock-body {
+  border-radius: 0.4rem;
+}
+
+html[data-live-theme='stealth'] .pit-brand,
+html[data-live-theme='stealth'] .pit-nav-link-active,
+html[data-live-theme='stealth'] .hero-btn-solid,
+html[data-live-theme='stealth'] .live-pill-btn.active {
+  background: linear-gradient(120deg, rgba(100, 116, 139, 0.45), rgba(30, 41, 59, 0.7));
+  border-color: rgba(148, 163, 184, 0.5);
+  color: #f1f5f9;
+}
+
+html[data-live-theme='ember'] body {
+  background:
+    radial-gradient(circle at 11% -10%, rgba(251, 113, 133, 0.34), transparent 34%),
+    radial-gradient(circle at 86% 6%, rgba(251, 191, 36, 0.24), transparent 36%),
+    linear-gradient(145deg, #1a0f0b 0%, #2b1410 48%, #1f0f14 100%);
+}
+
+html[data-live-theme='ember'] body::before {
+  background:
+    linear-gradient(90deg, rgba(251, 146, 60, 0.15), transparent 28%, rgba(239, 68, 68, 0.1)),
+    repeating-linear-gradient(
+      45deg,
+      rgba(251, 191, 36, 0.07) 0px,
+      rgba(251, 191, 36, 0.07) 2px,
+      transparent 2px,
+      transparent 14px
+    );
+}
+
+html[data-live-theme='ember'] .pit-header {
+  border-bottom-color: rgba(251, 146, 60, 0.38);
+  background: linear-gradient(90deg, rgba(251, 146, 60, 0.2), rgba(31, 41, 55, 0.8));
+}
+
+html[data-live-theme='ember'] .pit-brand-dot,
+html[data-live-theme='ember'] .live-event-line .dot,
+html[data-live-theme='ember'] .skill-feed-line .dot {
+  background: #f97316;
+  box-shadow: 0 0 10px rgba(249, 115, 22, 0.64);
+}
+
+html[data-live-theme='ember'] .hero-title-new span,
+html[data-live-theme='ember'] .section-label,
+html[data-live-theme='ember'] .pit-race-speed {
+  color: #fdba74;
+}
+
+html[data-live-theme='ember'] .hero-btn-solid,
+html[data-live-theme='ember'] .pit-contact-btn,
+html[data-live-theme='ember'] .live-pill-btn.active {
+  background: linear-gradient(120deg, #fb923c, #f43f5e);
+  color: #fff7ed;
+  border-color: rgba(253, 186, 116, 0.62);
+}
+
+html[data-live-theme='matrix'] body {
+  background:
+    radial-gradient(circle at 50% -8%, rgba(34, 197, 94, 0.2), transparent 38%),
+    linear-gradient(145deg, #020a05 0%, #05160c 52%, #04110d 100%);
+}
+
+html[data-live-theme='matrix'] body::before {
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(22, 163, 74, 0.09) 0px,
+      rgba(22, 163, 74, 0.09) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+  opacity: 0.7;
+}
+
+html[data-live-theme='matrix'] .pit-header,
+html[data-live-theme='matrix'] .pit-nav-desktop,
+html[data-live-theme='matrix'] .live-dock-body,
+html[data-live-theme='matrix'] .glass-card {
+  border-color: rgba(34, 197, 94, 0.4);
+  background: rgba(2, 20, 12, 0.78);
+}
+
+html[data-live-theme='matrix'] .pit-brand,
+html[data-live-theme='matrix'] .pit-nav-link-active,
+html[data-live-theme='matrix'] .hero-btn-solid,
+html[data-live-theme='matrix'] .live-pill-btn.active,
+html[data-live-theme='matrix'] .pit-contact-btn {
+  background: linear-gradient(120deg, rgba(22, 163, 74, 0.55), rgba(6, 95, 70, 0.52));
+  border-color: rgba(74, 222, 128, 0.65);
+  color: #dcfce7;
+}
+
+html[data-live-theme='matrix'] .section-label,
+html[data-live-theme='matrix'] .hero-role-new,
+html[data-live-theme='matrix'] .pit-top-prompt,
+html[data-live-theme='matrix'] .skill-row-live-meta,
+html[data-live-theme='matrix'] .live-motion-readout {
+  color: #86efac;
+}

@@ -3,7 +3,6 @@ import { TerminalSquare, Gauge, Palette, Zap, MoveRight, Activity, Cpu, Network 
 import { scrollToSectionById } from '../lib/sectionScroll';
 
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
-
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 const routeByCommand = (rawCommand) => {
@@ -39,7 +38,7 @@ const LOG_POOL = [
   'observability: traces sampled clean',
   'deploy-lane: canary within threshold',
   'vault-agent: token renewed',
-  'backup: last snapshot verified',
+  'backup: snapshot verified',
 ];
 
 const PROCESS_NAMES = ['kubelet', 'argocd', 'prometheus', 'nginx', 'fluent-bit'];
@@ -59,6 +58,8 @@ const initialProcesses = PROCESS_NAMES.slice(0, 3).map((name) => ({
   mem: randomInt(90, 420),
 }));
 
+const themeModes = ['race', 'stealth', 'ember', 'matrix'];
+
 const LiveControlPanel = () => {
   const [open, setOpen] = useState(true);
   const [command, setCommand] = useState('');
@@ -72,22 +73,27 @@ const LiveControlPanel = () => {
   const [events, setEvents] = useState(() => ['runtime initialized']);
   const [log, setLog] = useState('ready');
 
+  const tickMs = motion === 'calm' ? 1450 : motion === 'turbo' ? 620 : 980;
+  const drift = motion === 'calm' ? 2 : motion === 'turbo' ? 7 : 4;
+  const eventChance = motion === 'calm' ? 0.42 : motion === 'turbo' ? 0.8 : 0.62;
+  const spectrumBlend = motion === 'calm' ? 0.3 : motion === 'turbo' ? 0.82 : 0.55;
+
   useEffect(() => {
     const id = window.setInterval(() => {
       setTelemetry((prev) => ({
-        fps: clamp(prev.fps + randomInt(-2, 2), 48, 61),
-        net: clamp(prev.net + randomInt(-85, 85), 140, 980),
-        workers: clamp(prev.workers + randomInt(-1, 1), 6, 26),
-        cpu: clamp(prev.cpu + randomInt(-4, 4), 18, 88),
-        mem: clamp(prev.mem + randomInt(-3, 3), 30, 90),
-        load: clamp(prev.load + randomInt(-5, 5), 36, 99),
+        fps: clamp(prev.fps + randomInt(-drift, drift), 45, 61),
+        net: clamp(prev.net + randomInt(-95, 95), 120, 980),
+        workers: clamp(prev.workers + randomInt(-1, 1), 6, 28),
+        cpu: clamp(prev.cpu + randomInt(-drift, drift), 14, 90),
+        mem: clamp(prev.mem + randomInt(-drift + 1, drift), 26, 92),
+        load: clamp(prev.load + randomInt(-drift - 1, drift + 1), 30, 99),
       }));
-      setUptimeSeconds((prev) => prev + 1);
+      setUptimeSeconds((prev) => prev + Math.max(1, Math.round(tickMs / 1000)));
       setClock(new Date());
-    }, 950);
+    }, tickMs);
 
     return () => window.clearInterval(id);
-  }, []);
+  }, [tickMs, drift]);
 
   useEffect(() => {
     document.documentElement.dataset.liveTheme = theme;
@@ -99,7 +105,9 @@ const LiveControlPanel = () => {
 
   useEffect(() => {
     setSpectrum((prev) => {
-      const nextPoint = clamp(Math.round(telemetry.load + Math.sin(Date.now() / 500) * 8), 8, 98);
+      const target = clamp(Math.round(telemetry.load + Math.sin(Date.now() / 380) * (8 + drift)), 8, 98);
+      const carry = prev[prev.length - 1] || target;
+      const nextPoint = Math.round(carry + (target - carry) * spectrumBlend);
       return [...prev.slice(1), nextPoint];
     });
 
@@ -111,12 +119,12 @@ const LiveControlPanel = () => {
       }));
     });
 
-    if (Math.random() > 0.66) {
+    if (Math.random() < eventChance) {
       const message = LOG_POOL[randomInt(0, LOG_POOL.length - 1)];
       setEvents((prev) => [message, ...prev].slice(0, 5));
       setLog(message);
     }
-  }, [telemetry]);
+  }, [telemetry.load, telemetry.cpu, telemetry.mem, drift, eventChance, spectrumBlend]);
 
   const timeString = clock.toLocaleTimeString();
 
@@ -171,6 +179,12 @@ const LiveControlPanel = () => {
             <span>uptime {uptimeDisplay}</span>
           </div>
 
+          <div className="live-motion-readout">
+            <span>motion {motion}</span>
+            <span>tick {tickMs}ms</span>
+            <span>drift {drift}</span>
+          </div>
+
           <div className="live-spectrum" aria-hidden="true">
             {spectrum.map((value, index) => (
               <span key={`${value}-${index}`} style={{ height: `${value}%` }} />
@@ -217,7 +231,7 @@ const LiveControlPanel = () => {
 
           <div className="live-pill-row">
             <span className="live-pill-label"><Palette size={12} /> theme</span>
-            {['race', 'aqua', 'sunset', 'neon'].map((item) => (
+            {themeModes.map((item) => (
               <button
                 key={item}
                 className={`live-pill-btn ${theme === item ? 'active' : ''}`}

@@ -13,14 +13,15 @@ const commands = [
 ];
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+const randomFloat = (min, max) => (Math.random() * (max - min) + min).toFixed(1);
 
 const Hero = () => {
   const [commandIndex, setCommandIndex] = useState(0);
   const [autoRotate, setAutoRotate] = useState(true);
   const [metrics, setMetrics] = useState({
-    cpu: randomInt(22, 67),
-    mem: randomInt(38, 79),
-    rel: randomInt(97, 100),
+    queue: randomInt(3, 18),
+    latency: randomInt(18, 52),
+    success: randomFloat(99.2, 99.99),
   });
 
   useEffect(() => {
@@ -36,9 +37,9 @@ const Hero = () => {
   useEffect(() => {
     const metricId = window.setInterval(() => {
       setMetrics({
-        cpu: randomInt(22, 67),
-        mem: randomInt(38, 79),
-        rel: randomInt(97, 100),
+        queue: randomInt(3, 18),
+        latency: randomInt(18, 52),
+        success: randomFloat(99.2, 99.99),
       });
     }, 1400);
 
@@ -50,10 +51,10 @@ const Hero = () => {
   const commandSignal = useMemo(() => {
     return Array.from({ length: 28 }).map((_, index) => {
       const base = Math.sin((index + commandIndex) * 0.4) * 20 + 36;
-      const pulse = Math.cos((index + metrics.cpu) * 0.2) * 8;
+      const pulse = Math.cos((index + metrics.queue) * 0.2) * 8;
       return Math.max(10, Math.min(76, Math.round(base + pulse)));
     });
-  }, [commandIndex, metrics.cpu]);
+  }, [commandIndex, metrics.queue]);
 
   return (
     <section id="hero" className="page-section hero-stage">
@@ -136,15 +137,15 @@ const Hero = () => {
               <div className="hero-metric-rail">
                 <div className="hero-metric-card">
                   <Cpu size={14} />
-                  <span>cpu {metrics.cpu}%</span>
+                  <span>queue {metrics.queue}</span>
                 </div>
                 <div className="hero-metric-card">
                   <Gauge size={14} />
-                  <span>mem {metrics.mem}%</span>
+                  <span>latency {metrics.latency}ms</span>
                 </div>
                 <div className="hero-metric-card">
                   <RadioTower size={14} />
-                  <span>rel {metrics.rel}%</span>
+                  <span>success {metrics.success}%</span>
                 </div>
               </div>
             </div>
