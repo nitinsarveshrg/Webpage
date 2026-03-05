@@ -3129,3 +3129,643 @@ html[data-live-theme='matrix'] .footer-grid-new {
     text-align: center;
   }
 }
+
+/* Apple-inspired Product Display Overhaul */
+.apple-display-shell {
+  --pd-text: #f5f7fb;
+  --pd-muted: #9ca9bd;
+  --pd-accent: #8ed8ff;
+  --pd-accent-strong: #4fb5ff;
+  --pd-surface: rgba(11, 16, 28, 0.72);
+  --pd-surface-strong: rgba(9, 13, 24, 0.88);
+  --pd-border: rgba(186, 210, 244, 0.2);
+  --pd-shadow: 0 24px 56px rgba(2, 6, 18, 0.45);
+  --pd-radius: 24px;
+}
+
+.apple-display-shell .page-section {
+  padding: clamp(5.1rem, 8vw, 6.8rem) 0 3.4rem;
+  scroll-margin-top: 118px;
+}
+
+.apple-display-shell .section-band::before,
+.apple-display-shell .section-band.alt::before {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(120, 170, 255, 0.14), transparent 35%),
+    radial-gradient(circle at 82% 10%, rgba(153, 203, 255, 0.12), transparent 32%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 35%);
+  opacity: 0.85;
+}
+
+.apple-display-shell .content-wrap,
+.apple-display-shell .hero-shell {
+  width: min(1220px, calc(100% - 2.2rem));
+}
+
+.apple-display-shell .section-label {
+  border: 1px solid rgba(172, 203, 248, 0.35);
+  background: rgba(13, 19, 32, 0.7);
+  color: #cce9ff;
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+}
+
+.apple-display-shell .section-headline {
+  margin-bottom: 1.7rem;
+}
+
+.apple-display-shell .section-headline h2 {
+  margin: 0.72rem 0 0.5rem;
+  font-size: clamp(2rem, 4.2vw, 3.25rem);
+  letter-spacing: -0.03em;
+  line-height: 1.04;
+}
+
+.apple-display-shell .section-headline p {
+  color: var(--pd-muted);
+  max-width: 72ch;
+  font-size: clamp(0.95rem, 1.5vw, 1.16rem);
+}
+
+.apple-display-shell .glass-card {
+  border: 1px solid var(--pd-border);
+  border-radius: var(--pd-radius);
+  background:
+    linear-gradient(145deg, rgba(15, 24, 44, 0.72), rgba(8, 12, 22, 0.78)),
+    radial-gradient(circle at 0% 0%, rgba(143, 206, 255, 0.2), transparent 40%);
+  box-shadow: var(--pd-shadow);
+  backdrop-filter: blur(14px);
+}
+
+.apple-display-shell .glass-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(173, 216, 255, 0.45);
+  box-shadow: 0 32px 70px rgba(2, 6, 18, 0.56);
+}
+
+.apple-display-shell .pit-header {
+  border: 0;
+  background: transparent;
+  backdrop-filter: none;
+}
+
+.apple-display-shell .pit-header-progress {
+  height: 2px;
+  background: linear-gradient(90deg, #7fd8ff, #7ff5cf, #7fd8ff);
+  opacity: 0.8;
+}
+
+.apple-display-shell .pit-header-inner {
+  width: min(1240px, calc(100% - 2rem));
+  margin: 0.5rem auto 0;
+  min-height: 4rem;
+  border: 1px solid rgba(198, 222, 255, 0.24);
+  border-radius: 999px;
+  background: rgba(8, 13, 24, 0.72);
+  box-shadow: 0 20px 48px rgba(2, 6, 23, 0.45);
+  backdrop-filter: blur(16px);
+  padding: 0.4rem 0.62rem;
+  grid-template-columns: auto 1fr auto auto;
+  gap: 0.58rem;
+}
+
+.apple-display-shell .pit-brand {
+  border: 1px solid rgba(176, 212, 255, 0.35);
+  background: rgba(12, 21, 38, 0.72);
+  color: #e8f4ff;
+  padding: 0.45rem 0.72rem;
+  border-radius: 999px;
+}
+
+.apple-display-shell .pit-brand-dot {
+  background: #7fd8ff;
+  box-shadow: 0 0 10px rgba(127, 216, 255, 0.8);
+}
+
+.apple-display-shell .pit-brand-main {
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+}
+
+.apple-display-shell .pit-brand-sub {
+  color: #9dd9ff;
+}
+
+.apple-display-shell .pit-nav-desktop {
+  border: 1px solid rgba(184, 213, 248, 0.2);
+  background: rgba(8, 14, 27, 0.65);
+  padding: 0.2rem;
+  gap: 0.16rem;
+}
+
+.apple-display-shell .pit-nav-link {
+  color: #d2dced;
+  padding: 0.4rem 0.66rem;
+  font-size: 0.58rem;
+}
+
+.apple-display-shell .pit-nav-link:hover {
+  color: #f6fbff;
+}
+
+.apple-display-shell .pit-nav-link-active {
+  color: #071020;
+  background: linear-gradient(120deg, #8ed8ff, #b0f3ff);
+}
+
+.apple-display-shell .pit-contact-btn {
+  border: 1px solid rgba(186, 224, 255, 0.72);
+  background: linear-gradient(120deg, #72c9ff, #8ff3da);
+  color: #061326;
+  height: 1.95rem;
+}
+
+.apple-display-shell .pit-top-command {
+  border: 1px solid rgba(176, 211, 247, 0.25);
+  background: rgba(9, 15, 27, 0.7);
+  color: #c8d8ed;
+  padding: 0.35rem 0.62rem;
+  font-size: 0.62rem;
+}
+
+.apple-display-shell .pit-top-prompt {
+  color: #8ed8ff;
+}
+
+.apple-display-shell .pit-top-bars span {
+  background: linear-gradient(180deg, #7fd8ff, #8ff3da);
+  box-shadow: none;
+}
+
+.apple-display-shell .hero-stage {
+  min-height: 100svh;
+  align-items: flex-start;
+  padding-top: clamp(7rem, 10vw, 8.2rem);
+}
+
+.apple-display-shell .hero-grid-new {
+  grid-template-columns: 1.04fr 0.96fr;
+  gap: 1.15rem;
+  align-items: stretch;
+}
+
+.apple-display-shell .hero-copy-new {
+  border-radius: 30px;
+  border: 1px solid rgba(188, 217, 251, 0.2);
+  background:
+    radial-gradient(circle at 3% 0%, rgba(146, 198, 255, 0.2), transparent 36%),
+    linear-gradient(145deg, rgba(14, 23, 41, 0.78), rgba(8, 12, 22, 0.82));
+  box-shadow: 0 28px 68px rgba(2, 6, 18, 0.5);
+  padding: clamp(1.3rem, 2.5vw, 2.2rem);
+}
+
+.apple-display-shell .hero-chip {
+  border: 1px solid rgba(176, 211, 244, 0.35);
+  background: rgba(12, 19, 34, 0.7);
+  color: #cae9ff;
+  font-size: 0.6rem;
+}
+
+.apple-display-shell .hero-title-new {
+  margin-top: 1rem;
+  font-size: clamp(2.5rem, 7vw, 6rem);
+  letter-spacing: -0.045em;
+  color: #f7fbff;
+}
+
+.apple-display-shell .hero-title-new span {
+  color: #8ed8ff;
+}
+
+.apple-display-shell .hero-role-new {
+  color: #b3ecff;
+  margin-top: 1rem;
+}
+
+.apple-display-shell .hero-tagline-new {
+  margin-top: 0.7rem;
+  color: #a8b7cc;
+  max-width: 50ch;
+  line-height: 1.58;
+}
+
+.apple-display-shell .hero-hiring-cta {
+  margin-top: 0.95rem;
+  border: 1px solid rgba(159, 245, 223, 0.35);
+  background: rgba(8, 21, 20, 0.42);
+  color: #c7fff3;
+  font-size: 0.68rem;
+}
+
+.apple-display-shell .hero-hiring-dot {
+  background: #7ff5cf;
+  box-shadow: 0 0 12px rgba(127, 245, 207, 0.8);
+}
+
+.apple-display-shell .hero-cert-strip {
+  margin-top: 0.95rem;
+  display: grid;
+  gap: 0.52rem;
+}
+
+.apple-display-shell .hero-cert-pill {
+  border: 1px solid rgba(167, 211, 255, 0.26);
+  border-radius: 14px;
+  background: rgba(10, 17, 31, 0.66);
+  color: #deeeff;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  padding: 0.44rem 0.56rem;
+  font-size: 0.8rem;
+}
+
+.apple-display-shell .hero-highlight-stack {
+  margin-top: 0.8rem;
+  display: grid;
+  gap: 0.42rem;
+}
+
+.apple-display-shell .hero-highlight-item {
+  border-left: 2px solid rgba(142, 216, 255, 0.72);
+  padding-left: 0.56rem;
+  color: #d8e8f8;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  font-size: 0.88rem;
+}
+
+.apple-display-shell .hero-btn-solid {
+  border: 1px solid rgba(180, 221, 255, 0.75);
+  background: linear-gradient(120deg, #8ed8ff, #8ff3da);
+  color: #041226;
+  border-radius: 999px;
+  height: 2.7rem;
+  padding: 0 1.2rem;
+}
+
+.apple-display-shell .hero-btn-ghost {
+  border-radius: 999px;
+  height: 2.7rem;
+  padding: 0 1.2rem;
+  border: 1px solid rgba(167, 206, 245, 0.4);
+  color: #d9ebff;
+}
+
+.apple-display-shell .hero-stat-grid-new {
+  margin-top: 1.25rem;
+  gap: 0.72rem;
+}
+
+.apple-display-shell .hero-stat-box {
+  border-radius: 16px;
+  border: 1px solid rgba(178, 209, 243, 0.22);
+  background: rgba(8, 14, 26, 0.64);
+  padding: 0.62rem;
+}
+
+.apple-display-shell .hero-stat-box span {
+  color: #f4f9ff;
+}
+
+.apple-display-shell .hero-stat-box small {
+  color: #9cb0ca;
+}
+
+.apple-display-shell .hero-product-showcase {
+  border-radius: 30px;
+  border: 1px solid rgba(183, 216, 249, 0.2);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(143, 217, 255, 0.14), transparent 40%),
+    linear-gradient(150deg, rgba(9, 14, 27, 0.88), rgba(5, 8, 15, 0.92));
+  box-shadow: 0 30px 72px rgba(2, 6, 18, 0.56);
+}
+
+.apple-display-shell .hero-console-top {
+  border-bottom: 1px solid rgba(177, 209, 244, 0.17);
+  background: rgba(9, 14, 24, 0.9);
+}
+
+.apple-display-shell .hero-console-path {
+  color: #93afcb;
+}
+
+.apple-display-shell .hero-command-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.apple-display-shell .hero-command-chip {
+  border-radius: 999px;
+  border: 1px solid rgba(175, 208, 244, 0.24);
+  background: rgba(11, 17, 29, 0.66);
+  color: #cad8e8;
+  padding: 0.28rem 0.56rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.61rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.apple-display-shell .hero-command-chip.active,
+.apple-display-shell .hero-link-pill:hover {
+  border-color: rgba(143, 215, 255, 0.55);
+  background: rgba(83, 157, 214, 0.24);
+  color: #f0f8ff;
+}
+
+.apple-display-shell .hero-showcase-main {
+  border: 1px solid rgba(177, 209, 244, 0.16);
+  border-radius: 18px;
+  background: rgba(10, 15, 26, 0.72);
+  padding: 0.8rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.apple-display-shell .hero-command-line {
+  color: #c9b9ff;
+}
+
+.apple-display-shell .hero-command-line .prompt {
+  color: #90d8ff;
+}
+
+.apple-display-shell .hero-runtime-note {
+  color: #9fc3e7;
+}
+
+.apple-display-shell .hero-log-lines {
+  color: #cfdaea;
+  font-size: 0.72rem;
+}
+
+.apple-display-shell .hero-signal-bars {
+  margin-top: 0.15rem;
+}
+
+.apple-display-shell .hero-showcase-grid {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.apple-display-shell .hero-metric-rail {
+  gap: 0.45rem;
+}
+
+.apple-display-shell .hero-metric-card {
+  border-radius: 14px;
+  border: 1px solid rgba(171, 206, 244, 0.2);
+  background: rgba(8, 12, 22, 0.72);
+  color: #9dd9ff;
+  padding: 0.46rem 0.5rem;
+}
+
+.apple-display-shell .hero-link-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.34rem;
+}
+
+.apple-display-shell .hero-scroll-cue {
+  bottom: 0.6rem;
+  border: 1px solid rgba(180, 211, 247, 0.28);
+  background: rgba(9, 14, 24, 0.62);
+  color: #96d9ff;
+}
+
+.apple-display-shell .about-layout-new,
+.apple-display-shell .cert-layout-new,
+.apple-display-shell .contact-layout-new {
+  gap: 1.1rem;
+}
+
+.apple-display-shell .about-main-card,
+.apple-display-shell .about-side-card,
+.apple-display-shell .cert-card-new,
+.apple-display-shell .edu-card-new,
+.apple-display-shell .skills-manifest-card,
+.apple-display-shell .timeline-card,
+.apple-display-shell .project-card-new,
+.apple-display-shell .contact-info-card,
+.apple-display-shell .contact-form-card {
+  border-radius: 22px;
+  padding: 1.1rem;
+}
+
+.apple-display-shell .about-whoami-list li,
+.apple-display-shell .hobby-select-btn,
+.apple-display-shell .about-hobby-preview,
+.apple-display-shell .skills-manifest-group,
+.apple-display-shell .project-filter-btn,
+.apple-display-shell .project-search-box,
+.apple-display-shell .project-empty-state,
+.apple-display-shell .timeline-index,
+.apple-display-shell .contact-social-link,
+.apple-display-shell .contact-submit-btn {
+  border-radius: 14px;
+}
+
+.apple-display-shell .skills-manifest-card {
+  background:
+    linear-gradient(145deg, rgba(12, 20, 35, 0.76), rgba(7, 11, 20, 0.82)),
+    radial-gradient(circle at 100% 0%, rgba(137, 209, 255, 0.14), transparent 44%);
+}
+
+.apple-display-shell .skills-manifest-grid {
+  gap: 0.9rem;
+}
+
+.apple-display-shell .skills-manifest-group h3 {
+  color: #b8e7ff;
+}
+
+.apple-display-shell .skills-manifest-list .name {
+  color: #ecf5ff;
+}
+
+.apple-display-shell .skills-manifest-list .level {
+  color: #9ef6d6;
+  border: 1px solid rgba(158, 246, 214, 0.32);
+  border-radius: 999px;
+  padding: 0.05rem 0.42rem;
+}
+
+.apple-display-shell .timeline-card {
+  grid-template-columns: 76px 1fr;
+  gap: 1rem;
+}
+
+.apple-display-shell .timeline-index {
+  width: 76px;
+  height: 76px;
+  border-radius: 20px;
+  font-size: 1.2rem;
+  border-color: rgba(149, 206, 252, 0.45);
+  background: rgba(13, 20, 35, 0.74);
+}
+
+.apple-display-shell .timeline-main h3 {
+  font-size: 1.55rem;
+  letter-spacing: -0.02em;
+}
+
+.apple-display-shell .timeline-company {
+  color: #9ef6d6;
+  font-size: 1.05rem;
+}
+
+.apple-display-shell .timeline-meta span,
+.apple-display-shell .timeline-main p,
+.apple-display-shell .timeline-main li {
+  color: #b6c7dc;
+}
+
+.apple-display-shell .project-controls-row {
+  border-radius: 20px;
+  padding: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.apple-display-shell .project-filter-btn {
+  border-radius: 999px;
+}
+
+.apple-display-shell .project-grid-new {
+  gap: 1rem;
+}
+
+.apple-display-shell .project-card-new:nth-child(1) {
+  grid-column: 1 / -1;
+}
+
+.apple-display-shell .project-card-new h4 {
+  font-size: 1.42rem;
+  letter-spacing: -0.02em;
+}
+
+.apple-display-shell .project-links a {
+  border-radius: 999px;
+}
+
+.apple-display-shell .cert-layout-new {
+  grid-template-columns: 1.05fr 0.95fr;
+}
+
+.apple-display-shell .cert-card-new h3,
+.apple-display-shell .edu-card-new h4 {
+  font-size: 1.17rem;
+}
+
+.apple-display-shell .contact-layout-new {
+  grid-template-columns: 0.95fr 1.05fr;
+}
+
+.apple-display-shell .contact-form-grid input,
+.apple-display-shell .contact-form-grid textarea {
+  border-radius: 12px;
+  border-color: rgba(176, 209, 246, 0.28);
+}
+
+.apple-display-shell .footer-new {
+  border-top: 1px solid rgba(176, 209, 246, 0.18);
+  margin-top: 1.8rem;
+  background: rgba(7, 10, 18, 0.68);
+  backdrop-filter: blur(16px);
+}
+
+.apple-display-shell .footer-bottom-new {
+  border-top-color: rgba(176, 209, 246, 0.18);
+  color: #95abc6;
+}
+
+@media (max-width: 1320px) {
+  .apple-display-shell .pit-top-command {
+    display: none;
+  }
+
+  .apple-display-shell .pit-header-inner {
+    grid-template-columns: auto 1fr auto;
+  }
+}
+
+@media (max-width: 1040px) {
+  .apple-display-shell .hero-grid-new,
+  .apple-display-shell .about-layout-new,
+  .apple-display-shell .cert-layout-new,
+  .apple-display-shell .contact-layout-new {
+    grid-template-columns: 1fr;
+  }
+
+  .apple-display-shell .hero-stat-grid-new {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .apple-display-shell .project-card-new:nth-child(1) {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 980px) {
+  .apple-display-shell .pit-header-inner {
+    min-height: 3.5rem;
+    margin-top: 0.36rem;
+  }
+
+  .apple-display-shell .pit-nav-desktop {
+    display: none;
+  }
+
+  .apple-display-shell .pit-mobile-toggle {
+    display: inline-flex;
+    border-radius: 12px;
+  }
+
+  .apple-display-shell .pit-mobile-panel {
+    display: grid;
+    width: min(1240px, calc(100% - 2rem));
+    margin: 0.45rem auto 0;
+    border: 1px solid rgba(184, 213, 248, 0.22);
+    border-radius: 18px;
+    background: rgba(8, 13, 24, 0.9);
+    box-shadow: 0 18px 42px rgba(2, 6, 18, 0.48);
+    padding: 0.58rem;
+    gap: 0.34rem;
+  }
+
+  .apple-display-shell .pit-mobile-panel .pit-nav-link,
+  .apple-display-shell .pit-mobile-panel .pit-contact-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .apple-display-shell .page-section {
+    padding: 4.8rem 0 2.6rem;
+  }
+
+  .apple-display-shell .hero-stage {
+    padding-top: 5.8rem;
+  }
+
+  .apple-display-shell .section-headline h2 {
+    font-size: clamp(1.7rem, 7vw, 2.3rem);
+  }
+
+  .apple-display-shell .project-grid-new,
+  .apple-display-shell .skills-manifest-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .apple-display-shell .timeline-card {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .apple-display-shell .timeline-index {
+    width: 62px;
+    height: 62px;
+    border-radius: 16px;
+  }
+}
