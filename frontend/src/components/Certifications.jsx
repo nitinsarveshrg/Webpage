@@ -4,7 +4,7 @@ import { portfolioData } from '../mock';
 
 const Certifications = () => {
   return (
-    <section id="certifications" className="page-section section-band">
+    <section id="certifications" className="page-section section-band motion-section">
       <div className="section-anchor" aria-hidden="true" />
       <div className="content-wrap">
         <div className="section-headline">

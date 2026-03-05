@@ -38,7 +38,7 @@ const About = () => {
   }, [selectedHobby]);
 
   return (
-    <section id="about" className="page-section section-band">
+    <section id="about" className="page-section section-band motion-section">
       <div className="section-anchor" aria-hidden="true" />
       <div className="content-wrap">
         <div className="section-headline">

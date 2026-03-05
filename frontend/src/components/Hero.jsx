@@ -140,7 +140,7 @@ const Hero = () => {
   const highlightPreview = useMemo(() => portfolioData.about.highlights.slice(0, 3), []);
 
   return (
-    <section id="hero" className="page-section hero-stage">
+    <section id="hero" className="page-section hero-stage motion-section">
       <div className="section-anchor" aria-hidden="true" />
       <div className="hero-shell">
         <div className="hero-grid-new">

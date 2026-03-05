@@ -20,6 +20,7 @@ const Home = () => {
   const [isPortfolioRevealing, setIsPortfolioRevealing] = useState(false);
   const gateLocked = gateStage !== 'done';
   const gateLockedRef = useRef(gateLocked);
+  const shellRef = useRef(null);
 
   useEffect(() => {
     gateLockedRef.current = gateLocked;
@@ -82,8 +83,46 @@ const Home = () => {
     return () => window.removeEventListener('pointermove', updatePointer);
   }, []);
 
+  useEffect(() => {
+    if (gateLocked) return undefined;
+
+    const shell = shellRef.current;
+    if (!shell) return undefined;
+
+    const sections = Array.from(shell.querySelectorAll('.motion-section'));
+    if (!sections.length) return undefined;
+
+    const markVisibleSections = () => {
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        const inView = rect.top <= window.innerHeight * 0.82 && rect.bottom >= window.innerHeight * 0.22;
+        section.classList.toggle('in-view', inView);
+      });
+    };
+
+    markVisibleSections();
+    shell.classList.add('motion-enabled');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle('in-view', entry.isIntersecting);
+        });
+      },
+      { threshold: 0.3, rootMargin: '-12% 0px -14% 0px' }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => {
+      observer.disconnect();
+      sections.forEach((section) => section.classList.remove('in-view'));
+      shell.classList.remove('motion-enabled');
+    };
+  }, [gateLocked]);
+
   return (
-    <div className="overhaul-root apple-display-shell">
+    <div ref={shellRef} className="overhaul-root apple-display-shell">
       <CloudParticles />
       <Header />
 

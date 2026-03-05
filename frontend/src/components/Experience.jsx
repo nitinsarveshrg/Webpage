@@ -6,7 +6,7 @@ const Experience = () => {
   const [activeId, setActiveId] = useState(portfolioData.experience[0]?.id || null);
 
   return (
-    <section id="experience" className="page-section section-band alt">
+    <section id="experience" className="page-section section-band alt motion-section">
       <div className="section-anchor" aria-hidden="true" />
       <div className="content-wrap">
         <div className="section-headline">

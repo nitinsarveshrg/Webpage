@@ -103,7 +103,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="page-section section-band alt">
+    <section id="contact" className="page-section section-band alt motion-section">
       <div className="section-anchor" aria-hidden="true" />
       <div className="content-wrap">
         <div className="section-headline">

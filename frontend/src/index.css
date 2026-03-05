@@ -3769,3 +3769,197 @@ html[data-live-theme='matrix'] .footer-grid-new {
     border-radius: 16px;
   }
 }
+
+/* Section-by-section motion depth */
+.apple-display-shell.motion-enabled .motion-section .section-headline,
+.apple-display-shell.motion-enabled .motion-section .glass-card,
+.apple-display-shell.motion-enabled .motion-section .hero-copy-new,
+.apple-display-shell.motion-enabled .motion-section .hero-console-new,
+.apple-display-shell.motion-enabled .motion-section .hero-scroll-cue,
+.apple-display-shell.motion-enabled .motion-section .skills-manifest-group,
+.apple-display-shell.motion-enabled .motion-section .timeline-card,
+.apple-display-shell.motion-enabled .motion-section .project-card-new,
+.apple-display-shell.motion-enabled .motion-section .cert-card-new,
+.apple-display-shell.motion-enabled .motion-section .edu-card-new,
+.apple-display-shell.motion-enabled .motion-section .contact-info-card,
+.apple-display-shell.motion-enabled .motion-section .contact-form-card {
+  opacity: 0;
+  transform: translate3d(0, 40px, 0) scale(0.985);
+  filter: blur(6px);
+  transition:
+    opacity 760ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 760ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    filter 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+.apple-display-shell.motion-enabled .motion-section.in-view .section-headline,
+.apple-display-shell.motion-enabled .motion-section.in-view .glass-card,
+.apple-display-shell.motion-enabled .motion-section.in-view .hero-copy-new,
+.apple-display-shell.motion-enabled .motion-section.in-view .hero-console-new,
+.apple-display-shell.motion-enabled .motion-section.in-view .hero-scroll-cue,
+.apple-display-shell.motion-enabled .motion-section.in-view .skills-manifest-group,
+.apple-display-shell.motion-enabled .motion-section.in-view .timeline-card,
+.apple-display-shell.motion-enabled .motion-section.in-view .project-card-new,
+.apple-display-shell.motion-enabled .motion-section.in-view .cert-card-new,
+.apple-display-shell.motion-enabled .motion-section.in-view .edu-card-new,
+.apple-display-shell.motion-enabled .motion-section.in-view .contact-info-card,
+.apple-display-shell.motion-enabled .motion-section.in-view .contact-form-card {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+}
+
+.apple-display-shell.motion-enabled .motion-section .section-headline {
+  transition-delay: 40ms;
+}
+
+.apple-display-shell.motion-enabled .motion-section .glass-card:nth-of-type(1),
+.apple-display-shell.motion-enabled .motion-section .skills-manifest-group:nth-of-type(1),
+.apple-display-shell.motion-enabled .motion-section .timeline-card:nth-of-type(1),
+.apple-display-shell.motion-enabled .motion-section .project-card-new:nth-of-type(1),
+.apple-display-shell.motion-enabled .motion-section .cert-card-new:nth-of-type(1),
+.apple-display-shell.motion-enabled .motion-section .edu-card-new:nth-of-type(1) {
+  transition-delay: 130ms;
+}
+
+.apple-display-shell.motion-enabled .motion-section .glass-card:nth-of-type(2),
+.apple-display-shell.motion-enabled .motion-section .skills-manifest-group:nth-of-type(2),
+.apple-display-shell.motion-enabled .motion-section .timeline-card:nth-of-type(2),
+.apple-display-shell.motion-enabled .motion-section .project-card-new:nth-of-type(2),
+.apple-display-shell.motion-enabled .motion-section .cert-card-new:nth-of-type(2),
+.apple-display-shell.motion-enabled .motion-section .edu-card-new:nth-of-type(2) {
+  transition-delay: 220ms;
+}
+
+.apple-display-shell.motion-enabled .motion-section .glass-card:nth-of-type(3),
+.apple-display-shell.motion-enabled .motion-section .skills-manifest-group:nth-of-type(3),
+.apple-display-shell.motion-enabled .motion-section .timeline-card:nth-of-type(3),
+.apple-display-shell.motion-enabled .motion-section .project-card-new:nth-of-type(3),
+.apple-display-shell.motion-enabled .motion-section .cert-card-new:nth-of-type(3),
+.apple-display-shell.motion-enabled .motion-section .edu-card-new:nth-of-type(3) {
+  transition-delay: 300ms;
+}
+
+.apple-display-shell.motion-enabled .motion-section .glass-card:nth-of-type(4),
+.apple-display-shell.motion-enabled .motion-section .skills-manifest-group:nth-of-type(4),
+.apple-display-shell.motion-enabled .motion-section .timeline-card:nth-of-type(4),
+.apple-display-shell.motion-enabled .motion-section .project-card-new:nth-of-type(4),
+.apple-display-shell.motion-enabled .motion-section .cert-card-new:nth-of-type(4),
+.apple-display-shell.motion-enabled .motion-section .edu-card-new:nth-of-type(4) {
+  transition-delay: 370ms;
+}
+
+.apple-display-shell.motion-enabled #hero.motion-section .hero-copy-new {
+  transform: translate3d(0, 46px, 0) scale(0.975);
+  transition-delay: 90ms;
+}
+
+.apple-display-shell.motion-enabled #hero.motion-section .hero-console-new {
+  transform: translate3d(0, 58px, 0) scale(0.965);
+  transition-delay: 190ms;
+}
+
+.apple-display-shell.motion-enabled #hero.motion-section .hero-scroll-cue {
+  transform: translate3d(-50%, 20px, 0) scale(0.95);
+  transition-delay: 260ms;
+}
+
+.apple-display-shell.motion-enabled #hero.motion-section.in-view .hero-scroll-cue {
+  transform: translate3d(-50%, 0, 0) scale(1);
+}
+
+.apple-display-shell.motion-enabled #about.motion-section .about-main-card {
+  transform: translate3d(-18px, 44px, 0) scale(0.985);
+}
+
+.apple-display-shell.motion-enabled #about.motion-section .about-side-card {
+  transform: translate3d(18px, 54px, 0) scale(0.975);
+}
+
+.apple-display-shell.motion-enabled #certifications.motion-section .cert-card-new {
+  transform: translate3d(0, 38px, 0) scale(0.985);
+}
+
+.apple-display-shell.motion-enabled #certifications.motion-section .edu-card-new {
+  transform: translate3d(0, 52px, 0) scale(0.97);
+}
+
+.apple-display-shell.motion-enabled #skills.motion-section .skills-manifest-group {
+  transform: translate3d(0, 52px, 0) scale(0.97);
+}
+
+.apple-display-shell.motion-enabled #experience.motion-section .timeline-card {
+  transform: translate3d(0, 56px, 0) scale(0.97);
+}
+
+.apple-display-shell.motion-enabled #projects.motion-section .project-card-new {
+  transform: translate3d(0, 62px, 0) scale(0.965);
+}
+
+.apple-display-shell.motion-enabled #contact.motion-section .contact-info-card {
+  transform: translate3d(-14px, 48px, 0) scale(0.98);
+}
+
+.apple-display-shell.motion-enabled #contact.motion-section .contact-form-card {
+  transform: translate3d(14px, 58px, 0) scale(0.97);
+}
+
+.apple-display-shell.motion-enabled .motion-section.in-view .hero-signal-bars span,
+.apple-display-shell.motion-enabled .motion-section.in-view .pit-top-bars span {
+  animation: metricPulse 2.8s ease-in-out infinite;
+}
+
+.apple-display-shell.motion-enabled .motion-section.in-view .hero-signal-bars span:nth-child(3n),
+.apple-display-shell.motion-enabled .motion-section.in-view .pit-top-bars span:nth-child(3n) {
+  animation-delay: 180ms;
+}
+
+.apple-display-shell.motion-enabled .motion-section.in-view .hero-signal-bars span:nth-child(4n),
+.apple-display-shell.motion-enabled .motion-section.in-view .pit-top-bars span:nth-child(4n) {
+  animation-delay: 320ms;
+}
+
+@keyframes metricPulse {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.26);
+  }
+}
+
+@media (max-width: 1040px) {
+  .apple-display-shell.motion-enabled #about.motion-section .about-main-card,
+  .apple-display-shell.motion-enabled #about.motion-section .about-side-card,
+  .apple-display-shell.motion-enabled #contact.motion-section .contact-info-card,
+  .apple-display-shell.motion-enabled #contact.motion-section .contact-form-card {
+    transform: translate3d(0, 40px, 0) scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .apple-display-shell.motion-enabled .motion-section .section-headline,
+  .apple-display-shell.motion-enabled .motion-section .glass-card,
+  .apple-display-shell.motion-enabled .motion-section .hero-copy-new,
+  .apple-display-shell.motion-enabled .motion-section .hero-console-new,
+  .apple-display-shell.motion-enabled .motion-section .hero-scroll-cue,
+  .apple-display-shell.motion-enabled .motion-section .skills-manifest-group,
+  .apple-display-shell.motion-enabled .motion-section .timeline-card,
+  .apple-display-shell.motion-enabled .motion-section .project-card-new,
+  .apple-display-shell.motion-enabled .motion-section .cert-card-new,
+  .apple-display-shell.motion-enabled .motion-section .edu-card-new,
+  .apple-display-shell.motion-enabled .motion-section .contact-info-card,
+  .apple-display-shell.motion-enabled .motion-section .contact-form-card {
+    transition: none;
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+
+  .apple-display-shell.motion-enabled .motion-section.in-view .hero-signal-bars span,
+  .apple-display-shell.motion-enabled .motion-section.in-view .pit-top-bars span {
+    animation: none;
+  }
+}

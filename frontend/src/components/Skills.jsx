@@ -55,7 +55,7 @@ const skillManifest = [
 
 const Skills = () => {
   return (
-    <section id="skills" className="page-section section-band alt">
+    <section id="skills" className="page-section section-band alt motion-section">
       <div className="section-anchor" aria-hidden="true" />
       <div className="content-wrap">
         <div className="section-headline">
