@@ -101,8 +101,8 @@ const Header = () => {
       <div className="pit-header-inner">
         <button className="pit-brand" onClick={() => jump('hero')}>
           <span className="pit-brand-dot" />
-          <span className="pit-brand-main">nitin://cloud-ops</span>
-          <span className="pit-brand-sub">product runtime</span>
+          <span className="pit-brand-main">Nitin Sarvesh</span>
+          <span className="pit-brand-sub">macbook edition</span>
         </button>
 
         <nav className="pit-nav-desktop">

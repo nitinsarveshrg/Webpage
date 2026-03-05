@@ -145,7 +145,7 @@ const Hero = () => {
       <div className="hero-shell">
         <div className="hero-grid-new">
           <div className="hero-copy-new hero-product-copy">
-            <div className="hero-chip">Cloud Product Story • Linux Precision • F1 Focus</div>
+            <div className="hero-chip">MacBook Style • Cloud DevOps • Premium Build</div>
             <h1 className="hero-title-new">
               {portfolioData.personal.name.split(' ')[0]} <br />
               <span>{portfolioData.personal.name.split(' ').slice(1).join(' ')}</span>
@@ -201,7 +201,7 @@ const Hero = () => {
                 <span />
                 <span />
               </div>
-              <div className="hero-console-path">nitin@product-display:~/live-runtime</div>
+              <div className="hero-console-path">nitin@macbook-pro:~/product-runtime</div>
             </div>
 
             <div className="hero-console-body">
