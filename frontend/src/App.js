@@ -99,6 +99,79 @@ const Home = () => {
     };
   }, [gateLocked]);
 
+  useEffect(() => {
+    if (gateLocked) return undefined;
+    const shell = shellRef.current;
+    if (!shell) return undefined;
+
+    let rafId = 0;
+
+    const updateScrollDepth = () => {
+      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      const ratio = Math.min(1, window.scrollY / maxScroll);
+      shell.style.setProperty('--mk-scroll-ratio', ratio.toFixed(4));
+      rafId = 0;
+    };
+
+    const onScroll = () => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(updateScrollDepth);
+    };
+
+    updateScrollDepth();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafId) window.cancelAnimationFrame(rafId);
+    };
+  }, [gateLocked]);
+
+  useEffect(() => {
+    if (gateLocked) return undefined;
+    const shell = shellRef.current;
+    if (!shell) return undefined;
+
+    let rafId = 0;
+    let depthX = 0;
+    let depthY = 0;
+
+    const applyDepth = () => {
+      shell.style.setProperty('--mk-mouse-x', depthX.toFixed(4));
+      shell.style.setProperty('--mk-mouse-y', depthY.toFixed(4));
+      rafId = 0;
+    };
+
+    const queueApply = () => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(applyDepth);
+    };
+
+    const onPointerMove = (event) => {
+      const x = event.clientX / Math.max(1, window.innerWidth);
+      const y = event.clientY / Math.max(1, window.innerHeight);
+      depthX = (x - 0.5) * 2;
+      depthY = (y - 0.5) * 2;
+      queueApply();
+    };
+
+    const onPointerLeave = () => {
+      depthX = 0;
+      depthY = 0;
+      queueApply();
+    };
+
+    shell.addEventListener('pointermove', onPointerMove, { passive: true });
+    shell.addEventListener('pointerleave', onPointerLeave);
+    onPointerLeave();
+
+    return () => {
+      shell.removeEventListener('pointermove', onPointerMove);
+      shell.removeEventListener('pointerleave', onPointerLeave);
+      if (rafId) window.cancelAnimationFrame(rafId);
+    };
+  }, [gateLocked]);
+
   return (
     <div ref={shellRef} className="mk-shell-root">
       <CloudParticles />
