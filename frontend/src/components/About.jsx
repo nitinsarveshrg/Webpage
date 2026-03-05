@@ -1,15 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import {
-  Compass,
-  Camera,
-  Music2,
-  MoveRight,
-  Plane,
-  Mountain,
-  GitBranch,
-  Flag,
-  TerminalSquare,
-} from 'lucide-react';
+import { Camera, Compass, Flag, GitBranch, Mountain, Music2, Plane, Sparkles } from 'lucide-react';
 import { portfolioData } from '../mock';
 
 const hobbyIcon = (hobby) => {
@@ -28,71 +18,55 @@ const About = () => {
 
   const hobbyNote = useMemo(() => {
     const lower = selectedHobby.toLowerCase();
-    if (lower.includes('photography')) return 'I treat observability dashboards like composition frames: clarity first.';
-    if (lower.includes('travel')) return 'New cities, new infra patterns, and new coffee. Same terminal.';
-    if (lower.includes('hiking')) return 'Best way to reset after release cycles and incident-heavy weeks.';
-    if (lower.includes('music')) return 'Lo-fi while coding, race commentary on Sundays.';
-    if (lower.includes('open-source')) return 'Real learning happens in issue threads and pull requests.';
-    if (lower.includes('formula 1')) return 'Mercedes strategy brain plus Max racecraft intensity.';
-    return 'Always learning and building.';
+    if (lower.includes('photography')) return 'I treat observability dashboards like visual compositions: clarity over noise.';
+    if (lower.includes('travel')) return 'Exploring new places gives me new ideas for scalable systems and clean workflows.';
+    if (lower.includes('hiking')) return 'Hiking helps reset focus after incident-heavy weeks and long delivery sprints.';
+    if (lower.includes('music')) return 'Lo-fi for coding, race commentary for Sundays.';
+    if (lower.includes('open-source')) return 'Open-source issue threads are where practical engineering growth happens fastest.';
+    if (lower.includes('formula 1')) return 'I bring race-weekend discipline: strategic planning with fast execution.';
+    return 'Always learning, always improving.';
   }, [selectedHobby]);
 
   return (
-    <section id="about" className="page-section section-band motion-section">
+    <section id="about" className="page-section mk-section mk-band">
       <div className="section-anchor" aria-hidden="true" />
       <div className="content-wrap">
-        <div className="section-headline">
-          <span className="section-label">profile</span>
-          <h2>Operator Overview</h2>
-          <p>Short snapshot of how I think, ship, and operate in production.</p>
-        </div>
+        <header className="mk-section-head">
+          <span className="mk-section-kicker">Profile</span>
+          <h2>Built for Production, Designed for Reliability</h2>
+          <p>{portfolioData.about.bio}</p>
+        </header>
 
-        <div className="about-layout-new">
-          <article className="glass-card about-main-card">
-            <div className="section-command static">$ whoami</div>
-
-            <div className="about-hobby-preview">
-              <div className="about-hobby-title">operator summary</div>
-              <div className="about-hobby-row">
-                <span className="hobby-icon"><TerminalSquare size={14} /></span>
-                <span>{portfolioData.personal.title}</span>
-              </div>
-              <p>{portfolioData.about.bio}</p>
-            </div>
-
-            <ul className="about-whoami-list">
+        <div className="mk-about-grid">
+          <article className="mk-card mk-about-main">
+            <h3>Operator Summary</h3>
+            <ul className="mk-check-list">
               {portfolioData.about.highlights.map((item) => (
                 <li key={item}>
-                  <MoveRight size={13} />
+                  <Sparkles size={13} />
                   <span>{item}</span>
                 </li>
               ))}
             </ul>
           </article>
 
-          <aside className="glass-card about-side-card">
-            <div className="section-command static">$ cat hobbies.md</div>
-
-            <ul className="hobby-list-new">
+          <aside className="mk-card mk-about-side">
+            <h3>Interests</h3>
+            <div className="mk-hobby-list">
               {portfolioData.about.hobbies.map((hobby) => (
-                <li key={hobby}>
-                  <button
-                    className={`hobby-select-btn ${selectedHobby === hobby ? 'active' : ''}`}
-                    onClick={() => setSelectedHobby(hobby)}
-                  >
-                    <span className="hobby-icon">{hobbyIcon(hobby)}</span>
-                    <span>{hobby}</span>
-                  </button>
-                </li>
+                <button
+                  key={hobby}
+                  className={`mk-hobby-btn ${selectedHobby === hobby ? 'active' : ''}`}
+                  onClick={() => setSelectedHobby(hobby)}
+                >
+                  {hobbyIcon(hobby)}
+                  <span>{hobby}</span>
+                </button>
               ))}
-            </ul>
+            </div>
 
-            <div className="about-hobby-preview">
-              <div className="about-hobby-title">selected hobby</div>
-              <div className="about-hobby-row">
-                <span className="hobby-icon">{hobbyIcon(selectedHobby)}</span>
-                <span>{selectedHobby}</span>
-              </div>
+            <div className="mk-hobby-note">
+              <strong>{selectedHobby}</strong>
               <p>{hobbyNote}</p>
             </div>
           </aside>

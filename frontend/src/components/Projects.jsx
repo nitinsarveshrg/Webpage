@@ -3,12 +3,12 @@ import { ExternalLink, Github, Layers3 } from 'lucide-react';
 import { portfolioData } from '../mock';
 
 const FILTERS = [
-  { id: 'all', label: 'all' },
-  { id: 'aws', label: 'aws' },
-  { id: 'automation', label: 'automation' },
-  { id: 'testing', label: 'testing' },
-  { id: 'web', label: 'web' },
-  { id: 'platform', label: 'platform' },
+  { id: 'all', label: 'All' },
+  { id: 'aws', label: 'AWS' },
+  { id: 'automation', label: 'Automation' },
+  { id: 'testing', label: 'Testing' },
+  { id: 'web', label: 'Web' },
+  { id: 'platform', label: 'Platform' },
 ];
 
 const GITHUB_USER = 'nitinsarveshrg';
@@ -77,7 +77,7 @@ const deriveMatchedSkills = (project) => {
 const Projects = () => {
   const [activeFilter, setActiveFilter] = useState('all');
   const [query, setQuery] = useState('');
-  const [projects, setProjects] = useState(() => []);
+  const [projects, setProjects] = useState([]);
   const [isSyncing, setIsSyncing] = useState(true);
   const [syncError, setSyncError] = useState('');
 
@@ -208,21 +208,21 @@ const Projects = () => {
   }, [activeFilter, query, projects]);
 
   return (
-    <section id="projects" className="page-section section-band motion-section">
+    <section id="projects" className="page-section mk-section mk-band">
       <div className="section-anchor" aria-hidden="true" />
       <div className="content-wrap">
-        <div className="section-headline">
-          <span className="section-label">builds</span>
+        <header className="mk-section-head">
+          <span className="mk-section-kicker">Projects</span>
           <h2>Delivery Portfolio</h2>
-          <p>Live GitHub sync with project descriptions, repository links, and full mapped skills/technology coverage.</p>
-        </div>
+          <p>Live GitHub sync with polished project cards, skill mapping, and deployment context.</p>
+        </header>
 
-        <div className="project-controls-row glass-card">
-          <div className="project-filter-group">
+        <div className="mk-card mk-project-controls">
+          <div className="mk-filter-row">
             {FILTERS.map((filter) => (
               <button
                 key={filter.id}
-                className={`project-filter-btn ${filter.id === activeFilter ? 'active' : ''}`}
+                className={`mk-filter-btn ${filter.id === activeFilter ? 'active' : ''}`}
                 onClick={() => setActiveFilter(filter.id)}
               >
                 {filter.label}
@@ -230,54 +230,53 @@ const Projects = () => {
             ))}
           </div>
 
-          <div className="project-search-box">
-            <span>$ grep</span>
+          <div className="mk-search-row">
+            <label htmlFor="project-search">Search</label>
             <input
+              id="project-search"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="search by repo, skill, or keyword"
             />
           </div>
 
-          <div className="project-count">{filteredProjects.length} repo match</div>
-          <div className={`project-sync-state ${syncError ? 'warn' : ''}`}>
-            {isSyncing ? 'syncing github...' : syncError ? 'sync fallback active' : `synced from github (${projects.length})`}
+          <div className="mk-project-meta">
+            <span>{filteredProjects.length} match</span>
+            <span className={syncError ? 'warn' : ''}>
+              {isSyncing ? 'syncing github...' : syncError ? 'fallback mode' : `synced (${projects.length})`}
+            </span>
           </div>
         </div>
 
-        {filteredProjects.length > 0 && (
-          <div className="project-grid-new">
+        {filteredProjects.length > 0 ? (
+          <div className="mk-project-grid">
             {filteredProjects.map((project) => (
-              <article key={project.id} className="glass-card project-card-new">
-                <div className="project-feature-head">
-                  <span className="badge">github project</span>
-                  <h4>{project.title}</h4>
+              <article key={project.id} className="mk-card mk-project-card">
+                <div className="mk-project-head">
+                  <span>GitHub Project</span>
+                  <h3>{project.title}</h3>
                 </div>
 
                 <p>{project.description}</p>
 
-                <div className="project-skill-head">
-                  <Layers3 size={14} />
-                  <span>skills / technologies</span>
-                </div>
-                <div className="project-tech-row">
-                  {(project.technologies || []).map((tech) => (
-                    <span key={tech} className="chip">{tech}</span>
-                  ))}
+                <div className="mk-project-group">
+                  <div className="mk-project-label"><Layers3 size={13} /> Technologies</div>
+                  <div className="mk-chip-row">
+                    {(project.technologies || []).map((tech) => (
+                      <span key={tech} className="mk-chip">{tech}</span>
+                    ))}
+                  </div>
                 </div>
 
                 {(project.matchedSkills || []).length > 0 && (
-                  <>
-                    <div className="project-skill-head">
-                      <Layers3 size={14} />
-                      <span>matched core skills</span>
-                    </div>
-                    <div className="project-tech-row project-tech-row-skill">
+                  <div className="mk-project-group">
+                    <div className="mk-project-label"><Layers3 size={13} /> Matched Skills</div>
+                    <div className="mk-chip-row">
                       {project.matchedSkills.map((skill) => (
-                        <span key={skill} className="chip skill-chip">{skill}</span>
+                        <span key={skill} className="mk-chip mk-chip-accent">{skill}</span>
                       ))}
                     </div>
-                  </>
+                  </div>
                 )}
 
                 <ul>
@@ -286,27 +285,23 @@ const Projects = () => {
                   ))}
                 </ul>
 
-                <div className="project-links">
+                <div className="mk-project-links">
                   {project.github && (
                     <a href={project.github} target="_blank" rel="noopener noreferrer">
-                      <Github size={14} /> github
+                      <Github size={13} /> GitHub
                     </a>
                   )}
                   {project.demo && (
                     <a href={project.demo} target="_blank" rel="noopener noreferrer">
-                      <ExternalLink size={14} /> live
+                      <ExternalLink size={13} /> Live
                     </a>
                   )}
                 </div>
               </article>
             ))}
           </div>
-        )}
-
-        {filteredProjects.length === 0 && (
-          <div className="glass-card project-empty-state">
-            no github project matches this filter/search.
-          </div>
+        ) : (
+          <div className="mk-card mk-empty-state">No project matches this filter/search.</div>
         )}
       </div>
     </section>

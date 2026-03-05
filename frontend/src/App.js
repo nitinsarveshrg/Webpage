@@ -59,7 +59,7 @@ const Home = () => {
 
       const hash = window.location.hash.replace('#', '');
       if (hash) scrollToSectionById(hash, { behavior: 'auto' });
-    }, 640);
+    }, 520);
 
     return () => clearTimeout(timer);
   }, [gateStage]);
@@ -68,20 +68,10 @@ const Home = () => {
     if (gateStage !== 'done') return undefined;
 
     setIsPortfolioRevealing(true);
-    const timer = setTimeout(() => setIsPortfolioRevealing(false), 640);
+    const timer = setTimeout(() => setIsPortfolioRevealing(false), 680);
 
     return () => clearTimeout(timer);
   }, [gateStage]);
-
-  useEffect(() => {
-    const updatePointer = (event) => {
-      document.documentElement.style.setProperty('--mx', `${event.clientX}px`);
-      document.documentElement.style.setProperty('--my', `${event.clientY}px`);
-    };
-
-    window.addEventListener('pointermove', updatePointer);
-    return () => window.removeEventListener('pointermove', updatePointer);
-  }, []);
 
   useEffect(() => {
     if (gateLocked) return undefined;
@@ -89,19 +79,8 @@ const Home = () => {
     const shell = shellRef.current;
     if (!shell) return undefined;
 
-    const sections = Array.from(shell.querySelectorAll('.motion-section'));
+    const sections = Array.from(shell.querySelectorAll('.mk-section'));
     if (!sections.length) return undefined;
-
-    const markVisibleSections = () => {
-      sections.forEach((section) => {
-        const rect = section.getBoundingClientRect();
-        const inView = rect.top <= window.innerHeight * 0.82 && rect.bottom >= window.innerHeight * 0.22;
-        section.classList.toggle('in-view', inView);
-      });
-    };
-
-    markVisibleSections();
-    shell.classList.add('motion-enabled');
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -109,7 +88,7 @@ const Home = () => {
           entry.target.classList.toggle('in-view', entry.isIntersecting);
         });
       },
-      { threshold: 0.3, rootMargin: '-12% 0px -14% 0px' }
+      { threshold: 0.28, rootMargin: '-10% 0px -15% 0px' }
     );
 
     sections.forEach((section) => observer.observe(section));
@@ -117,12 +96,11 @@ const Home = () => {
     return () => {
       observer.disconnect();
       sections.forEach((section) => section.classList.remove('in-view'));
-      shell.classList.remove('motion-enabled');
     };
   }, [gateLocked]);
 
   return (
-    <div ref={shellRef} className="overhaul-root apple-display-shell">
+    <div ref={shellRef} className="mk-shell-root">
       <CloudParticles />
       <Header />
 

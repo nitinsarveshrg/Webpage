@@ -1,8 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Mail, Linkedin, Github, MapPin, Phone, Send, Loader2 } from 'lucide-react';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Textarea } from './ui/textarea';
+import { Github, Linkedin, Mail, MapPin, Phone, Send, Loader2 } from 'lucide-react';
 import { portfolioData } from '../mock';
 
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xbdyerqo';
@@ -61,13 +58,13 @@ const Contact = () => {
     };
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     setSubmitError('');
     setSubmitted(false);
     setIsSubmitting(true);
 
-    const form = e.target;
+    const form = event.target;
     const formData = new FormData(form);
     formData.set('_replyto', String(formData.get('email') || ''));
 
@@ -77,14 +74,15 @@ const Contact = () => {
         throw new Error('Please complete the CAPTCHA before submitting.');
       }
 
-      const res = await fetch(FORMSPREE_ENDPOINT, {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
         method: 'POST',
         body: formData,
         headers: { Accept: 'application/json' },
       });
 
-      const payload = await res.json().catch(() => null);
-      if (!res.ok) {
+      const payload = await response.json().catch(() => null);
+
+      if (!response.ok) {
         const detailedError = payload?.errors?.map((item) => item.message).filter(Boolean).join(' ');
         throw new Error(detailedError || payload?.error || 'Message transmission failed. Please try again.');
       }
@@ -94,8 +92,8 @@ const Contact = () => {
       if (window.hcaptcha && typeof window.hcaptcha.reset === 'function') {
         window.hcaptcha.reset();
       }
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Message transmission failed. Please try again.';
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Message transmission failed. Please try again.';
       setSubmitError(message);
     } finally {
       setIsSubmitting(false);
@@ -103,71 +101,70 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="page-section section-band alt motion-section">
+    <section id="contact" className="page-section mk-section mk-band mk-band-muted">
       <div className="section-anchor" aria-hidden="true" />
       <div className="content-wrap">
-        <div className="section-headline">
-          <span className="section-label">contact</span>
-          <h2>Open Communication Channel</h2>
-          <p>For roles, collaborations, or cloud discussions, send a message directly from here.</p>
-        </div>
+        <header className="mk-section-head">
+          <span className="mk-section-kicker">Contact</span>
+          <h2>Let&apos;s Build Something Reliable Together</h2>
+          <p>Available for Cloud / DevOps / SRE opportunities, delivery consulting, and technical collaborations.</p>
+        </header>
 
-        <div className="contact-layout-new">
-          <aside className="glass-card contact-info-card">
+        <div className="mk-contact-grid">
+          <aside className="mk-card mk-contact-info">
             <h3>Reach Me</h3>
             <a href={`mailto:${portfolioData.personal.email}`}><Mail size={15} /> {portfolioData.personal.email}</a>
             <a href={`tel:${portfolioData.personal.phone}`}><Phone size={15} /> {portfolioData.personal.phone}</a>
             <div><MapPin size={15} /> {portfolioData.personal.location}</div>
 
-            <div className="contact-social-row">
-              <a href={portfolioData.personal.linkedin} target="_blank" rel="noopener noreferrer" className="contact-social-link linkedin">
+            <div className="mk-social-row">
+              <a href={portfolioData.personal.linkedin} target="_blank" rel="noopener noreferrer">
                 <Linkedin size={14} /> LinkedIn
               </a>
-              <a href={portfolioData.personal.github} target="_blank" rel="noopener noreferrer" className="contact-social-link github">
+              <a href={portfolioData.personal.github} target="_blank" rel="noopener noreferrer">
                 <Github size={14} /> GitHub
               </a>
             </div>
           </aside>
 
-          <div className="glass-card contact-form-card">
-            <form onSubmit={handleSubmit} className="contact-form-grid">
+          <div className="mk-card mk-contact-form-card">
+            <form onSubmit={handleSubmit} className="mk-contact-form">
               <input type="hidden" name="_subject" value="New Portfolio Contact Message" />
               <input type="hidden" name="_template" value="table" />
               <input type="text" name="_gotcha" className="hidden" tabIndex={-1} autoComplete="off" />
 
-              {submitted && <div className="form-ok">Message transmitted successfully.</div>}
-              {submitError && <div className="form-error">{submitError}</div>}
+              {submitted && <div className="mk-form-ok">Message sent successfully.</div>}
+              {submitError && <div className="mk-form-error">{submitError}</div>}
 
               <label>
                 <span>Name</span>
-                <Input type="text" name="name" required />
+                <input type="text" name="name" required />
               </label>
+
               <label>
                 <span>Email</span>
-                <Input type="email" name="email" required />
+                <input type="email" name="email" required />
               </label>
+
               <label>
                 <span>Subject</span>
-                <Input type="text" name="subject" required />
+                <input type="text" name="subject" required />
               </label>
+
               <label>
                 <span>Message</span>
-                <Textarea name="message" rows={5} required />
+                <textarea name="message" rows={5} required />
               </label>
 
               <div ref={captchaRef} />
 
-              <Button type="submit" disabled={isSubmitting} className="contact-submit-btn">
+              <button type="submit" disabled={isSubmitting} className="mk-btn-solid mk-submit-btn">
                 {isSubmitting ? (
-                  <>
-                    <Loader2 size={14} className="spin" /> sending...
-                  </>
+                  <><Loader2 size={14} className="spin" /> Sending...</>
                 ) : (
-                  <>
-                    <Send size={14} /> transmit message
-                  </>
+                  <><Send size={14} /> Send Message</>
                 )}
-              </Button>
+              </button>
             </form>
           </div>
         </div>

@@ -1,12 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Menu, X, Activity } from 'lucide-react';
-import { Button } from './ui/button';
+import React, { useEffect, useState } from 'react';
+import { Menu, X } from 'lucide-react';
 import { scrollToSectionById } from '../lib/sectionScroll';
 
 const SECTION_IDS = ['hero', 'about', 'certifications', 'skills', 'experience', 'projects', 'contact'];
-
-const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-const randomFloat = (min, max, fixed = 2) => (Math.random() * (max - min) + min).toFixed(fixed);
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -14,35 +10,16 @@ const Header = () => {
   const [activeSection, setActiveSection] = useState('hero');
   const [scrollProgress, setScrollProgress] = useState(0);
 
-  const [telemetry, setTelemetry] = useState({
-    ops: randomInt(210, 360),
-    latency: randomInt(28, 58),
-    uptime: randomFloat(99.91, 99.99, 2),
-  });
-
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 28);
-      const doc = document.documentElement;
-      const maxScroll = Math.max(1, doc.scrollHeight - window.innerHeight);
-      setScrollProgress(Math.min(100, Math.max(0, (window.scrollY / maxScroll) * 100)));
+    const onScroll = () => {
+      setIsScrolled(window.scrollY > 24);
+      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      setScrollProgress(Math.min(100, (window.scrollY / maxScroll) * 100));
     };
 
-    handleScroll();
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const id = window.setInterval(() => {
-      setTelemetry({
-        ops: randomInt(210, 360),
-        latency: randomInt(28, 58),
-        uptime: randomFloat(99.91, 99.99, 2),
-      });
-    }, 1500);
-
-    return () => window.clearInterval(id);
+    onScroll();
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   useEffect(() => {
@@ -56,17 +33,18 @@ const Header = () => {
 
         let selected = 'hero';
         let best = 0;
+
         SECTION_IDS.forEach((id) => {
           const score = ratios.get(id) || 0;
           if (score >= best) {
-            selected = id;
             best = score;
+            selected = id;
           }
         });
 
         if (best > 0) setActiveSection(selected);
       },
-      { threshold: [0.25, 0.45, 0.62], rootMargin: '-15% 0px -40% 0px' }
+      { threshold: [0.25, 0.45, 0.62], rootMargin: '-16% 0px -40% 0px' }
     );
 
     SECTION_IDS.forEach((id) => {
@@ -77,71 +55,49 @@ const Header = () => {
     return () => observer.disconnect();
   }, []);
 
-  const jump = (sectionId) => {
-    if (scrollToSectionById(sectionId)) {
-      setActiveSection(sectionId);
+  const jump = (id) => {
+    if (scrollToSectionById(id)) {
+      setActiveSection(id);
       setIsMobileMenuOpen(false);
     }
   };
 
-  const navBtnClass = (sectionId) =>
-    `pit-nav-link ${activeSection === sectionId ? 'pit-nav-link-active' : ''}`;
-
-  const telemetryBars = useMemo(() => {
-    return Array.from({ length: 14 }).map((_, index) => {
-      const base = 28 + ((index * 11 + telemetry.ops + telemetry.latency) % 62);
-      return Math.min(95, Math.max(12, base));
-    });
-  }, [telemetry.ops, telemetry.latency]);
+  const navClass = (id) => `mk-nav-btn ${activeSection === id ? 'active' : ''}`;
 
   return (
-    <header className={`pit-header apple-header ${isScrolled ? 'pit-header-scrolled' : ''}`}>
-      <div className="pit-header-progress" style={{ width: `${scrollProgress}%` }} />
+    <header className={`mk-header ${isScrolled ? 'is-scrolled' : ''}`}>
+      <div className="mk-header-progress" style={{ width: `${scrollProgress}%` }} />
 
-      <div className="pit-header-inner">
-        <button className="pit-brand" onClick={() => jump('hero')}>
-          <span className="pit-brand-dot" />
-          <span className="pit-brand-main">Nitin Sarvesh</span>
-          <span className="pit-brand-sub">macbook edition</span>
+      <div className="mk-header-shell">
+        <button className="mk-brand" onClick={() => jump('hero')}>
+          <span className="mk-brand-dot" />
+          <span className="mk-brand-main">Nitin Sarvesh</span>
+          <span className="mk-brand-sub">Cloud DevOps Engineer</span>
         </button>
 
-        <nav className="pit-nav-desktop">
-          <button className={navBtnClass('about')} onClick={() => jump('about')}>profile</button>
-          <button className={navBtnClass('certifications')} onClick={() => jump('certifications')}>certs</button>
-          <button className={navBtnClass('skills')} onClick={() => jump('skills')}>stack</button>
-          <button className={navBtnClass('experience')} onClick={() => jump('experience')}>timeline</button>
-          <button className={navBtnClass('projects')} onClick={() => jump('projects')}>builds</button>
-          <Button className="pit-contact-btn" onClick={() => jump('contact')}>
-            contact
-          </Button>
+        <nav className="mk-nav-desktop">
+          <button className={navClass('about')} onClick={() => jump('about')}>Profile</button>
+          <button className={navClass('certifications')} onClick={() => jump('certifications')}>Credentials</button>
+          <button className={navClass('skills')} onClick={() => jump('skills')}>Skills</button>
+          <button className={navClass('experience')} onClick={() => jump('experience')}>Timeline</button>
+          <button className={navClass('projects')} onClick={() => jump('projects')}>Projects</button>
         </nav>
 
-        <div className="pit-top-command" aria-label="live portfolio telemetry">
-          <Activity size={14} />
-          <span className="pit-top-prompt">$ live --delivery</span>
-          <div className="pit-top-bars" aria-hidden="true">
-            {telemetryBars.map((height, index) => (
-              <span key={`${height}-${index}`} style={{ height: `${height}%` }} />
-            ))}
-          </div>
-          <span>OPS {telemetry.ops}</span>
-          <span>P95 {telemetry.latency}ms</span>
-          <span>SLA {telemetry.uptime}%</span>
-        </div>
+        <button className="mk-contact-btn" onClick={() => jump('contact')}>Contact</button>
 
-        <button className="pit-mobile-toggle" onClick={() => setIsMobileMenuOpen((prev) => !prev)}>
-          {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+        <button className="mk-mobile-toggle" onClick={() => setIsMobileMenuOpen((v) => !v)}>
+          {isMobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
         </button>
       </div>
 
       {isMobileMenuOpen && (
-        <div className="pit-mobile-panel">
-          <button className={navBtnClass('about')} onClick={() => jump('about')}>profile</button>
-          <button className={navBtnClass('certifications')} onClick={() => jump('certifications')}>certs</button>
-          <button className={navBtnClass('skills')} onClick={() => jump('skills')}>stack</button>
-          <button className={navBtnClass('experience')} onClick={() => jump('experience')}>timeline</button>
-          <button className={navBtnClass('projects')} onClick={() => jump('projects')}>builds</button>
-          <Button className="pit-contact-btn" onClick={() => jump('contact')}>contact</Button>
+        <div className="mk-mobile-panel">
+          <button className={navClass('about')} onClick={() => jump('about')}>Profile</button>
+          <button className={navClass('certifications')} onClick={() => jump('certifications')}>Credentials</button>
+          <button className={navClass('skills')} onClick={() => jump('skills')}>Skills</button>
+          <button className={navClass('experience')} onClick={() => jump('experience')}>Timeline</button>
+          <button className={navClass('projects')} onClick={() => jump('projects')}>Projects</button>
+          <button className="mk-contact-btn" onClick={() => jump('contact')}>Contact</button>
         </div>
       )}
     </header>

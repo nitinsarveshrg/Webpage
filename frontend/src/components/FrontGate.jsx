@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Cpu, Gauge, RadioTower } from 'lucide-react';
+import { Cpu, Gauge, Sparkles } from 'lucide-react';
 import TypingEffect from './TypingEffect';
 
-const bootLogs = [
-  '[init] loading profile: nitin.cloud-devops',
-  '[ok] shell environment detected (linux mode)',
-  '[ok] aws runtime bindings attached',
-  '[ok] ci/cd delivery hooks registered',
-  '[ok] observability streams online',
-  '[ready] launching portfolio',
+const introLines = [
+  '[boot] calibrating display pipeline',
+  '[boot] validating cloud profile metadata',
+  '[boot] preparing motion layers',
+  '[boot] syncing delivery portfolio',
+  '[ready] entering interactive showcase',
 ];
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
@@ -16,9 +15,9 @@ const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + mi
 const FrontGate = ({ exiting = false, onEnter }) => {
   const [lineIndex, setLineIndex] = useState(0);
   const [metrics, setMetrics] = useState({
-    cpu: randomInt(28, 66),
-    mem: randomInt(34, 72),
-    latency: randomInt(16, 41),
+    fps: randomInt(60, 120),
+    render: randomInt(9, 22),
+    sync: randomInt(97, 100),
   });
 
   const finish = useCallback(() => {
@@ -27,27 +26,24 @@ const FrontGate = ({ exiting = false, onEnter }) => {
 
   useEffect(() => {
     const logTimer = window.setInterval(() => {
-      setLineIndex((prev) => (prev >= bootLogs.length - 1 ? prev : prev + 1));
-    }, 210);
+      setLineIndex((prev) => (prev >= introLines.length - 1 ? prev : prev + 1));
+    }, 170);
 
-    return () => window.clearInterval(logTimer);
-  }, []);
-
-  useEffect(() => {
     const metricTimer = window.setInterval(() => {
       setMetrics({
-        cpu: randomInt(28, 66),
-        mem: randomInt(34, 72),
-        latency: randomInt(16, 41),
+        fps: randomInt(60, 120),
+        render: randomInt(9, 22),
+        sync: randomInt(97, 100),
       });
-    }, 320);
+    }, 260);
 
-    return () => window.clearInterval(metricTimer);
-  }, []);
+    const autoEnter = window.setTimeout(() => finish(), 2100);
 
-  useEffect(() => {
-    const autoEnter = window.setTimeout(() => finish(), 2900);
-    return () => window.clearTimeout(autoEnter);
+    return () => {
+      window.clearInterval(logTimer);
+      window.clearInterval(metricTimer);
+      window.clearTimeout(autoEnter);
+    };
   }, [finish]);
 
   useEffect(() => {
@@ -62,65 +58,51 @@ const FrontGate = ({ exiting = false, onEnter }) => {
   }, [finish]);
 
   return (
-    <section className={`front-gate ${exiting ? 'is-exiting' : ''}`}>
-      <div className="fg-backdrop" />
-      <div className="fg-grid" />
+    <section className={`mk-gate ${exiting ? 'is-exiting' : ''}`}>
+      <div className="mk-gate-glow" />
+      <div className="mk-gate-noise" />
 
-      <div className="fg-shell fg-shell-terminal">
-        <div className="fg-terminal">
-          <div className="fg-terminal-top">
-            <div className="fg-lights" aria-hidden="true">
-              <span className="red" />
-              <span className="yellow" />
-              <span className="green" />
+      <div className="mk-gate-stage">
+        <div className="mk-gate-device">
+          <div className="mk-gate-notch" />
+
+          <div className="mk-gate-top">
+            <div className="mk-gate-dots" aria-hidden="true">
+              <span />
+              <span />
+              <span />
             </div>
-            <p>root@cloud-devops:~/boot</p>
+            <p>Nitin Sarvesh • Portfolio Boot</p>
           </div>
 
-          <div className="fg-terminal-body">
-            <div className="fg-kicker">Initializing portfolio runtime</div>
-
-            <div className="fg-command">
-              <span className="prompt">$</span>{' '}
+          <div className="mk-gate-body">
+            <h2>Cloud DevOps Showcase</h2>
+            <div className="mk-gate-command">
+              <span>$</span>
               <TypingEffect
-                text="./bootstrap_portfolio --profile nitin --mode live"
-                speed={12}
-                startDelay={40}
+                text="launch --profile nitin --experience immersive"
+                speed={14}
+                startDelay={30}
                 cursorChar="_"
                 persistCursor
               />
             </div>
 
-            <div className="fg-log-block">
-              {bootLogs.slice(0, lineIndex + 1).map((line) => (
-                <div key={line} className="fg-log-line">{line}</div>
+            <div className="mk-gate-log">
+              {introLines.slice(0, lineIndex + 1).map((line) => (
+                <div key={line}>{line}</div>
               ))}
             </div>
 
-            <div className="fg-metric-row">
-              <div>
-                <Cpu size={13} />
-                <strong>{metrics.cpu}%</strong>
-                <small>cpu</small>
-              </div>
-              <div>
-                <RadioTower size={13} />
-                <strong>{metrics.mem}%</strong>
-                <small>mem</small>
-              </div>
-              <div>
-                <Gauge size={13} />
-                <strong>{metrics.latency}ms</strong>
-                <small>latency</small>
-              </div>
+            <div className="mk-gate-metrics">
+              <div><Cpu size={13} /><strong>{metrics.fps}</strong><small>fps</small></div>
+              <div><Gauge size={13} /><strong>{metrics.render}ms</strong><small>render</small></div>
+              <div><Sparkles size={13} /><strong>{metrics.sync}%</strong><small>sync</small></div>
             </div>
 
-            <div className="fg-terminal-actions">
-              <span>Press Enter to skip</span>
-              <button type="button" className="fg-enter-btn" onClick={finish}>
-                Enter Portfolio
-              </button>
-            </div>
+            <button type="button" className="mk-gate-enter" onClick={finish}>
+              Enter Portfolio
+            </button>
           </div>
         </div>
       </div>

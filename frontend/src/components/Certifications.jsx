@@ -1,42 +1,42 @@
 import React from 'react';
-import { ExternalLink, ShieldCheck, GraduationCap } from 'lucide-react';
+import { ExternalLink, GraduationCap, ShieldCheck } from 'lucide-react';
 import { portfolioData } from '../mock';
 
 const Certifications = () => {
   return (
-    <section id="certifications" className="page-section section-band motion-section">
+    <section id="certifications" className="page-section mk-section mk-band mk-band-muted">
       <div className="section-anchor" aria-hidden="true" />
       <div className="content-wrap">
-        <div className="section-headline">
-          <span className="section-label">certs</span>
-          <h2>Credentials + Education</h2>
-          <p>Validated cloud certifications and formal academic grounding in networking, security, and virtualization.</p>
-        </div>
+        <header className="mk-section-head">
+          <span className="mk-section-kicker">Credentials</span>
+          <h2>Verified Certifications and Academic Foundation</h2>
+          <p>Quick trust signals recruiters and hiring managers look for first.</p>
+        </header>
 
-        <div className="cert-layout-new">
-          <div className="cert-column">
+        <div className="mk-cred-grid">
+          <div className="mk-cred-col">
             {portfolioData.certifications.map((cert) => (
-              <article key={cert.id} className="glass-card cert-card-new">
-                <div className="cert-status">active</div>
-                <h3><ShieldCheck size={16} /> {cert.name}</h3>
+              <article key={cert.id} className="mk-card mk-cert-item">
+                <div className="mk-cert-badge">Active</div>
+                <h3><ShieldCheck size={15} /> {cert.name}</h3>
                 <p>{cert.issuer}</p>
-                <div className="cert-meta">{cert.date} · {cert.credentialId}</div>
+                <div className="mk-cert-meta">{cert.date} • {cert.credentialId}</div>
                 {cert.link && (
-                  <a href={cert.link} target="_blank" rel="noopener noreferrer" className="cert-link">
-                    <ExternalLink size={14} /> verify
+                  <a href={cert.link} target="_blank" rel="noopener noreferrer" className="mk-inline-link">
+                    <ExternalLink size={13} /> Verify Credential
                   </a>
                 )}
               </article>
             ))}
           </div>
 
-          <div className="edu-column">
+          <div className="mk-cred-col">
             {portfolioData.education.map((edu) => (
-              <article key={edu.id} className="glass-card edu-card-new">
-                <h4><GraduationCap size={16} /> {edu.degree}</h4>
+              <article key={edu.id} className="mk-card mk-edu-item">
+                <h3><GraduationCap size={15} /> {edu.degree}</h3>
                 <p>{edu.institution}</p>
-                <div>{edu.period}</div>
-                <small>{edu.location}</small>
+                <div className="mk-cert-meta">{edu.period}</div>
+                <div className="mk-edu-location">{edu.location}</div>
               </article>
             ))}
           </div>

@@ -1,290 +1,161 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Button } from './ui/button';
-import { ChevronDown, Gauge, RadioTower, Cpu, ShieldCheck, Sparkles } from 'lucide-react';
-import TypingEffect from './TypingEffect';
+import { ChevronDown, Cpu, Gauge, ShieldCheck, Sparkles, TerminalSquare } from 'lucide-react';
 import { portfolioData } from '../mock';
+import TypingEffect from './TypingEffect';
 import { scrollToSectionById } from '../lib/sectionScroll';
 
 const commandProfiles = [
   {
     id: 'boot',
-    command: './boot-profile --mode production',
-    graph: 'ramp',
-    note: 'cold-start validation + infra warm-up',
-    logs: [
-      '[boot] loading profile modules',
-      '[ok] telemetry drivers initialized',
-      '[ok] autoscale policies attached',
-      '[info] runtime is ready',
-    ],
+    command: './boot --target production-shell',
+    lines: ['Profile loaded', 'Delivery matrix online', 'Cloud posture verified', 'Runtime stable'],
   },
   {
     id: 'sync',
-    command: './sync-cloud --provider aws --iac terraform',
-    graph: 'pulse',
-    note: 'aws platform sync + iac consistency checks',
-    logs: [
-      '[sync] comparing state and desired templates',
-      '[ok] terraform drift not detected',
-      '[ok] policy baseline matched',
-      '[info] deployment channels healthy',
-    ],
+    command: './sync --cloud aws --iac terraform',
+    lines: ['State validated', 'Drift checks clean', 'Pipelines attached', 'Ready for release'],
   },
   {
     id: 'observe',
-    command: './stream-observability --stack prometheus,grafana',
-    graph: 'scan',
-    note: 'log + metrics + traces stream fusion',
-    logs: [
-      '[obs] attaching trace collectors',
-      '[ok] p95 latency alerts armed',
-      '[ok] anomaly detector sensitivity tuned',
-      '[info] dashboards now live',
-    ],
+    command: './observe --stack prometheus,grafana',
+    lines: ['Signal intake healthy', 'Latency watch armed', 'Dashboard stream active', 'Alerts in threshold'],
   },
-  {
-    id: 'deploy',
-    command: './deploy-fast --safe-rollout',
-    graph: 'burst',
-    note: 'canary rollout with rollback guardrails',
-    logs: [
-      '[deploy] canary lane prepared',
-      '[ok] health probes green',
-      '[ok] traffic shifted incrementally',
-      '[info] rollout complete with zero incidents',
-    ],
-  },
-];
-
-const sectionShortcuts = [
-  { id: 'about', label: 'profile' },
-  { id: 'certifications', label: 'certs' },
-  { id: 'skills', label: 'stack' },
-  { id: 'experience', label: 'timeline' },
-  { id: 'projects', label: 'builds' },
-  { id: 'contact', label: 'contact' },
 ];
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-const randomFloat = (min, max) => (Math.random() * (max - min) + min).toFixed(1);
-
-const signalFromMode = (mode, tick, index, commandIndex, queue) => {
-  const phase = tick + index + commandIndex * 3;
-
-  if (mode === 'ramp') {
-    const ramp = (index / 27) * 55 + 18;
-    const wave = Math.sin(phase * 0.22) * 10;
-    return Math.max(8, Math.min(92, Math.round(ramp + wave)));
-  }
-
-  if (mode === 'pulse') {
-    const pulse = Math.abs(Math.sin((phase + queue) * 0.32)) * 62;
-    const base = index % 2 === 0 ? 16 : 26;
-    return Math.max(8, Math.min(95, Math.round(base + pulse)));
-  }
-
-  if (mode === 'scan') {
-    const saw = (phase * 7) % 100;
-    const wave = Math.cos(phase * 0.41) * 8;
-    return Math.max(10, Math.min(90, Math.round(saw * 0.62 + wave)));
-  }
-
-  const burst = Math.sin(phase * 0.5) > 0.62 ? 82 : 24;
-  const shake = Math.abs(Math.cos(phase * 0.35)) * 16;
-  return Math.max(8, Math.min(96, Math.round(burst + shake)));
-};
 
 const Hero = () => {
-  const [commandIndex, setCommandIndex] = useState(0);
-  const [autoRotate, setAutoRotate] = useState(true);
-  const [runtimeTick, setRuntimeTick] = useState(0);
+  const [activeMode, setActiveMode] = useState(0);
+  const [autoMode, setAutoMode] = useState(true);
   const [metrics, setMetrics] = useState({
-    queue: randomInt(3, 18),
-    latency: randomInt(18, 52),
-    success: randomFloat(99.2, 99.99),
+    load: randomInt(21, 57),
+    latency: randomInt(19, 52),
+    deploy: randomInt(95, 100),
   });
 
   useEffect(() => {
-    if (!autoRotate) return undefined;
+    if (!autoMode) return undefined;
 
-    const rotateId = window.setInterval(() => {
-      setCommandIndex((prev) => (prev + 1) % commandProfiles.length);
-    }, 3200);
+    const id = window.setInterval(() => {
+      setActiveMode((prev) => (prev + 1) % commandProfiles.length);
+    }, 3600);
 
-    return () => window.clearInterval(rotateId);
-  }, [autoRotate]);
+    return () => window.clearInterval(id);
+  }, [autoMode]);
 
   useEffect(() => {
-    const metricId = window.setInterval(() => {
+    const id = window.setInterval(() => {
       setMetrics({
-        queue: randomInt(3, 18),
-        latency: randomInt(18, 52),
-        success: randomFloat(99.2, 99.99),
+        load: randomInt(21, 57),
+        latency: randomInt(19, 52),
+        deploy: randomInt(95, 100),
       });
-      setRuntimeTick((prev) => prev + 1);
-    }, 980);
+    }, 1100);
 
-    return () => window.clearInterval(metricId);
+    return () => window.clearInterval(id);
   }, []);
 
-  const jump = (id) => scrollToSectionById(id);
-  const activeProfile = commandProfiles[commandIndex];
-
-  const commandSignal = useMemo(() => {
-    return Array.from({ length: 28 }).map((_, index) => {
-      return signalFromMode(activeProfile.graph, runtimeTick, index, commandIndex, metrics.queue);
-    });
-  }, [activeProfile.graph, runtimeTick, commandIndex, metrics.queue]);
-
+  const activeProfile = commandProfiles[activeMode];
   const certPreview = useMemo(() => portfolioData.certifications.slice(0, 2), []);
-  const highlightPreview = useMemo(() => portfolioData.about.highlights.slice(0, 3), []);
+
+  const jump = (id) => scrollToSectionById(id);
 
   return (
-    <section id="hero" className="page-section hero-stage motion-section">
+    <section id="hero" className="page-section mk-section mk-hero">
       <div className="section-anchor" aria-hidden="true" />
-      <div className="hero-shell">
-        <div className="hero-grid-new">
-          <div className="hero-copy-new hero-product-copy">
-            <div className="hero-chip">MacBook Style • Cloud DevOps • Premium Build</div>
-            <h1 className="hero-title-new">
-              {portfolioData.personal.name.split(' ')[0]} <br />
+      <div className="content-wrap mk-hero-wrap">
+        <div className="mk-hero-grid">
+          <div className="mk-hero-copy mk-card">
+            <span className="mk-eyebrow">APPLE-INSPIRED PRODUCT EXPERIENCE</span>
+            <h1>
+              {portfolioData.personal.name.split(' ')[0]}
               <span>{portfolioData.personal.name.split(' ').slice(1).join(' ')}</span>
             </h1>
+            <p className="mk-hero-role">{portfolioData.personal.title}</p>
+            <p className="mk-hero-tagline">{portfolioData.personal.tagline}</p>
 
-            <p className="hero-role-new">{portfolioData.personal.title}</p>
-            <p className="hero-tagline-new">{portfolioData.personal.tagline}</p>
-
-            <div className="hero-hiring-cta">
-              <span className="hero-hiring-dot" aria-hidden="true" />
-              <span>Open to Cloud / DevOps / SRE roles in Canada • Available immediately</span>
+            <div className="mk-hero-availability">
+              <span className="dot" />
+              Open to Cloud / DevOps / SRE roles in Canada • Available immediately
             </div>
 
-            <div className="hero-cert-strip">
+            <div className="mk-hero-certs">
               {certPreview.map((cert) => (
-                <div key={cert.id} className="hero-cert-pill">
+                <div key={cert.id} className="mk-pill-soft">
                   <ShieldCheck size={14} />
                   <span>{cert.name}</span>
                 </div>
               ))}
             </div>
 
-            <div className="hero-highlight-stack">
-              {highlightPreview.map((item) => (
-                <div key={item} className="hero-highlight-item">
-                  <Sparkles size={14} />
-                  <span>{item}</span>
-                </div>
-              ))}
+            <div className="mk-hero-actions">
+              <button className="mk-btn-solid" onClick={() => jump('projects')}>View Projects</button>
+              <button className="mk-btn-ghost" onClick={() => jump('contact')}>Contact Me</button>
             </div>
 
-            <div className="hero-cta-row">
-              <Button className="hero-btn-solid" onClick={() => jump('projects')}>
-                view builds
-              </Button>
-              <Button className="hero-btn-ghost" variant="outline" onClick={() => jump('contact')}>
-                open channel
-              </Button>
-            </div>
-
-            <div className="hero-stat-grid-new">
-              <div className="hero-stat-box"><span>5+</span><small>years</small></div>
-              <div className="hero-stat-box"><span>3</span><small>clouds</small></div>
-              <div className="hero-stat-box"><span>50+</span><small>deploys</small></div>
-              <div className="hero-stat-box"><span>99.9%</span><small>uptime</small></div>
+            <div className="mk-hero-stats">
+              <div><strong>5+</strong><span>Years</span></div>
+              <div><strong>3</strong><span>Clouds</span></div>
+              <div><strong>50+</strong><span>Deployments</span></div>
+              <div><strong>99.9%</strong><span>Uptime</span></div>
             </div>
           </div>
 
-          <aside className="hero-console-new hero-product-showcase">
-            <div className="hero-console-top">
-              <div className="hero-console-dots">
-                <span />
-                <span />
-                <span />
-              </div>
-              <div className="hero-console-path">nitin@macbook-pro:~/product-runtime</div>
+          <aside className="mk-hero-device mk-card">
+            <div className="mk-device-top">
+              <div className="lights" aria-hidden="true"><span /><span /><span /></div>
+              <p>nitin@macbook-pro:~/portfolio</p>
             </div>
 
-            <div className="hero-console-body">
-              <div className="hero-command-chip-row">
-                {commandProfiles.map((profile, index) => (
+            <div className="mk-device-body">
+              <div className="mk-mode-row">
+                {commandProfiles.map((mode, index) => (
                   <button
-                    key={profile.command}
-                    className={`hero-command-chip ${index === commandIndex ? 'active' : ''}`}
+                    key={mode.id}
+                    className={`mk-mode-btn ${index === activeMode ? 'active' : ''}`}
                     onClick={() => {
-                      setCommandIndex(index);
-                      setAutoRotate(false);
+                      setActiveMode(index);
+                      setAutoMode(false);
                     }}
                   >
                     mode {index + 1}
                   </button>
                 ))}
-                <button className="hero-command-chip" onClick={() => setAutoRotate((prev) => !prev)}>
-                  {autoRotate ? 'auto on' : 'auto off'}
-                </button>
+                <button className="mk-mode-btn" onClick={() => setAutoMode((v) => !v)}>{autoMode ? 'auto on' : 'auto off'}</button>
               </div>
 
-              <article className="hero-showcase-main">
-                <div className="hero-command-line">
-                  <span className="prompt">$</span>{' '}
-                  <TypingEffect
-                    key={activeProfile.command}
-                    text={activeProfile.command}
-                    speed={24}
-                    cursorChar="_"
-                    persistCursor
-                  />
-                </div>
+              <div className="mk-command-line">
+                <TerminalSquare size={14} />
+                <TypingEffect
+                  key={activeProfile.command}
+                  text={activeProfile.command}
+                  speed={20}
+                  cursorChar="_"
+                  persistCursor
+                />
+              </div>
 
-                <div className="hero-runtime-note">{activeProfile.note}</div>
-
-                <div className="hero-log-lines">
-                  {activeProfile.logs.map((line) => (
-                    <div key={`${activeProfile.id}-${line}`}>{line}</div>
-                  ))}
-                </div>
-
-                <div className={`hero-signal-bars mode-${activeProfile.graph}`}>
-                  {commandSignal.map((value, index) => (
-                    <span key={`${activeProfile.id}-${value}-${index}`} style={{ height: `${value}%` }} />
-                  ))}
-                </div>
-              </article>
-
-              <div className="hero-showcase-grid">
-                <div className="hero-metric-rail hero-metric-rail-compact">
-                  <div className="hero-metric-card">
-                    <Cpu size={14} />
-                    <span>queue {metrics.queue}</span>
+              <div className="mk-command-log">
+                {activeProfile.lines.map((line) => (
+                  <div key={`${activeProfile.id}-${line}`}>
+                    <Sparkles size={12} />
+                    <span>{line}</span>
                   </div>
-                  <div className="hero-metric-card">
-                    <Gauge size={14} />
-                    <span>latency {metrics.latency}ms</span>
-                  </div>
-                  <div className="hero-metric-card">
-                    <RadioTower size={14} />
-                    <span>success {metrics.success}%</span>
-                  </div>
-                </div>
+                ))}
+              </div>
 
-                <div className="hero-link-cloud">
-                  {sectionShortcuts.map((shortcut) => (
-                    <button
-                      key={shortcut.id}
-                      className="hero-command-chip hero-link-pill"
-                      onClick={() => jump(shortcut.id)}
-                    >
-                      {shortcut.label}
-                    </button>
-                  ))}
-                </div>
+              <div className="mk-metric-grid">
+                <div><Cpu size={13} /><strong>{metrics.load}%</strong><small>load</small></div>
+                <div><Gauge size={13} /><strong>{metrics.latency}ms</strong><small>latency</small></div>
+                <div><ShieldCheck size={13} /><strong>{metrics.deploy}%</strong><small>delivery</small></div>
               </div>
             </div>
           </aside>
         </div>
       </div>
 
-      <button className="hero-scroll-cue" onClick={() => jump('about')} aria-label="Scroll to about section">
-        <ChevronDown size={22} />
+      <button className="mk-scroll-cue" onClick={() => jump('about')} aria-label="Scroll to profile">
+        <ChevronDown size={20} />
       </button>
     </section>
   );

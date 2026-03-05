@@ -7,28 +7,37 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="footer-new">
-      <div className="content-wrap footer-grid-new">
-        <div>
-          <div className="footer-name">{portfolioData.personal.name}</div>
-          <div className="footer-role">{portfolioData.personal.title}</div>
-          <div className="footer-note">Built for cloud engineering roles and production-focused teams.</div>
+    <footer className="mk-footer">
+      <div className="content-wrap mk-footer-shell">
+        <div className="mk-footer-brand">
+          <h3>{portfolioData.personal.name}</h3>
+          <p>{portfolioData.personal.title}</p>
+          <span>Production-grade cloud delivery, clean automation, and measurable reliability.</span>
         </div>
 
-        <nav className="footer-nav-new">
-          <button onClick={() => scrollToSectionById('about')}>profile</button>
-          <button onClick={() => scrollToSectionById('skills')}>stack</button>
-          <button onClick={() => scrollToSectionById('projects')}>builds</button>
-          <button onClick={() => scrollToSectionById('contact')}>contact</button>
+        <nav className="mk-footer-nav" aria-label="Footer navigation">
+          <button onClick={() => scrollToSectionById('about')}>Profile</button>
+          <button onClick={() => scrollToSectionById('certifications')}>Certs</button>
+          <button onClick={() => scrollToSectionById('skills')}>Skills</button>
+          <button onClick={() => scrollToSectionById('experience')}>Timeline</button>
+          <button onClick={() => scrollToSectionById('projects')}>Projects</button>
+          <button onClick={() => scrollToSectionById('contact')}>Contact</button>
         </nav>
 
-        <div className="footer-social-new">
-          <a href={portfolioData.personal.linkedin} target="_blank" rel="noopener noreferrer"><Linkedin size={15} /></a>
-          <a href={portfolioData.personal.github} target="_blank" rel="noopener noreferrer"><Github size={15} /></a>
-          <a href={`mailto:${portfolioData.personal.email}`}><Mail size={15} /></a>
+        <div className="mk-footer-social" aria-label="Social links">
+          <a href={portfolioData.personal.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <Linkedin size={16} />
+          </a>
+          <a href={portfolioData.personal.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <Github size={16} />
+          </a>
+          <a href={`mailto:${portfolioData.personal.email}`} aria-label="Email">
+            <Mail size={16} />
+          </a>
         </div>
       </div>
-      <div className="footer-bottom-new">© {year} {portfolioData.personal.name}</div>
+
+      <div className="mk-footer-bottom">© {year} {portfolioData.personal.name} • Built with React and production-focused engineering intent.</div>
     </footer>
   );
 };

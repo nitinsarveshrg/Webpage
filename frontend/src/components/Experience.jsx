@@ -1,38 +1,38 @@
 import React, { useState } from 'react';
-import { CalendarDays, MapPin, BriefcaseBusiness, ChevronDown } from 'lucide-react';
+import { BriefcaseBusiness, CalendarDays, ChevronDown, MapPin } from 'lucide-react';
 import { portfolioData } from '../mock';
 
 const Experience = () => {
   const [activeId, setActiveId] = useState(portfolioData.experience[0]?.id || null);
 
   return (
-    <section id="experience" className="page-section section-band alt motion-section">
+    <section id="experience" className="page-section mk-section mk-band mk-band-muted">
       <div className="section-anchor" aria-hidden="true" />
       <div className="content-wrap">
-        <div className="section-headline">
-          <span className="section-label">timeline</span>
+        <header className="mk-section-head">
+          <span className="mk-section-kicker">Timeline</span>
           <h2>Career Timeline</h2>
-          <p>Interactive timeline: open each role to inspect impact, outcomes, and technical ownership.</p>
-        </div>
+          <p>Open each role to inspect outcomes, impact metrics, and technical ownership.</p>
+        </header>
 
-        <div className="timeline-new">
+        <div className="mk-timeline">
           {portfolioData.experience.map((job, index) => {
             const expanded = activeId === job.id;
 
             return (
-              <article key={job.id} className={`glass-card timeline-card ${expanded ? 'timeline-card-expanded' : ''}`}>
-                <div className="timeline-index">0{index + 1}</div>
+              <article key={job.id} className={`mk-card mk-role-card ${expanded ? 'expanded' : ''}`}>
+                <div className="mk-role-index">0{index + 1}</div>
 
-                <div className="timeline-main">
-                  <button className="timeline-head-btn" onClick={() => setActiveId(expanded ? null : job.id)}>
+                <div className="mk-role-content">
+                  <button className="mk-role-head" onClick={() => setActiveId(expanded ? null : job.id)}>
                     <div>
                       <h3>{job.title}</h3>
-                      <div className="timeline-company">{job.company}</div>
+                      <div className="mk-role-company">{job.company}</div>
                     </div>
-                    <ChevronDown size={16} className={`timeline-chevron ${expanded ? 'open' : ''}`} />
+                    <ChevronDown size={16} className={`mk-role-chevron ${expanded ? 'open' : ''}`} />
                   </button>
 
-                  <div className="timeline-meta">
+                  <div className="mk-role-meta">
                     <span><CalendarDays size={13} /> {job.period}</span>
                     <span><MapPin size={13} /> {job.location}</span>
                     <span><BriefcaseBusiness size={13} /> full-time</span>
