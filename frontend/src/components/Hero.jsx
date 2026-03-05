@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Button } from './ui/button';
-import { ChevronDown, Gauge, RadioTower, Cpu } from 'lucide-react';
+import { ChevronDown, Gauge, RadioTower, Cpu, ShieldCheck, Sparkles } from 'lucide-react';
 import TypingEffect from './TypingEffect';
 import { portfolioData } from '../mock';
 import { scrollToSectionById } from '../lib/sectionScroll';
@@ -57,11 +57,12 @@ const commandProfiles = [
 ];
 
 const sectionShortcuts = [
-  { id: 'about', label: './about' },
-  { id: 'skills', label: './skills' },
-  { id: 'experience', label: './experience' },
-  { id: 'projects', label: './projects' },
-  { id: 'contact', label: './contact' },
+  { id: 'about', label: 'profile' },
+  { id: 'certifications', label: 'certs' },
+  { id: 'skills', label: 'stack' },
+  { id: 'experience', label: 'timeline' },
+  { id: 'projects', label: 'builds' },
+  { id: 'contact', label: 'contact' },
 ];
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
@@ -83,7 +84,7 @@ const signalFromMode = (mode, tick, index, commandIndex, queue) => {
   }
 
   if (mode === 'scan') {
-    const saw = ((phase * 7) % 100);
+    const saw = (phase * 7) % 100;
     const wave = Math.cos(phase * 0.41) * 8;
     return Math.max(10, Math.min(90, Math.round(saw * 0.62 + wave)));
   }
@@ -135,23 +136,45 @@ const Hero = () => {
     });
   }, [activeProfile.graph, runtimeTick, commandIndex, metrics.queue]);
 
+  const certPreview = useMemo(() => portfolioData.certifications.slice(0, 2), []);
+  const highlightPreview = useMemo(() => portfolioData.about.highlights.slice(0, 3), []);
+
   return (
     <section id="hero" className="page-section hero-stage">
       <div className="section-anchor" aria-hidden="true" />
       <div className="hero-shell">
         <div className="hero-grid-new">
-          <div className="hero-copy-new">
-            <div className="hero-chip">LIVE | CLOUD DEVOPS | F1 MODE</div>
+          <div className="hero-copy-new hero-product-copy">
+            <div className="hero-chip">Cloud Product Story • Linux Precision • F1 Focus</div>
             <h1 className="hero-title-new">
               {portfolioData.personal.name.split(' ')[0]} <br />
               <span>{portfolioData.personal.name.split(' ').slice(1).join(' ')}</span>
             </h1>
+
             <p className="hero-role-new">{portfolioData.personal.title}</p>
             <p className="hero-tagline-new">{portfolioData.personal.tagline}</p>
 
             <div className="hero-hiring-cta">
               <span className="hero-hiring-dot" aria-hidden="true" />
               <span>Open to Cloud / DevOps / SRE roles in Canada • Available immediately</span>
+            </div>
+
+            <div className="hero-cert-strip">
+              {certPreview.map((cert) => (
+                <div key={cert.id} className="hero-cert-pill">
+                  <ShieldCheck size={14} />
+                  <span>{cert.name}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="hero-highlight-stack">
+              {highlightPreview.map((item) => (
+                <div key={item} className="hero-highlight-item">
+                  <Sparkles size={14} />
+                  <span>{item}</span>
+                </div>
+              ))}
             </div>
 
             <div className="hero-cta-row">
@@ -171,14 +194,14 @@ const Hero = () => {
             </div>
           </div>
 
-          <aside className="hero-console-new">
+          <aside className="hero-console-new hero-product-showcase">
             <div className="hero-console-top">
               <div className="hero-console-dots">
                 <span />
                 <span />
                 <span />
               </div>
-              <div className="hero-console-path">nitin@pitlane:~/runtime</div>
+              <div className="hero-console-path">nitin@product-display:~/live-runtime</div>
             </div>
 
             <div className="hero-console-body">
@@ -192,7 +215,7 @@ const Hero = () => {
                       setAutoRotate(false);
                     }}
                   >
-                    cmd {index + 1}
+                    mode {index + 1}
                   </button>
                 ))}
                 <button className="hero-command-chip" onClick={() => setAutoRotate((prev) => !prev)}>
@@ -200,56 +223,60 @@ const Hero = () => {
                 </button>
               </div>
 
-              <div className="hero-command-line">
-                <span className="prompt">$</span>{' '}
-                <TypingEffect
-                  key={activeProfile.command}
-                  text={activeProfile.command}
-                  speed={24}
-                  cursorChar="_"
-                  persistCursor
-                />
-              </div>
-
-              <div className="hero-runtime-note">{activeProfile.note}</div>
-
-              <div className="hero-log-lines">
-                {activeProfile.logs.map((line) => (
-                  <div key={`${activeProfile.id}-${line}`}>{line}</div>
-                ))}
-              </div>
-
-              <div className={`hero-signal-bars mode-${activeProfile.graph}`}>
-                {commandSignal.map((value, index) => (
-                  <span key={`${activeProfile.id}-${value}-${index}`} style={{ height: `${value}%` }} />
-                ))}
-              </div>
-
-              <div className="hero-metric-rail">
-                <div className="hero-metric-card">
-                  <Cpu size={14} />
-                  <span>queue {metrics.queue}</span>
+              <article className="hero-showcase-main">
+                <div className="hero-command-line">
+                  <span className="prompt">$</span>{' '}
+                  <TypingEffect
+                    key={activeProfile.command}
+                    text={activeProfile.command}
+                    speed={24}
+                    cursorChar="_"
+                    persistCursor
+                  />
                 </div>
-                <div className="hero-metric-card">
-                  <Gauge size={14} />
-                  <span>latency {metrics.latency}ms</span>
-                </div>
-                <div className="hero-metric-card">
-                  <RadioTower size={14} />
-                  <span>success {metrics.success}%</span>
-                </div>
-              </div>
 
-              <div className="hero-console-links">
-                {sectionShortcuts.map((shortcut) => (
-                  <button
-                    key={shortcut.id}
-                    className="hero-command-chip"
-                    onClick={() => jump(shortcut.id)}
-                  >
-                    {shortcut.label}
-                  </button>
-                ))}
+                <div className="hero-runtime-note">{activeProfile.note}</div>
+
+                <div className="hero-log-lines">
+                  {activeProfile.logs.map((line) => (
+                    <div key={`${activeProfile.id}-${line}`}>{line}</div>
+                  ))}
+                </div>
+
+                <div className={`hero-signal-bars mode-${activeProfile.graph}`}>
+                  {commandSignal.map((value, index) => (
+                    <span key={`${activeProfile.id}-${value}-${index}`} style={{ height: `${value}%` }} />
+                  ))}
+                </div>
+              </article>
+
+              <div className="hero-showcase-grid">
+                <div className="hero-metric-rail hero-metric-rail-compact">
+                  <div className="hero-metric-card">
+                    <Cpu size={14} />
+                    <span>queue {metrics.queue}</span>
+                  </div>
+                  <div className="hero-metric-card">
+                    <Gauge size={14} />
+                    <span>latency {metrics.latency}ms</span>
+                  </div>
+                  <div className="hero-metric-card">
+                    <RadioTower size={14} />
+                    <span>success {metrics.success}%</span>
+                  </div>
+                </div>
+
+                <div className="hero-link-cloud">
+                  {sectionShortcuts.map((shortcut) => (
+                    <button
+                      key={shortcut.id}
+                      className="hero-command-chip hero-link-pill"
+                      onClick={() => jump(shortcut.id)}
+                    >
+                      {shortcut.label}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </aside>

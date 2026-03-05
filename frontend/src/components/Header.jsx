@@ -1,17 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Menu, X, Activity, Flag, Gauge } from 'lucide-react';
+import { Menu, X, Activity } from 'lucide-react';
 import { Button } from './ui/button';
 import { scrollToSectionById } from '../lib/sectionScroll';
 
 const SECTION_IDS = ['hero', 'about', 'certifications', 'skills', 'experience', 'projects', 'contact'];
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-const randomFloat = (min, max) => (Math.random() * (max - min) + min).toFixed(2);
-
-const randomDelta = () => {
-  const value = randomFloat(0.01, 0.89);
-  return Math.random() > 0.5 ? `+${value}` : `-${value}`;
-};
+const randomFloat = (min, max, fixed = 2) => (Math.random() * (max - min) + min).toFixed(fixed);
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -19,14 +14,10 @@ const Header = () => {
   const [activeSection, setActiveSection] = useState('hero');
   const [scrollProgress, setScrollProgress] = useState(0);
 
-  const [raceState, setRaceState] = useState({
-    lap: randomInt(4, 19),
-    sector: randomInt(1, 3),
-    delta: randomDelta(),
-    speed: randomInt(286, 336),
-    tyreTemp: randomInt(88, 106),
-    ers: randomInt(58, 99),
-    wind: randomInt(7, 24),
+  const [telemetry, setTelemetry] = useState({
+    ops: randomInt(210, 360),
+    latency: randomInt(28, 58),
+    uptime: randomFloat(99.91, 99.99, 2),
   });
 
   useEffect(() => {
@@ -44,16 +35,12 @@ const Header = () => {
 
   useEffect(() => {
     const id = window.setInterval(() => {
-      setRaceState((prev) => ({
-        lap: prev.lap >= 58 ? 1 : prev.lap + 1,
-        sector: prev.sector === 3 ? 1 : prev.sector + 1,
-        delta: randomDelta(),
-        speed: randomInt(286, 336),
-        tyreTemp: randomInt(88, 106),
-        ers: randomInt(58, 99),
-        wind: randomInt(7, 24),
-      }));
-    }, 1400);
+      setTelemetry({
+        ops: randomInt(210, 360),
+        latency: randomInt(28, 58),
+        uptime: randomFloat(99.91, 99.99, 2),
+      });
+    }, 1500);
 
     return () => window.clearInterval(id);
   }, []);
@@ -102,26 +89,20 @@ const Header = () => {
 
   const telemetryBars = useMemo(() => {
     return Array.from({ length: 14 }).map((_, index) => {
-      const base = 30 + ((index * 13 + raceState.speed + raceState.sector * 5) % 60);
+      const base = 28 + ((index * 11 + telemetry.ops + telemetry.latency) % 62);
       return Math.min(95, Math.max(12, base));
     });
-  }, [raceState.speed, raceState.sector]);
+  }, [telemetry.ops, telemetry.latency]);
 
   return (
-    <header className={`pit-header ${isScrolled ? 'pit-header-scrolled' : ''}`}>
+    <header className={`pit-header apple-header ${isScrolled ? 'pit-header-scrolled' : ''}`}>
       <div className="pit-header-progress" style={{ width: `${scrollProgress}%` }} />
-
-      <div className="pit-race-rail" aria-hidden="true">
-        <span className="pit-race-pill"><Flag size={12} /> pit wall live</span>
-        <span className="pit-race-meta">LAP {raceState.lap}/58 · S{raceState.sector} · DELTA {raceState.delta}</span>
-        <span className="pit-race-speed"><Gauge size={12} /> {raceState.speed} km/h</span>
-      </div>
 
       <div className="pit-header-inner">
         <button className="pit-brand" onClick={() => jump('hero')}>
           <span className="pit-brand-dot" />
-          <span className="pit-brand-main">nitin://race-ops</span>
-          <span className="pit-brand-sub">cloud-devops</span>
+          <span className="pit-brand-main">nitin://cloud-ops</span>
+          <span className="pit-brand-sub">product runtime</span>
         </button>
 
         <nav className="pit-nav-desktop">
@@ -135,17 +116,17 @@ const Header = () => {
           </Button>
         </nav>
 
-        <div className="pit-top-command" aria-label="race wall telemetry">
+        <div className="pit-top-command" aria-label="live portfolio telemetry">
           <Activity size={14} />
-          <span className="pit-top-prompt">$ racewall --live</span>
+          <span className="pit-top-prompt">$ live --delivery</span>
           <div className="pit-top-bars" aria-hidden="true">
             {telemetryBars.map((height, index) => (
               <span key={`${height}-${index}`} style={{ height: `${height}%` }} />
             ))}
           </div>
-          <span>ERS {raceState.ers}%</span>
-          <span>TYRE {raceState.tyreTemp}C</span>
-          <span>WIND {raceState.wind}km/h</span>
+          <span>OPS {telemetry.ops}</span>
+          <span>P95 {telemetry.latency}ms</span>
+          <span>SLA {telemetry.uptime}%</span>
         </div>
 
         <button className="pit-mobile-toggle" onClick={() => setIsMobileMenuOpen((prev) => !prev)}>

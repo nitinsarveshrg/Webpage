@@ -83,7 +83,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="overhaul-root">
+    <div className="overhaul-root apple-display-shell">
       <CloudParticles />
       <Header />
 
