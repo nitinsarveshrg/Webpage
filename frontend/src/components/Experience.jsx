@@ -3,46 +3,47 @@ import { BriefcaseBusiness, CalendarDays, ChevronDown, MapPin } from 'lucide-rea
 import { portfolioData } from '../mock';
 
 const Experience = () => {
-  const [activeId, setActiveId] = useState(portfolioData.experience[0]?.id || null);
+  const [expandedId, setExpandedId] = useState(portfolioData.experience[0]?.id || null);
 
   return (
-    <section id="experience" className="page-section mk-section mk-band mk-band-muted">
+    <section id="experience" className="nx-section nx-block nx-block-alt">
       <div className="section-anchor" aria-hidden="true" />
       <div className="content-wrap">
-        <header className="mk-section-head">
-          <span className="mk-section-kicker">Timeline</span>
-          <h2>Career Timeline</h2>
-          <p>Open each role to inspect outcomes, impact metrics, and technical ownership.</p>
+        <header className="nx-head">
+          <span>Career Timeline</span>
+          <h2>Impact Over Titles</h2>
+          <p>Each role focused on measurable reliability, speed, and automation outcomes.</p>
         </header>
 
-        <div className="mk-timeline">
-          {portfolioData.experience.map((job, index) => {
-            const expanded = activeId === job.id;
+        <div className="nx-timeline-shell">
+          <div className="nx-timeline-line" aria-hidden="true" />
 
+          {portfolioData.experience.map((role, index) => {
+            const open = expandedId === role.id;
             return (
-              <article key={job.id} className={`mk-card mk-role-card ${expanded ? 'expanded' : ''}`}>
-                <div className="mk-role-index">0{index + 1}</div>
+              <article key={role.id} className={`nx-panel nx-role ${open ? 'open' : ''}`}>
+                <div className="nx-role-node">{String(index + 1).padStart(2, '0')}</div>
 
-                <div className="mk-role-content">
-                  <button className="mk-role-head" onClick={() => setActiveId(expanded ? null : job.id)}>
+                <div className="nx-role-main">
+                  <button onClick={() => setExpandedId(open ? null : role.id)} className="nx-role-head">
                     <div>
-                      <h3>{job.title}</h3>
-                      <div className="mk-role-company">{job.company}</div>
+                      <h3>{role.title}</h3>
+                      <h4>{role.company}</h4>
                     </div>
-                    <ChevronDown size={16} className={`mk-role-chevron ${expanded ? 'open' : ''}`} />
+                    <ChevronDown size={17} className={open ? 'open' : ''} />
                   </button>
 
-                  <div className="mk-role-meta">
-                    <span><CalendarDays size={13} /> {job.period}</span>
-                    <span><MapPin size={13} /> {job.location}</span>
+                  <div className="nx-role-meta">
+                    <span><CalendarDays size={13} /> {role.period}</span>
+                    <span><MapPin size={13} /> {role.location}</span>
                     <span><BriefcaseBusiness size={13} /> full-time</span>
                   </div>
 
-                  <p>{job.description}</p>
+                  <p>{role.description}</p>
 
-                  {expanded && (
+                  {open && (
                     <ul>
-                      {job.achievements.map((item) => (
+                      {role.achievements.map((item) => (
                         <li key={item}>{item}</li>
                       ))}
                     </ul>

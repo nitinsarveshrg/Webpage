@@ -1,109 +1,118 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Cpu, Gauge, Sparkles } from 'lucide-react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Activity, Gauge, TerminalSquare } from 'lucide-react';
 import TypingEffect from './TypingEffect';
 
-const introLines = [
-  '[boot] calibrating display pipeline',
-  '[boot] validating cloud profile metadata',
-  '[boot] preparing motion layers',
-  '[boot] syncing delivery portfolio',
-  '[ready] entering interactive showcase',
+const bootLines = [
+  'bootloader: initializing display kernel',
+  'profile-loader: mounting nitin.sarvesh.runtime',
+  'pipeline-check: ci/cd channels synchronized',
+  'cloud-check: aws telemetry online',
+  'observability: tracing + metrics attached',
+  'status: ready to enter experience',
 ];
 
-const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-
 const FrontGate = ({ exiting = false, onEnter }) => {
-  const [lineIndex, setLineIndex] = useState(0);
-  const [metrics, setMetrics] = useState({
-    fps: randomInt(60, 120),
-    render: randomInt(9, 22),
-    sync: randomInt(97, 100),
-  });
+  const [lineCount, setLineCount] = useState(0);
+  const [progress, setProgress] = useState(6);
+  const [fps, setFps] = useState(92);
+
+  const visibleLines = useMemo(() => bootLines.slice(0, lineCount), [lineCount]);
 
   const finish = useCallback(() => {
     if (onEnter) onEnter();
   }, [onEnter]);
 
   useEffect(() => {
-    const logTimer = window.setInterval(() => {
-      setLineIndex((prev) => (prev >= introLines.length - 1 ? prev : prev + 1));
+    const lineTimer = window.setInterval(() => {
+      setLineCount((prev) => (prev >= bootLines.length ? prev : prev + 1));
+    }, 280);
+
+    const progressTimer = window.setInterval(() => {
+      setProgress((prev) => {
+        const next = prev + Math.random() * 8;
+        return next >= 100 ? 100 : next;
+      });
+      setFps(88 + Math.floor(Math.random() * 24));
     }, 170);
 
-    const metricTimer = window.setInterval(() => {
-      setMetrics({
-        fps: randomInt(60, 120),
-        render: randomInt(9, 22),
-        sync: randomInt(97, 100),
-      });
-    }, 260);
-
-    const autoEnter = window.setTimeout(() => finish(), 2100);
+    const autoEnter = window.setTimeout(() => finish(), 4200);
 
     return () => {
-      window.clearInterval(logTimer);
-      window.clearInterval(metricTimer);
+      window.clearInterval(lineTimer);
+      window.clearInterval(progressTimer);
       window.clearTimeout(autoEnter);
     };
   }, [finish]);
 
   useEffect(() => {
-    const onKey = (event) => {
-      if (event.key === 'Enter' || event.key === 'Escape' || event.key === ' ') {
-        finish();
-      }
+    const onKeyDown = (event) => {
+      if (event.key === 'Enter' || event.key === 'Escape' || event.key === ' ') finish();
     };
 
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
   }, [finish]);
 
   return (
-    <section className={`mk-gate ${exiting ? 'is-exiting' : ''}`}>
-      <div className="mk-gate-glow" />
-      <div className="mk-gate-noise" />
+    <section className={`nx-gate ${exiting ? 'is-exiting' : ''}`}>
+      <div className="nx-gate-grid" />
+      <div className="nx-gate-vignette" />
 
-      <div className="mk-gate-stage">
-        <div className="mk-gate-device">
-          <div className="mk-gate-notch" />
+      <div className="nx-gate-panel">
+        <header>
+          <div className="nx-gate-leds" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </div>
+          <p>nitin@race-workstation:~/portfolio_boot</p>
+        </header>
 
-          <div className="mk-gate-top">
-            <div className="mk-gate-dots" aria-hidden="true">
-              <span />
-              <span />
-              <span />
-            </div>
-            <p>Nitin Sarvesh • Portfolio Boot</p>
+        <div className="nx-gate-body">
+          <h1>Interactive Portfolio Runtime</h1>
+
+          <div className="nx-gate-command">
+            <TerminalSquare size={15} />
+            <TypingEffect
+              text="./launch --profile nitin --mode cinematic"
+              speed={18}
+              cursorChar="_"
+              persistCursor
+            />
           </div>
 
-          <div className="mk-gate-body">
-            <h2>Cloud DevOps Showcase</h2>
-            <div className="mk-gate-command">
-              <span>$</span>
-              <TypingEffect
-                text="launch --profile nitin --experience immersive"
-                speed={14}
-                startDelay={30}
-                cursorChar="_"
-                persistCursor
-              />
-            </div>
-
-            <div className="mk-gate-log">
-              {introLines.slice(0, lineIndex + 1).map((line) => (
-                <div key={line}>{line}</div>
-              ))}
-            </div>
-
-            <div className="mk-gate-metrics">
-              <div><Cpu size={13} /><strong>{metrics.fps}</strong><small>fps</small></div>
-              <div><Gauge size={13} /><strong>{metrics.render}ms</strong><small>render</small></div>
-              <div><Sparkles size={13} /><strong>{metrics.sync}%</strong><small>sync</small></div>
-            </div>
-
-            <button type="button" className="mk-gate-enter" onClick={finish}>
-              Enter Portfolio
-            </button>
+          <div className="nx-gate-log" aria-live="polite">
+            {visibleLines.map((line) => (
+              <div key={line}>{line}</div>
+            ))}
           </div>
+
+          <div className="nx-gate-progress-wrap">
+            <div className="nx-gate-progress-label">
+              <span>startup progress</span>
+              <strong>{Math.round(progress)}%</strong>
+            </div>
+            <div className="nx-gate-progress-rail">
+              <span style={{ width: `${progress}%` }} />
+            </div>
+          </div>
+
+          <div className="nx-gate-metrics">
+            <div>
+              <Activity size={14} />
+              <span>stream</span>
+              <strong>stable</strong>
+            </div>
+            <div>
+              <Gauge size={14} />
+              <span>render fps</span>
+              <strong>{fps}</strong>
+            </div>
+          </div>
+
+          <button type="button" className="nx-gate-enter" onClick={finish}>
+            Enter Experience
+          </button>
         </div>
       </div>
     </section>

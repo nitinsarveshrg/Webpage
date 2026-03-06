@@ -101,23 +101,23 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="page-section mk-section mk-band mk-band-muted">
+    <section id="contact" className="nx-section nx-block nx-block-alt">
       <div className="section-anchor" aria-hidden="true" />
       <div className="content-wrap">
-        <header className="mk-section-head">
-          <span className="mk-section-kicker">Contact</span>
-          <h2>Let&apos;s Build Something Reliable Together</h2>
-          <p>Available for Cloud / DevOps / SRE opportunities, delivery consulting, and technical collaborations.</p>
+        <header className="nx-head">
+          <span>Contact</span>
+          <h2>Let&apos;s Build Something Reliable</h2>
+          <p>Open to Cloud / DevOps / SRE roles and delivery-focused engineering collaborations.</p>
         </header>
 
-        <div className="mk-contact-grid">
-          <aside className="mk-card mk-contact-info">
-            <h3>Reach Me</h3>
+        <div className="nx-contact-shell">
+          <aside className="nx-panel nx-contact-card">
+            <h3>Direct Channel</h3>
             <a href={`mailto:${portfolioData.personal.email}`}><Mail size={15} /> {portfolioData.personal.email}</a>
             <a href={`tel:${portfolioData.personal.phone}`}><Phone size={15} /> {portfolioData.personal.phone}</a>
             <div><MapPin size={15} /> {portfolioData.personal.location}</div>
 
-            <div className="mk-social-row">
+            <div className="nx-contact-social">
               <a href={portfolioData.personal.linkedin} target="_blank" rel="noopener noreferrer">
                 <Linkedin size={14} /> LinkedIn
               </a>
@@ -127,14 +127,14 @@ const Contact = () => {
             </div>
           </aside>
 
-          <div className="mk-card mk-contact-form-card">
-            <form onSubmit={handleSubmit} className="mk-contact-form">
+          <div className="nx-panel nx-contact-form-card">
+            <form onSubmit={handleSubmit} className="nx-contact-form">
               <input type="hidden" name="_subject" value="New Portfolio Contact Message" />
               <input type="hidden" name="_template" value="table" />
               <input type="text" name="_gotcha" className="hidden" tabIndex={-1} autoComplete="off" />
 
-              {submitted && <div className="mk-form-ok">Message sent successfully.</div>}
-              {submitError && <div className="mk-form-error">{submitError}</div>}
+              {submitted && <div className="nx-ok">Message sent successfully.</div>}
+              {submitError && <div className="nx-error">{submitError}</div>}
 
               <label>
                 <span>Name</span>
@@ -158,7 +158,7 @@ const Contact = () => {
 
               <div ref={captchaRef} />
 
-              <button type="submit" disabled={isSubmitting} className="mk-btn-solid mk-submit-btn">
+              <button type="submit" disabled={isSubmitting} className="nx-btn-primary nx-submit-btn">
                 {isSubmitting ? (
                   <><Loader2 size={14} className="spin" /> Sending...</>
                 ) : (

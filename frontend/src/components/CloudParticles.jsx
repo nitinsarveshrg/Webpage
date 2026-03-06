@@ -67,7 +67,7 @@ const CloudParticles = () => {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="mk-bg-canvas" aria-hidden="true" />;
+  return <canvas ref={canvasRef} className="nx-bg-canvas" aria-hidden="true" />;
 };
 
 export default CloudParticles;

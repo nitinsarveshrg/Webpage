@@ -7,32 +7,33 @@ import { scrollToSectionById } from '../lib/sectionScroll';
 const commandProfiles = [
   {
     id: 'boot',
-    command: './boot --target production-shell',
-    lines: ['Profile loaded', 'Delivery matrix online', 'Cloud posture verified', 'Runtime stable'],
+    command: './boot --profile nitin --track production',
+    lines: ['Cloud profile initialized', 'IaC modules loaded', 'Delivery lanes connected', 'Runtime healthy'],
   },
   {
-    id: 'sync',
-    command: './sync --cloud aws --iac terraform',
-    lines: ['State validated', 'Drift checks clean', 'Pipelines attached', 'Ready for release'],
+    id: 'deploy',
+    command: './deploy --region ca-central-1 --safe',
+    lines: ['Plan verified', 'Policy check passed', 'Blue/green staged', 'Release completed'],
   },
   {
     id: 'observe',
-    command: './observe --stack prometheus,grafana',
-    lines: ['Signal intake healthy', 'Latency watch armed', 'Dashboard stream active', 'Alerts in threshold'],
+    command: './observe --stack prometheus,grafana,cloudwatch',
+    lines: ['Metrics streaming', 'Latency threshold armed', 'Alert routing configured', 'Dashboards live'],
   },
 ];
 
-const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-const waveform = Array.from({ length: 30 }, (_, index) => index);
+const telemetry = () => ({
+  load: 32 + Math.floor(Math.random() * 34),
+  latency: 16 + Math.floor(Math.random() * 32),
+  health: 95 + Math.floor(Math.random() * 5),
+});
 
 const Hero = () => {
   const [activeMode, setActiveMode] = useState(0);
   const [autoMode, setAutoMode] = useState(true);
-  const [metrics, setMetrics] = useState({
-    load: randomInt(21, 57),
-    latency: randomInt(19, 52),
-    deploy: randomInt(95, 100),
-  });
+  const [metrics, setMetrics] = useState(telemetry);
+
+  const certPreview = useMemo(() => portfolioData.certifications.slice(0, 2), []);
 
   useEffect(() => {
     if (!autoMode) return undefined;
@@ -45,61 +46,52 @@ const Hero = () => {
   }, [autoMode]);
 
   useEffect(() => {
-    const id = window.setInterval(() => {
-      setMetrics({
-        load: randomInt(21, 57),
-        latency: randomInt(19, 52),
-        deploy: randomInt(95, 100),
-      });
-    }, 1100);
-
+    const id = window.setInterval(() => setMetrics(telemetry()), 1200);
     return () => window.clearInterval(id);
   }, []);
 
   const activeProfile = commandProfiles[activeMode];
-  const certPreview = useMemo(() => portfolioData.certifications.slice(0, 2), []);
-
-  const jump = (id) => scrollToSectionById(id);
 
   return (
-    <section id="hero" className="page-section mk-section mk-hero">
+    <section id="hero" className="nx-section nx-hero-section">
       <div className="section-anchor" aria-hidden="true" />
-      <div className="content-wrap mk-hero-wrap">
-        <div className="mk-hero-marquee" aria-hidden="true">
-          <span>Cloud Reliability • DevOps Delivery • Apple-grade Experience •</span>
-          <span>Cloud Reliability • DevOps Delivery • Apple-grade Experience •</span>
+      <div className="content-wrap nx-hero-wrap">
+        <div className="nx-hero-storyline" aria-hidden="true">
+          <span>APPLE INSPIRED UI</span>
+          <span>•</span>
+          <span>LINUX TERMINAL DNA</span>
+          <span>•</span>
+          <span>PRODUCTION DEVOPS PROFILE</span>
         </div>
 
-        <div className="mk-hero-grid">
-          <div className="mk-hero-copy mk-card">
-            <span className="mk-eyebrow">APPLE-INSPIRED PRODUCT EXPERIENCE</span>
+        <div className="nx-hero-grid">
+          <div className="nx-hero-copy">
+            <p className="nx-kicker">Cloud / DevOps / SRE • Canada</p>
             <h1>
-              {portfolioData.personal.name.split(' ')[0]}
-              <span>{portfolioData.personal.name.split(' ').slice(1).join(' ')}</span>
+              <span>{portfolioData.personal.name.split(' ')[0]}</span>
+              <strong>{portfolioData.personal.name.split(' ').slice(1).join(' ')}</strong>
             </h1>
-            <p className="mk-hero-role">{portfolioData.personal.title}</p>
-            <p className="mk-hero-tagline">{portfolioData.personal.tagline}</p>
+            <h2>{portfolioData.personal.title}</h2>
+            <p className="nx-tagline">{portfolioData.personal.tagline}</p>
 
-            <div className="mk-hero-availability">
-              <span className="dot" />
+            <p className="nx-availability">
               Open to Cloud / DevOps / SRE roles in Canada • Available immediately
-            </div>
+            </p>
 
-            <div className="mk-hero-certs">
+            <div className="nx-cert-strip">
               {certPreview.map((cert) => (
-                <div key={cert.id} className="mk-pill-soft">
-                  <ShieldCheck size={14} />
-                  <span>{cert.name}</span>
-                </div>
+                <span key={cert.id}>
+                  <ShieldCheck size={13} /> {cert.name}
+                </span>
               ))}
             </div>
 
-            <div className="mk-hero-actions">
-              <button className="mk-btn-solid" onClick={() => jump('projects')}>View Projects</button>
-              <button className="mk-btn-ghost" onClick={() => jump('contact')}>Contact Me</button>
+            <div className="nx-hero-actions">
+              <button onClick={() => scrollToSectionById('projects')} className="nx-btn-primary">View Delivery Portfolio</button>
+              <button onClick={() => scrollToSectionById('contact')} className="nx-btn-secondary">Open Contact Channel</button>
             </div>
 
-            <div className="mk-hero-stats">
+            <div className="nx-stat-grid">
               <div><strong>5+</strong><span>Years</span></div>
               <div><strong>3</strong><span>Clouds</span></div>
               <div><strong>50+</strong><span>Deployments</span></div>
@@ -107,42 +99,35 @@ const Hero = () => {
             </div>
           </div>
 
-          <aside className="mk-hero-device mk-card">
-            <div className="mk-device-sheen" aria-hidden="true" />
-            <div className="mk-device-top">
-              <div className="lights" aria-hidden="true"><span /><span /><span /></div>
-              <p>nitin@macbook-pro:~/portfolio</p>
+          <aside className="nx-runtime">
+            <div className="nx-runtime-head">
+              <div className="lights"><span /><span /><span /></div>
+              <p>nitin@apple-shell:~/runtime</p>
             </div>
 
-            <div className="mk-device-body">
-              <div className="mk-mode-row">
+            <div className="nx-runtime-body">
+              <div className="nx-runtime-controls">
                 {commandProfiles.map((mode, index) => (
                   <button
                     key={mode.id}
-                    className={`mk-mode-btn ${index === activeMode ? 'active' : ''}`}
+                    className={index === activeMode ? 'active' : ''}
                     onClick={() => {
                       setActiveMode(index);
                       setAutoMode(false);
                     }}
                   >
-                    mode {index + 1}
+                    cmd {index + 1}
                   </button>
                 ))}
-                <button className="mk-mode-btn" onClick={() => setAutoMode((v) => !v)}>{autoMode ? 'auto on' : 'auto off'}</button>
+                <button onClick={() => setAutoMode((v) => !v)}>{autoMode ? 'auto on' : 'auto off'}</button>
               </div>
 
-              <div className="mk-command-line">
+              <div className="nx-runtime-command">
                 <TerminalSquare size={14} />
-                <TypingEffect
-                  key={activeProfile.command}
-                  text={activeProfile.command}
-                  speed={20}
-                  cursorChar="_"
-                  persistCursor
-                />
+                <TypingEffect text={activeProfile.command} speed={20} cursorChar="_" persistCursor key={activeProfile.command} />
               </div>
 
-              <div className="mk-command-log">
+              <div className="nx-runtime-log">
                 {activeProfile.lines.map((line) => (
                   <div key={`${activeProfile.id}-${line}`}>
                     <Sparkles size={12} />
@@ -151,31 +136,19 @@ const Hero = () => {
                 ))}
               </div>
 
-              <div className="mk-metric-grid">
-                <div><Cpu size={13} /><strong>{metrics.load}%</strong><small>load</small></div>
-                <div><Gauge size={13} /><strong>{metrics.latency}ms</strong><small>latency</small></div>
-                <div><ShieldCheck size={13} /><strong>{metrics.deploy}%</strong><small>delivery</small></div>
-              </div>
-
-              <div className="mk-runtime-wave" aria-label="runtime stream visual">
-                {waveform.map((bar) => (
-                  <span
-                    key={bar}
-                    style={{
-                      animationDelay: `${bar * 45}ms`,
-                      height: `${28 + ((bar * 9) % 54)}%`,
-                    }}
-                  />
-                ))}
+              <div className="nx-runtime-metrics">
+                <div><Cpu size={13} /><span>load</span><strong>{metrics.load}%</strong></div>
+                <div><Gauge size={13} /><span>latency</span><strong>{metrics.latency}ms</strong></div>
+                <div><ShieldCheck size={13} /><span>health</span><strong>{metrics.health}%</strong></div>
               </div>
             </div>
           </aside>
         </div>
-      </div>
 
-      <button className="mk-scroll-cue" onClick={() => jump('about')} aria-label="Scroll to profile">
-        <ChevronDown size={20} />
-      </button>
+        <button className="nx-scroll-indicator" onClick={() => scrollToSectionById('about')} aria-label="Scroll to whoami">
+          <ChevronDown size={18} />
+        </button>
+      </div>
     </section>
   );
 };

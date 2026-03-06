@@ -57,13 +57,12 @@ const repoNameFromGithubUrl = (url = '') => {
   return match ? match[1] : '';
 };
 
-const titleFromRepoName = (name = '') => {
-  return name
+const titleFromRepoName = (name = '') =>
+  name
     .replace(/[-_]+/g, ' ')
     .replace(/\s+/g, ' ')
     .trim()
     .replace(/\b\w/g, (ch) => ch.toUpperCase());
-};
 
 const deriveMatchedSkills = (project) => {
   const bag = `${project.title} ${project.description} ${(project.technologies || []).join(' ')} ${(project.highlights || []).join(' ')}`.toLowerCase();
@@ -71,7 +70,7 @@ const deriveMatchedSkills = (project) => {
   return Object.entries(SKILL_SYNONYMS)
     .filter(([, keys]) => keys.some((key) => bag.includes(key.toLowerCase())))
     .map(([skill]) => skill)
-    .slice(0, 10);
+    .slice(0, 8);
 };
 
 const Projects = () => {
@@ -81,12 +80,14 @@ const Projects = () => {
   const [isSyncing, setIsSyncing] = useState(true);
   const [syncError, setSyncError] = useState('');
 
-  const fallbackProjects = useMemo(() => {
-    return (portfolioData.projects || []).map((project) => ({
-      ...project,
-      matchedSkills: deriveMatchedSkills(project),
-    }));
-  }, []);
+  const fallbackProjects = useMemo(
+    () =>
+      (portfolioData.projects || []).map((project) => ({
+        ...project,
+        matchedSkills: deriveMatchedSkills(project),
+      })),
+    []
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -106,9 +107,7 @@ const Projects = () => {
           headers: { Accept: 'application/vnd.github+json' },
         });
 
-        if (!reposRes.ok) {
-          throw new Error(`GitHub sync failed (${reposRes.status})`);
-        }
+        if (!reposRes.ok) throw new Error(`GitHub sync failed (${reposRes.status})`);
 
         const reposPayload = await reposRes.json();
         const repos = Array.isArray(reposPayload) ? reposPayload : [];
@@ -123,12 +122,9 @@ const Projects = () => {
               const res = await fetch(repo.languages_url, {
                 headers: { Accept: 'application/vnd.github+json' },
               });
-
               if (!res.ok) return [repo.name, []];
-
               const payload = await res.json();
-              const list = payload && typeof payload === 'object' ? Object.keys(payload) : [];
-              return [repo.name, list];
+              return [repo.name, payload && typeof payload === 'object' ? Object.keys(payload) : []];
             } catch {
               return [repo.name, []];
             }
@@ -143,12 +139,7 @@ const Projects = () => {
           const topicTech = (repo.topics || []).map((topic) => topic.replace(/-/g, ' '));
 
           const technologies = Array.from(
-            new Set([
-              ...(manual?.technologies || []),
-              ...apiLanguages,
-              ...(repo.language ? [repo.language] : []),
-              ...topicTech,
-            ])
+            new Set([...(manual?.technologies || []), ...apiLanguages, ...(repo.language ? [repo.language] : []), ...topicTech])
           ).filter(Boolean);
 
           const baseProject = {
@@ -198,31 +189,33 @@ const Projects = () => {
     };
   }, [fallbackProjects]);
 
-  const filteredProjects = useMemo(() => {
-    return projects.filter((project) => {
-      const filterMatch = resolveFilterHit(project, activeFilter);
-      const queryBag = `${project.title} ${project.description} ${(project.technologies || []).join(' ')} ${(project.highlights || []).join(' ')} ${(project.matchedSkills || []).join(' ')}`.toLowerCase();
-      const queryMatch = query.trim() ? queryBag.includes(query.toLowerCase().trim()) : true;
-      return filterMatch && queryMatch;
-    });
-  }, [activeFilter, query, projects]);
+  const filteredProjects = useMemo(
+    () =>
+      projects.filter((project) => {
+        const filterMatch = resolveFilterHit(project, activeFilter);
+        const queryBag = `${project.title} ${project.description} ${(project.technologies || []).join(' ')} ${(project.highlights || []).join(' ')} ${(project.matchedSkills || []).join(' ')}`.toLowerCase();
+        const queryMatch = query.trim() ? queryBag.includes(query.toLowerCase().trim()) : true;
+        return filterMatch && queryMatch;
+      }),
+    [activeFilter, query, projects]
+  );
 
   return (
-    <section id="projects" className="page-section mk-section mk-band">
+    <section id="projects" className="nx-section nx-block">
       <div className="section-anchor" aria-hidden="true" />
       <div className="content-wrap">
-        <header className="mk-section-head">
-          <span className="mk-section-kicker">Projects</span>
-          <h2>Delivery Portfolio</h2>
-          <p>Live GitHub sync with polished project cards, skill mapping, and deployment context.</p>
+        <header className="nx-head">
+          <span>Delivery Portfolio</span>
+          <h2>Live GitHub Synced Projects</h2>
+          <p>All repositories are rendered with skills context, stack metadata, and deployment-oriented highlights.</p>
         </header>
 
-        <div className="mk-card mk-project-controls">
-          <div className="mk-filter-row">
+        <div className="nx-panel nx-project-controls">
+          <div className="nx-filter-row">
             {FILTERS.map((filter) => (
               <button
                 key={filter.id}
-                className={`mk-filter-btn ${filter.id === activeFilter ? 'active' : ''}`}
+                className={activeFilter === filter.id ? 'active' : ''}
                 onClick={() => setActiveFilter(filter.id)}
               >
                 {filter.label}
@@ -230,18 +223,18 @@ const Projects = () => {
             ))}
           </div>
 
-          <div className="mk-search-row">
-            <label htmlFor="project-search">Search</label>
+          <div className="nx-search-row">
+            <label htmlFor="nx-project-search">Search</label>
             <input
-              id="project-search"
+              id="nx-project-search"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="search by repo, skill, or keyword"
+              placeholder="search by repo, skill, keyword"
             />
           </div>
 
-          <div className="mk-project-meta">
-            <span>{filteredProjects.length} match</span>
+          <div className="nx-sync-state">
+            <span>{filteredProjects.length} matches</span>
             <span className={syncError ? 'warn' : ''}>
               {isSyncing ? 'syncing github...' : syncError ? 'fallback mode' : `synced (${projects.length})`}
             </span>
@@ -249,31 +242,31 @@ const Projects = () => {
         </div>
 
         {filteredProjects.length > 0 ? (
-          <div className="mk-project-grid">
+          <div className="nx-project-grid">
             {filteredProjects.map((project) => (
-              <article key={project.id} className="mk-card mk-project-card">
-                <div className="mk-project-head">
-                  <span>GitHub Project</span>
+              <article key={project.id} className="nx-panel nx-project-card">
+                <div className="top">
+                  <small>GitHub Project</small>
                   <h3>{project.title}</h3>
                 </div>
 
                 <p>{project.description}</p>
 
-                <div className="mk-project-group">
-                  <div className="mk-project-label"><Layers3 size={13} /> Technologies</div>
-                  <div className="mk-chip-row">
+                <div className="group">
+                  <div className="label"><Layers3 size={13} /> Technologies</div>
+                  <div className="chips">
                     {(project.technologies || []).map((tech) => (
-                      <span key={tech} className="mk-chip">{tech}</span>
+                      <span key={tech}>{tech}</span>
                     ))}
                   </div>
                 </div>
 
                 {(project.matchedSkills || []).length > 0 && (
-                  <div className="mk-project-group">
-                    <div className="mk-project-label"><Layers3 size={13} /> Matched Skills</div>
-                    <div className="mk-chip-row">
+                  <div className="group">
+                    <div className="label"><Layers3 size={13} /> Matched Skills</div>
+                    <div className="chips accents">
                       {project.matchedSkills.map((skill) => (
-                        <span key={skill} className="mk-chip mk-chip-accent">{skill}</span>
+                        <span key={skill}>{skill}</span>
                       ))}
                     </div>
                   </div>
@@ -285,7 +278,7 @@ const Projects = () => {
                   ))}
                 </ul>
 
-                <div className="mk-project-links">
+                <div className="links">
                   {project.github && (
                     <a href={project.github} target="_blank" rel="noopener noreferrer">
                       <Github size={13} /> GitHub
@@ -301,7 +294,7 @@ const Projects = () => {
             ))}
           </div>
         ) : (
-          <div className="mk-card mk-empty-state">No project matches this filter/search.</div>
+          <div className="nx-panel nx-empty">No project matches this filter/search.</div>
         )}
       </div>
     </section>

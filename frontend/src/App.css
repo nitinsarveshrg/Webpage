@@ -10,260 +10,254 @@ body,
   min-height: 100%;
 }
 
-.portfolio-shell {
+.nx-shell {
   position: relative;
-  z-index: 1;
-  will-change: transform, opacity, filter;
-  transition:
-    transform 520ms cubic-bezier(0.22, 0.8, 0.24, 1),
-    opacity 520ms cubic-bezier(0.22, 0.8, 0.24, 1),
-    filter 520ms cubic-bezier(0.22, 0.8, 0.24, 1);
+  z-index: 2;
+  will-change: opacity, transform, filter;
+  transition: opacity 540ms ease, transform 540ms ease, filter 540ms ease;
 }
 
-.portfolio-preload {
-  opacity: 0.68;
-  filter: saturate(0.72) blur(2px);
-  transform: translate3d(0, 18px, 0) scale(0.992);
+.nx-preload {
+  opacity: 0.45;
+  transform: scale(0.988) translateY(22px);
+  filter: blur(2px) saturate(0.84);
   pointer-events: none;
 }
 
-.portfolio-live {
+.nx-live {
   opacity: 1;
-  filter: none;
   transform: none;
+  filter: none;
 }
 
-.portfolio-reveal {
-  animation: mkPortfolioRise 640ms cubic-bezier(0.18, 0.82, 0.24, 1) both;
+.nx-reveal {
+  animation: nxRevealLift 760ms cubic-bezier(0.16, 0.86, 0.24, 1) both;
 }
 
-.portfolio-reveal::before {
+.nx-reveal::before {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: 140;
   pointer-events: none;
+  z-index: 120;
   background:
-    radial-gradient(circle at 50% 120%, rgba(190, 226, 255, 0.22), rgba(0, 0, 0, 0) 52%),
-    linear-gradient(0deg, rgba(4, 9, 20, 0.96) 8%, rgba(4, 9, 20, 0.48) 42%, rgba(4, 9, 20, 0) 88%);
+    radial-gradient(circle at 50% 120%, rgba(195, 214, 255, 0.24), transparent 52%),
+    linear-gradient(0deg, rgba(4, 8, 20, 0.95) 6%, rgba(4, 8, 20, 0.38) 46%, transparent 88%);
   transform: translate3d(0, 100%, 0);
-  animation: mkPortfolioSweep 720ms cubic-bezier(0.18, 0.82, 0.24, 1) forwards;
+  animation: nxRevealSweep 860ms cubic-bezier(0.16, 0.86, 0.24, 1) forwards;
 }
 
-.mk-gate {
+.nx-gate {
   position: fixed;
   inset: 0;
-  z-index: 160;
+  z-index: 180;
   overflow: hidden;
-  background: radial-gradient(circle at 18% 16%, rgba(148, 197, 255, 0.16), transparent 40%),
-    radial-gradient(circle at 86% 82%, rgba(90, 209, 255, 0.11), transparent 46%),
-    linear-gradient(160deg, #03050b 0%, #070f1f 48%, #030814 100%);
-  color: #e6eef9;
+  background: radial-gradient(circle at 12% 18%, rgba(115, 197, 255, 0.12), transparent 36%),
+    radial-gradient(circle at 90% 82%, rgba(122, 255, 229, 0.1), transparent 42%),
+    linear-gradient(150deg, #01040d 0%, #060d20 48%, #030714 100%);
+  display: grid;
+  place-items: center;
+  padding: max(12px, env(safe-area-inset-top)) 1rem max(12px, env(safe-area-inset-bottom));
 }
 
-.mk-gate.is-exiting {
-  animation: mkGateExit 540ms cubic-bezier(0.35, 0.15, 0.15, 0.98) forwards;
+.nx-gate.is-exiting {
+  animation: nxGateOut 720ms cubic-bezier(0.35, 0.1, 0.15, 1) forwards;
 }
 
-.mk-gate-glow,
-.mk-gate-noise {
+.nx-gate-grid,
+.nx-gate-vignette {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
 
-.mk-gate-glow {
+.nx-gate-grid {
   background:
-    radial-gradient(circle at 28% 66%, rgba(123, 194, 255, 0.16), transparent 34%),
-    radial-gradient(circle at 74% 22%, rgba(157, 235, 255, 0.14), transparent 38%);
-  filter: blur(2px);
+    linear-gradient(rgba(147, 176, 220, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(147, 176, 220, 0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(circle at 50% 45%, black 30%, transparent 85%);
 }
 
-.mk-gate-noise {
-  opacity: 0.18;
-  background-image:
-    linear-gradient(transparent 0%, rgba(255, 255, 255, 0.06) 52%, transparent 100%),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0px, rgba(255, 255, 255, 0.04) 1px, transparent 1px, transparent 28px);
-  background-size: 100% 3px, 100% 100%;
-  animation: mkNoiseDrift 2.2s linear infinite;
+.nx-gate-vignette {
+  background: radial-gradient(circle at 50% 50%, transparent 36%, rgba(2, 5, 13, 0.66) 100%);
 }
 
-.mk-gate-stage {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding: max(16px, env(safe-area-inset-top)) 1.2rem max(16px, env(safe-area-inset-bottom));
-}
-
-.mk-gate-device {
-  width: min(960px, 96vw);
-  border-radius: 26px;
-  border: 1px solid rgba(181, 219, 255, 0.24);
-  background: linear-gradient(145deg, rgba(7, 15, 31, 0.95), rgba(4, 9, 20, 0.94));
-  box-shadow: 0 38px 90px rgba(0, 0, 0, 0.56), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+.nx-gate-panel {
+  width: min(920px, 96vw);
+  border: 1px solid rgba(153, 198, 245, 0.24);
+  border-radius: 20px;
+  background: linear-gradient(160deg, rgba(6, 13, 29, 0.94), rgba(4, 10, 22, 0.93));
+  box-shadow: 0 34px 88px rgba(0, 0, 0, 0.56), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   overflow: hidden;
-  position: relative;
 }
 
-.mk-gate-notch {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 156px;
-  height: 18px;
-  border-radius: 0 0 16px 16px;
-  background: #02050c;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-top: none;
-  z-index: 2;
-}
-
-.mk-gate-top {
-  min-height: 54px;
-  padding: 0.88rem 1rem;
+.nx-gate-panel > header {
+  min-height: 52px;
+  padding: 0.72rem 0.94rem;
+  border-bottom: 1px solid rgba(153, 198, 245, 0.16);
+  background: rgba(3, 10, 23, 0.86);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.8rem;
-  border-bottom: 1px solid rgba(181, 219, 255, 0.16);
-  background: rgba(6, 13, 27, 0.86);
+  gap: 0.7rem;
 }
 
-.mk-gate-top p {
-  margin: 0;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.76rem;
-  letter-spacing: 0.06em;
-  color: rgba(202, 225, 255, 0.88);
-}
-
-.mk-gate-dots {
+.nx-gate-leds {
   display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
+  gap: 0.34rem;
 }
 
-.mk-gate-dots span {
-  width: 0.64rem;
-  height: 0.64rem;
+.nx-gate-leds span {
+  width: 0.62rem;
+  height: 0.62rem;
   border-radius: 999px;
 }
 
-.mk-gate-dots span:nth-child(1) { background: #ff5f57; }
-.mk-gate-dots span:nth-child(2) { background: #ffbd2e; }
-.mk-gate-dots span:nth-child(3) { background: #28ca42; }
+.nx-gate-leds span:nth-child(1) { background: #ff5f57; }
+.nx-gate-leds span:nth-child(2) { background: #ffbd2e; }
+.nx-gate-leds span:nth-child(3) { background: #28ca42; }
 
-.mk-gate-body {
-  padding: clamp(1rem, 2.8vw, 1.8rem);
-  display: grid;
-  gap: 0.95rem;
-}
-
-.mk-gate-body h2 {
+.nx-gate-panel > header p {
   margin: 0;
-  font-size: clamp(1.2rem, 2.3vw, 1.85rem);
-  letter-spacing: 0.01em;
-  color: #f4f9ff;
+  color: #d1e6ff;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.05em;
 }
 
-.mk-gate-command {
+.nx-gate-body {
+  padding: clamp(0.9rem, 2.8vw, 1.5rem);
+  display: grid;
+  gap: 0.88rem;
+}
+
+.nx-gate-body h1 {
+  margin: 0;
+  font-size: clamp(1.18rem, 2.5vw, 1.82rem);
+  letter-spacing: 0.01em;
+  color: #f0f6ff;
+}
+
+.nx-gate-command {
+  border: 1px solid rgba(139, 250, 223, 0.34);
+  border-radius: 12px;
+  background: rgba(5, 12, 25, 0.76);
+  color: #8ff5d5;
+  padding: 0.48rem 0.62rem;
   display: inline-flex;
   align-items: center;
-  gap: 0.48rem;
+  gap: 0.46rem;
   width: fit-content;
   max-width: 100%;
-  border: 1px solid rgba(94, 222, 187, 0.46);
-  border-radius: 12px;
-  background: rgba(6, 17, 32, 0.8);
-  padding: 0.5rem 0.72rem;
-  color: #91f7db;
   font-family: "JetBrains Mono", monospace;
-  font-size: clamp(0.7rem, 1.8vw, 0.84rem);
+  font-size: 0.78rem;
 }
 
-.mk-gate-command span {
-  color: #5ff5cf;
-  font-weight: 700;
-}
-
-.mk-gate-log {
-  display: grid;
-  gap: 0.4rem;
-  border: 1px solid rgba(181, 219, 255, 0.16);
-  border-radius: 14px;
-  background: rgba(5, 12, 25, 0.7);
-  padding: 0.8rem;
-  min-height: 156px;
-}
-
-.mk-gate-log > div {
-  font-family: "JetBrains Mono", monospace;
-  font-size: clamp(0.66rem, 1.7vw, 0.79rem);
-  color: rgba(210, 230, 252, 0.9);
-  animation: mkLogIn 220ms ease both;
-}
-
-.mk-gate-metrics {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.58rem;
-}
-
-.mk-gate-metrics div {
-  border: 1px solid rgba(181, 219, 255, 0.18);
+.nx-gate-log {
+  border: 1px solid rgba(153, 198, 245, 0.16);
   border-radius: 12px;
-  padding: 0.55rem 0.68rem;
-  background: rgba(6, 13, 26, 0.72);
+  background: rgba(5, 12, 25, 0.74);
+  min-height: 172px;
+  padding: 0.72rem;
   display: grid;
-  gap: 0.16rem;
-  color: #8fd6ff;
+  gap: 0.32rem;
 }
 
-.mk-gate-metrics strong {
-  font-size: 0.94rem;
-  color: #f3f8ff;
+.nx-gate-log div {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.74rem;
+  color: #d7e8fb;
+  animation: nxLineIn 220ms ease both;
 }
 
-.mk-gate-metrics small {
+.nx-gate-progress-wrap {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.nx-gate-progress-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
   font-family: "JetBrains Mono", monospace;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  font-size: 0.58rem;
-  color: rgba(206, 226, 246, 0.72);
+  color: #b8d5f7;
+  font-size: 0.62rem;
 }
 
-.mk-gate-enter {
-  justify-self: start;
-  border: 1px solid rgba(166, 211, 255, 0.44);
+.nx-gate-progress-rail {
+  height: 0.56rem;
   border-radius: 999px;
-  background: linear-gradient(115deg, #6ed7ff 0%, #84b2ff 42%, #c0bbff 100%);
-  color: #041022;
-  padding: 0.56rem 1rem;
-  font-weight: 700;
-  font-size: 0.78rem;
-  letter-spacing: 0.07em;
+  border: 1px solid rgba(153, 198, 245, 0.2);
+  overflow: hidden;
+  background: rgba(5, 12, 25, 0.88);
+}
+
+.nx-gate-progress-rail span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #82cfff, #97ffe0);
+  box-shadow: 0 0 14px rgba(147, 255, 224, 0.38);
+  transition: width 160ms ease;
+}
+
+.nx-gate-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.nx-gate-metrics div {
+  border: 1px solid rgba(153, 198, 245, 0.2);
+  border-radius: 12px;
+  background: rgba(5, 12, 25, 0.74);
+  padding: 0.54rem 0.62rem;
+  display: grid;
+  gap: 0.12rem;
+  color: #8ccfff;
+}
+
+.nx-gate-metrics span {
   text-transform: uppercase;
-  cursor: pointer;
-  transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+  letter-spacing: 0.08em;
+  font-size: 0.56rem;
+  color: #9eb8d7;
+  font-family: "JetBrains Mono", monospace;
 }
 
-.mk-gate-enter:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 26px rgba(122, 183, 255, 0.36);
+.nx-gate-metrics strong {
+  font-size: 0.98rem;
+  color: #f3f9ff;
+}
+
+.nx-gate-enter {
+  width: fit-content;
+  border: 1px solid rgba(170, 210, 255, 0.46);
+  border-radius: 999px;
+  background: linear-gradient(120deg, #86d2ff, #8fe8ff 52%, #9affdf);
+  color: #021123;
+  min-height: 2.45rem;
+  padding: 0 1rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+}
+
+.nx-gate-enter:hover {
   filter: brightness(1.05);
+  transform: translateY(-1px);
 }
 
-@keyframes mkNoiseDrift {
-  from { transform: translateY(0); }
-  to { transform: translateY(8px); }
-}
-
-@keyframes mkLogIn {
+@keyframes nxLineIn {
   from {
     opacity: 0;
-    transform: translateY(3px);
+    transform: translateY(4px);
   }
   to {
     opacity: 1;
@@ -271,7 +265,7 @@ body,
   }
 }
 
-@keyframes mkGateExit {
+@keyframes nxGateOut {
   0% {
     opacity: 1;
     transform: scale(1);
@@ -279,65 +273,48 @@ body,
   }
   100% {
     opacity: 0;
-    transform: scale(1.025);
+    transform: scale(1.04);
     filter: blur(6px);
   }
 }
 
-@keyframes mkPortfolioRise {
+@keyframes nxRevealLift {
   0% {
-    opacity: 0.7;
-    transform: translate3d(0, 26px, 0) scale(0.992);
+    opacity: 0.6;
+    transform: translateY(24px);
   }
   100% {
     opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
+    transform: translateY(0);
   }
 }
 
-@keyframes mkPortfolioSweep {
+@keyframes nxRevealSweep {
   0% {
-    transform: translate3d(0, 100%, 0);
-    opacity: 1;
+    transform: translateY(100%);
   }
   100% {
-    transform: translate3d(0, -118%, 0);
+    transform: translateY(-120%);
     opacity: 0;
   }
 }
 
-@media (max-width: 780px) {
-  .mk-gate-device {
-    border-radius: 18px;
-  }
-
-  .mk-gate-top {
-    min-height: 48px;
-    padding: 0.7rem 0.78rem;
-  }
-
-  .mk-gate-metrics {
+@media (max-width: 760px) {
+  .nx-gate-metrics {
     grid-template-columns: 1fr;
   }
 
-  .mk-gate-enter {
+  .nx-gate-enter {
     width: 100%;
-    justify-self: stretch;
-  }
-}
-
-@supports (-webkit-touch-callout: none) {
-  .mk-gate {
-    min-height: -webkit-fill-available;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .portfolio-shell,
-  .portfolio-reveal,
-  .portfolio-reveal::before,
-  .mk-gate,
-  .mk-gate * {
+  .nx-shell,
+  .nx-reveal,
+  .nx-reveal::before,
+  .nx-gate,
+  .nx-gate * {
     animation: none !important;
     transition: none !important;
     transform: none !important;

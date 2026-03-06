@@ -17,49 +17,25 @@ import { scrollToSectionById } from './lib/sectionScroll';
 
 const Home = () => {
   const [gateStage, setGateStage] = useState('show');
-  const [isPortfolioRevealing, setIsPortfolioRevealing] = useState(false);
-  const gateLocked = gateStage !== 'done';
-  const gateLockedRef = useRef(gateLocked);
+  const [isRevealing, setIsRevealing] = useState(false);
   const shellRef = useRef(null);
+  const isLocked = gateStage !== 'done';
 
   useEffect(() => {
-    gateLockedRef.current = gateLocked;
-  }, [gateLocked]);
-
-  useEffect(() => {
-    document.body.style.overflow = gateStage !== 'done' ? 'hidden' : '';
+    document.body.style.overflow = isLocked ? 'hidden' : '';
     return () => {
       document.body.style.overflow = '';
     };
-  }, [gateStage]);
-
-  useEffect(() => {
-    const scrollToHashTarget = () => {
-      if (gateLockedRef.current) return;
-
-      const hash = window.location.hash.replace('#', '');
-      if (!hash) return;
-      scrollToSectionById(hash, { behavior: 'auto' });
-    };
-
-    const timer = setTimeout(scrollToHashTarget, 0);
-    window.addEventListener('hashchange', scrollToHashTarget);
-
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('hashchange', scrollToHashTarget);
-    };
-  }, []);
+  }, [isLocked]);
 
   useEffect(() => {
     if (gateStage !== 'exit') return undefined;
 
     const timer = setTimeout(() => {
       setGateStage('done');
-
       const hash = window.location.hash.replace('#', '');
       if (hash) scrollToSectionById(hash, { behavior: 'auto' });
-    }, 520);
+    }, 760);
 
     return () => clearTimeout(timer);
   }, [gateStage]);
@@ -67,19 +43,35 @@ const Home = () => {
   useEffect(() => {
     if (gateStage !== 'done') return undefined;
 
-    setIsPortfolioRevealing(true);
-    const timer = setTimeout(() => setIsPortfolioRevealing(false), 680);
-
+    setIsRevealing(true);
+    const timer = setTimeout(() => setIsRevealing(false), 1200);
     return () => clearTimeout(timer);
   }, [gateStage]);
 
   useEffect(() => {
-    if (gateLocked) return undefined;
+    if (isLocked) return undefined;
 
+    const toHash = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (!hash) return;
+      scrollToSectionById(hash, { behavior: 'auto' });
+    };
+
+    const timer = setTimeout(toHash, 0);
+    window.addEventListener('hashchange', toHash);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('hashchange', toHash);
+    };
+  }, [isLocked]);
+
+  useEffect(() => {
+    if (isLocked) return undefined;
     const shell = shellRef.current;
     if (!shell) return undefined;
 
-    const sections = Array.from(shell.querySelectorAll('.mk-section'));
+    const sections = Array.from(shell.querySelectorAll('.nx-section'));
     if (!sections.length) return undefined;
 
     const observer = new IntersectionObserver(
@@ -88,7 +80,7 @@ const Home = () => {
           entry.target.classList.toggle('in-view', entry.isIntersecting);
         });
       },
-      { threshold: 0.28, rootMargin: '-10% 0px -15% 0px' }
+      { threshold: 0.28, rootMargin: '-8% 0px -14% 0px' }
     );
 
     sections.forEach((section) => observer.observe(section));
@@ -97,87 +89,59 @@ const Home = () => {
       observer.disconnect();
       sections.forEach((section) => section.classList.remove('in-view'));
     };
-  }, [gateLocked]);
+  }, [isLocked]);
 
   useEffect(() => {
-    if (gateLocked) return undefined;
+    if (isLocked) return undefined;
     const shell = shellRef.current;
     if (!shell) return undefined;
 
     let rafId = 0;
 
-    const updateScrollDepth = () => {
-      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-      const ratio = Math.min(1, window.scrollY / maxScroll);
-      shell.style.setProperty('--mk-scroll-ratio', ratio.toFixed(4));
+    const applyDepth = (x, y) => {
+      shell.style.setProperty('--nx-mouse-x', x.toFixed(4));
+      shell.style.setProperty('--nx-mouse-y', y.toFixed(4));
       rafId = 0;
     };
 
-    const onScroll = () => {
-      if (rafId) return;
-      rafId = window.requestAnimationFrame(updateScrollDepth);
-    };
-
-    updateScrollDepth();
-    window.addEventListener('scroll', onScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      if (rafId) window.cancelAnimationFrame(rafId);
-    };
-  }, [gateLocked]);
-
-  useEffect(() => {
-    if (gateLocked) return undefined;
-    const shell = shellRef.current;
-    if (!shell) return undefined;
-
-    let rafId = 0;
     let depthX = 0;
     let depthY = 0;
 
-    const applyDepth = () => {
-      shell.style.setProperty('--mk-mouse-x', depthX.toFixed(4));
-      shell.style.setProperty('--mk-mouse-y', depthY.toFixed(4));
-      rafId = 0;
-    };
-
-    const queueApply = () => {
+    const queue = () => {
       if (rafId) return;
-      rafId = window.requestAnimationFrame(applyDepth);
+      rafId = requestAnimationFrame(() => applyDepth(depthX, depthY));
     };
 
     const onPointerMove = (event) => {
-      const x = event.clientX / Math.max(1, window.innerWidth);
-      const y = event.clientY / Math.max(1, window.innerHeight);
-      depthX = (x - 0.5) * 2;
-      depthY = (y - 0.5) * 2;
-      queueApply();
+      depthX = event.clientX / Math.max(1, window.innerWidth) - 0.5;
+      depthY = event.clientY / Math.max(1, window.innerHeight) - 0.5;
+      queue();
     };
 
     const onPointerLeave = () => {
       depthX = 0;
       depthY = 0;
-      queueApply();
+      queue();
     };
 
     shell.addEventListener('pointermove', onPointerMove, { passive: true });
     shell.addEventListener('pointerleave', onPointerLeave);
+
     onPointerLeave();
 
     return () => {
       shell.removeEventListener('pointermove', onPointerMove);
       shell.removeEventListener('pointerleave', onPointerLeave);
-      if (rafId) window.cancelAnimationFrame(rafId);
+      if (rafId) cancelAnimationFrame(rafId);
     };
-  }, [gateLocked]);
+  }, [isLocked]);
 
   return (
-    <div ref={shellRef} className="mk-shell-root">
+    <div ref={shellRef} className="nx-root">
       <CloudParticles />
       <Header />
 
-      <main className={`portfolio-shell ${gateLocked ? 'portfolio-preload' : 'portfolio-live'} ${isPortfolioRevealing ? 'portfolio-reveal' : ''}`}>
+      <main className={`nx-shell ${isLocked ? 'nx-preload' : 'nx-live'} ${isRevealing ? 'nx-reveal' : ''}`}>
         <Hero />
         <About />
         <Certifications />
