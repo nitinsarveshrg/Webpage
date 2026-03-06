@@ -23,6 +23,7 @@ const commandProfiles = [
 ];
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+const waveform = Array.from({ length: 30 }, (_, index) => index);
 
 const Hero = () => {
   const [activeMode, setActiveMode] = useState(0);
@@ -64,6 +65,11 @@ const Hero = () => {
     <section id="hero" className="page-section mk-section mk-hero">
       <div className="section-anchor" aria-hidden="true" />
       <div className="content-wrap mk-hero-wrap">
+        <div className="mk-hero-marquee" aria-hidden="true">
+          <span>Cloud Reliability • DevOps Delivery • Apple-grade Experience •</span>
+          <span>Cloud Reliability • DevOps Delivery • Apple-grade Experience •</span>
+        </div>
+
         <div className="mk-hero-grid">
           <div className="mk-hero-copy mk-card">
             <span className="mk-eyebrow">APPLE-INSPIRED PRODUCT EXPERIENCE</span>
@@ -102,6 +108,7 @@ const Hero = () => {
           </div>
 
           <aside className="mk-hero-device mk-card">
+            <div className="mk-device-sheen" aria-hidden="true" />
             <div className="mk-device-top">
               <div className="lights" aria-hidden="true"><span /><span /><span /></div>
               <p>nitin@macbook-pro:~/portfolio</p>
@@ -148,6 +155,18 @@ const Hero = () => {
                 <div><Cpu size={13} /><strong>{metrics.load}%</strong><small>load</small></div>
                 <div><Gauge size={13} /><strong>{metrics.latency}ms</strong><small>latency</small></div>
                 <div><ShieldCheck size={13} /><strong>{metrics.deploy}%</strong><small>delivery</small></div>
+              </div>
+
+              <div className="mk-runtime-wave" aria-label="runtime stream visual">
+                {waveform.map((bar) => (
+                  <span
+                    key={bar}
+                    style={{
+                      animationDelay: `${bar * 45}ms`,
+                      height: `${28 + ((bar * 9) % 54)}%`,
+                    }}
+                  />
+                ))}
               </div>
             </div>
           </aside>
