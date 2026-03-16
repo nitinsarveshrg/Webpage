@@ -3,55 +3,49 @@ import { Github, Linkedin, Mail } from 'lucide-react';
 import { portfolioData } from '../mock';
 import { scrollToSectionById } from '../lib/sectionScroll';
 
-const NAV = [
-  { id: 'hero', label: 'Start' },
-  { id: 'about', label: 'Whoami' },
-  { id: 'certifications', label: 'Creds' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'experience', label: 'Timeline' },
-  { id: 'projects', label: 'Portfolio' },
-  { id: 'contact', label: 'Contact' },
-];
+const NAV = ['about','certifications','skills','experience','projects','contact'];
 
 const Footer = () => (
   <footer className="ft-footer">
-    <div className="content-wrap">
-      <div className="ft-top">
-        <div className="ft-brand">
-          <div className="ft-logo">NS</div>
-          <div>
-            <h3>{portfolioData.personal.name}</h3>
-            <p>{portfolioData.personal.title}</p>
-          </div>
-        </div>
-
-        <nav className="ft-nav" aria-label="Footer navigation">
-          {NAV.map((n) => (
-            <button key={n.id} onClick={() => scrollToSectionById(n.id)}>
-              {n.label}
+    <div className="ft-top">
+      <div className="ft-brand">
+        <div className="ft-logo">NS</div>
+        <div className="ft-brand-name">Nitin Sarvesh</div>
+        <div className="ft-brand-role">Cloud · DevOps · SRE · Toronto</div>
+        <p className="ft-brand-bio">
+          Building resilient cloud infrastructure and automated delivery pipelines
+          that scale without compromise.
+        </p>
+      </div>
+      <nav aria-label="Footer navigation">
+        <div className="ft-nav-title">Navigation</div>
+        <div className="ft-nav">
+          {NAV.map((id) => (
+            <button key={id} onClick={() => scrollToSectionById(id)}>
+              {id.charAt(0).toUpperCase() + id.slice(1)}
             </button>
           ))}
-        </nav>
-
-        <div className="ft-social">
-          <a href={portfolioData.personal.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-            <Linkedin size={16} />
+        </div>
+      </nav>
+      <div>
+        <div className="ft-social-title">Connect</div>
+        <div className="ft-social-links">
+          <a href={portfolioData.personal.linkedin} target="_blank" rel="noopener noreferrer">
+            <Linkedin size={13} /> LinkedIn
           </a>
-          <a href={portfolioData.personal.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-            <Github size={16} />
+          <a href={portfolioData.personal.github} target="_blank" rel="noopener noreferrer">
+            <Github size={13} /> GitHub
           </a>
-          <a href={`mailto:${portfolioData.personal.email}`} aria-label="Email">
-            <Mail size={16} />
+          <a href={`mailto:${portfolioData.personal.email}`}>
+            <Mail size={13} /> Email
           </a>
         </div>
       </div>
-
-      <div className="ft-divider" />
-
-      <div className="ft-bottom">
-        <span>© {new Date().getFullYear()} {portfolioData.personal.name}</span>
-        <span className="ft-bottom-tag">Built for cloud teams that value delivery excellence.</span>
-      </div>
+    </div>
+    <hr className="ft-divider" />
+    <div className="ft-bottom">
+      <span className="ft-copy">© {new Date().getFullYear()} Nitin Sarvesh. All rights reserved.</span>
+      <span className="ft-made">Built with <span>♥</span> in Toronto</span>
     </div>
   </footer>
 );
