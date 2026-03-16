@@ -1,54 +1,37 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import TypingEffect from './TypingEffect';
+import React, { useCallback, useEffect, useState } from 'react';
 
-const bootLines = [
-  { text: 'aws:ca-central-1  ● node-pool healthy    12/12 ready', region: 'AWS' },
-  { text: 'k8s:cluster-prod  ● pods running         48/48 online', region: 'K8S' },
-  { text: 'terraform:state   ● infrastructure sync  no drift', region: 'IaC' },
-  { text: 'argocd:gitops     ● deployments in-sync  3 apps live', region: 'CD' },
-  { text: 'prometheus:scrape ● metrics streaming    8.2k series', region: 'OBS' },
-  { text: 'profile:nitin     ● operator loaded      ready to enter', region: 'SRE' },
-];
-
-// Static blip positions (fixed so they don't jump on render)
-const BLIPS = [
-  { top: '22%', left: '62%', delay: '0.4s' },
-  { top: '68%', left: '28%', delay: '1.1s' },
-  { top: '42%', left: '18%', delay: '1.8s' },
-  { top: '72%', left: '65%', delay: '2.5s' },
-  { top: '28%', left: '42%', delay: '0.9s' },
-  { top: '58%', left: '75%', delay: '1.5s' },
+const BOOT_SERVICES = [
+  { id: 'aws',  label: 'AWS CA-CENTRAL-1',   status: 'NOMINAL',   color: '#f97316' },
+  { id: 'k8s',  label: 'K8S CLUSTER-PROD',   status: 'HEALTHY',   color: '#38bdf8' },
+  { id: 'tf',   label: 'TERRAFORM STATE',     status: 'SYNCED',    color: '#a78bfa' },
+  { id: 'argo', label: 'ARGOCD GITOPS',       status: 'IN-SYNC',   color: '#34d399' },
+  { id: 'obs',  label: 'PROMETHEUS OBSERVE',  status: 'STREAMING', color: '#fb923c' },
+  { id: 'id',   label: 'IDENTITY NEXUS-1',    status: 'VERIFIED',  color: '#4ade80' },
 ];
 
 const FrontGate = ({ exiting = false, onEnter }) => {
-  const [lineCount, setLineCount] = useState(0);
-  const [progress, setProgress] = useState(4);
-
-  const visibleLines = useMemo(() => bootLines.slice(0, lineCount), [lineCount]);
-  const pct = Math.round(progress);
+  const [step, setStep] = useState(0);
+  const [progress, setProgress] = useState(3);
 
   const finish = useCallback(() => {
     if (onEnter) onEnter();
   }, [onEnter]);
 
   useEffect(() => {
-    const lineTimer = window.setInterval(() => {
-      setLineCount((prev) => (prev >= bootLines.length ? prev : prev + 1));
-    }, 380);
-
-    const progressTimer = window.setInterval(() => {
+    const stepTimer = window.setInterval(() => {
+      setStep((prev) => (prev < BOOT_SERVICES.length ? prev + 1 : prev));
+    }, 480);
+    const progTimer = window.setInterval(() => {
       setProgress((prev) => {
         const next = prev + Math.random() * 9 + 2;
         return next >= 100 ? 100 : next;
       });
     }, 200);
-
-    const autoEnter = window.setTimeout(finish, 4500);
-
+    const autoTimer = window.setTimeout(finish, 4800);
     return () => {
-      window.clearInterval(lineTimer);
-      window.clearInterval(progressTimer);
-      window.clearTimeout(autoEnter);
+      window.clearInterval(stepTimer);
+      window.clearInterval(progTimer);
+      window.clearTimeout(autoTimer);
     };
   }, [finish]);
 
@@ -60,97 +43,73 @@ const FrontGate = ({ exiting = false, onEnter }) => {
     return () => window.removeEventListener('keydown', onKey);
   }, [finish]);
 
+  const pct = Math.round(progress);
+
   return (
-    <section className={`nx-gate ${exiting ? 'is-exiting' : ''}`} onClick={finish}>
-      {/* Scanline overlay */}
-      <div className="ng-scanlines" aria-hidden="true" />
+    <div className={`nxg-root ${exiting ? 'nxg-exit' : ''}`} onClick={finish}>
+      <div className="nxg-dotgrid" aria-hidden="true" />
 
-      <div className="ng-layout" onClick={(e) => e.stopPropagation()}>
-
-        {/* ── Radar panel ───────────────────────────────────── */}
-        <div className="ng-radar-panel">
-          <div className="ng-radar-label">
-            <span className="ng-live-dot" />
-            TOPOLOGY SCAN · CA-CENTRAL-1
-          </div>
-
-          <div className="ng-radar">
-            {/* Concentric rings */}
-            <div className="ng-radar-ring ng-radar-ring-1" />
-            <div className="ng-radar-ring ng-radar-ring-2" />
-            <div className="ng-radar-ring ng-radar-ring-3" />
-            {/* Cross-hairs */}
-            <div className="ng-radar-cross ng-radar-cross-h" />
-            <div className="ng-radar-cross ng-radar-cross-v" />
-            {/* Sweep */}
-            <div className="ng-radar-sweep" />
-            {/* Blips */}
-            {BLIPS.map((b, i) => (
-              <div
-                key={i}
-                className="ng-blip"
-                style={{ top: b.top, left: b.left, animationDelay: b.delay }}
-              />
-            ))}
-            {/* Center dot */}
-            <div className="ng-radar-center" />
-          </div>
-
-          <div className="ng-radar-stats">
-            <div><span>NODES</span><strong>12</strong></div>
-            <div><span>PODS</span><strong>48</strong></div>
-            <div><span>ALERTS</span><strong className="ok">0</strong></div>
-          </div>
-        </div>
-
-        {/* ── Boot log panel ────────────────────────────────── */}
-        <div className="ng-log-panel">
-          <div className="ng-log-header">
-            <div className="ng-leds">
-              <span /><span /><span />
-            </div>
-            <p>
-              <TypingEffect
-                text="nitin@cluster:~$ ./init-portfolio --env prod"
-                speed={22}
-                cursorChar="_"
-                persistCursor
-              />
-            </p>
-          </div>
-
-          <div className="ng-log-body" aria-live="polite">
-            {visibleLines.map((line, i) => (
-              <div key={i} className="ng-log-line">
-                <span className="ng-log-region">[{line.region}]</span>
-                <span>{line.text}</span>
-              </div>
-            ))}
-            {lineCount < bootLines.length && (
-              <div className="ng-log-cursor">_</div>
-            )}
-          </div>
-
-          <div className="ng-progress-wrap">
-            <div className="ng-progress-label">
-              <span>INITIALIZING RUNTIME</span>
-              <span>{pct}%</span>
-            </div>
-            <div className="ng-progress-rail">
-              <div className="ng-progress-fill" style={{ width: `${progress}%` }} />
-            </div>
-          </div>
-
-          <button type="button" className="ng-enter" onClick={finish}>
-            <span className="ng-enter-arrow">▶</span>
-            ENTER PORTFOLIO
-          </button>
-
-          <p className="ng-hint">press ENTER or click anywhere to skip</p>
-        </div>
-
+      <div className="nxg-ticker" onClick={(e) => e.stopPropagation()}>
+        <span className="nxg-ticker-brand">▌ NEXUS / 1 ▌</span>
+        <span className="nxg-ticker-item">CLOUD COMMAND CENTER</span>
+        <span className="nxg-ticker-sep">◆</span>
+        <span className="nxg-ticker-item">DEVOPS · SRE · PLATFORM</span>
+        <span className="nxg-ticker-sep">◆</span>
+        <span className="nxg-ticker-item">CA-CENTRAL-1</span>
+        <span className="nxg-ticker-right">
+          <span className="nxg-pulse" aria-hidden="true" />
+          SYSTEMS ONLINE
+        </span>
       </div>
-    </section>
+
+      <div className="nxg-stage" onClick={(e) => e.stopPropagation()}>
+        <div className="nxg-orb" aria-hidden="true">
+          <div className="nxg-orb-r1" />
+          <div className="nxg-orb-r2" />
+          <div className="nxg-orb-r3" />
+          <div className="nxg-orb-core">NS</div>
+        </div>
+
+        <h1 className="nxg-name">NITIN SARVESH</h1>
+        <p className="nxg-title">Cloud Infrastructure · DevOps · Site Reliability</p>
+
+        <div className="nxg-checks" aria-live="polite">
+          {BOOT_SERVICES.slice(0, step).map((svc) => (
+            <div key={svc.id} className="nxg-check">
+              <span
+                className="nxg-check-led"
+                style={{ background: svc.color, boxShadow: `0 0 8px ${svc.color}` }}
+              />
+              <span className="nxg-check-label">{svc.label}</span>
+              <span className="nxg-check-status" style={{ color: svc.color }}>{svc.status}</span>
+            </div>
+          ))}
+          {step < BOOT_SERVICES.length && (
+            <div className="nxg-check nxg-check-scanning">
+              <span className="nxg-check-led nxg-led-blink" />
+              <span className="nxg-check-label">SCANNING SERVICES...</span>
+            </div>
+          )}
+        </div>
+
+        <div className="nxg-prog-wrap">
+          <div className="nxg-prog-row">
+            <span>BOOT SEQUENCE</span>
+            <span>{pct}%</span>
+          </div>
+          <div className="nxg-prog-rail">
+            <div className="nxg-prog-fill" style={{ width: `${progress}%` }} />
+          </div>
+        </div>
+
+        <button type="button" className="nxg-enter" onClick={finish}>
+          <span className="nxg-enter-arrow">▶</span>
+          ENTER COMMAND CENTER
+        </button>
+
+        <p className="nxg-hint">PRESS ENTER · SPACE · OR CLICK ANYWHERE TO SKIP</p>
+      </div>
+    </div>
   );
 };
 
