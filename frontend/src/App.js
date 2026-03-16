@@ -19,6 +19,7 @@ const Home = () => {
   const [gateStage, setGateStage] = useState('show');
   const [isRevealing, setIsRevealing] = useState(false);
   const [scrollPct, setScrollPct] = useState(0);
+  const [cursor, setCursor] = useState({ x: -300, y: -300 });
   const shellRef = useRef(null);
   const isLocked = gateStage !== 'done';
 
@@ -149,10 +150,23 @@ const Home = () => {
     };
   }, [isLocked]);
 
+  useEffect(() => {
+    if (isLocked) return undefined;
+    const onMove = (e) => setCursor({ x: e.clientX, y: e.clientY });
+    window.addEventListener('pointermove', onMove, { passive: true });
+    return () => window.removeEventListener('pointermove', onMove);
+  }, [isLocked]);
+
   return (
     <div ref={shellRef} className="nx-root">
       {/* Scroll progress */}
       <div className="nx-progress" style={{ '--pct': `${scrollPct * 100}%` }} aria-hidden="true" />
+      {/* Cursor glow */}
+      <div
+        className="nx-cursor-glow"
+        style={{ transform: `translate(${cursor.x}px, ${cursor.y}px)` }}
+        aria-hidden="true"
+      />
 
       <CloudParticles />
       <Header />

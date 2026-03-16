@@ -58,7 +58,7 @@ const Header = () => {
       <div className="nx-header-inner">
         <button className="nx-header-brand" onClick={() => go('hero')}>
           <span className="dot" />
-          <span className="name">Nitin Sarvesh</span>
+          <span className="name">Nitin Sarvesh Raajagopal</span>
           <span className="role">Cloud DevOps Engineer</span>
         </button>
 

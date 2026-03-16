@@ -6,7 +6,7 @@ const BOOT_LINES = [
   { cmd: 'mounting infrastructure ...........', tag: 'OK' },
   { cmd: 'scanning deployment pipelines ....', tag: 'OK' },
   { cmd: 'establishing secure session ......', tag: 'OK' },
-  { cmd: 'operator NITIN profile loaded ....', tag: 'READY' },
+  { cmd: 'operator NSR profile loaded ......', tag: 'READY' },
 ];
 
 const FrontGate = ({ exiting = false, onEnter }) => {
@@ -76,7 +76,7 @@ const FrontGate = ({ exiting = false, onEnter }) => {
           <div className="opg-identity">
             <div className="opg-monogram">NS</div>
             <div className="opg-id-text">
-              <h1 className="opg-name">NITIN SARVESH</h1>
+              <h1 className="opg-name">NITIN SARVESH RAAJAGOPAL</h1>
               <p className="opg-role">Cloud Infrastructure · DevOps · Site Reliability</p>
             </div>
           </div>
