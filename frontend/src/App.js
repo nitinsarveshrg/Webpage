@@ -9,6 +9,7 @@ import Skills from './components/Skills';
 import Projects from './components/Projects';
 import Experience from './components/Experience';
 import Contact from './components/Contact';
+import Education from './components/Education';
 import Footer from './components/Footer';
 import CloudParticles from './components/CloudParticles';
 import FrontGate from './components/FrontGate';
@@ -92,6 +93,7 @@ const Home = () => {
         <Skills />
         <Experience />
         <Projects />
+        <Education />
         <Contact />
       </main>
 

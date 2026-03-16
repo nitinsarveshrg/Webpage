@@ -30,8 +30,8 @@
   --green:  #22c55e;
 
   --text:   #ffffff;
-  --text-2: rgba(255,255,255,0.50);
-  --text-3: rgba(255,255,255,0.20);
+  --text-2: rgba(255,255,255,0.58);
+  --text-3: rgba(255,255,255,0.38);
 
   --sans: "Plus Jakarta Sans", system-ui, sans-serif;
   --mono: "JetBrains Mono", "Fira Code", monospace;

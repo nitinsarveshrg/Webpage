@@ -5,7 +5,7 @@ const METRICS = [
   { val: 5, suffix: '+', lbl: 'Years Cloud & DevOps' },
   { val: 99, suffix: '.9%', lbl: 'Uptime SLA achieved' },
   { val: 40, suffix: '%', lbl: 'Deploy time reduced' },
-  { val: 5, suffix: '+', lbl: 'Cloud certifications' },
+  { val: 3, suffix: '+', lbl: 'Cloud certifications' },
 ];
 
 const CountUp = ({ target, suffix }) => {

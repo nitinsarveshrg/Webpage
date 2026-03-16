@@ -115,20 +115,6 @@ export const portfolioData = {
   // Projects
   projects: [
     {
-      id: 1,
-      title: "Interactive Cloud DevOps Portfolio Runtime",
-      description: "Built a production-ready portfolio platform with terminal-style UX, live telemetry modes, theme engines, and responsive section architecture deployed on Vercel.",
-      technologies: ["React", "JavaScript", "CSS", "HTML", "Tailwind", "Vercel", "Formspree", "hCaptcha"],
-      highlights: [
-        "Custom live panels, runtime command animations, and theme switching",
-        "Section-driven Linux/F1 design language with smooth navigation",
-        "Integrated contact pipeline with AJAX submission and inline CAPTCHA",
-        "Continuous delivery through GitHub + Vercel deployment workflow"
-      ],
-      github: "https://github.com/nitinsarveshrg/Webpage",
-      demo: "https://nitinsarvesh.vercel.app"
-    },
-    {
       id: 2,
       title: "Product Catalog for Health Applications API",
       description: "Implemented a Dockerized Node.js product catalog API with health endpoints and an automated AWS ECS Fargate deployment pipeline using Terraform and GitHub Actions.",
@@ -199,6 +185,14 @@ export const portfolioData = {
       date: "2025",
       credentialId: "HC-TF",
       link: "https://www.credly.com/badges/fc7bd115-3657-4551-9746-c5b3357a12bd/linked_in_profile"
+    },
+    {
+      id: 3,
+      name: "Google Cloud Essentials",
+      issuer: "Google Cloud Skills Boost",
+      date: "2023",
+      credentialId: "GCP-ESS",
+      link: "https://www.skills.google/public_profiles/f9ae764e-faf5-47e8-b182-344855019ca4/badges/3736375"
     }
   ],
 
