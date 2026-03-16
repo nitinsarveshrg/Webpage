@@ -811,45 +811,74 @@ body::after {
   will-change: transform;
 }
 
-/* Center brand */
-.opg-brand {
+/* Ambient glow — mirrors the hero */
+.opg-glow {
+  position: absolute;
+  width: 70vw; height: 70vw;
+  max-width: 800px; max-height: 800px;
+  background: radial-gradient(circle, rgba(249,115,22,0.18) 0%, rgba(168,85,247,0.09) 40%, transparent 68%);
+  border-radius: 50%; pointer-events: none;
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  filter: blur(52px); z-index: 0;
+}
+
+/* Main content column */
+.opg-content {
+  position: relative; z-index: 1;
   display: flex; flex-direction: column; align-items: center;
-  gap: 0.75rem; text-align: center;
+  gap: 1.25rem; text-align: center;
+  padding: 0 1.5rem;
 }
-.opg-icon {
-  width: 56px; height: 56px; border-radius: 14px;
-  background: var(--orange);
-  display: flex; align-items: center; justify-content: center;
-  color: #000; margin-bottom: 0.5rem;
+
+/* Large name block */
+.opg-name-block {
+  display: flex; flex-direction: column; align-items: center; gap: 0.05em;
 }
-.opg-brand-name {
-  font-size: clamp(1rem, 3vw, 1.4rem);
-  font-weight: 700; letter-spacing: -0.02em; color: var(--text);
+.opg-n1 {
+  font-size: clamp(2.8rem, 9vw, 7.5rem);
+  font-weight: 800; letter-spacing: -0.04em; line-height: 0.92;
+  color: var(--text);
 }
-.opg-brand-role {
-  font-family: var(--mono); font-size: 0.60rem;
+.opg-n2 {
+  font-size: clamp(2.4rem, 7.5vw, 6.5rem);
+  font-weight: 800; letter-spacing: -0.04em; line-height: 0.92;
+  background: linear-gradient(135deg, var(--orange), var(--purple));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.opg-n3 {
+  font-size: clamp(1.7rem, 5.5vw, 4.8rem);
+  font-weight: 700; letter-spacing: -0.02em; line-height: 0.95;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,0.22);
+}
+
+/* Role subtitle */
+.opg-role {
+  font-family: var(--mono); font-size: 0.62rem;
   letter-spacing: 0.20em; text-transform: uppercase; color: var(--text-3);
+  margin-top: 0.5rem;
 }
 
 /* Boot terminal */
 .opg-terminal {
-  font-family: var(--mono); font-size: 0.72rem;
+  font-family: var(--mono); font-size: 0.68rem;
   color: var(--text-3); line-height: 1.65;
   border: 1px solid var(--bdr); border-radius: 10px;
-  padding: 1rem 1.5rem; background: rgba(255,255,255,0.02);
-  text-align: left; width: min(460px, 90vw);
-  margin-top: 1.5rem;
+  padding: 0.875rem 1.25rem; background: rgba(255,255,255,0.02);
+  text-align: left; width: min(420px, 88vw);
+  margin-top: 0.75rem;
 }
 .opg-line { display: flex; align-items: center; gap: 0.5rem; }
 .opg-prompt { color: var(--orange); flex-shrink: 0; }
-.opg-status { margin-left: auto; font-size: 0.60rem; font-weight: 700; letter-spacing: 0.08em; }
+.opg-status { margin-left: auto; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.08em; }
 .opg-cursor {
-  display: inline-block; width: 8px; height: 13px;
+  display: inline-block; width: 7px; height: 12px;
   background: var(--orange); animation: blink 1s step-end infinite;
 }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* Loading bar anchored to bottom */
+/* Progress bar */
 .opg-bar {
   position: absolute; bottom: 0; left: 0;
   height: 2px; width: 100%;
