@@ -169,6 +169,16 @@ body::after {
    ══════════════════════════════════════════════════════════════ */
 
 /* Outer container gives extra scroll height for the zoom effect */
+.hero-scroll-range {
+  position: relative;
+  height: 220vh;
+}
+
+.hero-sticky {
+  position: sticky !important;
+  top: 0;
+}
+
 .hero-section {
   position: relative;
   height: 100svh;
@@ -820,6 +830,24 @@ body::after {
   font-family: var(--mono); font-size: 0.60rem;
   letter-spacing: 0.20em; text-transform: uppercase; color: var(--text-3);
 }
+
+/* Boot terminal */
+.opg-terminal {
+  font-family: var(--mono); font-size: 0.72rem;
+  color: var(--text-3); line-height: 1.65;
+  border: 1px solid var(--bdr); border-radius: 10px;
+  padding: 1rem 1.5rem; background: rgba(255,255,255,0.02);
+  text-align: left; width: min(460px, 90vw);
+  margin-top: 1.5rem;
+}
+.opg-line { display: flex; align-items: center; gap: 0.5rem; }
+.opg-prompt { color: var(--orange); flex-shrink: 0; }
+.opg-status { margin-left: auto; font-size: 0.60rem; font-weight: 700; letter-spacing: 0.08em; }
+.opg-cursor {
+  display: inline-block; width: 8px; height: 13px;
+  background: var(--orange); animation: blink 1s step-end infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
 
 /* Loading bar anchored to bottom */
 .opg-bar {

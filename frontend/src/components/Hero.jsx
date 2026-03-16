@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { scrollToSectionById } from '../lib/sectionScroll';
 
@@ -16,57 +16,78 @@ const fade = (delay = 0) => ({
 });
 
 const Hero = () => {
+  const heroRef = useRef(null);
   const marqueeItems = [...MARQUEE_ITEMS, ...MARQUEE_ITEMS];
+
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
+
+  // Name zooms in and fades — "entering through the letters"
+  const nameScale   = useTransform(scrollYProgress, [0, 0.88], [1, 1.8]);
+  const nameOpacity = useTransform(scrollYProgress, [0, 0.45, 0.88], [1, 0.5, 0]);
+  const nameY       = useTransform(scrollYProgress, [0, 0.88], ['0%', '-10%']);
+
+  // Pill, tagline, CTAs fade out faster
+  const uiOpacity = useTransform(scrollYProgress, [0, 0.28], [1, 0]);
 
   return (
     <>
-      <section id="hero" className="nx-section hero-section">
-        <div className="section-anchor" aria-hidden="true" />
+      {/* Extra scroll height gives the zoom-through room to play */}
+      <div ref={heroRef} className="hero-scroll-range">
+        <section id="hero" className="nx-section hero-section hero-sticky">
+          <div className="section-anchor" aria-hidden="true" />
 
-        {/* Ambient glow — fades in behind the name */}
-        <motion.div
-          className="hero-glow"
-          initial={{ opacity: 0, scale: 0.6 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 2.4, ease: 'easeOut', delay: 0.1 }}
-          aria-hidden="true"
-        />
+          {/* Ambient glow */}
+          <motion.div
+            className="hero-glow"
+            initial={{ opacity: 0, scale: 0.6 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 2.4, ease: 'easeOut', delay: 0.1 }}
+            aria-hidden="true"
+          />
 
-        {/* Row 1 — availability pill */}
-        <motion.div className="hero-ui-layer" {...fade(0.15)}>
-          <div className="hero-pill">
-            <span className="hero-pill-dot" aria-hidden="true" />
-            Available for hire · Toronto, Canada · Cloud / DevOps / SRE
-          </div>
-        </motion.div>
+          {/* Row 1 — availability pill */}
+          <motion.div className="hero-ui-layer" style={{ opacity: uiOpacity }} {...fade(0.15)}>
+            <div className="hero-pill">
+              <span className="hero-pill-dot" aria-hidden="true" />
+              Available for hire · Toronto, Canada · Cloud / DevOps / SRE
+            </div>
+          </motion.div>
 
-        {/* Row 2 — name block */}
-        <div className="hero-name-wrap" aria-label="Nitin Sarvesh Raajagopal">
-          <motion.div className="hero-n1" {...fade(0.25)}>NITIN</motion.div>
-          <motion.div className="hero-n2" {...fade(0.40)}>SARVESH</motion.div>
-          <motion.div className="hero-n3" {...fade(0.55)}>RAAJAGOPAL</motion.div>
-        </div>
+          {/* Row 2 — name block (scroll zoom-through) */}
+          <motion.div
+            className="hero-name-wrap"
+            aria-label="Nitin Sarvesh Raajagopal"
+            style={{ scale: nameScale, opacity: nameOpacity, y: nameY }}
+          >
+            <motion.div className="hero-n1" {...fade(0.25)}>NITIN</motion.div>
+            <motion.div className="hero-n2" {...fade(0.40)}>SARVESH</motion.div>
+            <motion.div className="hero-n3" {...fade(0.55)}>RAAJAGOPAL</motion.div>
+          </motion.div>
 
-        {/* Row 3 — tagline + CTAs + scroll hint */}
-        <motion.div className="hero-bottom-ui" {...fade(0.70)}>
-          <p className="hero-tagline">
-            Designing resilient cloud infrastructure<br />
-            for the modern internet.
-          </p>
-          <div className="hero-actions">
-            <button className="btn-primary" onClick={() => scrollToSectionById('projects')}>
-              View Work
-            </button>
-            <button className="btn-ghost" onClick={() => scrollToSectionById('contact')}>
-              Hire Me →
-            </button>
-          </div>
-          <div className="hero-scroll">
-            <span>scroll</span>
-            <ChevronDown size={14} />
-          </div>
-        </motion.div>
-      </section>
+          {/* Row 3 — tagline + CTAs + scroll hint */}
+          <motion.div className="hero-bottom-ui" style={{ opacity: uiOpacity }} {...fade(0.70)}>
+            <p className="hero-tagline">
+              Designing resilient cloud infrastructure<br />
+              for the modern internet.
+            </p>
+            <div className="hero-actions">
+              <button className="btn-primary" onClick={() => scrollToSectionById('projects')}>
+                View Work
+              </button>
+              <button className="btn-ghost" onClick={() => scrollToSectionById('contact')}>
+                Hire Me →
+              </button>
+            </div>
+            <div className="hero-scroll">
+              <span>scroll</span>
+              <ChevronDown size={14} />
+            </div>
+          </motion.div>
+        </section>
+      </div>
 
       {/* Marquee tech strip */}
       <div className="marquee-wrap" aria-hidden="true">
