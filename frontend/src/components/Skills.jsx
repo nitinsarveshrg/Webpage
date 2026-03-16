@@ -4,23 +4,54 @@ import { motion } from 'framer-motion';
 const CATEGORIES = [
   {
     label: 'Cloud Platforms',
-    skills: ['AWS', 'Azure', 'GCP', 'ECS', 'Fargate', 'Lambda', 'CloudFormation'],
+    color: '#f97316',
+    skills: [
+      { name: 'AWS', level: 95 },
+      { name: 'Azure', level: 85 },
+      { name: 'GCP', level: 80 },
+      { name: 'ECS / Fargate', level: 90 },
+    ],
   },
   {
     label: 'Containers & IaC',
-    skills: ['Kubernetes', 'Docker', 'Helm', 'Terraform', 'Ansible', 'Pulumi'],
+    color: '#a855f7',
+    skills: [
+      { name: 'Kubernetes', level: 92 },
+      { name: 'Docker', level: 95 },
+      { name: 'Terraform', level: 95 },
+      { name: 'Helm', level: 88 },
+      { name: 'Ansible', level: 88 },
+    ],
   },
   {
     label: 'CI / CD',
-    skills: ['GitHub Actions', 'Jenkins', 'ArgoCD', 'GitLab CI', 'CircleCI'],
+    color: '#06b6d4',
+    skills: [
+      { name: 'GitHub Actions', level: 90 },
+      { name: 'Jenkins', level: 88 },
+      { name: 'ArgoCD', level: 85 },
+    ],
   },
   {
     label: 'Observability',
-    skills: ['Prometheus', 'Grafana', 'Datadog', 'CloudWatch', 'ELK Stack', 'Dynatrace'],
+    color: '#f59e0b',
+    skills: [
+      { name: 'CloudWatch', level: 90 },
+      { name: 'Prometheus', level: 88 },
+      { name: 'Grafana', level: 88 },
+      { name: 'Datadog', level: 80 },
+      { name: 'ELK Stack', level: 82 },
+    ],
   },
   {
     label: 'Coding',
-    skills: ['Python', 'Bash', 'SQL', 'JavaScript', 'TypeScript', 'Go'],
+    color: '#22c55e',
+    skills: [
+      { name: 'Python', level: 90 },
+      { name: 'Bash', level: 95 },
+      { name: 'SQL', level: 82 },
+      { name: 'JavaScript', level: 75 },
+    ],
   },
 ];
 
@@ -30,6 +61,31 @@ const inView = (delay = 0) => ({
   viewport: { once: true, margin: '-10% 0px' },
   transition: { duration: 0.8, ease: [0.16, 0.86, 0.24, 1], delay },
 });
+
+const SkillBar = ({ name, level, color, delay }) => (
+  <motion.div
+    className="skill-bar-item"
+    initial={{ opacity: 0, x: -12 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.6, ease: [0.16, 0.86, 0.24, 1], delay }}
+  >
+    <div className="skill-bar-header">
+      <span className="skill-bar-name">{name}</span>
+      <span className="skill-bar-pct" style={{ color }}>{level}%</span>
+    </div>
+    <div className="skill-bar-track">
+      <motion.div
+        className="skill-bar-fill"
+        style={{ background: `linear-gradient(90deg, ${color}99, ${color})` }}
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: level / 100 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.1, ease: [0.16, 0.86, 0.24, 1], delay: delay + 0.15 }}
+      />
+    </div>
+  </motion.div>
+);
 
 const Skills = () => (
   <section id="skills" className="nx-section skills-section">
@@ -43,23 +99,19 @@ const Skills = () => (
         </h2>
       </motion.div>
 
-      <div className="skills-groups">
+      <div className="skills-grid">
         {CATEGORIES.map((cat, ci) => (
-          <motion.div key={cat.label} {...inView(0.10 + ci * 0.06)}>
-            <div className="skill-group-label">{cat.label}</div>
-            <div className="skill-chips">
+          <motion.div key={cat.label} className="skill-group-card" {...inView(0.10 + ci * 0.06)}>
+            <div className="skill-group-label" style={{ color: cat.color }}>{cat.label}</div>
+            <div className="skill-bars">
               {cat.skills.map((s, si) => (
-                <motion.span
-                  key={s}
-                  className="skill-chip"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.12 + ci * 0.05 + si * 0.03 }}
-                >
-                  <span className="skill-chip-dot" />
-                  {s}
-                </motion.span>
+                <SkillBar
+                  key={s.name}
+                  name={s.name}
+                  level={s.level}
+                  color={cat.color}
+                  delay={0.14 + ci * 0.05 + si * 0.05}
+                />
               ))}
             </div>
           </motion.div>

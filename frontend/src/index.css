@@ -377,40 +377,114 @@ body::after {
 .cert-name { font-size: 0.925rem; font-weight: 700; color: var(--text); line-height: 1.3; }
 .cert-issuer { font-size: 0.75rem; font-family: var(--mono); color: var(--text-3); letter-spacing: 0.08em; }
 .cert-date { font-size: 0.72rem; color: var(--text-3); font-family: var(--mono); }
+.cert-verify-link {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  font-size: 0.72rem; font-weight: 500; color: var(--orange);
+  margin-top: auto; padding-top: 0.5rem;
+  transition: opacity 150ms ease;
+}
+.cert-verify-link:hover { opacity: 0.7; }
+
+/* ══════════════════════════════════════════════════════════════
+   EDUCATION
+   ══════════════════════════════════════════════════════════════ */
+.edu-section { background: var(--bg); }
+
+.edu-list { display: flex; flex-direction: column; gap: 0; margin-top: 4rem; }
+
+.edu-item {
+  display: grid; grid-template-columns: 200px 1fr;
+  gap: 3rem; align-items: start;
+  padding: 2.5rem 0;
+  border-top: 1px solid var(--bdr);
+}
+@media (max-width: 768px) {
+  .edu-item { grid-template-columns: 1fr; gap: 0.75rem; }
+}
+
+.edu-meta { padding-top: 0.2rem; }
+.edu-period {
+  font-family: var(--mono); font-size: 0.65rem; font-weight: 500;
+  letter-spacing: 0.12em; color: var(--orange); text-transform: uppercase;
+}
+.edu-location {
+  font-size: 0.78rem; color: var(--text-3); font-family: var(--mono);
+  margin-top: 0.3rem;
+}
+.edu-gpa {
+  display: inline-flex; align-items: center;
+  margin-top: 0.75rem;
+  font-family: var(--mono); font-size: 0.62rem; font-weight: 600;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  color: var(--text-3);
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--bdr); border-radius: 4px;
+  background: rgba(255,255,255,0.02);
+}
+
+.edu-institution {
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-weight: 700; letter-spacing: -0.02em; color: var(--text);
+  line-height: 1.2; margin-bottom: 0.5rem;
+}
+.edu-degree {
+  font-size: 0.875rem; color: var(--text-2); line-height: 1.6;
+}
 
 /* ══════════════════════════════════════════════════════════════
    SKILLS
    ══════════════════════════════════════════════════════════════ */
 .skills-section { background: var(--bg); }
 
-.skills-groups { display: flex; flex-direction: column; gap: 3rem; margin-top: 3.5rem; }
+/* Grid: 2 columns on wide, 1 on narrow */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3.5rem;
+}
+
+.skill-group-card {
+  padding: 1.75rem;
+  border: 1px solid var(--bdr);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.02);
+  transition: border-color 250ms ease;
+}
+.skill-group-card:hover { border-color: rgba(255,255,255,0.10); }
 
 .skill-group-label {
   font-family: var(--mono); font-size: 0.60rem; font-weight: 600;
-  letter-spacing: 0.20em; text-transform: uppercase; color: var(--orange);
-  margin-bottom: 1.25rem;
+  letter-spacing: 0.20em; text-transform: uppercase;
+  margin-bottom: 1.5rem;
 }
-.skill-chips { display: flex; flex-wrap: wrap; gap: 0.625rem; }
 
-.skill-chip {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border: 1px solid var(--bdr);
-  border-radius: 100px;
-  font-size: 0.80rem; font-weight: 500; color: var(--text-2);
-  background: rgba(255,255,255,0.02);
-  transition: color 200ms ease, border-color 200ms ease, background 200ms ease, transform 200ms ease;
-  cursor: default;
+.skill-bars { display: flex; flex-direction: column; gap: 1rem; }
+
+.skill-bar-item { display: flex; flex-direction: column; gap: 0.4rem; }
+
+.skill-bar-header {
+  display: flex; align-items: center; justify-content: space-between;
 }
-.skill-chip:hover {
-  color: var(--text);
-  border-color: rgba(249,115,22,0.30);
-  background: rgba(249,115,22,0.06);
-  transform: translateY(-1px);
+.skill-bar-name {
+  font-size: 0.82rem; font-weight: 500; color: var(--text-2);
 }
-.skill-chip-dot {
-  width: 5px; height: 5px; border-radius: 50%; background: var(--orange); opacity: 0.5;
-  flex-shrink: 0;
+.skill-bar-pct {
+  font-family: var(--mono); font-size: 0.65rem; font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.skill-bar-track {
+  height: 3px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.skill-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  transform-origin: left;
+  /* scaleX animated by Framer Motion */
 }
 
 /* ══════════════════════════════════════════════════════════════
