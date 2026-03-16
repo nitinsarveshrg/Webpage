@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { Cloud } from 'lucide-react';
 
 const BOOT_LINES = [
   'Loading cloud profile ···········',
@@ -9,12 +10,6 @@ const BOOT_LINES = [
   'Establishing secure session ·····',
   'Operator profile loaded ·········',
 ];
-
-const line = (delay) => ({
-  initial: { opacity: 0, y: 18 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.65, ease: [0.16, 0.86, 0.24, 1], delay },
-});
 
 const FrontGate = ({ exiting = false, onEnter }) => {
   const [step, setStep] = useState(0);
@@ -36,34 +31,37 @@ const FrontGate = ({ exiting = false, onEnter }) => {
       animate={exiting ? { y: '-100%' } : { y: 0 }}
       transition={exiting ? { duration: 0.9, ease: [0.76, 0, 0.24, 1] } : { duration: 0 }}
     >
-      {/* Ambient glow — mirrors the hero */}
-      <motion.div
-        className="opg-glow"
-        initial={{ opacity: 0, scale: 0.7 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 2, ease: 'easeOut' }}
-        aria-hidden="true"
-      />
-
       <div className="opg-content">
-        {/* Large name block */}
-        <div className="opg-name-block" aria-label="Nitin Sarvesh Raajagopal">
-          <motion.div className="opg-n1" {...line(0.15)}>NITIN</motion.div>
-          <motion.div className="opg-n2" {...line(0.30)}>SARVESH</motion.div>
-          <motion.div className="opg-n3" {...line(0.45)}>RAAJAGOPAL</motion.div>
-        </div>
+        {/* Icon with pulse ring */}
+        <motion.div
+          className="opg-icon-wrap"
+          initial={{ opacity: 0, scale: 0.7 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, ease: [0.16, 0.86, 0.24, 1], delay: 0.1 }}
+        >
+          <div className="opg-ring opg-ring--1" />
+          <div className="opg-ring opg-ring--2" />
+          <div className="opg-icon-box">
+            <Cloud size={26} strokeWidth={1.8} />
+          </div>
+        </motion.div>
 
-        {/* Role */}
-        <motion.div className="opg-role" {...line(0.60)}>
-          Cloud Infrastructure · DevOps · Site Reliability
+        {/* Role label */}
+        <motion.div
+          className="opg-label"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.16, 0.86, 0.24, 1], delay: 0.4 }}
+        >
+          CLOUD &amp; DEVOPS ENGINEER
         </motion.div>
 
         {/* Terminal */}
         <motion.div
           className="opg-terminal"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.75 }}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.65 }}
         >
           {BOOT_LINES.slice(0, step).map((ln, i) => (
             <div key={i} className="opg-line">

@@ -811,53 +811,42 @@ body::after {
   will-change: transform;
 }
 
-/* Ambient glow — mirrors the hero */
-.opg-glow {
-  position: absolute;
-  width: 70vw; height: 70vw;
-  max-width: 800px; max-height: 800px;
-  background: radial-gradient(circle, rgba(249,115,22,0.18) 0%, rgba(168,85,247,0.09) 40%, transparent 68%);
-  border-radius: 50%; pointer-events: none;
-  top: 50%; left: 50%; transform: translate(-50%, -50%);
-  filter: blur(52px); z-index: 0;
-}
-
 /* Main content column */
 .opg-content {
-  position: relative; z-index: 1;
   display: flex; flex-direction: column; align-items: center;
-  gap: 1.25rem; text-align: center;
-  padding: 0 1.5rem;
+  gap: 1.5rem; text-align: center; padding: 0 1.5rem;
 }
 
-/* Large name block */
-.opg-name-block {
-  display: flex; flex-direction: column; align-items: center; gap: 0.05em;
+/* Icon with concentric pulse rings */
+.opg-icon-wrap {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  width: 80px; height: 80px; margin-bottom: 0.5rem;
 }
-.opg-n1 {
-  font-size: clamp(2.8rem, 9vw, 7.5rem);
-  font-weight: 800; letter-spacing: -0.04em; line-height: 0.92;
-  color: var(--text);
+.opg-ring {
+  position: absolute; border-radius: 50%;
+  border: 1px solid rgba(249,115,22,0.35);
+  animation: opg-pulse 2.4s ease-out infinite;
 }
-.opg-n2 {
-  font-size: clamp(2.4rem, 7.5vw, 6.5rem);
-  font-weight: 800; letter-spacing: -0.04em; line-height: 0.92;
-  background: linear-gradient(135deg, var(--orange), var(--purple));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
+.opg-ring--1 { width: 80px; height: 80px; animation-delay: 0s; }
+.opg-ring--2 { width: 80px; height: 80px; animation-delay: 0.8s; }
+@keyframes opg-pulse {
+  0%   { transform: scale(1);   opacity: 0.6; }
+  100% { transform: scale(2.4); opacity: 0;   }
 }
-.opg-n3 {
-  font-size: clamp(1.7rem, 5.5vw, 4.8rem);
-  font-weight: 700; letter-spacing: -0.02em; line-height: 0.95;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(255,255,255,0.22);
+.opg-icon-box {
+  position: relative; z-index: 1;
+  width: 56px; height: 56px; border-radius: 14px;
+  background: var(--orange);
+  display: flex; align-items: center; justify-content: center;
+  color: #000;
 }
 
-/* Role subtitle */
-.opg-role {
-  font-family: var(--mono); font-size: 0.62rem;
-  letter-spacing: 0.20em; text-transform: uppercase; color: var(--text-3);
-  margin-top: 0.5rem;
+/* Role label */
+.opg-label {
+  font-family: var(--mono); font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
 }
 
 /* Boot terminal */
