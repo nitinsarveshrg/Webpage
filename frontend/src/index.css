@@ -171,7 +171,7 @@ body::after {
 /* Outer container gives extra scroll height for the zoom effect */
 .hero-scroll-range {
   position: relative;
-  height: 220vh;
+  height: 160vh;
 }
 
 .hero-sticky {
@@ -499,7 +499,7 @@ body::after {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1.5rem;
-  margin-top: 3.5rem;
+  margin-top: 4rem;
 }
 
 .skill-group-card {

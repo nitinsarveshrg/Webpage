@@ -24,13 +24,13 @@ const Hero = () => {
     offset: ['start start', 'end start'],
   });
 
-  // Name zooms in and fades — "entering through the letters"
-  const nameScale   = useTransform(scrollYProgress, [0, 0.88], [1, 1.8]);
-  const nameOpacity = useTransform(scrollYProgress, [0, 0.45, 0.88], [1, 0.5, 0]);
-  const nameY       = useTransform(scrollYProgress, [0, 0.88], ['0%', '-10%']);
+  // Name fades to 0 exactly at scroll range end — no blank black gap
+  const nameScale   = useTransform(scrollYProgress, [0, 1.0], [1, 1.8]);
+  const nameOpacity = useTransform(scrollYProgress, [0, 0.5, 1.0], [1, 0.5, 0]);
+  const nameY       = useTransform(scrollYProgress, [0, 1.0], ['0%', '-10%']);
 
   // Pill, tagline, CTAs fade out faster
-  const uiOpacity = useTransform(scrollYProgress, [0, 0.28], [1, 0]);
+  const uiOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
 
   return (
     <>
