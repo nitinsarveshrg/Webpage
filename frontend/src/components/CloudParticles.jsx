@@ -1,5 +1,21 @@
 import React, { useEffect, useRef } from 'react';
 
+// Cloud/DevOps service nodes — labeled topology graph background
+const SERVICE_NODES = [
+  { label: 'AWS',         color: '#FF9900', hue: 36  },
+  { label: 'K8s',         color: '#326CE5', hue: 220 },
+  { label: 'Terraform',   color: '#7B42BC', hue: 270 },
+  { label: 'Docker',      color: '#2496ED', hue: 210 },
+  { label: 'ArgoCD',      color: '#EF7B4D', hue: 20  },
+  { label: 'Prometheus',  color: '#E6522C', hue: 15  },
+  { label: 'Grafana',     color: '#F46800', hue: 30  },
+  { label: 'GitHub',      color: '#E8E8E8', hue: 0   },
+  { label: 'Helm',        color: '#0F1689', hue: 235 },
+  { label: 'Jenkins',     color: '#D33833', hue: 5   },
+  { label: 'Ansible',     color: '#EE0000', hue: 0   },
+  { label: 'Datadog',     color: '#774AA4', hue: 280 },
+];
+
 const CloudParticles = () => {
   const canvasRef = useRef(null);
 
@@ -9,139 +25,126 @@ const CloudParticles = () => {
 
     const ctx = canvas.getContext('2d');
     let frameId;
-    let mouseX = -9999;
-    let mouseY = -9999;
 
     const resize = () => {
-      canvas.width = window.innerWidth;
+      canvas.width  = window.innerWidth;
       canvas.height = window.innerHeight;
     };
     resize();
     window.addEventListener('resize', resize, { passive: true });
 
-    const onMouseMove = (e) => { mouseX = e.clientX; mouseY = e.clientY; };
-    const onMouseLeave = () => { mouseX = -9999; mouseY = -9999; };
-    window.addEventListener('mousemove', onMouseMove, { passive: true });
-    window.addEventListener('mouseleave', onMouseLeave);
+    // Build node objects
+    const nodes = SERVICE_NODES.map((svc, i) => {
+      const angle = (i / SERVICE_NODES.length) * Math.PI * 2 + Math.random() * 0.5;
+      const r = 0.20 + Math.random() * 0.28;
+      return {
+        ...svc,
+        x: 0.5 + Math.cos(angle) * r,
+        y: 0.48 + Math.sin(angle) * r * 0.65,
+        vx: (Math.random() - 0.5) * 0.00012,
+        vy: (Math.random() - 0.5) * 0.00009,
+        radius: 3.2 + Math.random() * 1.8,
+        alpha: 0.55 + Math.random() * 0.30,
+        phase: Math.random() * Math.PI * 2,
+        phaseSpeed: 0.006 + Math.random() * 0.008,
+      };
+    });
 
-    /* ── Large glowing orbs (background depth layer) ─────────────── */
-    class Orb {
-      constructor(initial = false) {
-        this.r = 100 + Math.random() * 240;
-        this.x = initial ? Math.random() * canvas.width : -this.r;
-        this.y = Math.random() * canvas.height;
-        this.vx = 0.035 + Math.random() * 0.055;
-        this.vy = (Math.random() - 0.5) * 0.035;
-        this.hue = [205, 190, 225, 215][Math.floor(Math.random() * 4)];
-        this.sat = 80 + Math.random() * 20;
-        this.light = 58 + Math.random() * 22;
-        this.alpha = 0.022 + Math.random() * 0.044;
-        this.phase = Math.random() * Math.PI * 2;
-        this.phaseSpeed = 0.003 + Math.random() * 0.005;
-      }
+    // Small ambient particles (grid dots)
+    const DOTS = Array.from({ length: 60 }, () => ({
+      x: Math.random(),
+      y: Math.random(),
+      vx: (Math.random() - 0.5) * 0.000045,
+      vy: (Math.random() - 0.5) * 0.000035,
+      r: 0.8 + Math.random() * 0.8,
+      alpha: 0.08 + Math.random() * 0.12,
+    }));
 
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-        this.phase += this.phaseSpeed;
-        if (this.x > canvas.width + this.r * 2) {
-          this.x = -this.r * 2;
-          this.y = Math.random() * canvas.height;
-        }
-      }
-
-      draw() {
-        const a = this.alpha * (1 + Math.sin(this.phase) * 0.28);
-        const g = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r);
-        g.addColorStop(0, `hsla(${this.hue},${this.sat}%,${this.light}%,${a})`);
-        g.addColorStop(0.45, `hsla(${this.hue},${this.sat}%,${this.light}%,${a * 0.35})`);
-        g.addColorStop(1, `hsla(${this.hue},${this.sat}%,${this.light}%,0)`);
-        ctx.fillStyle = g;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-
-    /* ── Small twinkling stars ────────────────────────────────────── */
-    class Star {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.r = Math.random() * 1.45 + 0.35;
-        this.vx = (Math.random() - 0.5) * 0.13;
-        this.vy = (Math.random() - 0.5) * 0.13;
-        this.alpha = Math.random() * 0.52 + 0.08;
-        this.twinkle = Math.random() * Math.PI * 2;
-        this.twinkleSpeed = 0.008 + Math.random() * 0.018;
-      }
-
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-        this.twinkle += this.twinkleSpeed;
-
-        /* soft mouse repulsion */
-        const dx = this.x - mouseX;
-        const dy = this.y - mouseY;
-        const dist2 = dx * dx + dy * dy;
-        if (dist2 < 7200 && dist2 > 0) {
-          const dist = Math.sqrt(dist2);
-          const force = (85 - dist) / 85 * 0.22;
-          this.x += (dx / dist) * force;
-          this.y += (dy / dist) * force;
-        }
-
-        if (this.x > canvas.width + 12) this.x = -12;
-        if (this.x < -12) this.x = canvas.width + 12;
-        if (this.y > canvas.height + 12) this.y = -12;
-        if (this.y < -12) this.y = canvas.height + 12;
-      }
-
-      draw() {
-        const a = this.alpha * (0.65 + Math.sin(this.twinkle) * 0.35);
-        ctx.fillStyle = `rgba(190, 225, 255, ${a})`;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-
-    const NUM_ORBS = 7;
-    const starDensity = Math.floor((canvas.width * canvas.height) / 22000);
-    const NUM_STARS = Math.max(55, Math.min(starDensity, 120));
-    const CONNECT_DIST = 115;
-
-    const orbs = Array.from({ length: NUM_ORBS }, (_, i) => new Orb(i > 0));
-    const stars = Array.from({ length: NUM_STARS }, () => new Star());
+    const CONNECT_THRESH = 0.22; // fraction of screen diagonal
+    const LINE_MAX_ALPHA = 0.12;
 
     const render = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const W = canvas.width;
+      const H = canvas.height;
 
-      /* orbs – background depth */
-      orbs.forEach((o) => { o.update(); o.draw(); });
+      ctx.clearRect(0, 0, W, H);
 
-      /* constellation lines */
-      ctx.lineWidth = 0.5;
-      for (let i = 0; i < stars.length; i++) {
-        for (let j = i + 1; j < stars.length; j++) {
-          const dx = stars[i].x - stars[j].x;
-          const dy = stars[i].y - stars[j].y;
-          const dist2 = dx * dx + dy * dy;
-          if (dist2 < CONNECT_DIST * CONNECT_DIST) {
-            const dist = Math.sqrt(dist2);
-            const a = (1 - dist / CONNECT_DIST) * 0.088;
-            ctx.strokeStyle = `rgba(140, 200, 255, ${a})`;
+      // Subtle radial glow at center
+      const cx = W * 0.5;
+      const cy = H * 0.44;
+      const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.min(W, H) * 0.55);
+      grd.addColorStop(0, 'rgba(0,180,255,0.028)');
+      grd.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = grd;
+      ctx.fillRect(0, 0, W, H);
+
+      // Update + draw ambient dots
+      DOTS.forEach((d) => {
+        d.x = (d.x + d.vx + 1) % 1;
+        d.y = (d.y + d.vy + 1) % 1;
+        ctx.fillStyle = `rgba(0,200,255,${d.alpha})`;
+        ctx.beginPath();
+        ctx.arc(d.x * W, d.y * H, d.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // Update nodes
+      nodes.forEach((n) => {
+        n.x = ((n.x + n.vx) + 1.5) % 1;
+        n.y = ((n.y + n.vy) + 1.5) % 1;
+        n.phase += n.phaseSpeed;
+      });
+
+      // Draw connection lines between close nodes
+      const diag = Math.sqrt(W * W + H * H);
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = (nodes[i].x - nodes[j].x) * W;
+          const dy = (nodes[i].y - nodes[j].y) * H;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const thresh = CONNECT_THRESH * diag;
+          if (dist < thresh) {
+            const a = LINE_MAX_ALPHA * (1 - dist / thresh);
+            ctx.strokeStyle = `rgba(0,200,255,${a})`;
+            ctx.lineWidth = 0.6;
+            ctx.setLineDash([4, 6]);
             ctx.beginPath();
-            ctx.moveTo(stars[i].x, stars[i].y);
-            ctx.lineTo(stars[j].x, stars[j].y);
+            ctx.moveTo(nodes[i].x * W, nodes[i].y * H);
+            ctx.lineTo(nodes[j].x * W, nodes[j].y * H);
             ctx.stroke();
           }
         }
       }
+      ctx.setLineDash([]);
 
-      /* stars – foreground */
-      stars.forEach((s) => { s.update(); s.draw(); });
+      // Draw nodes
+      nodes.forEach((n) => {
+        const px = n.x * W;
+        const py = n.y * H;
+        const pulse = 1 + Math.sin(n.phase) * 0.18;
+        const a = n.alpha * (0.8 + Math.sin(n.phase) * 0.20);
+
+        // Outer glow ring
+        const ringGrd = ctx.createRadialGradient(px, py, 0, px, py, n.radius * 3.5 * pulse);
+        ringGrd.addColorStop(0, `hsla(${n.hue},80%,65%,${a * 0.25})`);
+        ringGrd.addColorStop(1, `hsla(${n.hue},80%,65%,0)`);
+        ctx.fillStyle = ringGrd;
+        ctx.beginPath();
+        ctx.arc(px, py, n.radius * 3.5 * pulse, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Core dot
+        ctx.fillStyle = `hsla(${n.hue},80%,70%,${a})`;
+        ctx.beginPath();
+        ctx.arc(px, py, n.radius, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Label
+        ctx.fillStyle = `hsla(${n.hue},60%,80%,${a * 0.65})`;
+        ctx.font = `500 ${9}px "JetBrains Mono", monospace`;
+        ctx.textAlign = 'center';
+        ctx.fillText(n.label, px, py + n.radius + 14);
+      });
 
       frameId = requestAnimationFrame(render);
     };
@@ -150,13 +153,18 @@ const CloudParticles = () => {
 
     return () => {
       window.removeEventListener('resize', resize);
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseleave', onMouseLeave);
       cancelAnimationFrame(frameId);
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="nx-bg-canvas" aria-hidden="true" />;
+  return (
+    <canvas
+      ref={canvasRef}
+      className="nx-bg-canvas"
+      aria-hidden="true"
+      style={{ opacity: 0.65 }}
+    />
+  );
 };
 
 export default CloudParticles;
