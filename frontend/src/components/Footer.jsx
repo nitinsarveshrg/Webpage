@@ -1,15 +1,15 @@
 import React from 'react';
-import { Github, Linkedin, Mail } from 'lucide-react';
+import { Cloud, Github, Linkedin, Mail } from 'lucide-react';
 import { portfolioData } from '../mock';
 import { scrollToSectionById } from '../lib/sectionScroll';
 
-const NAV = ['about','certifications','skills','experience','projects','contact'];
+const NAV = ['about','certifications','skills','experience','projects','education','contact'];
 
 const Footer = () => (
   <footer className="ft-footer">
     <div className="ft-top">
       <div className="ft-brand">
-        <div className="ft-logo">NS</div>
+        <div className="ft-logo"><Cloud size={18} strokeWidth={2.2} /></div>
         <div className="ft-brand-name">Nitin Sarvesh Raajagopal</div>
         <div className="ft-brand-role">Cloud · DevOps · SRE · Toronto</div>
         <p className="ft-brand-bio">

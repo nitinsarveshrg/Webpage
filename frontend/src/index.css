@@ -109,10 +109,9 @@ body::after {
 .hdr-inner { width: 100%; max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
 .hdr-brand { display: flex; align-items: center; gap: 0.75rem; }
 .hdr-logo {
-  width: 32px; height: 32px; border-radius: 6px;
+  width: 32px; height: 32px; border-radius: 8px;
   background: var(--orange); display: flex; align-items: center; justify-content: center;
-  font-family: var(--mono); font-size: 0.65rem; font-weight: 700; color: #000;
-  letter-spacing: 0.02em;
+  color: #000; flex-shrink: 0;
 }
 .hdr-name {
   font-size: 0.88rem; font-weight: 600; color: var(--text);
@@ -168,12 +167,48 @@ body::after {
 /* ══════════════════════════════════════════════════════════════
    HERO SECTION
    ══════════════════════════════════════════════════════════════ */
+
+/* Outer container gives extra scroll height for the zoom effect */
+.hero-scroll-range {
+  position: relative;
+  height: 160vh;
+}
+
+/* Inner section sticks to top while scroll range plays out */
+.hero-sticky {
+  position: sticky !important;
+  top: 0;
+}
+
 .hero-section {
-  min-height: 100svh;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  height: 100svh;
+  min-height: unset;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  align-items: stretch;
   text-align: center;
-  padding-top: 80px; padding-bottom: 0;
-  overflow: visible;
+  padding-top: 60px; padding-bottom: 0;
+  overflow: hidden;
+}
+
+/* Row 1: pill */
+.hero-ui-layer {
+  display: flex; justify-content: center; align-items: flex-end;
+  padding-bottom: 2rem; padding-top: 1.5rem;
+}
+
+/* Row 2: name — centered in the remaining space */
+.hero-name-wrap {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 0.1em;
+}
+
+/* Row 3: tagline + CTAs + scroll */
+.hero-bottom-ui {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 1.25rem;
+  padding-bottom: clamp(2rem, 5vh, 4rem);
+  padding-top: 1.5rem;
 }
 
 /* Status pill */
@@ -299,7 +334,13 @@ body::after {
 /* ══════════════════════════════════════════════════════════════
    ABOUT SECTION
    ══════════════════════════════════════════════════════════════ */
-.ab-section { background: var(--bg); }
+.ab-section {
+  background: var(--bg);
+  position: relative;
+  z-index: 1;
+  margin-top: -80px;
+  padding-top: calc(var(--section-pad) + 80px);
+}
 
 .ab-layout {
   display: grid;
@@ -691,8 +732,7 @@ body::after {
   width: 36px; height: 36px; border-radius: 8px;
   background: var(--orange);
   display: flex; align-items: center; justify-content: center;
-  font-family: var(--mono); font-size: 0.65rem; font-weight: 700; color: #000;
-  margin-bottom: 0.875rem;
+  color: #000; margin-bottom: 0.875rem;
 }
 .ft-brand-name { font-size: 0.925rem; font-weight: 700; color: var(--text); margin-bottom: 0.25rem; }
 .ft-brand-role { font-family: var(--mono); font-size: 0.65rem; color: var(--orange); letter-spacing: 0.10em; margin-bottom: 1rem; text-transform: uppercase; }

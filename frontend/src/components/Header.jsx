@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Cloud, Menu, X } from 'lucide-react';
 import { scrollToSectionById } from '../lib/sectionScroll';
 
 const NAV = [
@@ -35,7 +35,9 @@ const Header = () => {
     >
       <div className="hdr-inner">
         <button className="hdr-brand" onClick={() => go('hero')}>
-          <div className="hdr-logo">NS</div>
+          <div className="hdr-logo">
+            <Cloud size={16} strokeWidth={2.2} />
+          </div>
           <span className="hdr-name">Nitin Sarvesh Raajagopal</span>
         </button>
 

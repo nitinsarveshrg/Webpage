@@ -3,9 +3,9 @@ import { motion } from 'framer-motion';
 import { portfolioData } from '../mock';
 
 const inView = (delay = 0) => ({
-  initial: { opacity: 0, y: 28 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: '-10% 0px' },
+  initial: { opacity: 0, y: 56, scale: 0.97 },
+  whileInView: { opacity: 1, y: 0, scale: 1 },
+  viewport: { once: false, amount: 0.08 },
   transition: { duration: 0.9, ease: [0.16, 0.86, 0.24, 1], delay },
 });
 

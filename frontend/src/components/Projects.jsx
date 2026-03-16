@@ -43,9 +43,9 @@ const repoName = (url = '') => { const m = url.match(/github\.com\/[^/]+\/([^/?#
 const toTitle = (n = '') => n.replace(/[-_]+/g, ' ').trim().replace(/\b\w/g, (c) => c.toUpperCase());
 
 const inView = (delay = 0) => ({
-  initial: { opacity: 0, y: 30 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: '-10% 0px' },
+  initial: { opacity: 0, y: 56, scale: 0.97 },
+  whileInView: { opacity: 1, y: 0, scale: 1 },
+  viewport: { once: false, amount: 0.06 },
   transition: { duration: 0.8, ease: [0.16, 0.86, 0.24, 1], delay },
 });
 

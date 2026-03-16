@@ -16,11 +16,11 @@ const CATEGORIES = [
     label: 'Containers & IaC',
     color: '#a855f7',
     skills: [
-      { name: 'Kubernetes', level: 92 },
+      { name: 'Kubernetes', level: 95 },
       { name: 'Docker', level: 95 },
       { name: 'Terraform', level: 95 },
-      { name: 'Helm', level: 88 },
-      { name: 'Ansible', level: 88 },
+      { name: 'Helm', level: 90 },
+      { name: 'Ansible', level: 90 },
     ],
   },
   {
@@ -28,7 +28,7 @@ const CATEGORIES = [
     color: '#06b6d4',
     skills: [
       { name: 'GitHub Actions', level: 90 },
-      { name: 'Jenkins', level: 88 },
+      { name: 'Jenkins', level: 90 },
       { name: 'ArgoCD', level: 85 },
     ],
   },
@@ -37,10 +37,10 @@ const CATEGORIES = [
     color: '#f59e0b',
     skills: [
       { name: 'CloudWatch', level: 90 },
-      { name: 'Prometheus', level: 88 },
-      { name: 'Grafana', level: 88 },
+      { name: 'Prometheus', level: 90 },
+      { name: 'Grafana', level: 90 },
       { name: 'Datadog', level: 80 },
-      { name: 'ELK Stack', level: 82 },
+      { name: 'ELK Stack', level: 85 },
     ],
   },
   {
@@ -49,16 +49,16 @@ const CATEGORIES = [
     skills: [
       { name: 'Python', level: 90 },
       { name: 'Bash', level: 95 },
-      { name: 'SQL', level: 82 },
+      { name: 'SQL', level: 85 },
       { name: 'JavaScript', level: 75 },
     ],
   },
 ];
 
 const inView = (delay = 0) => ({
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: '-10% 0px' },
+  initial: { opacity: 0, y: 56, scale: 0.97 },
+  whileInView: { opacity: 1, y: 0, scale: 1 },
+  viewport: { once: false, amount: 0.1 },
   transition: { duration: 0.8, ease: [0.16, 0.86, 0.24, 1], delay },
 });
 
@@ -67,7 +67,7 @@ const SkillBar = ({ name, level, color, delay }) => (
     className="skill-bar-item"
     initial={{ opacity: 0, x: -12 }}
     whileInView={{ opacity: 1, x: 0 }}
-    viewport={{ once: true }}
+    viewport={{ once: false, amount: 0.1 }}
     transition={{ duration: 0.6, ease: [0.16, 0.86, 0.24, 1], delay }}
   >
     <div className="skill-bar-header">
@@ -80,7 +80,7 @@ const SkillBar = ({ name, level, color, delay }) => (
         style={{ background: `linear-gradient(90deg, ${color}99, ${color})` }}
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: level / 100 }}
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.1 }}
         transition={{ duration: 1.1, ease: [0.16, 0.86, 0.24, 1], delay: delay + 0.15 }}
       />
     </div>
