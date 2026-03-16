@@ -1,49 +1,65 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { ExternalLink, GraduationCap, ShieldCheck } from 'lucide-react';
 import { portfolioData } from '../mock';
 
+const inView = (delay = 0) => ({
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: '-10% 0px' },
+  transition: { duration: 0.8, ease: [0.16, 0.86, 0.24, 1], delay },
+});
+
 const Certifications = () => (
-  <section id="certifications" className="nx-section cred-section">
+  <section id="certifications" className="nx-section cert-section">
     <div className="section-anchor" aria-hidden="true" />
-    <div className="cred-chapter" aria-hidden="true">02</div>
-
     <div className="content-wrap">
-      <div className="cred-header" data-reveal>
-        <span className="section-label">CREDENTIALS</span>
-        <h2 className="cred-title">Trust<br /><em>Signals</em></h2>
-      </div>
 
-      <div className="cred-list">
+      <motion.div {...inView(0)}>
+        <div className="section-label">Credentials</div>
+        <h2 className="section-heading">
+          Industry<br /><em>certifications.</em>
+        </h2>
+      </motion.div>
+
+      <div className="cert-grid">
         {portfolioData.certifications.map((cert, i) => (
-          <article key={cert.id} className="cred-row" data-reveal data-reveal-delay={i + 1}>
-            <span className="cred-row-num">{String(i + 1).padStart(2, '0')}</span>
-            <div className="cred-row-icon"><ShieldCheck size={18} /></div>
-            <div className="cred-row-body">
-              <h3>{cert.name}</h3>
-              <p>{cert.issuer} · {cert.date}</p>
+          <motion.div key={cert.id} className="cert-card" {...inView(0.08 + i * 0.06)}>
+            <div className="cert-badge">
+              <ShieldCheck size={20} />
             </div>
-            <span className="cred-row-status">● ACTIVE</span>
+            <div className="cert-name">{cert.name}</div>
+            <div className="cert-issuer">{cert.issuer}</div>
+            <div className="cert-date">{cert.date}</div>
             {cert.link && (
-              <a href={cert.link} target="_blank" rel="noopener noreferrer" className="cred-row-link" aria-label="Verify">
-                <ExternalLink size={13} />
+              <a
+                href={cert.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.75rem', color: 'var(--orange)', marginTop: 'auto' }}
+              >
+                <ExternalLink size={11} /> Verify
               </a>
             )}
-          </article>
+          </motion.div>
         ))}
       </div>
 
-      <div className="cred-edu" data-reveal>
-        <span className="section-label"><GraduationCap size={12} /> EDUCATION</span>
-        <div className="cred-edu-cards">
-          {portfolioData.education.map((edu) => (
-            <article key={edu.id} className="cred-edu-card">
-              <h3>{edu.degree}</h3>
-              <p>{edu.institution}</p>
-              <small>{edu.period} · {edu.location}</small>
-            </article>
-          ))}
-        </div>
-      </div>
+      {portfolioData.education?.length > 0 && (
+        <motion.div {...inView(0.2)} style={{ marginTop: '4rem' }}>
+          <div className="section-label"><GraduationCap size={12} style={{ display: 'inline' }} /> Education</div>
+          <div className="cert-grid" style={{ marginTop: '1.5rem' }}>
+            {portfolioData.education.map((edu) => (
+              <div key={edu.id} className="cert-card">
+                <div className="cert-name">{edu.degree}</div>
+                <div className="cert-issuer">{edu.institution}</div>
+                <div className="cert-date">{edu.period} · {edu.location}</div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      )}
+
     </div>
   </section>
 );

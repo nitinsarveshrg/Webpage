@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { motion } from 'framer-motion';
 import { ExternalLink, Github } from 'lucide-react';
 import { portfolioData } from '../mock';
 
@@ -24,7 +25,7 @@ const SKILL_MAP = {
 
 const deriveSkills = (p) => {
   const bag = `${p.title} ${p.description} ${(p.technologies || []).join(' ')}`.toLowerCase();
-  return Object.entries(SKILL_MAP).filter(([, ks]) => ks.some((k) => bag.includes(k))).map(([s]) => s).slice(0, 5);
+  return Object.entries(SKILL_MAP).filter(([, ks]) => ks.some((k) => bag.includes(k))).map(([s]) => s).slice(0, 4);
 };
 
 const matchFilter = (p, f) => {
@@ -41,14 +42,22 @@ const matchFilter = (p, f) => {
 const repoName = (url = '') => { const m = url.match(/github\.com\/[^/]+\/([^/?#]+)/i); return m ? m[1] : ''; };
 const toTitle = (n = '') => n.replace(/[-_]+/g, ' ').trim().replace(/\b\w/g, (c) => c.toUpperCase());
 
+const inView = (delay = 0) => ({
+  initial: { opacity: 0, y: 30 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: '-10% 0px' },
+  transition: { duration: 0.8, ease: [0.16, 0.86, 0.24, 1], delay },
+});
+
 const Projects = () => {
   const [filter, setFilter] = useState('All');
-  const [q, setQ] = useState('');
   const [projects, setProjects] = useState([]);
   const [syncing, setSyncing] = useState(true);
-  const [syncErr, setSyncErr] = useState('');
 
-  const fallback = useMemo(() => (portfolioData.projects || []).map((p) => ({ ...p, matchedSkills: deriveSkills(p) })), []);
+  const fallback = useMemo(
+    () => (portfolioData.projects || []).map((p) => ({ ...p, matchedSkills: deriveSkills(p) })),
+    []
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -76,97 +85,81 @@ const Projects = () => {
           return { ...base, matchedSkills: deriveSkills(base) };
         });
         if (!cancelled) { setProjects(synced); setSyncing(false); }
-      } catch (e) {
-        if (!cancelled) { setProjects(fallback); setSyncErr(String(e.message)); setSyncing(false); }
+      } catch {
+        if (!cancelled) { setProjects(fallback); setSyncing(false); }
       }
     })();
     return () => { cancelled = true; };
   }, [fallback]);
 
-  const filtered = useMemo(() => projects.filter((p) => {
-    const fOk = matchFilter(p, filter);
-    const qBag = `${p.title} ${p.description} ${(p.technologies || []).join(' ')}`.toLowerCase();
-    return fOk && (q.trim() ? qBag.includes(q.toLowerCase()) : true);
-  }), [projects, filter, q]);
-
-  const featured = filtered[0];
-  const rest = filtered.slice(1);
+  const list = useMemo(() => (projects.length ? projects : fallback).filter((p) => matchFilter(p, filter)), [projects, fallback, filter]);
 
   return (
-    <section id="projects" className="nx-section proj-section">
+    <section id="projects" className="nx-section projects-section">
       <div className="section-anchor" aria-hidden="true" />
-      <div className="proj-chapter" aria-hidden="true">05</div>
-
       <div className="content-wrap">
-        <div className="proj-header">
-          <div data-reveal>
-            <span className="section-label">PORTFOLIO</span>
-            <h2 className="proj-title">Deployed<br /><em>Work</em></h2>
-          </div>
-          <div className="proj-sync" data-reveal data-reveal-delay="2">
-            <span className={`proj-sync-dot ${syncing ? 'pulse' : syncErr ? 'err' : 'ok'}`} />
-            <span>{syncing ? 'Syncing GitHub…' : syncErr ? 'Fallback mode' : `${projects.length} repos`}</span>
-          </div>
-        </div>
 
-        <div className="proj-controls" data-reveal data-reveal-delay="2">
-          <div className="proj-filters">
-            {FILTERS.map((f) => (
-              <button key={f} className={`proj-filter ${filter === f ? 'active' : ''}`} onClick={() => setFilter(f)}>{f}</button>
-            ))}
-          </div>
-          <div className="proj-search-wrap">
-            <span className="proj-search-icon">⌕</span>
-            <input className="proj-search-input" value={q} onChange={(e) => setQ(e.target.value)} placeholder="search repos, tech…" />
-            <span className="proj-search-count">{filtered.length}</span>
-          </div>
-        </div>
+        <motion.div {...inView(0)}>
+          <div className="section-label">Projects</div>
+          <h2 className="section-heading">
+            Work in<br /><em>production.</em>
+          </h2>
+        </motion.div>
 
-        {filtered.length === 0 && <p className="proj-empty">No results — try a different filter.</p>}
+        <motion.div className="projects-filters" {...inView(0.12)}>
+          {FILTERS.map((f) => (
+            <button
+              key={f}
+              className={`pf-btn${filter === f ? ' active' : ''}`}
+              onClick={() => setFilter(f)}
+            >
+              {f}
+            </button>
+          ))}
+        </motion.div>
 
-        {featured && (
-          <article className="proj-featured" data-reveal data-reveal-delay="3">
-            <div className="proj-feat-top">
-              <span className="proj-feat-badge">★ FEATURED</span>
-              <div className="proj-feat-links">
-                {featured.github && <a href={featured.github} target="_blank" rel="noopener noreferrer"><Github size={13} /> GitHub</a>}
-                {featured.demo && <a href={featured.demo} target="_blank" rel="noopener noreferrer"><ExternalLink size={13} /> Live</a>}
-              </div>
-            </div>
-            <h3 className="proj-feat-title">{featured.title}</h3>
-            <p className="proj-feat-desc">{featured.description}</p>
-            <div className="proj-chips">
-              {(featured.technologies || []).map((t) => <span key={t} className="proj-chip">{t}</span>)}
-            </div>
-            {featured.matchedSkills?.length > 0 && (
-              <div className="proj-chips">
-                {featured.matchedSkills.map((s) => <span key={s} className="proj-chip-accent">{s}</span>)}
-              </div>
-            )}
-            <ul className="proj-feat-hl">
-              {(featured.highlights || []).map((h) => <li key={h}><span className="proj-bullet">▸</span>{h}</li>)}
-            </ul>
-          </article>
+        {syncing && (
+          <div style={{ color: 'var(--text-3)', fontSize: '0.80rem', fontFamily: 'var(--mono)', marginBottom: '2rem' }}>
+            Syncing GitHub…
+          </div>
         )}
 
-        {rest.length > 0 && (
-          <div className="proj-grid">
-            {rest.map((p, i) => (
-              <article key={p.id} className="proj-card" data-reveal data-reveal-delay={Math.min(i + 1, 5)}>
-                <span className="proj-card-num">{String(i + 2).padStart(2, '0')}</span>
-                <h3 className="proj-card-title">{p.title}</h3>
-                <p className="proj-card-desc">{p.description}</p>
-                <div className="proj-chips">
-                  {(p.technologies || []).slice(0, 4).map((t) => <span key={t} className="proj-chip">{t}</span>)}
+        <div className="projects-grid">
+          {list.map((p, i) => (
+            <motion.div key={p.id} className="proj-card" {...inView(0.06 + i * 0.04)}>
+              <div className="proj-title">{p.title}</div>
+              <div className="proj-desc">{p.description}</div>
+
+              {p.highlights?.length > 0 && (
+                <div className="proj-highlights">
+                  {p.highlights.slice(0, 3).map((h) => (
+                    <div key={h} className="proj-highlight">{h}</div>
+                  ))}
                 </div>
-                <div className="proj-card-links">
-                  {p.github && <a href={p.github} target="_blank" rel="noopener noreferrer"><Github size={12} /> GitHub</a>}
-                  {p.demo && <a href={p.demo} target="_blank" rel="noopener noreferrer"><ExternalLink size={12} /> Live</a>}
-                </div>
-              </article>
-            ))}
-          </div>
-        )}
+              )}
+
+              <div className="proj-tags">
+                {(p.matchedSkills || []).map((s) => (
+                  <span key={s} className="proj-tag">{s}</span>
+                ))}
+              </div>
+
+              <div className="proj-links">
+                {p.github && (
+                  <a href={p.github} target="_blank" rel="noopener noreferrer" className="proj-link">
+                    <Github size={12} /> Code
+                  </a>
+                )}
+                {p.demo && (
+                  <a href={p.demo} target="_blank" rel="noopener noreferrer" className="proj-link">
+                    <ExternalLink size={12} /> Demo
+                  </a>
+                )}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
       </div>
     </section>
   );

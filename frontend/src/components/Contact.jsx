@@ -1,9 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 import { Github, Linkedin, Loader2, Mail, MapPin, Phone, Send } from 'lucide-react';
 import { portfolioData } from '../mock';
 
 const FORMSPREE = 'https://formspree.io/f/xbdyerqo';
 const HCAPTCHA_KEY = process.env.REACT_APP_HCAPTCHA_SITE_KEY || '860a4082-9bc0-43fc-8456-bf88da424c0a';
+
+const inView = (delay = 0) => ({
+  initial: { opacity: 0, y: 28 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: '-10% 0px' },
+  transition: { duration: 0.9, ease: [0.16, 0.86, 0.24, 1], delay },
+});
 
 const Contact = () => {
   const captchaRef = useRef(null);
@@ -58,86 +66,121 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="nx-section ct-section">
+    <section id="contact" className="nx-section contact-section">
       <div className="section-anchor" aria-hidden="true" />
-      <div className="ct-chapter" aria-hidden="true">06</div>
-
       <div className="content-wrap">
-        <div className="ct-header" data-reveal>
-          <span className="section-label">CONTACT</span>
-          <h2 className="ct-title">Open<br /><em>Channel</em></h2>
-          <p className="ct-sub">Available for Cloud · DevOps · SRE roles and engineering collaborations.</p>
-        </div>
 
-        <div className="ct-layout">
-          {/* Info */}
-          <aside className="ct-info" data-reveal data-reveal-delay="2">
-            <div className="ct-info-group">
-              <p className="ct-group-label">// direct</p>
-              <a href={`mailto:${portfolioData.personal.email}`} className="ct-info-line">
-                <Mail size={14} /><span>{portfolioData.personal.email}</span>
+        <motion.div {...inView(0)}>
+          <div className="section-label">Contact</div>
+          <h2 className="section-heading">
+            Infrastructure is invisible<br />when it <em>works perfectly.</em>
+          </h2>
+        </motion.div>
+
+        <div className="contact-inner">
+
+          {/* Left: statement + social */}
+          <motion.div {...inView(0.12)}>
+            <p className="contact-statement">
+              Available for <span>Cloud · DevOps · SRE</span> roles<br />
+              and engineering collaborations.
+            </p>
+
+            <div className="contact-social">
+              <a
+                href={`mailto:${portfolioData.personal.email}`}
+                className="contact-social-link"
+              >
+                <Mail size={16} />
+                <div>
+                  <div className="contact-social-name">Email</div>
+                  <div className="contact-social-handle">{portfolioData.personal.email}</div>
+                </div>
               </a>
-              <a href={`tel:${portfolioData.personal.phone}`} className="ct-info-line">
-                <Phone size={14} /><span>{portfolioData.personal.phone}</span>
+              <a
+                href={portfolioData.personal.linkedin}
+                target="_blank" rel="noopener noreferrer"
+                className="contact-social-link"
+              >
+                <Linkedin size={16} />
+                <div>
+                  <div className="contact-social-name">LinkedIn</div>
+                  <div className="contact-social-handle">nitin-sarvesh-raajagopal</div>
+                </div>
               </a>
-              <div className="ct-info-line">
-                <MapPin size={14} /><span>{portfolioData.personal.location}</span>
+              <a
+                href={portfolioData.personal.github}
+                target="_blank" rel="noopener noreferrer"
+                className="contact-social-link"
+              >
+                <Github size={16} />
+                <div>
+                  <div className="contact-social-name">GitHub</div>
+                  <div className="contact-social-handle">nitinsarveshrg</div>
+                </div>
+              </a>
+              <div className="contact-social-link" style={{ cursor: 'default' }}>
+                <MapPin size={16} />
+                <div>
+                  <div className="contact-social-name">Location</div>
+                  <div className="contact-social-handle">{portfolioData.personal.location}</div>
+                </div>
               </div>
             </div>
-            <div className="ct-info-group">
-              <p className="ct-group-label">// profiles</p>
-              <a href={portfolioData.personal.linkedin} target="_blank" rel="noopener noreferrer" className="ct-social">
-                <Linkedin size={14} /> LinkedIn
-              </a>
-              <a href={portfolioData.personal.github} target="_blank" rel="noopener noreferrer" className="ct-social">
-                <Github size={14} /> GitHub
-              </a>
-            </div>
-            <div className="ct-avail">
-              <span className="ct-avail-dot" /><span>Open to opportunities</span>
-            </div>
-          </aside>
+          </motion.div>
 
-          {/* Form */}
-          <div className="ct-form-shell" data-reveal data-reveal-delay="3">
-            <div className="ct-form-top">
-              <span className="ct-form-label">new_message.sh</span>
-            </div>
-            <form onSubmit={handleSubmit} className="ct-form">
+          {/* Right: form */}
+          <motion.div {...inView(0.22)}>
+            <form onSubmit={handleSubmit} className="contact-form">
               <input type="hidden" name="_subject" value="Portfolio Contact" />
               <input type="hidden" name="_template" value="table" />
               <input type="text" name="_gotcha" className="hidden" tabIndex={-1} autoComplete="off" />
 
-              {submitted && <div className="ct-ok">✓ Message sent — I'll reply within 24h.</div>}
-              {error && <div className="ct-err">⚠ {error}</div>}
+              {submitted && (
+                <div style={{ padding: '0.875rem 1rem', background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.20)', borderRadius: '8px', color: '#22c55e', fontSize: '0.875rem' }}>
+                  ✓ Message sent — I'll reply within 24h.
+                </div>
+              )}
+              {error && (
+                <div style={{ padding: '0.875rem 1rem', background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.20)', borderRadius: '8px', color: '#ef4444', fontSize: '0.875rem' }}>
+                  ⚠ {error}
+                </div>
+              )}
 
               {[
-                { name: 'name', type: 'text', label: 'name', ph: 'your full name' },
-                { name: 'email', type: 'email', label: 'email', ph: 'you@company.com' },
-                { name: 'subject', type: 'text', label: 'subject', ph: 'role / collaboration / inquiry' },
+                { name: 'name', type: 'text', label: 'Your name', ph: 'Full name' },
+                { name: 'email', type: 'email', label: 'Email address', ph: 'you@company.com' },
+                { name: 'subject', type: 'text', label: 'Subject', ph: 'Role / collaboration / inquiry' },
               ].map((f) => (
-                <div key={f.name} className="ct-field">
-                  <label htmlFor={`ct-${f.name}`}>
-                    <span className="ct-prompt">$</span><span className="ct-field-name">{f.label}</span>
-                  </label>
-                  <input id={`ct-${f.name}`} type={f.type} name={f.name} placeholder={f.ph} required />
+                <div key={f.name} className="form-field">
+                  <label htmlFor={`ct-${f.name}`} className="form-label">{f.label}</label>
+                  <input
+                    id={`ct-${f.name}`} type={f.type} name={f.name}
+                    placeholder={f.ph} required className="form-input"
+                  />
                 </div>
               ))}
 
-              <div className="ct-field">
-                <label htmlFor="ct-msg">
-                  <span className="ct-prompt">$</span><span className="ct-field-name">message</span>
-                </label>
-                <textarea id="ct-msg" name="message" rows={5} placeholder="describe the role or project…" required />
+              <div className="form-field">
+                <label htmlFor="ct-msg" className="form-label">Message</label>
+                <textarea
+                  id="ct-msg" name="message" rows={5}
+                  placeholder="Describe the role or project…"
+                  required className="form-textarea"
+                />
               </div>
 
               <div ref={captchaRef} />
 
-              <button type="submit" disabled={submitting} className="ct-submit">
-                {submitting ? <><Loader2 size={14} className="spin" /> Sending…</> : <><Send size={14} /> Send Message</>}
+              <button type="submit" disabled={submitting} className="btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
+                {submitting
+                  ? <><Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> Sending…</>
+                  : <><Send size={14} /> Send Message</>
+                }
               </button>
             </form>
-          </div>
+          </motion.div>
+
         </div>
       </div>
     </section>

@@ -17,89 +17,35 @@ import { scrollToSectionById } from './lib/sectionScroll';
 
 const Home = () => {
   const [gateStage, setGateStage] = useState('show');
-  const [isRevealing, setIsRevealing] = useState(false);
   const [scrollPct, setScrollPct] = useState(0);
   const [cursor, setCursor] = useState({ x: -300, y: -300 });
-  const shellRef = useRef(null);
   const isLocked = gateStage !== 'done';
 
   useEffect(() => {
     document.body.style.overflow = isLocked ? 'hidden' : '';
-    return () => {
-      document.body.style.overflow = '';
-    };
+    return () => { document.body.style.overflow = ''; };
   }, [isLocked]);
 
   useEffect(() => {
     if (gateStage !== 'exit') return undefined;
-
     const timer = setTimeout(() => {
       setGateStage('done');
       const hash = window.location.hash.replace('#', '');
       if (hash) scrollToSectionById(hash, { behavior: 'auto' });
     }, 760);
-
-    return () => clearTimeout(timer);
-  }, [gateStage]);
-
-  useEffect(() => {
-    if (gateStage !== 'done') return undefined;
-
-    setIsRevealing(true);
-    const timer = setTimeout(() => setIsRevealing(false), 1200);
     return () => clearTimeout(timer);
   }, [gateStage]);
 
   useEffect(() => {
     if (isLocked) return undefined;
-
     const toHash = () => {
       const hash = window.location.hash.replace('#', '');
       if (!hash) return;
       scrollToSectionById(hash, { behavior: 'auto' });
     };
-
     const timer = setTimeout(toHash, 0);
     window.addEventListener('hashchange', toHash);
-
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('hashchange', toHash);
-    };
-  }, [isLocked]);
-
-  useEffect(() => {
-    if (isLocked) return undefined;
-    const shell = shellRef.current;
-    if (!shell) return undefined;
-
-    const sections = Array.from(shell.querySelectorAll('.nx-section'));
-    if (!sections.length) return undefined;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add('in-view');
-        });
-      },
-      { threshold: 0.08 }
-    );
-
-    sections.forEach((section) => observer.observe(section));
-
-    // Force-reveal any section already visible at load time
-    const vh = window.innerHeight;
-    sections.forEach((section) => {
-      const rect = section.getBoundingClientRect();
-      if (rect.top < vh * 0.92 && rect.bottom > vh * 0.08) {
-        section.classList.add('in-view');
-      }
-    });
-
-    return () => {
-      observer.disconnect();
-      sections.forEach((section) => section.classList.remove('in-view'));
-    };
+    return () => { clearTimeout(timer); window.removeEventListener('hashchange', toHash); };
   }, [isLocked]);
 
   useEffect(() => {
@@ -116,60 +62,19 @@ const Home = () => {
 
   useEffect(() => {
     if (isLocked) return undefined;
-    const shell = shellRef.current;
-    if (!shell) return undefined;
-
-    let rafId = 0;
-
-    const applyDepth = (x, y) => {
-      shell.style.setProperty('--nx-mouse-x', x.toFixed(4));
-      shell.style.setProperty('--nx-mouse-y', y.toFixed(4));
-      rafId = 0;
-    };
-
-    let depthX = 0;
-    let depthY = 0;
-
-    const queue = () => {
-      if (rafId) return;
-      rafId = requestAnimationFrame(() => applyDepth(depthX, depthY));
-    };
-
-    const onPointerMove = (event) => {
-      depthX = event.clientX / Math.max(1, window.innerWidth) - 0.5;
-      depthY = event.clientY / Math.max(1, window.innerHeight) - 0.5;
-      queue();
-    };
-
-    const onPointerLeave = () => {
-      depthX = 0;
-      depthY = 0;
-      queue();
-    };
-
-    shell.addEventListener('pointermove', onPointerMove, { passive: true });
-    shell.addEventListener('pointerleave', onPointerLeave);
-
-    onPointerLeave();
-
-    return () => {
-      shell.removeEventListener('pointermove', onPointerMove);
-      shell.removeEventListener('pointerleave', onPointerLeave);
-      if (rafId) cancelAnimationFrame(rafId);
-    };
-  }, [isLocked]);
-
-  useEffect(() => {
-    if (isLocked) return undefined;
     const onMove = (e) => setCursor({ x: e.clientX, y: e.clientY });
     window.addEventListener('pointermove', onMove, { passive: true });
     return () => window.removeEventListener('pointermove', onMove);
   }, [isLocked]);
 
   return (
-    <div ref={shellRef} className="nx-root">
+    <div className="nx-root">
       {/* Scroll progress */}
-      <div className="nx-progress" style={{ '--pct': `${scrollPct * 100}%` }} aria-hidden="true" />
+      <div
+        className="nx-progress"
+        style={{ '--pct': scrollPct }}
+        aria-hidden="true"
+      />
       {/* Cursor glow */}
       <div
         className="nx-cursor-glow"
@@ -180,7 +85,7 @@ const Home = () => {
       <CloudParticles />
       <Header />
 
-      <main className={`nx-shell ${isLocked ? 'nx-preload' : 'nx-live'} ${isRevealing ? 'nx-reveal' : ''}`}>
+      <main>
         <Hero />
         <About />
         <Certifications />

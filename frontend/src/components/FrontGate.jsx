@@ -1,125 +1,88 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 
 const BOOT_LINES = [
-  { cmd: 'loading cloud profile ............', tag: 'OK' },
-  { cmd: 'verifying certifications .........', tag: 'OK' },
-  { cmd: 'mounting infrastructure ...........', tag: 'OK' },
-  { cmd: 'scanning deployment pipelines ....', tag: 'OK' },
-  { cmd: 'establishing secure session ......', tag: 'OK' },
-  { cmd: 'operator NSR profile loaded ......', tag: 'READY' },
+  'Loading cloud profile ···········',
+  'Verifying certifications ········',
+  'Mounting infrastructure ·········',
+  'Scanning deployment pipelines ···',
+  'Establishing secure session ·····',
+  'Operator NSR profile loaded ·····',
 ];
 
 const FrontGate = ({ exiting = false, onEnter }) => {
   const [step, setStep] = useState(0);
-  const [progress, setProgress] = useState(2);
-  const [typed, setTyped] = useState('');
-
+  const [ready, setReady] = useState(false);
   const finish = useCallback(() => { if (onEnter) onEnter(); }, [onEnter]);
 
   useEffect(() => {
-    const full = 'init-portfolio --operator nitin --env production';
-    let i = 0;
-    const t = window.setInterval(() => {
-      i++;
-      setTyped(full.slice(0, i));
-      if (i >= full.length) window.clearInterval(t);
-    }, 38);
-    return () => window.clearInterval(t);
-  }, []);
-
-  useEffect(() => {
     const st = window.setInterval(() => {
-      setStep((p) => (p < BOOT_LINES.length ? p + 1 : p));
-    }, 480);
-    const pt = window.setInterval(() => {
-      setProgress((p) => { const n = p + Math.random() * 10 + 2; return n >= 100 ? 100 : n; });
-    }, 200);
-    const at = window.setTimeout(finish, 5000);
-    return () => { window.clearInterval(st); window.clearInterval(pt); window.clearTimeout(at); };
+      setStep((p) => {
+        if (p >= BOOT_LINES.length) { window.clearInterval(st); setReady(true); return p; }
+        return p + 1;
+      });
+    }, 420);
+    const at = window.setTimeout(finish, 4800);
+    return () => { window.clearInterval(st); window.clearTimeout(at); };
   }, [finish]);
 
   useEffect(() => {
-    const k = (e) => { if (['Enter','Escape',' '].includes(e.key)) finish(); };
+    const k = (e) => { if (['Enter', 'Escape', ' '].includes(e.key)) finish(); };
     window.addEventListener('keydown', k);
     return () => window.removeEventListener('keydown', k);
   }, [finish]);
 
-  const pct = Math.round(progress);
-  const bar = Math.round(progress / 4);
-
   return (
-    <div className={`opg-root ${exiting ? 'opg-exit' : ''}`} onClick={finish}>
-      <div className="opg-noise" aria-hidden="true" />
+    <div
+      className={`opg-overlay${exiting ? ' exiting' : ''}`}
+      onClick={finish}
+      role="button"
+      tabIndex={0}
+      aria-label="Enter portfolio"
+    >
+      <motion.div
+        className="opg-inner"
+        onClick={(e) => e.stopPropagation()}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: [0.16, 0.86, 0.24, 1] }}
+      >
+        <div className="opg-logo">NS</div>
 
-      <div className="opg-window" onClick={(e) => e.stopPropagation()}>
-        {/* Title bar */}
-        <div className="opg-bar">
-          <div className="opg-bar-dots">
-            <span className="opg-dot opg-dot-r" />
-            <span className="opg-dot opg-dot-y" />
-            <span className="opg-dot opg-dot-g" />
+        <div>
+          <div className="opg-name">NITIN SARVESH RAAJAGOPAL</div>
+          <div className="opg-sub" style={{ marginTop: '0.4rem' }}>
+            Cloud Infrastructure · DevOps · Site Reliability
           </div>
-          <span className="opg-bar-title">operator@nexus:~$</span>
-          <span className="opg-bar-badge">SECURE SESSION</span>
         </div>
 
-        {/* Terminal body */}
-        <div className="opg-body">
-          {/* Typed command */}
-          <div className="opg-cmd-line">
-            <span className="opg-prompt">$</span>
-            <span className="opg-cmd-text">{typed}</span>
-            <span className="opg-cursor" aria-hidden="true" />
-          </div>
-
-          {/* Identity block */}
-          <div className="opg-identity">
-            <div className="opg-monogram">NS</div>
-            <div className="opg-id-text">
-              <h1 className="opg-name">NITIN SARVESH RAAJAGOPAL</h1>
-              <p className="opg-role">Cloud Infrastructure · DevOps · Site Reliability</p>
-            </div>
-          </div>
-
-          {/* Boot log */}
-          <div className="opg-log" aria-live="polite">
-            {BOOT_LINES.slice(0, step).map((line, i) => (
-              <div key={i} className="opg-log-row">
-                <span className="opg-log-arrow">▸</span>
-                <span className="opg-log-cmd">{line.cmd}</span>
-                <span className={`opg-log-tag ${line.tag === 'READY' ? 'opg-tag-ready' : 'opg-tag-ok'}`}>
-                  [{line.tag}]
-                </span>
-              </div>
-            ))}
-            {step < BOOT_LINES.length && (
-              <div className="opg-log-row opg-log-active">
-                <span className="opg-log-arrow">▸</span>
-                <span className="opg-log-cmd opg-scanning">scanning...</span>
-              </div>
-            )}
-          </div>
-
-          {/* Progress */}
-          <div className="opg-prog-wrap">
-            <div className="opg-prog-bar">
-              <span className="opg-prog-fill" style={{ '--pct': `${progress}%` }}>
-                {'█'.repeat(bar)}{'░'.repeat(25 - bar)}
+        <div className="opg-terminal">
+          {BOOT_LINES.slice(0, step).map((line, i) => (
+            <div key={i} className="opg-line">
+              <span className="opg-prompt">▸</span>
+              <span>{line}</span>
+              <span style={{ marginLeft: 'auto', color: i === BOOT_LINES.length - 1 ? 'var(--green)' : 'var(--orange)', fontSize: '0.65rem' }}>
+                {i === BOOT_LINES.length - 1 ? 'READY' : 'OK'}
               </span>
-              <span className="opg-prog-pct">{pct}%</span>
             </div>
-          </div>
-
-          {/* CTA */}
-          <button type="button" className="opg-enter" onClick={finish}>
-            ╔═══════════════════════════════════╗
-            <br />║&nbsp;&nbsp;ENTER&nbsp;COMMAND&nbsp;CENTER&nbsp;&nbsp;[→]&nbsp;&nbsp;║
-            <br />╚═══════════════════════════════════╝
-          </button>
-
-          <p className="opg-hint">// PRESS ENTER · SPACE · OR CLICK ANYWHERE TO SKIP</p>
+          ))}
+          {step < BOOT_LINES.length && (
+            <div className="opg-line">
+              <span className="opg-prompt">▸</span>
+              <span className="opg-cursor" />
+            </div>
+          )}
         </div>
-      </div>
+
+        <button className="opg-btn" onClick={finish}>
+          Enter Portfolio <ArrowRight size={16} />
+        </button>
+
+        <div style={{ fontFamily: 'var(--mono)', fontSize: '0.60rem', color: 'var(--text-3)', letterSpacing: '0.12em' }}>
+          PRESS ENTER OR CLICK ANYWHERE TO SKIP
+        </div>
+      </motion.div>
     </div>
   );
 };

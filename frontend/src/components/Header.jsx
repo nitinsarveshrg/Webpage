@@ -1,102 +1,91 @@
 import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { scrollToSectionById } from '../lib/sectionScroll';
 
-const sections = [
-  { id: 'hero', label: 'Start' },
-  { id: 'about', label: 'Whoami' },
-  { id: 'certifications', label: 'Creds' },
+const NAV = [
+  { id: 'about', label: 'About' },
+  { id: 'certifications', label: 'Certifications' },
   { id: 'skills', label: 'Skills' },
-  { id: 'experience', label: 'Timeline' },
-  { id: 'projects', label: 'Portfolio' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'projects', label: 'Projects' },
   { id: 'contact', label: 'Contact' },
 ];
 
 const Header = () => {
-  const [active, setActive] = useState('hero');
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 12);
-    };
-
+    const onScroll = () => setScrolled(window.scrollY > 40);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.target.id) {
-            setActive(entry.target.id);
-          }
-        });
-      },
-      { threshold: 0.44, rootMargin: '-18% 0px -38% 0px' }
-    );
-
-    sections.forEach(({ id }) => {
-      const node = document.getElementById(id);
-      if (node) observer.observe(node);
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
-  const go = (id) => {
-    scrollToSectionById(id);
-    setActive(id);
-    setMobileOpen(false);
-  };
+  const go = (id) => { scrollToSectionById(id); setMobileOpen(false); };
 
   return (
-    <header className={`nx-header ${scrolled ? 'is-scrolled' : ''}`}>
-      <div className="nx-header-inner">
-        <button className="nx-header-brand" onClick={() => go('hero')}>
-          <span className="dot" />
-          <span className="name">Nitin Sarvesh Raajagopal</span>
-          <span className="role">Cloud DevOps Engineer</span>
+    <motion.header
+      className={`hdr-bar${scrolled ? ' scrolled' : ''}`}
+      initial={{ opacity: 0, y: -8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: [0.16, 0.86, 0.24, 1], delay: 0.1 }}
+    >
+      <div className="hdr-inner">
+        <button className="hdr-brand" onClick={() => go('hero')}>
+          <div className="hdr-logo">NS</div>
+          <span className="hdr-name">Nitin Sarvesh Raajagopal</span>
         </button>
 
-        <nav className="nx-header-nav" aria-label="Primary navigation">
-          {sections.map((section) => (
-            <button
-              key={section.id}
-              className={`nx-nav-item ${active === section.id ? 'active' : ''}`}
-              onClick={() => go(section.id)}
-            >
-              {section.label}
-            </button>
+        <nav className="hdr-nav" aria-label="Primary navigation">
+          {NAV.map((item) => (
+            <a key={item.id} href={`#${item.id}`} onClick={(e) => { e.preventDefault(); go(item.id); }}>
+              {item.label}
+            </a>
           ))}
         </nav>
 
-        <button className="nx-header-cta" onClick={() => go('contact')}>
-          Hire / Connect
+        <button className="hdr-cta" onClick={() => go('contact')}>
+          Hire Me
         </button>
 
         <button
-          className="nx-mobile-toggle"
-          onClick={() => setMobileOpen((value) => !value)}
+          className="hdr-menu"
+          onClick={() => setMobileOpen((v) => !v)}
           aria-label="Toggle menu"
         >
-          {mobileOpen ? <X size={18} /> : <Menu size={18} />}
+          {mobileOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
       {mobileOpen && (
-        <div className="nx-mobile-nav">
-          {sections.map((section) => (
-            <button key={section.id} onClick={() => go(section.id)}>
-              {section.label}
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          style={{
+            position: 'absolute', top: '60px', left: 0, right: 0,
+            background: 'rgba(0,0,0,0.95)', backdropFilter: 'blur(20px)',
+            borderBottom: '1px solid var(--bdr)', padding: '1rem',
+            display: 'flex', flexDirection: 'column', gap: '0.25rem',
+          }}
+        >
+          {NAV.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => go(item.id)}
+              style={{
+                textAlign: 'left', padding: '0.75rem 1rem',
+                fontSize: '0.925rem', color: 'var(--text-2)',
+                borderRadius: '6px',
+              }}
+            >
+              {item.label}
             </button>
           ))}
-        </div>
+        </motion.div>
       )}
-    </header>
+    </motion.header>
   );
 };
 
