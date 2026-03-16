@@ -814,7 +814,7 @@ body::after {
 /* Main content column */
 .opg-content {
   display: flex; flex-direction: column; align-items: center;
-  gap: 1.5rem; text-align: center; padding: 0 1.5rem;
+  gap: 1.1rem; text-align: center; padding: 0 1.5rem;
 }
 
 /* Icon with concentric pulse rings */
@@ -842,11 +842,28 @@ body::after {
   color: #000;
 }
 
+/* Typewriter name line */
+.opg-typewriter-wrap {
+  display: flex; align-items: center; gap: 3px;
+  min-height: 2.2rem;
+}
+.opg-typed {
+  font-size: clamp(1.1rem, 3.5vw, 1.8rem);
+  font-weight: 800; letter-spacing: -0.02em;
+  color: var(--text);
+}
+.opg-type-cursor {
+  display: inline-block; width: 3px; height: 1.3em;
+  background: var(--orange); border-radius: 2px;
+  animation: blink 0.8s step-end infinite;
+  flex-shrink: 0; align-self: center;
+}
+
 /* Role label */
 .opg-label {
-  font-family: var(--mono); font-size: 0.72rem; font-weight: 600;
-  letter-spacing: 0.22em; text-transform: uppercase;
-  color: rgba(255,255,255,0.55);
+  font-family: var(--mono); font-size: 0.62rem; font-weight: 500;
+  letter-spacing: 0.20em; text-transform: uppercase;
+  color: rgba(255,255,255,0.45); margin-top: -0.25rem;
 }
 
 /* Boot terminal */
@@ -856,7 +873,6 @@ body::after {
   border: 1px solid var(--bdr); border-radius: 10px;
   padding: 0.875rem 1.25rem; background: rgba(255,255,255,0.02);
   text-align: left; width: min(420px, 88vw);
-  margin-top: 0.75rem;
 }
 .opg-line { display: flex; align-items: center; gap: 0.5rem; }
 .opg-prompt { color: var(--orange); flex-shrink: 0; }
