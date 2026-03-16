@@ -842,22 +842,6 @@ body::after {
   color: #000;
 }
 
-/* Typewriter name line */
-.opg-typewriter-wrap {
-  display: flex; align-items: center; gap: 3px;
-  min-height: 2.2rem;
-}
-.opg-typed {
-  font-size: clamp(1.1rem, 3.5vw, 1.8rem);
-  font-weight: 800; letter-spacing: -0.02em;
-  color: var(--text);
-}
-.opg-type-cursor {
-  display: inline-block; width: 3px; height: 1.3em;
-  background: var(--orange); border-radius: 2px;
-  animation: blink 0.8s step-end infinite;
-  flex-shrink: 0; align-self: center;
-}
 
 /* Role label */
 .opg-label {
@@ -866,22 +850,6 @@ body::after {
   color: rgba(255,255,255,0.45); margin-top: -0.25rem;
 }
 
-/* Boot terminal */
-.opg-terminal {
-  font-family: var(--mono); font-size: 0.68rem;
-  color: var(--text-3); line-height: 1.65;
-  border: 1px solid var(--bdr); border-radius: 10px;
-  padding: 0.875rem 1.25rem; background: rgba(255,255,255,0.02);
-  text-align: left; width: min(420px, 88vw);
-}
-.opg-line { display: flex; align-items: center; gap: 0.5rem; }
-.opg-prompt { color: var(--orange); flex-shrink: 0; }
-.opg-status { margin-left: auto; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.08em; }
-.opg-cursor {
-  display: inline-block; width: 7px; height: 12px;
-  background: var(--orange); animation: blink 1s step-end infinite;
-}
-@keyframes blink { 50% { opacity: 0; } }
 
 /* Progress bar */
 .opg-bar {
