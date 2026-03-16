@@ -1,26 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { ExternalLink, Github, Layers3 } from 'lucide-react';
+import { ExternalLink, Github } from 'lucide-react';
 import { portfolioData } from '../mock';
 
-const FILTERS = [
-  { id: 'all', label: 'All' },
-  { id: 'aws', label: 'AWS' },
-  { id: 'automation', label: 'Automation' },
-  { id: 'testing', label: 'Testing' },
-  { id: 'web', label: 'Web' },
-  { id: 'platform', label: 'Platform' },
-];
+const FILTERS = ['All', 'AWS', 'Automation', 'Testing', 'Web', 'Platform'];
 
 const GITHUB_USER = 'nitinsarveshrg';
-const GITHUB_REPOS_API = `https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=updated`;
+const GITHUB_API = `https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=updated`;
 
-const SKILL_SYNONYMS = {
-  AWS: ['aws', 'ecs', 'ecr', 'fargate', 'alb', 'cloudwatch', 'vpc'],
-  Azure: ['azure', 'azdo', 'azure devops'],
-  GCP: ['gcp', 'google cloud'],
+const SKILL_MAP = {
+  AWS: ['aws', 'ecs', 'ecr', 'fargate', 'cloudwatch', 'vpc'],
+  Azure: ['azure', 'azdo'],
   Docker: ['docker', 'container'],
   Kubernetes: ['kubernetes', 'k8s'],
-  Helm: ['helm'],
   Terraform: ['terraform', 'hcl'],
   Ansible: ['ansible'],
   Jenkins: ['jenkins'],
@@ -29,321 +20,238 @@ const SKILL_SYNONYMS = {
   Python: ['python', 'fastapi'],
   Bash: ['bash', 'shell'],
   SQL: ['sql'],
-  'JavaScript/TypeScript': ['javascript', 'typescript', 'react', 'node.js', 'node'],
+  React: ['react', 'javascript', 'typescript'],
   Prometheus: ['prometheus'],
   Grafana: ['grafana'],
-  'ELK Stack': ['elk', 'elasticsearch', 'logstash', 'kibana'],
-  CloudWatch: ['cloudwatch'],
-  Dynatrace: ['dynatrace'],
-  DataDog: ['datadog'],
 };
 
-const resolveFilterHit = (project, filterId) => {
-  if (filterId === 'all') return true;
+const deriveSkills = (project) => {
+  const bag = `${project.title} ${project.description} ${(project.technologies || []).join(' ')}`.toLowerCase();
+  return Object.entries(SKILL_MAP)
+    .filter(([, keys]) => keys.some((k) => bag.includes(k)))
+    .map(([s]) => s)
+    .slice(0, 6);
+};
 
-  const bag = `${project.title} ${project.description} ${(project.technologies || []).join(' ')} ${(project.highlights || []).join(' ')} ${(project.matchedSkills || []).join(' ')}`.toLowerCase();
-
-  if (filterId === 'aws') return bag.includes('aws') || bag.includes('ecs') || bag.includes('fargate');
-  if (filterId === 'automation') return bag.includes('automation') || bag.includes('cicd') || bag.includes('pipeline') || bag.includes('terraform');
-  if (filterId === 'testing') return bag.includes('selenium') || bag.includes('testng') || bag.includes('bdd') || bag.includes('allure');
-  if (filterId === 'web') return bag.includes('react') || bag.includes('javascript') || bag.includes('portfolio') || bag.includes('frontend');
-  if (filterId === 'platform') return bag.includes('cloud') || bag.includes('infrastructure') || bag.includes('fastapi') || bag.includes('devops');
-
+const matchesFilter = (project, filter) => {
+  if (filter === 'All') return true;
+  const bag = `${project.title} ${project.description} ${(project.technologies || []).join(' ')}`.toLowerCase();
+  if (filter === 'AWS') return bag.includes('aws') || bag.includes('ecs') || bag.includes('fargate');
+  if (filter === 'Automation') return bag.includes('automation') || bag.includes('pipeline') || bag.includes('terraform') || bag.includes('cicd');
+  if (filter === 'Testing') return bag.includes('selenium') || bag.includes('testng') || bag.includes('bdd') || bag.includes('allure');
+  if (filter === 'Web') return bag.includes('react') || bag.includes('javascript') || bag.includes('portfolio') || bag.includes('frontend');
+  if (filter === 'Platform') return bag.includes('cloud') || bag.includes('infrastructure') || bag.includes('fastapi') || bag.includes('devops');
   return true;
 };
 
-const repoNameFromGithubUrl = (url = '') => {
-  const match = url.match(/github\.com\/[^/]+\/([^/?#]+)/i);
-  return match ? match[1] : '';
+const repoName = (url = '') => {
+  const m = url.match(/github\.com\/[^/]+\/([^/?#]+)/i);
+  return m ? m[1] : '';
 };
 
-const titleFromRepoName = (name = '') =>
-  name
-    .replace(/[-_]+/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .replace(/\b\w/g, (ch) => ch.toUpperCase());
-
-const deriveMatchedSkills = (project) => {
-  const bag = `${project.title} ${project.description} ${(project.technologies || []).join(' ')} ${(project.highlights || []).join(' ')}`.toLowerCase();
-
-  return Object.entries(SKILL_SYNONYMS)
-    .filter(([, keys]) => keys.some((key) => bag.includes(key.toLowerCase())))
-    .map(([skill]) => skill)
-    .slice(0, 8);
-};
+const titleFromName = (name = '') =>
+  name.replace(/[-_]+/g, ' ').trim().replace(/\b\w/g, (c) => c.toUpperCase());
 
 const Projects = () => {
-  const [activeFilter, setActiveFilter] = useState('all');
+  const [activeFilter, setActiveFilter] = useState('All');
   const [query, setQuery] = useState('');
   const [projects, setProjects] = useState([]);
-  const [isSyncing, setIsSyncing] = useState(true);
+  const [syncing, setSyncing] = useState(true);
   const [syncError, setSyncError] = useState('');
 
-  const fallbackProjects = useMemo(
-    () =>
-      (portfolioData.projects || []).map((project) => ({
-        ...project,
-        matchedSkills: deriveMatchedSkills(project),
-      })),
-    []
-  );
+  const fallback = useMemo(() =>
+    (portfolioData.projects || []).map((p) => ({ ...p, matchedSkills: deriveSkills(p) })),
+  []);
 
   useEffect(() => {
     let cancelled = false;
-
-    const manualByRepo = new Map(
-      (portfolioData.projects || [])
-        .map((project) => [repoNameFromGithubUrl(project.github), project])
-        .filter(([name]) => Boolean(name))
+    const manualMap = new Map(
+      (portfolioData.projects || []).map((p) => [repoName(p.github), p]).filter(([n]) => n)
     );
 
-    const syncGithubProjects = async () => {
-      setIsSyncing(true);
-      setSyncError('');
-
+    (async () => {
+      setSyncing(true);
       try {
-        const reposRes = await fetch(GITHUB_REPOS_API, {
-          headers: { Accept: 'application/vnd.github+json' },
-        });
+        const res = await fetch(GITHUB_API, { headers: { Accept: 'application/vnd.github+json' } });
+        if (!res.ok) throw new Error(`GitHub ${res.status}`);
+        const repos = (await res.json()).filter((r) => !r.fork && !r.archived);
 
-        if (!reposRes.ok) throw new Error(`GitHub sync failed (${reposRes.status})`);
-
-        const reposPayload = await reposRes.json();
-        const repos = Array.isArray(reposPayload) ? reposPayload : [];
-
-        const eligibleRepos = repos
-          .filter((repo) => !repo.fork && !repo.archived)
-          .sort((a, b) => new Date(b.pushed_at).getTime() - new Date(a.pushed_at).getTime());
-
-        const languageEntries = await Promise.all(
-          eligibleRepos.map(async (repo) => {
+        const langEntries = await Promise.all(
+          repos.map(async (r) => {
             try {
-              const res = await fetch(repo.languages_url, {
-                headers: { Accept: 'application/vnd.github+json' },
-              });
-              if (!res.ok) return [repo.name, []];
-              const payload = await res.json();
-              return [repo.name, payload && typeof payload === 'object' ? Object.keys(payload) : []];
-            } catch {
-              return [repo.name, []];
-            }
+              const lr = await fetch(r.languages_url, { headers: { Accept: 'application/vnd.github+json' } });
+              return [r.name, lr.ok ? Object.keys(await lr.json()) : []];
+            } catch { return [r.name, []]; }
           })
         );
+        const langMap = new Map(langEntries);
 
-        const languageMap = new Map(languageEntries);
+        const synced = repos.map((r) => {
+          const manual = manualMap.get(r.name);
+          const techs = [...new Set([
+            ...(manual?.technologies || []),
+            ...(langMap.get(r.name) || []),
+            ...(r.language ? [r.language] : []),
+            ...(r.topics || []).map((t) => t.replace(/-/g, ' ')),
+          ])].filter(Boolean);
 
-        const syncedProjects = eligibleRepos.map((repo) => {
-          const manual = manualByRepo.get(repo.name);
-          const apiLanguages = languageMap.get(repo.name) || [];
-          const topicTech = (repo.topics || []).map((topic) => topic.replace(/-/g, ' '));
-
-          const technologies = Array.from(
-            new Set([...(manual?.technologies || []), ...apiLanguages, ...(repo.language ? [repo.language] : []), ...topicTech])
-          ).filter(Boolean);
-
-          const baseProject = {
-            id: repo.id,
-            title: manual?.title || titleFromRepoName(repo.name),
-            description:
-              manual?.description ||
-              repo.description ||
-              `GitHub project focused on ${repo.language || 'software engineering'} delivery and implementation.`,
-            technologies,
-            highlights:
-              manual?.highlights?.length
-                ? manual.highlights
-                : [
-                    `Primary language: ${repo.language || 'Mixed'}`,
-                    `Last pushed: ${new Date(repo.pushed_at).toLocaleDateString()}`,
-                    `Default branch: ${repo.default_branch}`,
-                    `${repo.stargazers_count} stars · ${repo.forks_count} forks`,
-                  ],
-            github: repo.html_url,
-            demo: repo.homepage || manual?.demo || '',
+          const base = {
+            id: r.id,
+            title: manual?.title || titleFromName(r.name),
+            description: manual?.description || r.description || `${r.language || 'Software'} project.`,
+            technologies: techs,
+            highlights: manual?.highlights?.length ? manual.highlights : [
+              `Language: ${r.language || 'Mixed'}`,
+              `Updated: ${new Date(r.pushed_at).toLocaleDateString()}`,
+              `${r.stargazers_count} stars · ${r.forks_count} forks`,
+            ],
+            github: r.html_url,
+            demo: r.homepage || manual?.demo || '',
           };
-
-          return {
-            ...baseProject,
-            matchedSkills: deriveMatchedSkills(baseProject),
-          };
+          return { ...base, matchedSkills: deriveSkills(base) };
         });
 
-        if (!cancelled) {
-          setProjects(syncedProjects);
-          setIsSyncing(false);
-        }
-      } catch (error) {
-        if (!cancelled) {
-          setProjects(fallbackProjects);
-          setSyncError(error instanceof Error ? error.message : 'GitHub sync failed');
-          setIsSyncing(false);
-        }
+        if (!cancelled) { setProjects(synced); setSyncing(false); }
+      } catch (e) {
+        if (!cancelled) { setProjects(fallback); setSyncError(String(e.message)); setSyncing(false); }
       }
-    };
+    })();
 
-    syncGithubProjects();
+    return () => { cancelled = true; };
+  }, [fallback]);
 
-    return () => {
-      cancelled = true;
-    };
-  }, [fallbackProjects]);
+  const filtered = useMemo(() =>
+    projects.filter((p) => {
+      const filterOk = matchesFilter(p, activeFilter);
+      const bag = `${p.title} ${p.description} ${(p.technologies || []).join(' ')}`.toLowerCase();
+      const qOk = query.trim() ? bag.includes(query.toLowerCase()) : true;
+      return filterOk && qOk;
+    }),
+  [projects, activeFilter, query]);
 
-  const filteredProjects = useMemo(
-    () =>
-      projects.filter((project) => {
-        const filterMatch = resolveFilterHit(project, activeFilter);
-        const queryBag = `${project.title} ${project.description} ${(project.technologies || []).join(' ')} ${(project.highlights || []).join(' ')} ${(project.matchedSkills || []).join(' ')}`.toLowerCase();
-        const queryMatch = query.trim() ? queryBag.includes(query.toLowerCase().trim()) : true;
-        return filterMatch && queryMatch;
-      }),
-    [activeFilter, query, projects]
-  );
+  const featured = filtered[0];
+  const rest = filtered.slice(1);
 
   return (
-    <section id="projects" className="nx-section nx-block">
+    <section id="projects" className="nx-section proj-section">
       <div className="section-anchor" aria-hidden="true" />
       <div className="content-wrap">
-        <header className="nx-head">
-          <span>Delivery Portfolio</span>
-          <h2>Live GitHub Synced Projects</h2>
-          <p>All repositories are rendered with skills context, stack metadata, and deployment-oriented highlights.</p>
-        </header>
 
-        <div className="nx-panel nx-project-controls">
-          <div className="nx-filter-row">
-            {FILTERS.map((filter) => (
-              <button
-                key={filter.id}
-                className={activeFilter === filter.id ? 'active' : ''}
-                onClick={() => setActiveFilter(filter.id)}
-              >
-                {filter.label}
-              </button>
-            ))}
+        {/* Header */}
+        <div className="proj-header">
+          <div className="proj-header-left">
+            <span className="proj-tag">PORTFOLIO</span>
+            <h2>Live GitHub Projects</h2>
           </div>
-
-          <div className="nx-search-row">
-            <label htmlFor="nx-project-search">Search</label>
-            <input
-              id="nx-project-search"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="search by repo, skill, keyword"
-            />
-          </div>
-
-          <div className="nx-sync-state">
-            <span>{filteredProjects.length} matches</span>
-            <span className={syncError ? 'warn' : ''}>
-              {isSyncing ? 'syncing github...' : syncError ? 'fallback mode' : `synced (${projects.length})`}
-            </span>
+          <div className="proj-sync-badge">
+            <span className={`proj-sync-dot ${syncing ? 'syncing' : syncError ? 'error' : 'ok'}`} />
+            <span>{syncing ? 'Syncing…' : syncError ? 'Fallback' : `${projects.length} repos synced`}</span>
           </div>
         </div>
 
-        {filteredProjects.length > 0 ? (
-          <>
-            {(() => {
-              const featured = filteredProjects[0];
-              return (
-                <article key={`feat-${featured.id}`} className="nx-panel nx-project-featured">
-                  <div className="feat-header">
-                    <span className="nx-feat-badge">★ Featured Project</span>
-                  </div>
-                  <h3>{featured.title}</h3>
-                  <p>{featured.description}</p>
-                  <div className="feat-grid">
-                    <div className="group">
-                      <div className="label"><Layers3 size={13} /> Technologies</div>
-                      <div className="chips">
-                        {(featured.technologies || []).map((tech) => (
-                          <span key={tech}>{tech}</span>
-                        ))}
-                      </div>
-                    </div>
-                    {(featured.matchedSkills || []).length > 0 && (
-                      <div className="group">
-                        <div className="label"><Layers3 size={13} /> Matched Skills</div>
-                        <div className="chips accents">
-                          {featured.matchedSkills.map((skill) => (
-                            <span key={skill}>{skill}</span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                  <ul>
-                    {(featured.highlights || []).map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                  <div className="links">
-                    {featured.github && (
-                      <a href={featured.github} target="_blank" rel="noopener noreferrer">
-                        <Github size={13} /> GitHub
-                      </a>
-                    )}
-                    {featured.demo && (
-                      <a href={featured.demo} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink size={13} /> Live
-                      </a>
-                    )}
-                  </div>
-                </article>
-              );
-            })()}
-            {filteredProjects.length > 1 && (
-              <div className="nx-project-grid">
-                {filteredProjects.slice(1).map((project) => (
-                  <article key={project.id} className="nx-panel nx-project-card">
-                    <div className="top">
-                      <small>GitHub Project</small>
-                      <h3>{project.title}</h3>
-                    </div>
-                    <p>{project.description}</p>
-                    <div className="group">
-                      <div className="label"><Layers3 size={13} /> Technologies</div>
-                      <div className="chips">
-                        {(project.technologies || []).map((tech) => (
-                          <span key={tech}>{tech}</span>
-                        ))}
-                      </div>
-                    </div>
-                    {(project.matchedSkills || []).length > 0 && (
-                      <div className="group">
-                        <div className="label"><Layers3 size={13} /> Matched Skills</div>
-                        <div className="chips accents">
-                          {project.matchedSkills.map((skill) => (
-                            <span key={skill}>{skill}</span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                    <ul>
-                      {(project.highlights || []).map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                    <div className="links">
-                      {project.github && (
-                        <a href={project.github} target="_blank" rel="noopener noreferrer">
-                          <Github size={13} /> GitHub
-                        </a>
-                      )}
-                      {project.demo && (
-                        <a href={project.demo} target="_blank" rel="noopener noreferrer">
-                          <ExternalLink size={13} /> Live
-                        </a>
-                      )}
-                    </div>
-                  </article>
+        {/* Controls */}
+        <div className="proj-controls">
+          <div className="proj-filters">
+            {FILTERS.map((f) => (
+              <button
+                key={f}
+                className={`proj-filter-btn ${activeFilter === f ? 'active' : ''}`}
+                onClick={() => setActiveFilter(f)}
+              >{f}</button>
+            ))}
+          </div>
+          <div className="proj-search">
+            <span className="proj-search-icon">⌕</span>
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="search repos, tech, keywords…"
+            />
+            <span className="proj-search-count">{filtered.length}</span>
+          </div>
+        </div>
+
+        {filtered.length === 0 && (
+          <div className="proj-empty">No repos match — try a different filter.</div>
+        )}
+
+        {/* Featured */}
+        {featured && (
+          <article className="proj-featured">
+            <div className="proj-featured-top">
+              <span className="proj-feat-label">★ FEATURED</span>
+              <div className="proj-links">
+                {featured.github && (
+                  <a href={featured.github} target="_blank" rel="noopener noreferrer">
+                    <Github size={14} /> GitHub
+                  </a>
+                )}
+                {featured.demo && (
+                  <a href={featured.demo} target="_blank" rel="noopener noreferrer">
+                    <ExternalLink size={14} /> Live
+                  </a>
+                )}
+              </div>
+            </div>
+            <h3 className="proj-featured-title">{featured.title}</h3>
+            <p className="proj-featured-desc">{featured.description}</p>
+            <div className="proj-featured-meta">
+              <div className="proj-chip-row">
+                {(featured.technologies || []).map((t) => (
+                  <span key={t} className="proj-chip">{t}</span>
                 ))}
               </div>
-            )}
-          </>
-        ) : (
-          <div className="nx-panel nx-empty">No project matches this filter/search.</div>
+              {featured.matchedSkills?.length > 0 && (
+                <div className="proj-chip-row">
+                  {featured.matchedSkills.map((s) => (
+                    <span key={s} className="proj-chip proj-chip-accent">{s}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+            <ul className="proj-highlights">
+              {(featured.highlights || []).map((h) => (
+                <li key={h}><span className="proj-bullet">▸</span>{h}</li>
+              ))}
+            </ul>
+          </article>
         )}
+
+        {/* Grid */}
+        {rest.length > 0 && (
+          <div className="proj-grid">
+            {rest.map((p, i) => (
+              <article key={p.id} className="proj-card">
+                <div className="proj-card-idx">{String(i + 2).padStart(2, '0')}</div>
+                <h3 className="proj-card-title">{p.title}</h3>
+                <p className="proj-card-desc">{p.description}</p>
+                <div className="proj-chip-row">
+                  {(p.technologies || []).slice(0, 5).map((t) => (
+                    <span key={t} className="proj-chip">{t}</span>
+                  ))}
+                </div>
+                <ul className="proj-card-highlights">
+                  {(p.highlights || []).slice(0, 2).map((h) => (
+                    <li key={h}>{h}</li>
+                  ))}
+                </ul>
+                <div className="proj-card-links">
+                  {p.github && (
+                    <a href={p.github} target="_blank" rel="noopener noreferrer">
+                      <Github size={12} /> GitHub
+                    </a>
+                  )}
+                  {p.demo && (
+                    <a href={p.demo} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink size={12} /> Live
+                    </a>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+
       </div>
     </section>
   );

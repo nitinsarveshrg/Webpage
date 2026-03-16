@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react';
-import { Camera, Compass, Flag, GitBranch, Mountain, Music2, Plane, Sparkles } from 'lucide-react';
+import React, { useState } from 'react';
+import { Camera, Flag, GitBranch, Mountain, Music2, Plane } from 'lucide-react';
 import { portfolioData } from '../mock';
 
 const iconForHobby = (hobby) => {
@@ -10,117 +10,93 @@ const iconForHobby = (hobby) => {
   if (text.includes('music')) return Music2;
   if (text.includes('open-source') || text.includes('open source')) return GitBranch;
   if (text.includes('formula 1') || text.includes('f1')) return Flag;
-  return Compass;
+  return Camera;
 };
 
-const notes = {
-  Photography: 'I treat dashboards like compositions: remove noise, keep signal.',
-  Travel: 'New places give me fresh architecture ideas and practical simplification patterns.',
-  Hiking: 'Long hikes train patience, pacing, and clear decision-making under uncertainty.',
-  'Listening to music': 'Lo-fi while coding, race commentary on weekends.',
-  'Open-source learning': 'I learn fastest by reading real issue threads and PR discussions.',
-  'Formula 1 (Mercedes + Max Verstappen fan)': 'I like race strategy, tire management, and execution under pressure.',
-};
-
-const tabs = [
-  { id: 'whoami', label: 'whoami' },
-  { id: 'highlights', label: 'cat highlights.log' },
-  { id: 'hobbies', label: 'cat hobbies.md' },
+const METRICS = [
+  { value: '5+', label: 'Years Cloud', sub: 'AWS · Azure · GCP' },
+  { value: '3', label: 'Hyperscalers', sub: 'Multi-cloud certified' },
+  { value: '50+', label: 'Deployments', sub: 'Zero-downtime' },
+  { value: '99.9%', label: 'SLA Uptime', sub: 'Production SRE' },
 ];
 
 const About = () => {
-  const [activeTab, setActiveTab] = useState('whoami');
   const [activeHobby, setActiveHobby] = useState(portfolioData.about.hobbies[0]);
 
-  const activeNote = useMemo(() => notes[activeHobby] || 'Always learning with practical engineering focus.', [activeHobby]);
-
   return (
-    <section id="about" className="nx-section nx-block">
+    <section id="about" className="nx-section ab-section">
       <div className="section-anchor" aria-hidden="true" />
       <div className="content-wrap">
-        <header className="nx-head">
-          <span>Whoami</span>
-          <h2>Operator Profile</h2>
-          <p>Production-first cloud engineer focused on reliable systems, automation depth, and release confidence.</p>
-        </header>
 
-        <div className="nx-about-stats">
-          <div><strong>5+</strong><span>Years Cloud</span></div>
-          <div><strong>3</strong><span>Hyperscalers</span></div>
-          <div><strong>50+</strong><span>Deployments</span></div>
-          <div><strong>99.9%</strong><span>SLA Uptime</span></div>
+        {/* Top label */}
+        <div className="ab-eyebrow">
+          <span className="ab-eyebrow-tag">WHOAMI</span>
+          <div className="ab-eyebrow-line" />
         </div>
 
-        <div className="nx-about-shell">
-          <div className="nx-about-tabs">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                className={activeTab === tab.id ? 'active' : ''}
-                onClick={() => setActiveTab(tab.id)}
-              >
-                {tab.label}
-              </button>
-            ))}
+        {/* Hero heading */}
+        <div className="ab-heading-row">
+          <h2 className="ab-title">Operator<br /><span>Profile</span></h2>
+          <p className="ab-lead">{portfolioData.about.bio}</p>
+        </div>
+
+        {/* Metrics strip */}
+        <div className="ab-metrics">
+          {METRICS.map((m) => (
+            <div key={m.label} className="ab-metric">
+              <span className="ab-metric-val">{m.value}</span>
+              <span className="ab-metric-label">{m.label}</span>
+              <span className="ab-metric-sub">{m.sub}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Highlights + Hobbies row */}
+        <div className="ab-lower">
+          {/* Highlights */}
+          <div className="ab-card ab-highlights">
+            <div className="ab-card-head">
+              <span className="ab-card-tag">$ cat highlights.log</span>
+            </div>
+            <ul className="ab-list">
+              {portfolioData.about.highlights.map((item) => (
+                <li key={item}>
+                  <span className="ab-bullet">▸</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          <div className="nx-about-grid">
-            <article className="nx-panel nx-about-main">
-              {activeTab === 'whoami' && (
-                <>
-                  <h3>$ whoami_</h3>
-                  <p>{portfolioData.about.bio}</p>
-                </>
-              )}
-
-              {activeTab === 'highlights' && (
-                <>
-                  <h3>$ cat highlights.log_</h3>
-                  <ul>
-                    {portfolioData.about.highlights.map((item) => (
-                      <li key={item}><Sparkles size={13} /> {item}</li>
-                    ))}
-                  </ul>
-                </>
-              )}
-
-              {activeTab === 'hobbies' && (
-                <>
-                  <h3>$ cat hobbies.md_</h3>
-                  <p>Outside work, I recharge through visual craft, outdoor motion, and motorsport strategy.</p>
-                </>
-              )}
-            </article>
-
-            <aside className="nx-panel nx-hobby-panel">
-              <h4>Interest Channel</h4>
-              <div className="nx-hobby-list">
-                {portfolioData.about.hobbies.map((hobby) => {
-                  const Icon = iconForHobby(hobby);
-                  const isActive = activeHobby === hobby;
-                  return (
-                    <button
-                      key={hobby}
-                      className={isActive ? 'active' : ''}
-                      onClick={() => {
-                        setActiveHobby(hobby);
-                        setActiveTab('hobbies');
-                      }}
-                    >
-                      <Icon size={14} />
-                      <span>{hobby}</span>
-                    </button>
-                  );
-                })}
-              </div>
-
-              <div className="nx-hobby-note">
+          {/* Hobbies */}
+          <div className="ab-card ab-hobbies">
+            <div className="ab-card-head">
+              <span className="ab-card-tag">$ cat interests.md</span>
+            </div>
+            <div className="ab-hobby-grid">
+              {portfolioData.about.hobbies.map((hobby) => {
+                const Icon = iconForHobby(hobby);
+                const active = activeHobby === hobby;
+                return (
+                  <button
+                    key={hobby}
+                    className={`ab-hobby-btn ${active ? 'active' : ''}`}
+                    onClick={() => setActiveHobby(hobby)}
+                  >
+                    <Icon size={14} />
+                    <span>{hobby}</span>
+                  </button>
+                );
+              })}
+            </div>
+            {activeHobby && (
+              <div className="ab-hobby-detail">
                 <strong>{activeHobby}</strong>
-                <p>{activeNote}</p>
               </div>
-            </aside>
+            )}
           </div>
         </div>
+
       </div>
     </section>
   );
