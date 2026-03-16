@@ -98,8 +98,8 @@ const Hero = () => {
             </div>
 
             <div className="nx-hero-actions">
-              <button onClick={() => scrollToSectionById('projects')} className="nx-btn-primary">View Delivery Portfolio</button>
-              <button onClick={() => scrollToSectionById('contact')} className="nx-btn-secondary">Open Contact Channel</button>
+              <button onClick={() => scrollToSectionById('projects')} className="nx-btn-primary">View Projects →</button>
+              <button onClick={() => scrollToSectionById('contact')} className="nx-btn-secondary">Get in Touch</button>
             </div>
 
             <div className="nx-stat-grid">
@@ -113,7 +113,7 @@ const Hero = () => {
           <aside className="nx-runtime">
             <div className="nx-runtime-head">
               <div className="lights"><span /><span /><span /></div>
-              <p>nitin@apple-shell:~/runtime</p>
+              <p>nitin@signal:~/cloud.runtime</p>
             </div>
 
             <div className="nx-runtime-body">
