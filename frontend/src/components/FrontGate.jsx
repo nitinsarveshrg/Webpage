@@ -57,6 +57,7 @@ const FrontGate = ({ exiting = false, onEnter }) => {
     <section className={`nx-gate ${exiting ? 'is-exiting' : ''}`}>
       <div className="nx-gate-grid" />
       <div className="nx-gate-vignette" />
+      <div className="nx-gate-orb-ring" aria-hidden="true" />
 
       <div className="nx-gate-panel">
         <header>
