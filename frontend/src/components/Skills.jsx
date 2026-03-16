@@ -6,86 +6,67 @@ const CATEGORIES = [
     label: 'Cloud Platforms',
     color: '#f97316',
     skills: [
-      { name: 'AWS', level: 95 },
-      { name: 'Azure', level: 85 },
-      { name: 'GCP', level: 80 },
-      { name: 'ECS / Fargate', level: 90 },
+      { name: 'AWS', level: 90 },
+      { name: 'Azure', level: 75 },
+      { name: 'GCP', level: 70 },
     ],
   },
   {
     label: 'Containers & IaC',
     color: '#a855f7',
     skills: [
-      { name: 'Kubernetes', level: 95 },
-      { name: 'Docker', level: 95 },
-      { name: 'Terraform', level: 95 },
-      { name: 'Helm', level: 90 },
-      { name: 'Ansible', level: 90 },
+      { name: 'Kubernetes', level: 85 },
+      { name: 'Docker', level: 90 },
+      { name: 'Terraform', level: 85 },
+      { name: 'Helm', level: 80 },
+      { name: 'Ansible', level: 80 },
     ],
   },
   {
     label: 'CI / CD',
     color: '#06b6d4',
     skills: [
-      { name: 'GitHub Actions', level: 90 },
-      { name: 'Jenkins', level: 90 },
-      { name: 'ArgoCD', level: 85 },
+      { name: 'GitHub Actions', level: 85 },
+      { name: 'Jenkins', level: 80 },
+      { name: 'ArgoCD', level: 75 },
     ],
   },
   {
     label: 'Observability',
     color: '#f59e0b',
     skills: [
-      { name: 'CloudWatch', level: 90 },
-      { name: 'Prometheus', level: 90 },
-      { name: 'Grafana', level: 90 },
-      { name: 'Datadog', level: 80 },
-      { name: 'ELK Stack', level: 85 },
+      { name: 'CloudWatch', level: 85 },
+      { name: 'Prometheus', level: 80 },
+      { name: 'Grafana', level: 80 },
+      { name: 'Datadog', level: 75 },
+      { name: 'ELK Stack', level: 75 },
     ],
   },
   {
     label: 'Coding',
     color: '#22c55e',
     skills: [
-      { name: 'Python', level: 90 },
-      { name: 'Bash', level: 95 },
-      { name: 'SQL', level: 85 },
-      { name: 'JavaScript', level: 75 },
+      { name: 'Python', level: 85 },
+      { name: 'Bash', level: 90 },
+      { name: 'SQL', level: 75 },
+      { name: 'JavaScript', level: 70 },
     ],
   },
 ];
 
-const inView = (delay = 0) => ({
-  initial: { opacity: 0, y: 56, scale: 0.97 },
-  whileInView: { opacity: 1, y: 0, scale: 1 },
-  viewport: { once: false, amount: 0.1 },
-  transition: { duration: 0.8, ease: [0.16, 0.86, 0.24, 1], delay },
-});
+const proficiency = (level) => {
+  if (level >= 90) return { text: 'Expert', tier: 'expert' };
+  if (level >= 80) return { text: 'Advanced', tier: 'advanced' };
+  if (level >= 70) return { text: 'Proficient', tier: 'proficient' };
+  return { text: 'Intermediate', tier: 'intermediate' };
+};
 
-const SkillBar = ({ name, level, color, delay }) => (
-  <motion.div
-    className="skill-bar-item"
-    initial={{ opacity: 0, x: -12 }}
-    whileInView={{ opacity: 1, x: 0 }}
-    viewport={{ once: false, amount: 0.1 }}
-    transition={{ duration: 0.6, ease: [0.16, 0.86, 0.24, 1], delay }}
-  >
-    <div className="skill-bar-header">
-      <span className="skill-bar-name">{name}</span>
-      <span className="skill-bar-pct" style={{ color }}>{level}%</span>
-    </div>
-    <div className="skill-bar-track">
-      <motion.div
-        className="skill-bar-fill"
-        style={{ background: `linear-gradient(90deg, ${color}99, ${color})` }}
-        initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: level / 100 }}
-        viewport={{ once: false, amount: 0.1 }}
-        transition={{ duration: 1.1, ease: [0.16, 0.86, 0.24, 1], delay: delay + 0.15 }}
-      />
-    </div>
-  </motion.div>
-);
+const inView = (delay = 0) => ({
+  initial: { opacity: 0, y: 40 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.1 },
+  transition: { duration: 0.7, ease: [0.16, 0.86, 0.24, 1], delay },
+});
 
 const Skills = () => (
   <section id="skills" className="nx-section skills-section">
@@ -101,18 +82,18 @@ const Skills = () => (
 
       <div className="skills-grid">
         {CATEGORIES.map((cat, ci) => (
-          <motion.div key={cat.label} className="skill-group-card" {...inView(0.10 + ci * 0.06)}>
+          <motion.div key={cat.label} className="skill-group-card" {...inView(0.10 + ci * 0.07)}>
             <div className="skill-group-label" style={{ color: cat.color }}>{cat.label}</div>
-            <div className="skill-bars">
-              {cat.skills.map((s, si) => (
-                <SkillBar
-                  key={s.name}
-                  name={s.name}
-                  level={s.level}
-                  color={cat.color}
-                  delay={0.14 + ci * 0.05 + si * 0.05}
-                />
-              ))}
+            <div className="skill-badges">
+              {cat.skills.map((s) => {
+                const prof = proficiency(s.level);
+                return (
+                  <span key={s.name} className={`skill-badge skill-badge--${prof.tier}`}>
+                    <span className="skill-badge-name">{s.name}</span>
+                    <span className="skill-badge-tier">{prof.text}</span>
+                  </span>
+                );
+              })}
             </div>
           </motion.div>
         ))}

@@ -45,7 +45,6 @@ const Footer = () => (
     <hr className="ft-divider" />
     <div className="ft-bottom">
       <span className="ft-copy">© {new Date().getFullYear()} Nitin Sarvesh Raajagopal. All rights reserved.</span>
-      <span className="ft-made">Built with <span>♥</span> in Toronto</span>
     </div>
   </footer>
 );
