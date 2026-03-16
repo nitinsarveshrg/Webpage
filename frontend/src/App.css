@@ -1,11 +1,7 @@
 * { box-sizing: border-box; }
+html, body, #root, .App { width: 100%; min-height: 100%; }
 
-html, body, #root, .App {
-  width: 100%;
-  min-height: 100%;
-}
-
-/* ── Shell transitions ─────────────────────────────────────────── */
+/* ── Shell ─────────────────────────────────────────────────── */
 .nx-shell {
   position: relative;
   z-index: 2;
@@ -13,372 +9,259 @@ html, body, #root, .App {
   transition: opacity 500ms ease, transform 500ms ease, filter 500ms ease;
 }
 .nx-preload {
-  opacity: 0.18;
-  transform: scale(0.990) translateY(22px);
-  filter: blur(5px) saturate(0.4);
+  opacity: 0.15;
+  transform: scale(0.992) translateY(24px);
+  filter: blur(6px) saturate(0.3);
   pointer-events: none;
 }
 .nx-live   { opacity: 1; transform: none; filter: none; }
-.nx-reveal { animation: nxReveal 720ms cubic-bezier(0.16, 0.86, 0.24, 1) both; }
+.nx-reveal { animation: nxReveal 700ms cubic-bezier(0.16, 0.86, 0.24, 1) both; }
 @keyframes nxReveal {
-  from { opacity: 0.3; transform: translateY(20px); }
-  to   { opacity: 1;   transform: none; }
+  from { opacity: 0.25; transform: translateY(22px); }
+  to   { opacity: 1;    transform: none; }
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   NEXUS GATE
+   OPERATOR GATE
    ═══════════════════════════════════════════════════════════════ */
-.nxg-root {
+.opg-root {
   position: fixed;
   inset: 0;
   z-index: 200;
-  overflow: hidden;
-  background: #030b14;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  background: #000000;
+  display: grid;
+  place-items: center;
   cursor: pointer;
+  overflow: hidden;
+}
+.opg-root.opg-exit {
+  animation: opgOut 640ms cubic-bezier(0.35, 0.1, 0.15, 1) forwards;
+}
+@keyframes opgOut {
+  to { opacity: 0; transform: scale(1.04); filter: blur(6px); }
 }
 
-/* Ambient center glow */
-.nxg-root::before {
-  content: '';
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 600px;
-  height: 600px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(14,165,233,0.09) 0%, transparent 68%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.nxg-root.nxg-exit {
-  animation: nxgOut 680ms cubic-bezier(0.35, 0.1, 0.15, 1) forwards;
-}
-@keyframes nxgOut {
-  to { opacity: 0; transform: scale(1.06); filter: blur(8px); }
-}
-
-/* Dot-grid background */
-.nxg-dotgrid {
+/* Subtle noise layer */
+.opg-noise {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 0;
-  background-image: radial-gradient(circle, rgba(14,165,233,0.20) 1px, transparent 1px);
-  background-size: 34px 34px;
-  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 15%, transparent 80%);
-  opacity: 0.45;
+  background-image:
+    radial-gradient(ellipse 80% 55% at 15% -5%, rgba(249,115,22,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 85% 10%, rgba(168,85,247,0.07) 0%, transparent 50%);
 }
 
-/* ── Ticker ──────────────────────────────────────────────────── */
-.nxg-ticker {
+/* ── Terminal window ─────────────────────────────────────────── */
+.opg-window {
   position: relative;
-  z-index: 5;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 0.72rem;
-  padding: 0.52rem 1.4rem;
-  background: rgba(3, 14, 28, 0.85);
-  border-bottom: 1px solid rgba(14,165,233,0.14);
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.58rem;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  color: rgba(125,211,252,0.50);
+  z-index: 2;
+  width: min(680px, 95vw);
+  border: 1px solid rgba(249,115,22,0.22);
+  border-radius: 10px;
+  background: rgba(8, 8, 8, 0.98);
+  box-shadow:
+    0 0 0 1px rgba(249,115,22,0.06),
+    0 0 60px rgba(249,115,22,0.10),
+    0 40px 80px rgba(0,0,0,0.80);
+  animation: opgWindowIn 560ms cubic-bezier(0.16, 0.86, 0.24, 1) both;
+  overflow: hidden;
   cursor: default;
 }
-.nxg-ticker-brand {
-  color: #38bdf8;
-  font-weight: 700;
-  font-size: 0.62rem;
-  letter-spacing: 0.06em;
+@keyframes opgWindowIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.970); filter: blur(5px); }
+  to   { opacity: 1; transform: none; filter: none; }
 }
-.nxg-ticker-item { white-space: nowrap; }
-.nxg-ticker-sep  { color: rgba(14,165,233,0.22); font-size: 0.45rem; }
-.nxg-ticker-right {
-  margin-left: auto;
+
+/* Title bar */
+.opg-bar {
   display: flex;
   align-items: center;
-  gap: 0.36rem;
-  color: #4ade80;
-  font-weight: 600;
+  gap: 0.60rem;
+  padding: 0.60rem 1rem;
+  background: rgba(249,115,22,0.06);
+  border-bottom: 1px solid rgba(249,115,22,0.14);
 }
-
-/* Pulsing live dot */
-.nxg-pulse {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
+.opg-bar-dots { display: flex; gap: 0.32rem; }
+.opg-dot {
+  width: 0.60rem; height: 0.60rem;
   border-radius: 50%;
-  background: #4ade80;
-  box-shadow: 0 0 8px #4ade80;
-  animation: nxgPulse 1.4s ease-in-out infinite;
 }
-@keyframes nxgPulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.45; transform: scale(0.7); }
-}
-
-/* ── Stage (center content) ──────────────────────────────────── */
-.nxg-stage {
-  position: relative;
-  z-index: 5;
+.opg-dot-r { background: #ff5f57; box-shadow: 0 0 5px rgba(255,95,87,0.45); }
+.opg-dot-y { background: #ffbd2e; box-shadow: 0 0 5px rgba(255,189,46,0.45); }
+.opg-dot-g { background: #28ca42; box-shadow: 0 0 5px rgba(40,202,66,0.45); }
+.opg-bar-title {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.90rem;
-  padding: 1.2rem 1rem 2rem;
-  width: 100%;
-  max-width: 560px;
-  cursor: default;
-}
-
-/* ── Orbital animation ───────────────────────────────────────── */
-.nxg-orb {
-  position: relative;
-  width: 190px;
-  height: 190px;
-  flex-shrink: 0;
-}
-
-/* Rings — centered via negative margin, rotated around own center */
-.nxg-orb-r1,
-.nxg-orb-r2,
-.nxg-orb-r3 {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  border-radius: 50%;
-}
-
-.nxg-orb-r1 {
-  width: 180px; height: 180px;
-  margin: -90px 0 0 -90px;
-  border: 1px solid rgba(14,165,233,0.32);
-  animation: orbSpin 9s linear infinite;
-}
-.nxg-orb-r1::before {
-  content: '';
-  position: absolute;
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  top: -4px; left: 50%;
-  transform: translateX(-50%);
-  background: #38bdf8;
-  box-shadow: 0 0 12px #38bdf8, 0 0 24px rgba(56,189,248,0.4);
-}
-
-.nxg-orb-r2 {
-  width: 130px; height: 130px;
-  margin: -65px 0 0 -65px;
-  border: 1px solid rgba(139,92,246,0.38);
-  animation: orbSpin 6s linear infinite reverse;
-}
-.nxg-orb-r2::before {
-  content: '';
-  position: absolute;
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  top: -3px; left: 50%;
-  transform: translateX(-50%);
-  background: #a78bfa;
-  box-shadow: 0 0 10px #a78bfa;
-}
-
-.nxg-orb-r3 {
-  width: 82px; height: 82px;
-  margin: -41px 0 0 -41px;
-  border: 1px solid rgba(16,185,129,0.42);
-  animation: orbSpin 3.8s linear infinite;
-}
-.nxg-orb-r3::before {
-  content: '';
-  position: absolute;
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  top: -2.5px; left: 50%;
-  transform: translateX(-50%);
-  background: #34d399;
-  box-shadow: 0 0 9px #34d399;
-}
-
-@keyframes orbSpin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-/* Center monogram */
-.nxg-orb-core {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 54px; height: 54px;
-  border-radius: 50%;
-  background: rgba(14,165,233,0.10);
-  border: 1px solid rgba(56,189,248,0.38);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Orbitron", "Space Grotesk", sans-serif;
-  font-size: 0.98rem;
-  font-weight: 700;
-  color: #38bdf8;
-  text-shadow: 0 0 20px rgba(56,189,248,0.75);
-  box-shadow: 0 0 30px rgba(14,165,233,0.18), inset 0 0 14px rgba(14,165,233,0.08);
-  letter-spacing: 0.04em;
-}
-
-/* ── Name + subtitle ─────────────────────────────────────────── */
-.nxg-name {
-  margin: 0;
-  font-family: "Orbitron", "Space Grotesk", sans-serif;
-  font-size: clamp(1.5rem, 4.5vw, 2.1rem);
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  color: #e2f0ff;
-  text-shadow: 0 0 40px rgba(14,165,233,0.30);
-}
-.nxg-title {
-  margin: 0;
+  text-align: center;
   font-family: "JetBrains Mono", monospace;
-  font-size: 0.70rem;
-  letter-spacing: 0.10em;
+  font-size: 0.64rem;
+  letter-spacing: 0.06em;
+  color: rgba(249,115,22,0.70);
+}
+.opg-bar-badge {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(125,211,252,0.55);
+  color: #28ca42;
+  opacity: 0.80;
 }
 
-/* ── Boot service checks ─────────────────────────────────────── */
-.nxg-checks {
-  width: 100%;
+/* Body */
+.opg-body {
+  padding: 1.20rem 1.40rem 1.40rem;
   display: grid;
-  gap: 0.24rem;
+  gap: 1rem;
 }
-.nxg-check {
+
+/* Typed command line */
+.opg-cmd-line {
   display: flex;
   align-items: center;
   gap: 0.50rem;
   font-family: "JetBrains Mono", monospace;
-  font-size: 0.65rem;
-  animation: nxgCheckIn 220ms ease both;
+  font-size: 0.75rem;
 }
-@keyframes nxgCheckIn {
-  from { opacity: 0; transform: translateX(-10px); }
+.opg-prompt {
+  color: #f97316;
+  font-weight: 700;
+}
+.opg-cmd-text { color: #e2e8f0; }
+.opg-cursor {
+  display: inline-block;
+  width: 8px; height: 1em;
+  background: #f97316;
+  margin-left: 2px;
+  vertical-align: middle;
+  animation: opgCursor 0.8s step-end infinite;
+}
+@keyframes opgCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+/* Identity block */
+.opg-identity {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.90rem 1rem;
+  border: 1px solid rgba(249,115,22,0.18);
+  border-radius: 7px;
+  background: rgba(249,115,22,0.04);
+}
+.opg-monogram {
+  width: 50px; height: 50px;
+  border-radius: 8px;
+  background: rgba(249,115,22,0.12);
+  border: 1px solid rgba(249,115,22,0.30);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Plus Jakarta Sans", "Space Grotesk", sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #f97316;
+  box-shadow: 0 0 20px rgba(249,115,22,0.16);
+  flex-shrink: 0;
+}
+.opg-name {
+  margin: 0;
+  font-family: "Plus Jakarta Sans", "Space Grotesk", sans-serif;
+  font-size: clamp(1.20rem, 3vw, 1.55rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+.opg-role {
+  margin: 0.16rem 0 0;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  color: rgba(249,115,22,0.60);
+  text-transform: uppercase;
+}
+
+/* Boot log */
+.opg-log { display: grid; gap: 0.22rem; }
+.opg-log-row {
+  display: flex;
+  align-items: center;
+  gap: 0.52rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.68rem;
+  animation: opgLogIn 200ms ease both;
+}
+@keyframes opgLogIn {
+  from { opacity: 0; transform: translateX(-8px); }
   to   { opacity: 1; transform: none; }
 }
-.nxg-check-led {
+.opg-log-arrow { color: rgba(249,115,22,0.45); flex-shrink: 0; }
+.opg-log-cmd { flex: 1; color: rgba(226,232,240,0.65); letter-spacing: 0.02em; }
+.opg-log-tag {
+  font-weight: 700;
+  font-size: 0.60rem;
+  letter-spacing: 0.08em;
   flex-shrink: 0;
-  width: 6px; height: 6px;
-  border-radius: 50%;
 }
-.nxg-check-label {
-  flex: 1;
-  color: rgba(186,230,253,0.60);
+.opg-tag-ok    { color: #22c55e; }
+.opg-tag-ready { color: #f97316; }
+.opg-log-active .opg-log-cmd { color: rgba(226,232,240,0.30); }
+.opg-scanning { animation: opgBlink 0.6s step-end infinite; }
+@keyframes opgBlink { 0%, 100% { opacity: 0.30; } 50% { opacity: 0.85; } }
+
+/* Progress */
+.opg-prog-wrap { padding: 0.20rem 0; }
+.opg-prog-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.70rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.65rem;
+}
+.opg-prog-fill {
+  color: #f97316;
+  letter-spacing: -0.04em;
+  text-shadow: 0 0 10px rgba(249,115,22,0.50);
+}
+.opg-prog-pct {
+  color: rgba(249,115,22,0.60);
+  font-size: 0.60rem;
   letter-spacing: 0.06em;
 }
-.nxg-check-status {
-  font-weight: 700;
-  font-size: 0.58rem;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-}
-.nxg-check-scanning .nxg-check-label { color: rgba(186,230,253,0.30); }
-.nxg-led-blink {
-  background: rgba(56,189,248,0.35) !important;
-  box-shadow: none !important;
-  animation: nxgLedBlink 0.7s ease-in-out infinite !important;
-}
-@keyframes nxgLedBlink {
-  0%, 100% { opacity: 0.25; }
-  50%       { opacity: 1; }
-}
 
-/* ── Progress bar ────────────────────────────────────────────── */
-.nxg-prog-wrap { width: 100%; display: grid; gap: 0.22rem; }
-.nxg-prog-row {
-  display: flex;
-  justify-content: space-between;
+/* CTA button */
+.opg-enter {
   font-family: "JetBrains Mono", monospace;
-  font-size: 0.54rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(125,211,252,0.38);
-}
-.nxg-prog-rail {
-  height: 2px;
-  border-radius: 999px;
-  background: rgba(14,165,233,0.10);
-  overflow: hidden;
-}
-.nxg-prog-fill {
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, #0ea5e9, #38bdf8, #4ade80);
-  box-shadow: 0 0 12px rgba(56,189,248,0.55);
-  transition: width 200ms ease;
-}
-
-/* ── Enter CTA ───────────────────────────────────────────────── */
-.nxg-enter {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.58rem;
-  border: 1px solid rgba(56,189,248,0.38);
-  border-radius: 6px;
-  background: rgba(14,165,233,0.08);
-  color: #38bdf8;
-  padding: 0.68rem 1.55rem;
-  font-family: "Orbitron", "JetBrains Mono", monospace;
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #f97316;
+  background: transparent;
+  border: none;
+  padding: 0;
   cursor: pointer;
-  transition: background 160ms ease, box-shadow 160ms ease, border-color 160ms ease, transform 130ms ease;
-  margin-top: 0.30rem;
+  line-height: 1.60;
+  text-align: left;
+  transition: color 160ms ease, text-shadow 160ms ease;
 }
-.nxg-enter:hover {
-  background: rgba(14,165,233,0.18);
-  border-color: rgba(56,189,248,0.68);
-  box-shadow: 0 0 38px rgba(14,165,233,0.24), inset 0 0 18px rgba(14,165,233,0.06);
-  transform: translateY(-2px);
+.opg-enter:hover {
+  color: #fb923c;
+  text-shadow: 0 0 20px rgba(249,115,22,0.40);
 }
-.nxg-enter-arrow { color: #4ade80; font-size: 0.78rem; }
 
 /* Hint */
-.nxg-hint {
+.opg-hint {
   margin: 0;
   font-family: "JetBrains Mono", monospace;
-  font-size: 0.49rem;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  color: rgba(125,211,252,0.22);
+  font-size: 0.52rem;
+  letter-spacing: 0.08em;
+  color: rgba(226,232,240,0.18);
   cursor: default;
 }
 
-/* ── Responsive ──────────────────────────────────────────────── */
-@media (max-width: 580px) {
-  .nxg-orb { width: 150px; height: 150px; }
-  .nxg-orb-r1 { width: 140px; height: 140px; margin: -70px 0 0 -70px; }
-  .nxg-orb-r2 { width: 100px; height: 100px; margin: -50px 0 0 -50px; }
-  .nxg-orb-r3 { width: 64px;  height: 64px;  margin: -32px 0 0 -32px; }
-  .nxg-orb-core { width: 44px; height: 44px; font-size: 0.80rem; }
-  .nxg-enter { width: 100%; justify-content: center; }
-  .nxg-ticker-item { display: none; }
-  .nxg-ticker-sep  { display: none; }
+@media (max-width: 520px) {
+  .opg-body { padding: 1rem; }
+  .opg-bar-badge { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .nxg-orb-r1, .nxg-orb-r2, .nxg-orb-r3,
-  .nxg-pulse, .nxg-led-blink,
-  .nxg-root.nxg-exit, .nx-shell, .nx-reveal {
-    animation: none !important;
-    transition: none !important;
-    transform: none !important;
+  .opg-cursor, .opg-scanning, .opg-root.opg-exit, .nx-shell, .nx-reveal {
+    animation: none !important; transition: none !important;
   }
 }

@@ -5,140 +5,117 @@ import { scrollToSectionById } from '../lib/sectionScroll';
 
 const TECH_TAGS = ['AWS', 'Kubernetes', 'Terraform', 'Docker', 'ArgoCD', 'Helm', 'Prometheus', 'Grafana', 'Jenkins', 'GitHub Actions', 'Python', 'Bash'];
 
-const EVENTS = [
-  { text: 'k8s/pods · 48/48 running' },
-  { text: 'argocd · 3 apps in-sync' },
-  { text: 'terraform · no drift detected' },
+const CODE_LINES = [
+  { prompt: '$', cmd: 'kubectl get nodes', delay: 0 },
+  { out: 'NAME        STATUS   ROLES    AGE', delay: 600 },
+  { out: 'node-01     Ready    control  47d', delay: 900 },
+  { out: 'node-02     Ready    worker   47d', delay: 1200 },
+  { out: 'node-03     Ready    worker   47d', delay: 1500 },
+  { prompt: '$', cmd: 'terraform plan', delay: 2200 },
+  { out: 'Plan: 0 to add, 0 to change, 0 to destroy.', delay: 2800 },
+  { prompt: '$', cmd: 'argocd app list', delay: 3600 },
+  { out: '3/3 apps   Synced   Healthy', delay: 4200 },
 ];
 
-const live = () => ({
-  cpu:     32 + Math.floor(Math.random() * 36),
-  latency: 14 + Math.floor(Math.random() * 30),
-  health:  95 + Math.floor(Math.random() * 5),
-});
-
 const Hero = () => {
-  const [metrics, setMetrics] = useState(live);
+  const [visibleLines, setVisibleLines] = useState(0);
   const certPreview = useMemo(() => portfolioData.certifications.slice(0, 2), []);
 
   useEffect(() => {
-    const id = window.setInterval(() => setMetrics(live()), 1400);
-    return () => window.clearInterval(id);
+    const timers = CODE_LINES.map((_, i) => (
+      window.setTimeout(() => setVisibleLines(i + 1), CODE_LINES[i].delay + 800)
+    ));
+    return () => timers.forEach(window.clearTimeout);
   }, []);
 
   return (
-    <section id="hero" className="nx-hero nx-section">
+    <section id="hero" className="op-hero nx-section">
       <div className="section-anchor" aria-hidden="true" />
 
-      <div className="nx-hero-statusbar">
-        <span className="nx-hero-status-dot" aria-hidden="true" />
-        <span>NEXUS SYSTEMS ONLINE</span>
-        <span className="nx-hero-status-sep">·</span>
-        <span>UPTIME 99.9%</span>
-        <span className="nx-hero-status-sep">·</span>
-        <span>ALERTS <strong>0</strong></span>
-        <span className="nx-hero-status-sep">·</span>
-        <span>CA-CENTRAL-1</span>
+      {/* Top banner */}
+      <div className="op-hero-banner">
+        <span className="op-banner-dot" aria-hidden="true" />
+        <span>AVAILABLE FOR HIRE</span>
+        <span className="op-banner-sep">|</span>
+        <span>TORONTO, CANADA</span>
+        <span className="op-banner-sep">|</span>
+        <span>OPEN TO CLOUD · DEVOPS · SRE ROLES</span>
       </div>
 
       <div className="content-wrap">
-        <div className="nx-hero-grid">
+        <div className="op-hero-grid">
 
-          <div className="nx-hero-copy">
-            <div className="nx-hero-badge">
-              <span className="nx-hero-badge-dot" />
-              AVAILABLE FOR HIRE · TORONTO, CANADA
+          {/* Left: typography + meta */}
+          <div className="op-hero-left">
+            <div className="op-hero-avatar">NS</div>
+
+            <div className="op-hero-heading">
+              <span className="op-hero-first">NITIN</span>
+              <span className="op-hero-last">SARVESH</span>
             </div>
 
-            <div className="nx-hero-avatar">NS</div>
+            <p className="op-hero-title">{portfolioData.personal.title}</p>
+            <p className="op-hero-sub">{portfolioData.personal.tagline}</p>
 
-            <h1 className="nx-hero-h1">
-              <span>NITIN</span>
-              <span className="nx-hero-h1-accent">SARVESH</span>
-            </h1>
-
-            <p className="nx-hero-role">{portfolioData.personal.title}</p>
-            <p className="nx-hero-tagline">{portfolioData.personal.tagline}</p>
-
-            <div className="nx-hero-tags">
-              {TECH_TAGS.map((t) => (
-                <span key={t} className="nx-hero-tag">{t}</span>
-              ))}
-            </div>
-
-            <div className="nx-hero-certs">
+            <div className="op-hero-certs">
               {certPreview.map((c) => (
-                <span key={c.id}><ShieldCheck size={12} /> {c.name}</span>
+                <span key={c.id} className="op-cert-chip">
+                  <ShieldCheck size={11} /> {c.name}
+                </span>
               ))}
             </div>
 
-            <div className="nx-hero-actions">
-              <button className="nx-btn-primary" onClick={() => scrollToSectionById('projects')}>
+            <div className="op-hero-actions">
+              <button className="op-btn-primary" onClick={() => scrollToSectionById('projects')}>
                 View Projects →
               </button>
-              <button className="nx-btn-secondary" onClick={() => scrollToSectionById('contact')}>
+              <button className="op-btn-secondary" onClick={() => scrollToSectionById('contact')}>
                 Get in Touch
               </button>
             </div>
 
-            <div className="nx-hero-stats">
+            <div className="op-hero-stats">
               <div><strong>5+</strong><span>Years</span></div>
               <div><strong>3</strong><span>Clouds</span></div>
-              <div><strong>50+</strong><span>Deployments</span></div>
+              <div><strong>50+</strong><span>Deploys</span></div>
               <div><strong>99.9%</strong><span>Uptime</span></div>
+            </div>
+
+            <div className="op-hero-tags">
+              {TECH_TAGS.map((t) => (
+                <span key={t} className="op-tag">{t}</span>
+              ))}
             </div>
           </div>
 
-          <aside className="nx-dashboard">
-            <div className="nx-dashboard-head">
-              <div className="nx-dashboard-lights"><span /><span /><span /></div>
-              <span className="nx-dashboard-title">◉ NEXUS / STATUS — LIVE</span>
+          {/* Right: live terminal */}
+          <aside className="op-terminal">
+            <div className="op-terminal-bar">
+              <div className="op-terminal-dots">
+                <span /><span /><span />
+              </div>
+              <span className="op-terminal-title">nitin@k8s-prod:~</span>
             </div>
-
-            <div className="nx-dashboard-body">
-              <div className="nx-dashboard-status">
-                <span className="nx-status-led" aria-hidden="true" />
-                SYSTEM OPERATIONAL
-              </div>
-
-              <div className="nx-dashboard-metrics">
-                {[
-                  { label: 'CPU LOAD',    value: metrics.cpu,     unit: '%',  pct: metrics.cpu },
-                  { label: 'P99 LATENCY', value: metrics.latency, unit: 'ms', pct: Math.min(100, metrics.latency * 2) },
-                  { label: 'HEALTH SLA',  value: metrics.health,  unit: '%',  pct: metrics.health },
-                ].map(({ label, value, unit, pct }) => (
-                  <div key={label} className="nx-metric-row">
-                    <span className="nx-metric-label">{label}</span>
-                    <div className="nx-metric-bar">
-                      <div className="nx-metric-fill" style={{ width: `${pct}%` }} />
-                    </div>
-                    <span className="nx-metric-val">{value}{unit}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="nx-dashboard-divider">RECENT EVENTS</div>
-              <div className="nx-dashboard-events">
-                {EVENTS.map((ev) => (
-                  <div key={ev.text} className="nx-event-row">
-                    <span className="nx-event-icon">✓</span>
-                    <span>{ev.text}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="nx-dashboard-divider">ALERT SUMMARY</div>
-              <div className="nx-dashboard-alerts">
-                <span className="nx-alerts-count">0 ACTIVE</span>
-                <span className="nx-alerts-clear">◼ ALL CLEAR</span>
-              </div>
+            <div className="op-terminal-body">
+              {CODE_LINES.slice(0, visibleLines).map((line, i) => (
+                <div key={i} className={line.prompt ? 'op-terminal-cmd' : 'op-terminal-out'}>
+                  {line.prompt && <span className="op-terminal-prompt">{line.prompt}</span>}
+                  <span>{line.prompt ? line.cmd : line.out}</span>
+                </div>
+              ))}
+              {visibleLines < CODE_LINES.length && (
+                <div className="op-terminal-cmd">
+                  <span className="op-terminal-prompt">$</span>
+                  <span className="op-terminal-cursor" aria-hidden="true" />
+                </div>
+              )}
             </div>
           </aside>
         </div>
       </div>
 
       <button
-        className="nx-scroll-btn"
+        className="op-scroll-btn"
         onClick={() => scrollToSectionById('about')}
         aria-label="Scroll down"
       >
