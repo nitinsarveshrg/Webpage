@@ -3,13 +3,11 @@ import { ExternalLink, Github } from 'lucide-react';
 import { portfolioData } from '../mock';
 
 const FILTERS = ['All', 'AWS', 'Automation', 'Testing', 'Web', 'Platform'];
-
 const GITHUB_USER = 'nitinsarveshrg';
 const GITHUB_API = `https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=updated`;
 
 const SKILL_MAP = {
-  AWS: ['aws', 'ecs', 'ecr', 'fargate', 'cloudwatch', 'vpc'],
-  Azure: ['azure', 'azdo'],
+  AWS: ['aws', 'ecs', 'ecr', 'fargate', 'cloudwatch'],
   Docker: ['docker', 'container'],
   Kubernetes: ['kubernetes', 'k8s'],
   Terraform: ['terraform', 'hcl'],
@@ -19,115 +17,77 @@ const SKILL_MAP = {
   ArgoCD: ['argocd'],
   Python: ['python', 'fastapi'],
   Bash: ['bash', 'shell'],
-  SQL: ['sql'],
   React: ['react', 'javascript', 'typescript'],
   Prometheus: ['prometheus'],
   Grafana: ['grafana'],
 };
 
-const deriveSkills = (project) => {
-  const bag = `${project.title} ${project.description} ${(project.technologies || []).join(' ')}`.toLowerCase();
-  return Object.entries(SKILL_MAP)
-    .filter(([, keys]) => keys.some((k) => bag.includes(k)))
-    .map(([s]) => s)
-    .slice(0, 6);
+const deriveSkills = (p) => {
+  const bag = `${p.title} ${p.description} ${(p.technologies || []).join(' ')}`.toLowerCase();
+  return Object.entries(SKILL_MAP).filter(([, ks]) => ks.some((k) => bag.includes(k))).map(([s]) => s).slice(0, 5);
 };
 
-const matchesFilter = (project, filter) => {
-  if (filter === 'All') return true;
-  const bag = `${project.title} ${project.description} ${(project.technologies || []).join(' ')}`.toLowerCase();
-  if (filter === 'AWS') return bag.includes('aws') || bag.includes('ecs') || bag.includes('fargate');
-  if (filter === 'Automation') return bag.includes('automation') || bag.includes('pipeline') || bag.includes('terraform') || bag.includes('cicd');
-  if (filter === 'Testing') return bag.includes('selenium') || bag.includes('testng') || bag.includes('bdd') || bag.includes('allure');
-  if (filter === 'Web') return bag.includes('react') || bag.includes('javascript') || bag.includes('portfolio') || bag.includes('frontend');
-  if (filter === 'Platform') return bag.includes('cloud') || bag.includes('infrastructure') || bag.includes('fastapi') || bag.includes('devops');
+const matchFilter = (p, f) => {
+  if (f === 'All') return true;
+  const bag = `${p.title} ${p.description} ${(p.technologies || []).join(' ')}`.toLowerCase();
+  if (f === 'AWS') return bag.includes('aws') || bag.includes('ecs');
+  if (f === 'Automation') return bag.includes('automation') || bag.includes('pipeline') || bag.includes('terraform');
+  if (f === 'Testing') return bag.includes('selenium') || bag.includes('testng') || bag.includes('bdd');
+  if (f === 'Web') return bag.includes('react') || bag.includes('javascript') || bag.includes('frontend');
+  if (f === 'Platform') return bag.includes('cloud') || bag.includes('infrastructure') || bag.includes('devops');
   return true;
 };
 
-const repoName = (url = '') => {
-  const m = url.match(/github\.com\/[^/]+\/([^/?#]+)/i);
-  return m ? m[1] : '';
-};
-
-const titleFromName = (name = '') =>
-  name.replace(/[-_]+/g, ' ').trim().replace(/\b\w/g, (c) => c.toUpperCase());
+const repoName = (url = '') => { const m = url.match(/github\.com\/[^/]+\/([^/?#]+)/i); return m ? m[1] : ''; };
+const toTitle = (n = '') => n.replace(/[-_]+/g, ' ').trim().replace(/\b\w/g, (c) => c.toUpperCase());
 
 const Projects = () => {
-  const [activeFilter, setActiveFilter] = useState('All');
-  const [query, setQuery] = useState('');
+  const [filter, setFilter] = useState('All');
+  const [q, setQ] = useState('');
   const [projects, setProjects] = useState([]);
   const [syncing, setSyncing] = useState(true);
-  const [syncError, setSyncError] = useState('');
+  const [syncErr, setSyncErr] = useState('');
 
-  const fallback = useMemo(() =>
-    (portfolioData.projects || []).map((p) => ({ ...p, matchedSkills: deriveSkills(p) })),
-  []);
+  const fallback = useMemo(() => (portfolioData.projects || []).map((p) => ({ ...p, matchedSkills: deriveSkills(p) })), []);
 
   useEffect(() => {
     let cancelled = false;
-    const manualMap = new Map(
-      (portfolioData.projects || []).map((p) => [repoName(p.github), p]).filter(([n]) => n)
-    );
-
+    const manual = new Map((portfolioData.projects || []).map((p) => [repoName(p.github), p]).filter(([n]) => n));
     (async () => {
-      setSyncing(true);
       try {
         const res = await fetch(GITHUB_API, { headers: { Accept: 'application/vnd.github+json' } });
         if (!res.ok) throw new Error(`GitHub ${res.status}`);
         const repos = (await res.json()).filter((r) => !r.fork && !r.archived);
-
-        const langEntries = await Promise.all(
-          repos.map(async (r) => {
-            try {
-              const lr = await fetch(r.languages_url, { headers: { Accept: 'application/vnd.github+json' } });
-              return [r.name, lr.ok ? Object.keys(await lr.json()) : []];
-            } catch { return [r.name, []]; }
-          })
-        );
-        const langMap = new Map(langEntries);
-
+        const langData = await Promise.all(repos.map(async (r) => {
+          try { const lr = await fetch(r.languages_url, { headers: { Accept: 'application/vnd.github+json' } }); return [r.name, lr.ok ? Object.keys(await lr.json()) : []]; }
+          catch { return [r.name, []]; }
+        }));
+        const langMap = new Map(langData);
         const synced = repos.map((r) => {
-          const manual = manualMap.get(r.name);
-          const techs = [...new Set([
-            ...(manual?.technologies || []),
-            ...(langMap.get(r.name) || []),
-            ...(r.language ? [r.language] : []),
-            ...(r.topics || []).map((t) => t.replace(/-/g, ' ')),
-          ])].filter(Boolean);
-
+          const m = manual.get(r.name);
+          const techs = [...new Set([...(m?.technologies || []), ...(langMap.get(r.name) || []), ...(r.language ? [r.language] : []), ...(r.topics || []).map((t) => t.replace(/-/g, ' '))])].filter(Boolean);
           const base = {
-            id: r.id,
-            title: manual?.title || titleFromName(r.name),
-            description: manual?.description || r.description || `${r.language || 'Software'} project.`,
+            id: r.id, title: m?.title || toTitle(r.name),
+            description: m?.description || r.description || `${r.language || 'Software'} project.`,
             technologies: techs,
-            highlights: manual?.highlights?.length ? manual.highlights : [
-              `Language: ${r.language || 'Mixed'}`,
-              `Updated: ${new Date(r.pushed_at).toLocaleDateString()}`,
-              `${r.stargazers_count} stars · ${r.forks_count} forks`,
-            ],
-            github: r.html_url,
-            demo: r.homepage || manual?.demo || '',
+            highlights: m?.highlights?.length ? m.highlights : [`Language: ${r.language || 'Mixed'}`, `Updated: ${new Date(r.pushed_at).toLocaleDateString()}`, `${r.stargazers_count} stars`],
+            github: r.html_url, demo: r.homepage || m?.demo || '',
           };
           return { ...base, matchedSkills: deriveSkills(base) };
         });
-
         if (!cancelled) { setProjects(synced); setSyncing(false); }
       } catch (e) {
-        if (!cancelled) { setProjects(fallback); setSyncError(String(e.message)); setSyncing(false); }
+        if (!cancelled) { setProjects(fallback); setSyncErr(String(e.message)); setSyncing(false); }
       }
     })();
-
     return () => { cancelled = true; };
   }, [fallback]);
 
-  const filtered = useMemo(() =>
-    projects.filter((p) => {
-      const filterOk = matchesFilter(p, activeFilter);
-      const bag = `${p.title} ${p.description} ${(p.technologies || []).join(' ')}`.toLowerCase();
-      const qOk = query.trim() ? bag.includes(query.toLowerCase()) : true;
-      return filterOk && qOk;
-    }),
-  [projects, activeFilter, query]);
+  const filtered = useMemo(() => projects.filter((p) => {
+    const fOk = matchFilter(p, filter);
+    const qBag = `${p.title} ${p.description} ${(p.technologies || []).join(' ')}`.toLowerCase();
+    return fOk && (q.trim() ? qBag.includes(q.toLowerCase()) : true);
+  }), [projects, filter, q]);
 
   const featured = filtered[0];
   const rest = filtered.slice(1);
@@ -135,123 +95,78 @@ const Projects = () => {
   return (
     <section id="projects" className="nx-section proj-section">
       <div className="section-anchor" aria-hidden="true" />
-      <div className="content-wrap">
+      <div className="proj-chapter" aria-hidden="true">05</div>
 
-        {/* Header */}
+      <div className="content-wrap">
         <div className="proj-header">
-          <div className="proj-header-left">
-            <span className="proj-tag">PORTFOLIO</span>
-            <h2>Live GitHub Projects</h2>
+          <div data-reveal>
+            <span className="section-label">PORTFOLIO</span>
+            <h2 className="proj-title">Deployed<br /><em>Work</em></h2>
           </div>
-          <div className="proj-sync-badge">
-            <span className={`proj-sync-dot ${syncing ? 'syncing' : syncError ? 'error' : 'ok'}`} />
-            <span>{syncing ? 'Syncing…' : syncError ? 'Fallback' : `${projects.length} repos synced`}</span>
+          <div className="proj-sync" data-reveal data-reveal-delay="2">
+            <span className={`proj-sync-dot ${syncing ? 'pulse' : syncErr ? 'err' : 'ok'}`} />
+            <span>{syncing ? 'Syncing GitHub…' : syncErr ? 'Fallback mode' : `${projects.length} repos`}</span>
           </div>
         </div>
 
-        {/* Controls */}
-        <div className="proj-controls">
+        <div className="proj-controls" data-reveal data-reveal-delay="2">
           <div className="proj-filters">
             {FILTERS.map((f) => (
-              <button
-                key={f}
-                className={`proj-filter-btn ${activeFilter === f ? 'active' : ''}`}
-                onClick={() => setActiveFilter(f)}
-              >{f}</button>
+              <button key={f} className={`proj-filter ${filter === f ? 'active' : ''}`} onClick={() => setFilter(f)}>{f}</button>
             ))}
           </div>
-          <div className="proj-search">
+          <div className="proj-search-wrap">
             <span className="proj-search-icon">⌕</span>
-            <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="search repos, tech, keywords…"
-            />
+            <input className="proj-search-input" value={q} onChange={(e) => setQ(e.target.value)} placeholder="search repos, tech…" />
             <span className="proj-search-count">{filtered.length}</span>
           </div>
         </div>
 
-        {filtered.length === 0 && (
-          <div className="proj-empty">No repos match — try a different filter.</div>
-        )}
+        {filtered.length === 0 && <p className="proj-empty">No results — try a different filter.</p>}
 
-        {/* Featured */}
         {featured && (
-          <article className="proj-featured">
-            <div className="proj-featured-top">
-              <span className="proj-feat-label">★ FEATURED</span>
-              <div className="proj-links">
-                {featured.github && (
-                  <a href={featured.github} target="_blank" rel="noopener noreferrer">
-                    <Github size={14} /> GitHub
-                  </a>
-                )}
-                {featured.demo && (
-                  <a href={featured.demo} target="_blank" rel="noopener noreferrer">
-                    <ExternalLink size={14} /> Live
-                  </a>
-                )}
+          <article className="proj-featured" data-reveal data-reveal-delay="3">
+            <div className="proj-feat-top">
+              <span className="proj-feat-badge">★ FEATURED</span>
+              <div className="proj-feat-links">
+                {featured.github && <a href={featured.github} target="_blank" rel="noopener noreferrer"><Github size={13} /> GitHub</a>}
+                {featured.demo && <a href={featured.demo} target="_blank" rel="noopener noreferrer"><ExternalLink size={13} /> Live</a>}
               </div>
             </div>
-            <h3 className="proj-featured-title">{featured.title}</h3>
-            <p className="proj-featured-desc">{featured.description}</p>
-            <div className="proj-featured-meta">
-              <div className="proj-chip-row">
-                {(featured.technologies || []).map((t) => (
-                  <span key={t} className="proj-chip">{t}</span>
-                ))}
-              </div>
-              {featured.matchedSkills?.length > 0 && (
-                <div className="proj-chip-row">
-                  {featured.matchedSkills.map((s) => (
-                    <span key={s} className="proj-chip proj-chip-accent">{s}</span>
-                  ))}
-                </div>
-              )}
+            <h3 className="proj-feat-title">{featured.title}</h3>
+            <p className="proj-feat-desc">{featured.description}</p>
+            <div className="proj-chips">
+              {(featured.technologies || []).map((t) => <span key={t} className="proj-chip">{t}</span>)}
             </div>
-            <ul className="proj-highlights">
-              {(featured.highlights || []).map((h) => (
-                <li key={h}><span className="proj-bullet">▸</span>{h}</li>
-              ))}
+            {featured.matchedSkills?.length > 0 && (
+              <div className="proj-chips">
+                {featured.matchedSkills.map((s) => <span key={s} className="proj-chip-accent">{s}</span>)}
+              </div>
+            )}
+            <ul className="proj-feat-hl">
+              {(featured.highlights || []).map((h) => <li key={h}><span className="proj-bullet">▸</span>{h}</li>)}
             </ul>
           </article>
         )}
 
-        {/* Grid */}
         {rest.length > 0 && (
           <div className="proj-grid">
             {rest.map((p, i) => (
-              <article key={p.id} className="proj-card">
-                <div className="proj-card-idx">{String(i + 2).padStart(2, '0')}</div>
+              <article key={p.id} className="proj-card" data-reveal data-reveal-delay={Math.min(i + 1, 5)}>
+                <span className="proj-card-num">{String(i + 2).padStart(2, '0')}</span>
                 <h3 className="proj-card-title">{p.title}</h3>
                 <p className="proj-card-desc">{p.description}</p>
-                <div className="proj-chip-row">
-                  {(p.technologies || []).slice(0, 5).map((t) => (
-                    <span key={t} className="proj-chip">{t}</span>
-                  ))}
+                <div className="proj-chips">
+                  {(p.technologies || []).slice(0, 4).map((t) => <span key={t} className="proj-chip">{t}</span>)}
                 </div>
-                <ul className="proj-card-highlights">
-                  {(p.highlights || []).slice(0, 2).map((h) => (
-                    <li key={h}>{h}</li>
-                  ))}
-                </ul>
                 <div className="proj-card-links">
-                  {p.github && (
-                    <a href={p.github} target="_blank" rel="noopener noreferrer">
-                      <Github size={12} /> GitHub
-                    </a>
-                  )}
-                  {p.demo && (
-                    <a href={p.demo} target="_blank" rel="noopener noreferrer">
-                      <ExternalLink size={12} /> Live
-                    </a>
-                  )}
+                  {p.github && <a href={p.github} target="_blank" rel="noopener noreferrer"><Github size={12} /> GitHub</a>}
+                  {p.demo && <a href={p.demo} target="_blank" rel="noopener noreferrer"><ExternalLink size={12} /> Live</a>}
                 </div>
               </article>
             ))}
           </div>
         )}
-
       </div>
     </section>
   );

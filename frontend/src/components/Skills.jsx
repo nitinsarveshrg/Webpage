@@ -2,63 +2,41 @@ import React, { useState } from 'react';
 
 const CATEGORIES = [
   {
-    key: 'cloud',
-    label: 'Cloud',
-    color: '#f97316',
+    key: 'cloud', label: 'Cloud Platforms', color: '#f97316',
     skills: [
-      { name: 'AWS', level: 4, note: 'Advanced' },
-      { name: 'Azure', level: 3, note: 'Intermediate' },
-      { name: 'GCP', level: 2, note: 'Basic–Intermediate' },
+      { name: 'AWS', level: 4 }, { name: 'Azure', level: 3 }, { name: 'GCP', level: 2 },
     ],
   },
   {
-    key: 'iac',
-    label: 'Containers & IaC',
-    color: '#a855f7',
+    key: 'iac', label: 'Containers & IaC', color: '#a855f7',
     skills: [
-      { name: 'Terraform', level: 4, note: 'Advanced' },
-      { name: 'Docker', level: 4, note: 'Advanced' },
-      { name: 'Kubernetes', level: 3, note: 'Intermediate+' },
-      { name: 'Helm', level: 3, note: 'Intermediate' },
-      { name: 'Ansible', level: 3, note: 'Intermediate' },
+      { name: 'Terraform', level: 4 }, { name: 'Docker', level: 4 },
+      { name: 'Kubernetes', level: 3 }, { name: 'Helm', level: 3 }, { name: 'Ansible', level: 3 },
     ],
   },
   {
-    key: 'cicd',
-    label: 'CI/CD',
-    color: '#06b6d4',
+    key: 'cicd', label: 'CI / CD', color: '#06b6d4',
     skills: [
-      { name: 'GitHub Actions', level: 4, note: 'Advanced' },
-      { name: 'Jenkins', level: 3, note: 'Intermediate+' },
-      { name: 'ArgoCD', level: 3, note: 'Intermediate' },
+      { name: 'GitHub Actions', level: 4 }, { name: 'Jenkins', level: 3 }, { name: 'ArgoCD', level: 3 },
     ],
   },
   {
-    key: 'code',
-    label: 'Coding',
-    color: '#22c55e',
+    key: 'code', label: 'Coding', color: '#22c55e',
     skills: [
-      { name: 'Python', level: 3, note: 'Intermediate+' },
-      { name: 'Bash', level: 3, note: 'Intermediate+' },
-      { name: 'SQL', level: 3, note: 'Intermediate' },
-      { name: 'JavaScript / TS', level: 2, note: 'Basic–Intermediate' },
+      { name: 'Python', level: 3 }, { name: 'Bash', level: 3 },
+      { name: 'SQL', level: 3 }, { name: 'JavaScript', level: 2 },
     ],
   },
   {
-    key: 'obs',
-    label: 'Observability',
-    color: '#f59e0b',
+    key: 'obs', label: 'Observability', color: '#f59e0b',
     skills: [
-      { name: 'CloudWatch', level: 4, note: 'Advanced' },
-      { name: 'Prometheus', level: 3, note: 'Intermediate+' },
-      { name: 'Grafana', level: 3, note: 'Intermediate+' },
-      { name: 'ELK Stack', level: 2, note: 'Basic–Intermediate' },
-      { name: 'Datadog', level: 2, note: 'Basic–Intermediate' },
+      { name: 'CloudWatch', level: 4 }, { name: 'Prometheus', level: 3 },
+      { name: 'Grafana', level: 3 }, { name: 'ELK Stack', level: 2 }, { name: 'Datadog', level: 2 },
     ],
   },
 ];
 
-const DOTS = 4;
+const LEVEL_LABEL = ['', 'Basic', 'Intermediate', 'Advanced', 'Expert'];
 
 const Skills = () => {
   const [active, setActive] = useState('cloud');
@@ -67,24 +45,21 @@ const Skills = () => {
   return (
     <section id="skills" className="nx-section sk-section">
       <div className="section-anchor" aria-hidden="true" />
-      <div className="content-wrap">
+      <div className="sk-chapter" aria-hidden="true">03</div>
 
-        {/* Header */}
-        <div className="sk-header">
-          <span className="sk-tag">SKILL MATRIX</span>
-          <h2>Capability Depth</h2>
-          <p>Real-world proficiency levels — no inflated bars.</p>
+      <div className="content-wrap">
+        <div className="sk-header" data-reveal>
+          <span className="section-label">ARSENAL</span>
+          <h2 className="sk-title">Capability<br /><em>Depth</em></h2>
         </div>
 
-        {/* Tab strip */}
-        <div className="sk-tabs" role="tablist">
+        {/* Category selector */}
+        <div className="sk-cats" data-reveal data-reveal-delay="2">
           {CATEGORIES.map((c) => (
             <button
               key={c.key}
-              role="tab"
-              aria-selected={c.key === active}
-              className={`sk-tab ${c.key === active ? 'active' : ''}`}
-              style={{ '--cat-color': c.key === active ? c.color : undefined }}
+              className={`sk-cat-btn ${c.key === active ? 'active' : ''}`}
+              style={c.key === active ? { '--c': c.color } : {}}
               onClick={() => setActive(c.key)}
             >
               {c.label}
@@ -92,44 +67,33 @@ const Skills = () => {
           ))}
         </div>
 
-        {/* Skill rows */}
-        <div className="sk-body" style={{ '--cat-color': cat.color }}>
-          <div className="sk-cat-label">
+        {/* Skills display */}
+        <div className="sk-panel" style={{ '--c': cat.color }} data-reveal data-reveal-delay="3">
+          <div className="sk-panel-label">
             <span style={{ color: cat.color }}>{cat.label}</span>
-            <span className="sk-cat-count">{cat.skills.length} skills</span>
+            <span className="sk-count">{cat.skills.length} skills</span>
           </div>
-          <div className="sk-rows">
-            {cat.skills.map((s) => (
-              <div key={s.name} className="sk-row">
-                <span className="sk-row-name">{s.name}</span>
-                <div className="sk-dots">
-                  {Array.from({ length: DOTS }).map((_, i) => (
-                    <span
-                      key={i}
-                      className={`sk-dot ${i < s.level ? 'filled' : ''}`}
-                      style={i < s.level ? { background: cat.color, boxShadow: `0 0 8px ${cat.color}80` } : {}}
-                    />
-                  ))}
+          <div className="sk-skill-rows">
+            {cat.skills.map((s, i) => (
+              <div key={s.name} className="sk-skill-row" style={{ '--delay': `${i * 60}ms` }}>
+                <span className="sk-skill-name">{s.name}</span>
+                <div className="sk-skill-track">
+                  <div className="sk-skill-fill" style={{ width: `${(s.level / 4) * 100}%`, background: cat.color }} />
                 </div>
-                <span className="sk-row-note">{s.note}</span>
+                <span className="sk-skill-level" style={{ color: cat.color }}>{LEVEL_LABEL[s.level]}</span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Tech cloud */}
-        <div className="sk-cloud">
+        {/* All-tech strip */}
+        <div className="sk-strip" data-reveal data-reveal-delay="4">
           {CATEGORIES.flatMap((c) => c.skills.map((s) => (
-            <span
-              key={`${c.key}-${s.name}`}
-              className="sk-cloud-tag"
-              style={{ '--tag-color': c.color }}
-            >
+            <span key={`${c.key}-${s.name}`} className="sk-strip-tag" style={{ '--c': c.color }}>
               {s.name}
             </span>
           )))}
         </div>
-
       </div>
     </section>
   );

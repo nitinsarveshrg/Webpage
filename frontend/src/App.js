@@ -18,6 +18,7 @@ import { scrollToSectionById } from './lib/sectionScroll';
 const Home = () => {
   const [gateStage, setGateStage] = useState('show');
   const [isRevealing, setIsRevealing] = useState(false);
+  const [scrollPct, setScrollPct] = useState(0);
   const shellRef = useRef(null);
   const isLocked = gateStage !== 'done';
 
@@ -93,6 +94,18 @@ const Home = () => {
 
   useEffect(() => {
     if (isLocked) return undefined;
+    const onScroll = () => {
+      const doc = document.documentElement;
+      const pct = doc.scrollTop / Math.max(1, doc.scrollHeight - doc.clientHeight);
+      setScrollPct(Math.min(1, Math.max(0, pct)));
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [isLocked]);
+
+  useEffect(() => {
+    if (isLocked) return undefined;
     const shell = shellRef.current;
     if (!shell) return undefined;
 
@@ -138,6 +151,9 @@ const Home = () => {
 
   return (
     <div ref={shellRef} className="nx-root">
+      {/* Scroll progress */}
+      <div className="nx-progress" style={{ '--pct': `${scrollPct * 100}%` }} aria-hidden="true" />
+
       <CloudParticles />
       <Header />
 

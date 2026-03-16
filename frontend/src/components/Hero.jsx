@@ -3,123 +3,87 @@ import { ChevronDown, ShieldCheck } from 'lucide-react';
 import { portfolioData } from '../mock';
 import { scrollToSectionById } from '../lib/sectionScroll';
 
-const TECH_TAGS = ['AWS', 'Kubernetes', 'Terraform', 'Docker', 'ArgoCD', 'Helm', 'Prometheus', 'Grafana', 'Jenkins', 'GitHub Actions', 'Python', 'Bash'];
-
 const CODE_LINES = [
-  { prompt: '$', cmd: 'kubectl get nodes', delay: 0 },
-  { out: 'NAME        STATUS   ROLES    AGE', delay: 600 },
-  { out: 'node-01     Ready    control  47d', delay: 900 },
-  { out: 'node-02     Ready    worker   47d', delay: 1200 },
-  { out: 'node-03     Ready    worker   47d', delay: 1500 },
-  { prompt: '$', cmd: 'terraform plan', delay: 2200 },
-  { out: 'Plan: 0 to add, 0 to change, 0 to destroy.', delay: 2800 },
-  { prompt: '$', cmd: 'argocd app list', delay: 3600 },
-  { out: '3/3 apps   Synced   Healthy', delay: 4200 },
+  { prompt: '$', cmd: 'kubectl get nodes --all-namespaces', delay: 0 },
+  { out: 'node-01   Ready   control-plane   47d', delay: 600 },
+  { out: 'node-02   Ready   worker          47d', delay: 900 },
+  { out: 'node-03   Ready   worker          47d', delay: 1200 },
+  { prompt: '$', cmd: 'terraform plan -out=prod.tfplan', delay: 2000 },
+  { out: 'Plan: 0 to add, 0 to change, 0 to destroy.', delay: 2600 },
+  { prompt: '$', cmd: 'argocd app list', delay: 3400 },
+  { out: '3/3 apps  Synced  Healthy  ✓', delay: 4000 },
 ];
 
 const Hero = () => {
   const [visibleLines, setVisibleLines] = useState(0);
-  const certPreview = useMemo(() => portfolioData.certifications.slice(0, 2), []);
+  const certs = useMemo(() => portfolioData.certifications.slice(0, 2), []);
 
   useEffect(() => {
-    const timers = CODE_LINES.map((_, i) => (
-      window.setTimeout(() => setVisibleLines(i + 1), CODE_LINES[i].delay + 800)
-    ));
+    const timers = CODE_LINES.map((_, i) =>
+      window.setTimeout(() => setVisibleLines(i + 1), CODE_LINES[i].delay + 600)
+    );
     return () => timers.forEach(window.clearTimeout);
   }, []);
 
   return (
-    <section id="hero" className="op-hero nx-section">
+    <section id="hero" className="nx-section hero-section">
       <div className="section-anchor" aria-hidden="true" />
 
-      {/* Top banner */}
-      <div className="op-hero-banner">
-        <span className="op-banner-dot" aria-hidden="true" />
-        <span>AVAILABLE FOR HIRE</span>
-        <span className="op-banner-sep">|</span>
+      <div className="hero-status" data-reveal>
+        <span className="hero-status-dot" aria-hidden="true" />
+        <span>AVAILABLE</span>
+        <span className="hero-status-sep" aria-hidden="true">·</span>
         <span>TORONTO, CANADA</span>
-        <span className="op-banner-sep">|</span>
-        <span>OPEN TO CLOUD · DEVOPS · SRE ROLES</span>
+        <span className="hero-status-sep" aria-hidden="true">·</span>
+        <span>CLOUD · DEVOPS · SRE</span>
       </div>
 
-      <div className="content-wrap">
-        <div className="op-hero-grid">
-
-          {/* Left: typography + meta */}
-          <div className="op-hero-left">
-            <div className="op-hero-avatar">NS</div>
-
-            <div className="op-hero-heading">
-              <span className="op-hero-first">NITIN</span>
-              <span className="op-hero-last">SARVESH</span>
-            </div>
-
-            <p className="op-hero-title">{portfolioData.personal.title}</p>
-            <p className="op-hero-sub">{portfolioData.personal.tagline}</p>
-
-            <div className="op-hero-certs">
-              {certPreview.map((c) => (
-                <span key={c.id} className="op-cert-chip">
-                  <ShieldCheck size={11} /> {c.name}
-                </span>
-              ))}
-            </div>
-
-            <div className="op-hero-actions">
-              <button className="op-btn-primary" onClick={() => scrollToSectionById('projects')}>
-                View Projects →
-              </button>
-              <button className="op-btn-secondary" onClick={() => scrollToSectionById('contact')}>
-                Get in Touch
-              </button>
-            </div>
-
-            <div className="op-hero-stats">
-              <div><strong>5+</strong><span>Years</span></div>
-              <div><strong>3</strong><span>Clouds</span></div>
-              <div><strong>50+</strong><span>Deploys</span></div>
-              <div><strong>99.9%</strong><span>Uptime</span></div>
-            </div>
-
-            <div className="op-hero-tags">
-              {TECH_TAGS.map((t) => (
-                <span key={t} className="op-tag">{t}</span>
-              ))}
-            </div>
+      <div className="content-wrap hero-wrap">
+        <div className="hero-left">
+          <div className="hero-monogram" data-reveal>NS</div>
+          <div className="hero-name">
+            <span className="hero-name-first" data-reveal data-reveal-delay="1">NITIN</span>
+            <span className="hero-name-last" data-reveal data-reveal-delay="2">SARVESH</span>
           </div>
-
-          {/* Right: live terminal */}
-          <aside className="op-terminal">
-            <div className="op-terminal-bar">
-              <div className="op-terminal-dots">
-                <span /><span /><span />
-              </div>
-              <span className="op-terminal-title">nitin@k8s-prod:~</span>
-            </div>
-            <div className="op-terminal-body">
-              {CODE_LINES.slice(0, visibleLines).map((line, i) => (
-                <div key={i} className={line.prompt ? 'op-terminal-cmd' : 'op-terminal-out'}>
-                  {line.prompt && <span className="op-terminal-prompt">{line.prompt}</span>}
-                  <span>{line.prompt ? line.cmd : line.out}</span>
-                </div>
-              ))}
-              {visibleLines < CODE_LINES.length && (
-                <div className="op-terminal-cmd">
-                  <span className="op-terminal-prompt">$</span>
-                  <span className="op-terminal-cursor" aria-hidden="true" />
-                </div>
-              )}
-            </div>
-          </aside>
+          <p className="hero-role" data-reveal data-reveal-delay="3">{portfolioData.personal.title}</p>
+          <p className="hero-tagline" data-reveal data-reveal-delay="4">{portfolioData.personal.tagline}</p>
+          <div className="hero-certs" data-reveal data-reveal-delay="5">
+            {certs.map((c) => (
+              <span key={c.id} className="hero-cert">
+                <ShieldCheck size={10} /> {c.name}
+              </span>
+            ))}
+          </div>
+          <div className="hero-actions" data-reveal data-reveal-delay="6">
+            <button className="btn-primary" onClick={() => scrollToSectionById('projects')}>View Work</button>
+            <button className="btn-ghost" onClick={() => scrollToSectionById('contact')}>Hire Me →</button>
+          </div>
         </div>
+
+        <aside className="hero-terminal" data-reveal data-reveal-delay="4">
+          <div className="hero-t-bar">
+            <span className="hero-t-dots" aria-hidden="true"><span /><span /><span /></span>
+            <span className="hero-t-title">nitin@k8s-prod:~$</span>
+          </div>
+          <div className="hero-t-body">
+            {CODE_LINES.slice(0, visibleLines).map((line, i) => (
+              <div key={i} className={line.prompt ? 'hero-t-cmd' : 'hero-t-out'}>
+                {line.prompt && <span className="hero-t-prompt">$</span>}
+                <span>{line.prompt ? line.cmd : line.out}</span>
+              </div>
+            ))}
+            {visibleLines < CODE_LINES.length && (
+              <div className="hero-t-cmd">
+                <span className="hero-t-prompt">$</span>
+                <span className="hero-t-cursor" aria-hidden="true" />
+              </div>
+            )}
+          </div>
+        </aside>
       </div>
 
-      <button
-        className="op-scroll-btn"
-        onClick={() => scrollToSectionById('about')}
-        aria-label="Scroll down"
-      >
-        <ChevronDown size={20} />
+      <button className="hero-scroll-cta" onClick={() => scrollToSectionById('about')} aria-label="Scroll down" data-reveal data-reveal-delay="7">
+        <ChevronDown size={18} />
       </button>
     </section>
   );
