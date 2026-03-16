@@ -1579,6 +1579,262 @@ main {
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   PROFILE BADGE — avatar + availability pill
+   ═══════════════════════════════════════════════════════════════ */
+.nx-profile-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.76rem;
+  margin-bottom: 1rem;
+}
+
+.nx-avatar {
+  width: 4.2rem;
+  height: 4.2rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #5dd5ff 0%, #7ab9ff 38%, #bf5af2 100%);
+  display: grid;
+  place-items: center;
+  font-family: "Outfit", sans-serif;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #010e1d;
+  position: relative;
+  flex-shrink: 0;
+  box-shadow:
+    0 0 0 3px rgba(93, 213, 255, 0.22),
+    0 0 32px rgba(93, 213, 255, 0.28);
+}
+
+.nx-avatar::before {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(93, 213, 255, 0.45);
+  animation: avatarRingPulse 2.6s ease-in-out infinite;
+}
+
+@keyframes avatarRingPulse {
+  0%, 100% { opacity: 0.45; transform: scale(1); }
+  50%       { opacity: 1;    transform: scale(1.07); }
+}
+
+.nx-profile-meta { display: grid; gap: 0.22rem; }
+
+.nx-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  border: 1px solid rgba(50, 209, 88, 0.46);
+  border-radius: 999px;
+  background: rgba(50, 209, 88, 0.09);
+  color: var(--nx-mint);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.60rem;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  padding: 0.22rem 0.56rem;
+  width: fit-content;
+  box-shadow: 0 0 12px rgba(50, 209, 88, 0.16);
+}
+
+.nx-status-pill::before {
+  content: "";
+  width: 0.44rem;
+  height: 0.44rem;
+  border-radius: 999px;
+  background: var(--nx-mint);
+  animation: dotPulse 1.8s ease-in-out infinite;
+}
+
+/* ── Inline hero tech strip ───────────────────────────────── */
+.nx-hero-tech-strip {
+  margin-top: 0.80rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.36rem;
+}
+
+.nx-hero-tech-chip {
+  border: 1px solid rgba(93, 213, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(4, 9, 22, 0.82);
+  color: rgba(175, 215, 255, 0.80);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 0.20rem 0.48rem;
+  transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+}
+
+.nx-hero-tech-chip:hover {
+  border-color: rgba(93, 213, 255, 0.44);
+  color: var(--nx-cyan);
+  background: rgba(93, 213, 255, 0.08);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ABOUT QUICK STATS
+   ═══════════════════════════════════════════════════════════════ */
+.nx-about-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.60rem;
+  margin-bottom: 0.96rem;
+}
+
+.nx-about-stats > div {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  background: rgba(5, 12, 28, 0.70);
+  padding: 0.78rem 0.70rem;
+  display: grid;
+  gap: 0.14rem;
+  text-align: center;
+  transition: border-color 200ms ease, background 200ms ease;
+}
+
+.nx-about-stats > div:hover {
+  border-color: rgba(93, 213, 255, 0.24);
+  background: rgba(8, 18, 44, 0.84);
+}
+
+.nx-about-stats strong {
+  font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+  font-weight: 800;
+  background: linear-gradient(130deg, #5dd5ff, #32d158);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  line-height: 1;
+}
+
+.nx-about-stats span {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.56rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: rgba(145, 180, 228, 0.60);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SKILLS TECH STRIP
+   ═══════════════════════════════════════════════════════════════ */
+.nx-skills-tech-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.46rem;
+  margin-bottom: 0.96rem;
+  padding: 0.82rem 0.92rem;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 1.1rem;
+  background: rgba(5, 12, 28, 0.58);
+  backdrop-filter: blur(12px);
+}
+
+.nx-skills-tech-chip {
+  border: 1px solid rgba(93, 213, 255, 0.16);
+  border-radius: 999px;
+  background: rgba(5, 12, 28, 0.84);
+  color: rgba(185, 220, 255, 0.85);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.60rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 0.22rem 0.54rem;
+  transition: border-color 160ms ease, color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+
+.nx-skills-tech-chip:hover {
+  border-color: rgba(93, 213, 255, 0.44);
+  background: rgba(93, 213, 255, 0.10);
+  color: var(--nx-cyan);
+  box-shadow: 0 0 12px rgba(93, 213, 255, 0.14);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ACHIEVEMENT NUMBERS — highlight in experience list items
+   ═══════════════════════════════════════════════════════════════ */
+.nx-achieve-num {
+  color: var(--nx-cyan);
+  font-weight: 700;
+  font-size: 1.04em;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FEATURED PROJECT CARD
+   ═══════════════════════════════════════════════════════════════ */
+.nx-project-featured {
+  padding: 1.2rem 1.1rem;
+  margin-bottom: 0.92rem;
+  display: grid;
+  gap: 0.76rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.nx-project-featured::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 0%, rgba(93, 213, 255, 0.07), transparent 55%),
+    radial-gradient(circle at 82% 100%, rgba(50, 209, 88, 0.05), transparent 50%);
+  pointer-events: none;
+}
+
+.nx-project-featured .feat-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.66rem;
+  flex-wrap: wrap;
+}
+
+.nx-feat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  border: 1px solid rgba(93, 213, 255, 0.42);
+  border-radius: 999px;
+  background: rgba(93, 213, 255, 0.10);
+  color: var(--nx-cyan);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.56rem;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  padding: 0.20rem 0.52rem;
+  flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(93, 213, 255, 0.14);
+}
+
+.nx-project-featured h3 {
+  margin: 0;
+  font-size: clamp(1.22rem, 2.8vw, 1.82rem);
+  font-weight: 800;
+  line-height: 1.18;
+  background: linear-gradient(130deg, #f5f5f7 0%, #b0d8ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.nx-project-featured > p {
+  margin: 0;
+  color: rgba(200, 228, 255, 0.86);
+  line-height: 1.62;
+  max-width: 72ch;
+  font-size: 0.98rem;
+}
+
+.nx-project-featured .feat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.56rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════
    INTERACTION FEEDBACK
    ═══════════════════════════════════════════════════════════════ */
 .nx-nav-item:active,

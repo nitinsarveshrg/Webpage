@@ -28,6 +28,8 @@ const telemetry = () => ({
   health: 95 + Math.floor(Math.random() * 5),
 });
 
+const TECH_CHIPS = ['AWS', 'Kubernetes', 'Terraform', 'Docker', 'Helm', 'ArgoCD', 'Python', 'Prometheus', 'Grafana', 'Jenkins', 'GitHub Actions', 'Bash'];
+
 const Hero = () => {
   const [activeMode, setActiveMode] = useState(0);
   const [autoMode, setAutoMode] = useState(true);
@@ -57,16 +59,23 @@ const Hero = () => {
       <div className="section-anchor" aria-hidden="true" />
       <div className="content-wrap nx-hero-wrap">
         <div className="nx-hero-storyline" aria-hidden="true">
-          <span>APPLE INSPIRED UI</span>
+          <span>AWS · AZURE · GCP</span>
           <span>•</span>
-          <span>LINUX TERMINAL DNA</span>
+          <span>KUBERNETES · TERRAFORM · ARGOCD</span>
           <span>•</span>
-          <span>PRODUCTION DEVOPS PROFILE</span>
+          <span>5+ YRS PRODUCTION DEVOPS</span>
         </div>
 
         <div className="nx-hero-grid">
           <div className="nx-hero-copy">
-            <p className="nx-kicker">Cloud / DevOps / SRE • Canada</p>
+            <div className="nx-profile-badge">
+              <div className="nx-avatar">NS</div>
+              <div className="nx-profile-meta">
+                <p className="nx-kicker">Cloud / DevOps / SRE · Toronto, Canada</p>
+                <span className="nx-status-pill">Available for Hire</span>
+              </div>
+            </div>
+
             <h1>
               <span>{portfolioData.personal.name.split(' ')[0]}</span>
               <strong>{portfolioData.personal.name.split(' ').slice(1).join(' ')}</strong>
@@ -74,9 +83,11 @@ const Hero = () => {
             <h2>{portfolioData.personal.title}</h2>
             <p className="nx-tagline">{portfolioData.personal.tagline}</p>
 
-            <p className="nx-availability">
-              Open to Cloud / DevOps / SRE roles in Canada • Available immediately
-            </p>
+            <div className="nx-hero-tech-strip">
+              {TECH_CHIPS.map((chip) => (
+                <span key={chip} className="nx-hero-tech-chip">{chip}</span>
+              ))}
+            </div>
 
             <div className="nx-cert-strip">
               {certPreview.map((cert) => (

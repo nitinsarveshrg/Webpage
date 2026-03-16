@@ -44,6 +44,13 @@ const About = () => {
           <p>Production-first cloud engineer focused on reliable systems, automation depth, and release confidence.</p>
         </header>
 
+        <div className="nx-about-stats">
+          <div><strong>5+</strong><span>Years Cloud</span></div>
+          <div><strong>3</strong><span>Hyperscalers</span></div>
+          <div><strong>50+</strong><span>Deployments</span></div>
+          <div><strong>99.9%</strong><span>SLA Uptime</span></div>
+        </div>
+
         <div className="nx-about-shell">
           <div className="nx-about-tabs">
             {tabs.map((tab) => (

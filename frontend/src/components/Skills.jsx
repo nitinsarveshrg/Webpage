@@ -1,6 +1,12 @@
 import React, { useMemo, useState } from 'react';
 import { Activity, Cloud, Code2, Container, GitBranch } from 'lucide-react';
 
+const ALL_TECH = [
+  'AWS', 'Azure', 'GCP', 'Terraform', 'Docker', 'Kubernetes', 'Helm', 'Ansible',
+  'Jenkins', 'GitHub Actions', 'ArgoCD', 'Python', 'Bash', 'SQL',
+  'Prometheus', 'Grafana', 'CloudWatch', 'Datadog', 'ELK', 'Dynatrace',
+];
+
 const skillGroups = [
   {
     key: 'cloud',
@@ -74,6 +80,12 @@ const Skills = () => {
           <h2>Capability Depth</h2>
           <p>No inflated percentages. Real-world levels tied to delivery ownership and production usage.</p>
         </header>
+
+        <div className="nx-skills-tech-strip">
+          {ALL_TECH.map((tech) => (
+            <span key={tech} className="nx-skills-tech-chip">{tech}</span>
+          ))}
+        </div>
 
         <div className="nx-skills-shell">
           <aside className="nx-panel nx-skill-lanes">

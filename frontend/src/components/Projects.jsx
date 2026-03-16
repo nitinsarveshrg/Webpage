@@ -242,57 +242,105 @@ const Projects = () => {
         </div>
 
         {filteredProjects.length > 0 ? (
-          <div className="nx-project-grid">
-            {filteredProjects.map((project) => (
-              <article key={project.id} className="nx-panel nx-project-card">
-                <div className="top">
-                  <small>GitHub Project</small>
-                  <h3>{project.title}</h3>
-                </div>
-
-                <p>{project.description}</p>
-
-                <div className="group">
-                  <div className="label"><Layers3 size={13} /> Technologies</div>
-                  <div className="chips">
-                    {(project.technologies || []).map((tech) => (
-                      <span key={tech}>{tech}</span>
-                    ))}
+          <>
+            {(() => {
+              const featured = filteredProjects[0];
+              return (
+                <article key={`feat-${featured.id}`} className="nx-panel nx-project-featured">
+                  <div className="feat-header">
+                    <span className="nx-feat-badge">★ Featured Project</span>
                   </div>
-                </div>
-
-                {(project.matchedSkills || []).length > 0 && (
-                  <div className="group">
-                    <div className="label"><Layers3 size={13} /> Matched Skills</div>
-                    <div className="chips accents">
-                      {project.matchedSkills.map((skill) => (
-                        <span key={skill}>{skill}</span>
-                      ))}
+                  <h3>{featured.title}</h3>
+                  <p>{featured.description}</p>
+                  <div className="feat-grid">
+                    <div className="group">
+                      <div className="label"><Layers3 size={13} /> Technologies</div>
+                      <div className="chips">
+                        {(featured.technologies || []).map((tech) => (
+                          <span key={tech}>{tech}</span>
+                        ))}
+                      </div>
                     </div>
+                    {(featured.matchedSkills || []).length > 0 && (
+                      <div className="group">
+                        <div className="label"><Layers3 size={13} /> Matched Skills</div>
+                        <div className="chips accents">
+                          {featured.matchedSkills.map((skill) => (
+                            <span key={skill}>{skill}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
-                )}
-
-                <ul>
-                  {(project.highlights || []).map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-
-                <div className="links">
-                  {project.github && (
-                    <a href={project.github} target="_blank" rel="noopener noreferrer">
-                      <Github size={13} /> GitHub
-                    </a>
-                  )}
-                  {project.demo && (
-                    <a href={project.demo} target="_blank" rel="noopener noreferrer">
-                      <ExternalLink size={13} /> Live
-                    </a>
-                  )}
-                </div>
-              </article>
-            ))}
-          </div>
+                  <ul>
+                    {(featured.highlights || []).map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                  <div className="links">
+                    {featured.github && (
+                      <a href={featured.github} target="_blank" rel="noopener noreferrer">
+                        <Github size={13} /> GitHub
+                      </a>
+                    )}
+                    {featured.demo && (
+                      <a href={featured.demo} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink size={13} /> Live
+                      </a>
+                    )}
+                  </div>
+                </article>
+              );
+            })()}
+            {filteredProjects.length > 1 && (
+              <div className="nx-project-grid">
+                {filteredProjects.slice(1).map((project) => (
+                  <article key={project.id} className="nx-panel nx-project-card">
+                    <div className="top">
+                      <small>GitHub Project</small>
+                      <h3>{project.title}</h3>
+                    </div>
+                    <p>{project.description}</p>
+                    <div className="group">
+                      <div className="label"><Layers3 size={13} /> Technologies</div>
+                      <div className="chips">
+                        {(project.technologies || []).map((tech) => (
+                          <span key={tech}>{tech}</span>
+                        ))}
+                      </div>
+                    </div>
+                    {(project.matchedSkills || []).length > 0 && (
+                      <div className="group">
+                        <div className="label"><Layers3 size={13} /> Matched Skills</div>
+                        <div className="chips accents">
+                          {project.matchedSkills.map((skill) => (
+                            <span key={skill}>{skill}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    <ul>
+                      {(project.highlights || []).map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                    <div className="links">
+                      {project.github && (
+                        <a href={project.github} target="_blank" rel="noopener noreferrer">
+                          <Github size={13} /> GitHub
+                        </a>
+                      )}
+                      {project.demo && (
+                        <a href={project.demo} target="_blank" rel="noopener noreferrer">
+                          <ExternalLink size={13} /> Live
+                        </a>
+                      )}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            )}
+          </>
         ) : (
           <div className="nx-panel nx-empty">No project matches this filter/search.</div>
         )}

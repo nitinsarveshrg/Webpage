@@ -2,6 +2,13 @@ import React, { useState } from 'react';
 import { BriefcaseBusiness, CalendarDays, ChevronDown, MapPin } from 'lucide-react';
 import { portfolioData } from '../mock';
 
+const highlightNumbers = (text) => {
+  const parts = text.split(/(\d[\d,.]*\s*(?:%|\+|x|ms|s|hrs?|days?)?)/g);
+  return parts.map((part, i) =>
+    /^\d/.test(part) ? <span key={i} className="nx-achieve-num">{part}</span> : part
+  );
+};
+
 const Experience = () => {
   const [expandedId, setExpandedId] = useState(portfolioData.experience[0]?.id || null);
 
@@ -44,7 +51,7 @@ const Experience = () => {
                   {open && (
                     <ul>
                       {role.achievements.map((item) => (
-                        <li key={item}>{item}</li>
+                        <li key={item}>{highlightNumbers(item)}</li>
                       ))}
                     </ul>
                   )}
