@@ -38,7 +38,7 @@ const FrontGate = ({ exiting = false, onEnter }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
         >
-          Cloud &amp; DevOps Engineer · Toronto
+          Cloud &amp; DevOps Engineer
         </motion.div>
 
       </div>
