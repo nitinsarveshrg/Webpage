@@ -79,13 +79,22 @@ const Home = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          entry.target.classList.toggle('in-view', entry.isIntersecting);
+          if (entry.isIntersecting) entry.target.classList.add('in-view');
         });
       },
-      { threshold: 0.28, rootMargin: '-8% 0px -14% 0px' }
+      { threshold: 0.08 }
     );
 
     sections.forEach((section) => observer.observe(section));
+
+    // Force-reveal any section already visible at load time
+    const vh = window.innerHeight;
+    sections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+      if (rect.top < vh * 0.92 && rect.bottom > vh * 0.08) {
+        section.classList.add('in-view');
+      }
+    });
 
     return () => {
       observer.disconnect();

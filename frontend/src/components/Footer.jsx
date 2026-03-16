@@ -10,7 +10,7 @@ const Footer = () => (
     <div className="ft-top">
       <div className="ft-brand">
         <div className="ft-logo">NS</div>
-        <div className="ft-brand-name">Nitin Sarvesh</div>
+        <div className="ft-brand-name">Nitin Sarvesh Raajagopal</div>
         <div className="ft-brand-role">Cloud · DevOps · SRE · Toronto</div>
         <p className="ft-brand-bio">
           Building resilient cloud infrastructure and automated delivery pipelines
@@ -44,7 +44,7 @@ const Footer = () => (
     </div>
     <hr className="ft-divider" />
     <div className="ft-bottom">
-      <span className="ft-copy">© {new Date().getFullYear()} Nitin Sarvesh. All rights reserved.</span>
+      <span className="ft-copy">© {new Date().getFullYear()} Nitin Sarvesh Raajagopal. All rights reserved.</span>
       <span className="ft-made">Built with <span>♥</span> in Toronto</span>
     </div>
   </footer>
