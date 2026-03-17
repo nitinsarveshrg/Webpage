@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Cloud } from 'lucide-react';
 
-const FrontGate = ({ exiting = false, onEnter }) => {
+const FrontGate = ({ onEnter }) => {
   // Auto-dismiss at 2.2 s
   useEffect(() => {
     const t = setTimeout(() => onEnter?.(), 2200);
@@ -12,8 +12,9 @@ const FrontGate = ({ exiting = false, onEnter }) => {
   return (
     <motion.div
       className="opg-overlay"
-      animate={exiting ? { y: '-100%' } : { y: 0 }}
-      transition={exiting ? { duration: 0.75, ease: [0.76, 0, 0.24, 1] } : { duration: 0 }}
+      initial={{ y: 0 }}
+      exit={{ y: '-100%' }}
+      transition={{ duration: 0.75, ease: [0.76, 0, 0.24, 1] }}
     >
       <div className="opg-content">
 

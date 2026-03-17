@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -17,25 +18,15 @@ import { Toaster } from './components/ui/toaster';
 import { scrollToSectionById } from './lib/sectionScroll';
 
 const Home = () => {
-  const [gateStage, setGateStage] = useState('show');
+  const [gateDone, setGateDone] = useState(false);
   const [scrollPct, setScrollPct] = useState(0);
   const [cursor, setCursor] = useState({ x: -300, y: -300 });
-  const isLocked = gateStage !== 'done';
+  const isLocked = !gateDone;
 
   useEffect(() => {
     document.body.style.overflow = isLocked ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [isLocked]);
-
-  useEffect(() => {
-    if (gateStage !== 'exit') return undefined;
-    const timer = setTimeout(() => {
-      setGateStage('done');
-      const hash = window.location.hash.replace('#', '');
-      if (hash) scrollToSectionById(hash, { behavior: 'auto' });
-    }, 950);
-    return () => clearTimeout(timer);
-  }, [gateStage]);
 
   useEffect(() => {
     if (isLocked) return undefined;
@@ -99,12 +90,11 @@ const Home = () => {
 
       <Footer />
 
-      {gateStage !== 'done' && (
-        <FrontGate
-          exiting={gateStage === 'exit'}
-          onEnter={() => setGateStage((prev) => (prev === 'show' ? 'exit' : prev))}
-        />
-      )}
+      <AnimatePresence>
+        {!gateDone && (
+          <FrontGate key="gate" onEnter={() => setGateDone(true)} />
+        )}
+      </AnimatePresence>
     </div>
   );
 };
