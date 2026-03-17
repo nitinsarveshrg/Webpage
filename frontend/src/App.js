@@ -33,7 +33,7 @@ const Home = () => {
       setGateStage('done');
       const hash = window.location.hash.replace('#', '');
       if (hash) scrollToSectionById(hash, { behavior: 'auto' });
-    }, 760);
+    }, 950);
     return () => clearTimeout(timer);
   }, [gateStage]);
 

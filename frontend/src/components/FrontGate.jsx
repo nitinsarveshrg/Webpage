@@ -13,7 +13,7 @@ const FrontGate = ({ exiting = false, onEnter }) => {
     <motion.div
       className="opg-overlay"
       animate={exiting ? { y: '-100%' } : { y: 0 }}
-      transition={exiting ? { duration: 0.9, ease: [0.76, 0, 0.24, 1] } : { duration: 0 }}
+      transition={exiting ? { duration: 0.75, ease: [0.76, 0, 0.24, 1] } : { duration: 0 }}
     >
       <div className="opg-content">
 
