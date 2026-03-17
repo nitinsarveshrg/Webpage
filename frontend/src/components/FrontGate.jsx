@@ -12,9 +12,9 @@ const FrontGate = ({ onEnter }) => {
   return (
     <motion.div
       className="opg-overlay"
-      initial={{ y: 0 }}
-      exit={{ y: '-100%' }}
-      transition={{ duration: 0.75, ease: [0.76, 0, 0.24, 1] }}
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0, scale: 1.06 }}
+      transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
     >
       <div className="opg-content">
 
