@@ -965,31 +965,41 @@ body::after {
   padding-left: 1.25rem;
 }
 
-/* NITIN — near-black, pushed bigger */
+/* NITIN — warm near-black gradient, tight, ultra-bold */
 [data-theme="light"] .hero-n1 {
-  color: #0a0a0a;
-  font-size: clamp(4rem, 15vw, 13rem);
+  background: linear-gradient(175deg, #0a0a0a 40%, #2d1200 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: clamp(2.6rem, 7.5vw, 6rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
   line-height: 0.88;
 }
 
-/* SARVESH — solid orange, no gradient, bigger */
+/* SARVESH — solid orange italic with warm glow */
 [data-theme="light"] .hero-n2 {
   background: none;
   -webkit-text-fill-color: var(--orange);
   color: var(--orange);
-  font-size: clamp(3.3rem, 13vw, 11rem);
+  font-size: clamp(2.2rem, 6.2vw, 5rem);
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: -0.03em;
   line-height: 0.88;
+  text-shadow: 0 4px 28px rgba(249,115,22,0.28);
 }
 
-/* RAAJAGOPAL — outline/ghost, large, full name showing */
+/* RAAJAGOPAL — wide-tracked italic outline stamp */
 [data-theme="light"] .hero-n3 {
   display: block;
   color: transparent;
-  -webkit-text-stroke: 2px rgba(0,0,0,0.18);
-  font-size: clamp(2.6rem, 10vw, 8.5rem);
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  line-height: 0.92;
+  -webkit-text-stroke: 2px rgba(0,0,0,0.28);
+  font-size: clamp(1.6rem, 4.8vw, 3.8rem);
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 0.10em;
+  line-height: 0.95;
 }
 
 [data-theme="light"] .hero-bottom-ui { align-items: flex-start; margin-top: 0.5rem; }
@@ -1187,11 +1197,7 @@ body::after {
    LIGHT v4 — MORE DRAMA
    ══════════════════════════════════════════════════════════════ */
 
-/* ── Hero: stronger name + underline accent ───────────────────── */
-/* Make RAAJAGOPAL outline bolder */
-[data-theme="light"] .hero-n3 {
-  -webkit-text-stroke: 2.5px rgba(0,0,0,0.32);
-}
+/* ── Hero: underline accent below name ────────────────────────── */
 /* Underline accent below name block */
 [data-theme="light"] .hero-name-wrap::after {
   content: '';
@@ -1424,3 +1430,82 @@ body::after {
 /* ── Education — period in green mono ────────────────────────── */
 [data-theme="light"] .edu-period   { color: #16a34a; font-weight: 700; letter-spacing: 0.10em; }
 [data-theme="light"] .edu-location { color: rgba(0,0,0,0.38); font-size: 0.80rem; }
+
+/* ══════════════════════════════════════════════════════════════
+   LIGHT THEME — GLOBAL EFFECTS & POLISH
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Text selection — orange highlight ────────────────────────── */
+[data-theme="light"] ::selection {
+  background: rgba(249,115,22,0.22);
+  color: #0a0a0a;
+}
+
+/* ── Custom scrollbar ─────────────────────────────────────────── */
+[data-theme="light"] ::-webkit-scrollbar       { width: 6px; }
+[data-theme="light"] ::-webkit-scrollbar-track { background: #efefef; }
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: rgba(249,115,22,0.45);
+  border-radius: 99px;
+}
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover { background: var(--orange); }
+
+/* ── Cursor glow — warmer orange in light ─────────────────────── */
+[data-theme="light"] .nx-cursor-glow {
+  background: radial-gradient(circle at center, rgba(249,115,22,0.10) 0%, transparent 65%);
+}
+
+/* ── Hero name bar — pulsing glow ────────────────────────────── */
+@keyframes bar-pulse {
+  0%, 100% { box-shadow: 2px 0 14px rgba(249,115,22,0.30); }
+  50%       { box-shadow: 2px 0 28px rgba(249,115,22,0.60); }
+}
+[data-theme="light"] .hero-name-wrap {
+  animation: bar-pulse 3s ease-in-out infinite;
+}
+
+/* ── Section headings — underline slide on hover ─────────────── */
+[data-theme="light"] .section-heading {
+  display: inline-block;
+  background-image: linear-gradient(var(--orange), var(--orange));
+  background-repeat: no-repeat;
+  background-size: 0% 3px;
+  background-position: 0 100%;
+  transition: background-size 400ms ease;
+  padding-bottom: 4px;
+}
+[data-theme="light"] .section-heading:hover { background-size: 60% 3px; }
+
+/* ── Marquee ticker — orange gradient fade on edges ──────────── */
+[data-theme="light"] .marquee-wrap {
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  mask-image:         linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+}
+
+/* ── Nav links — underline slide on hover ────────────────────── */
+[data-theme="light"] .hdr-nav a {
+  position: relative;
+}
+[data-theme="light"] .hdr-nav a::after {
+  content: '';
+  position: absolute; left: 0; bottom: -2px;
+  width: 0; height: 2px;
+  background: var(--orange);
+  border-radius: 99px;
+  transition: width 250ms var(--ease-out);
+}
+[data-theme="light"] .hdr-nav a:hover::after { width: 100%; }
+
+/* ── Hire Me button — arrow shift on hover ───────────────────── */
+[data-theme="light"] .hdr-cta {
+  transition: transform 200ms var(--ease-out), box-shadow 200ms ease;
+}
+[data-theme="light"] .hdr-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(249,115,22,0.40);
+}
+
+/* ── Smooth inter-section divider lines ──────────────────────── */
+[data-theme="light"] .nx-section {
+  position: relative;
+}
