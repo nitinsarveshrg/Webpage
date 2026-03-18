@@ -1327,3 +1327,100 @@ body::after {
 [data-theme="light"] .ft-bottom { border-color: rgba(255,255,255,0.07); }
 [data-theme="light"] .ft-copy,
 [data-theme="light"] .ft-made { color: rgba(255,255,255,0.30); }
+
+/* ══════════════════════════════════════════════════════════════
+   LIGHT v5 — EVEN MORE INTERESTING
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Coloured accent top-border for every section ─────────────── */
+[data-theme="light"] .cert-section     { border-top: 3px solid #7c3aed; }
+[data-theme="light"] .skills-section   { border-top: 3px solid #0e7490; }
+[data-theme="light"] .exp-section      { border-top: 3px solid var(--orange); }
+[data-theme="light"] .projects-section { border-top: 3px solid var(--orange); }
+[data-theme="light"] .edu-section      { border-top: 3px solid #16a34a; }
+
+/* ── Section number watermarks — slightly more visible ────────── */
+[data-theme="light"] .ab-section       .section-heading::before,
+[data-theme="light"] .cert-section     .section-heading::before,
+[data-theme="light"] .skills-section   .section-heading::before,
+[data-theme="light"] .exp-section      .section-heading::before,
+[data-theme="light"] .projects-section .section-heading::before,
+[data-theme="light"] .edu-section      .section-heading::before { color: rgba(0,0,0,0.065); }
+
+/* ── About — restore 2-col layout + bold first paragraph ─────── */
+[data-theme="light"] .ab-layout {
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(3rem, 8vw, 7rem);
+}
+[data-theme="light"] .ab-body p:first-child {
+  font-size: clamp(1.05rem, 1.8vw, 1.2rem);
+  font-weight: 600; color: #0a0a0a;
+  border-left: 4px solid var(--orange);
+  padding-left: 1.25rem; line-height: 1.65;
+}
+
+/* ── Cert section — dot pattern background ────────────────────── */
+[data-theme="light"] .cert-section {
+  background:
+    radial-gradient(rgba(124,58,237,0.07) 1px, transparent 1px),
+    #fdf6ee;
+  background-size: 24px 24px, 100% 100%;
+}
+
+/* ── Cert badges — color-coded by provider (nth-child) ────────── */
+[data-theme="light"] .cert-badge { width: 52px; height: 52px; border-radius: 12px; }
+[data-theme="light"] .cert-card:nth-child(1) .cert-badge { background: rgba(249,115,22,0.15); color: var(--orange); }
+[data-theme="light"] .cert-card:nth-child(2) .cert-badge { background: rgba(124,58,237,0.14); color: #7c3aed; }
+[data-theme="light"] .cert-card:nth-child(3) .cert-badge { background: rgba(2,132,199,0.13);  color: #0284c7; }
+
+/* Also colour the 2nd and 3rd verify link to match */
+[data-theme="light"] .cert-card:nth-child(2) .cert-verify-link { color: #7c3aed; }
+[data-theme="light"] .cert-card:nth-child(3) .cert-verify-link { color: #0284c7; }
+
+/* Bigger, bolder cert name */
+[data-theme="light"] .cert-name   { font-size: 1.05rem; font-weight: 800; color: #0a0a0a; letter-spacing: -0.02em; }
+[data-theme="light"] .cert-issuer { color: rgba(0,0,0,0.44); font-weight: 600; letter-spacing: 0.04em; }
+
+/* ── Projects — CORRECT class names + dramatic styling ────────── */
+[data-theme="light"] .projects-section {
+  background:
+    radial-gradient(rgba(249,115,22,0.07) 1px, transparent 1px),
+    #fdf6ee;
+  background-size: 22px 22px, 100% 100%;
+}
+[data-theme="light"] .proj-card {
+  background: #fff; border: none;
+  border-top: 4px solid var(--orange);
+  border-radius: 0 0 14px 14px;
+  box-shadow: 0 4px 24px rgba(249,115,22,0.10), 0 1px 4px rgba(0,0,0,0.06);
+  transition: box-shadow 280ms ease, transform 280ms ease;
+}
+[data-theme="light"] .proj-card:hover {
+  box-shadow: 0 16px 48px rgba(249,115,22,0.22);
+  transform: translateY(-6px);
+}
+[data-theme="light"] .proj-title {
+  font-size: 1.15rem; font-weight: 900; color: #0a0a0a; letter-spacing: -0.03em;
+}
+[data-theme="light"] .proj-desc    { color: rgba(0,0,0,0.60); font-size: 0.88rem; }
+[data-theme="light"] .proj-highlight { color: rgba(0,0,0,0.48); }
+[data-theme="light"] .proj-tag {
+  background: rgba(249,115,22,0.10); border-color: rgba(249,115,22,0.24);
+  color: #c2410c; font-weight: 700; font-size: 0.67rem;
+}
+[data-theme="light"] .proj-link       { color: rgba(0,0,0,0.40); font-weight: 600; }
+[data-theme="light"] .proj-link:hover { color: var(--orange); }
+
+/* ── Experience — orange date, stronger company ───────────────── */
+[data-theme="light"] .exp-period   { color: var(--orange); font-weight: 700; letter-spacing: 0.10em; }
+[data-theme="light"] .exp-location { color: rgba(0,0,0,0.35); font-size: 0.80rem; }
+[data-theme="light"] .exp-desc     { color: rgba(0,0,0,0.58); font-size: 0.9rem; margin-top: 0.5rem; line-height: 1.7; }
+
+/* ── Skills — category label punchier ────────────────────────── */
+[data-theme="light"] .skill-group-label {
+  font-size: 0.78rem; font-weight: 900; letter-spacing: 0.16em;
+}
+
+/* ── Education — period in green mono ────────────────────────── */
+[data-theme="light"] .edu-period   { color: #16a34a; font-weight: 700; letter-spacing: 0.10em; }
+[data-theme="light"] .edu-location { color: rgba(0,0,0,0.38); font-size: 0.80rem; }
