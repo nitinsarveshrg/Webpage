@@ -916,3 +916,182 @@ body::after {
   .hero-n2 { font-size: clamp(2.2rem, 12vw, 5rem); }
   .hero-n3 { font-size: clamp(1.7rem, 9vw, 3.8rem); }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   LIGHT THEME — SWISS EDITORIAL LAYOUT REDESIGN
+   Everything below overrides layout/style for data-theme="light"
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Global base ──────────────────────────────────────────────── */
+[data-theme="light"] body { background: #fafafa; }
+
+/* Section labels: muted ink, no orange line */
+[data-theme="light"] .section-label { color: var(--text-3); letter-spacing: 0.18em; }
+[data-theme="light"] .section-label::before { background: var(--text-3); }
+
+/* Section headings: em becomes solid orange (not muted) */
+[data-theme="light"] .section-heading em { color: var(--orange); font-style: italic; }
+
+/* ── Hero ─────────────────────────────────────────────────────── */
+/* Left-aligned editorial hero */
+[data-theme="light"] .hero-section {
+  padding-left: clamp(1.5rem, 5vw, 4rem);
+  padding-right: clamp(1.5rem, 5vw, 4rem);
+}
+[data-theme="light"] .hero-glow { display: none; }
+
+[data-theme="light"] .hero-ui-layer { justify-content: flex-start; }
+[data-theme="light"] .hero-pill {
+  background: transparent;
+  border-color: rgba(0,0,0,0.14);
+}
+[data-theme="light"] .hero-pill-dot { background: #16a34a; }
+
+[data-theme="light"] .hero-name-wrap { align-items: flex-start; gap: 0; }
+
+/* NITIN — solid black */
+[data-theme="light"] .hero-n1 { color: var(--text); }
+
+/* SARVESH — solid orange, no gradient */
+[data-theme="light"] .hero-n2 {
+  background: none;
+  -webkit-text-fill-color: var(--orange);
+  color: var(--orange);
+}
+
+/* RAAJAGOPAL — hide the ghost text in light mode */
+[data-theme="light"] .hero-n3 { display: none; }
+
+[data-theme="light"] .hero-bottom-ui { align-items: flex-start; }
+[data-theme="light"] .hero-tagline { color: var(--text-2); max-width: 44ch; text-align: left; }
+[data-theme="light"] .hero-actions { justify-content: flex-start; }
+[data-theme="light"] .hero-scroll { align-items: flex-start; }
+
+/* CTA buttons: ghost gets a dark border */
+[data-theme="light"] .btn-ghost {
+  border-color: rgba(0,0,0,0.20);
+  color: var(--text);
+}
+[data-theme="light"] .btn-ghost:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+  background: transparent;
+}
+
+/* Scroll indicator */
+[data-theme="light"] .hero-scroll { color: var(--text-3); }
+
+/* ── Marquee ──────────────────────────────────────────────────── */
+[data-theme="light"] .marquee-wrap {
+  border-color: rgba(0,0,0,0.09);
+  background: rgba(0,0,0,0.015);
+}
+[data-theme="light"] .marquee-dot { color: var(--orange); }
+
+/* ── About — horizontal 4-col stats ──────────────────────────── */
+/* Stack text above stats so stats can span full width */
+[data-theme="light"] .ab-layout {
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+
+[data-theme="light"] .ab-metrics {
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: 2px solid var(--text);
+}
+[data-theme="light"] .ab-metric {
+  border: none;
+  border-bottom: 1px solid var(--bdr);
+  border-left: 1px solid var(--bdr);
+  border-radius: 0;
+  padding: 1.5rem 1.25rem 1.25rem;
+  background: transparent;
+}
+[data-theme="light"] .ab-metric:nth-child(odd) { border-left: none; }
+[data-theme="light"] .ab-metric:hover { background: rgba(249,115,22,0.04); }
+[data-theme="light"] .ab-metric-val { font-size: clamp(1.8rem, 3.5vw, 2.6rem); }
+[data-theme="light"] .ab-metric-lbl { color: var(--text-3); margin-top: 0.6rem; }
+
+/* ── Skills — table rows instead of badge cards ───────────────── */
+[data-theme="light"] .skills-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid var(--bdr);
+}
+[data-theme="light"] .skill-group-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 2.5rem;
+  padding: 1.25rem 0;
+  border: none;
+  border-bottom: 1px solid var(--bdr);
+  border-radius: 0;
+  background: transparent;
+}
+[data-theme="light"] .skill-group-card:hover {
+  background: rgba(249,115,22,0.025);
+  border-bottom-color: rgba(249,115,22,0.20);
+}
+[data-theme="light"] .skill-group-label {
+  width: 150px;
+  flex-shrink: 0;
+  margin-bottom: 0;
+  padding-top: 0.2rem;
+  color: var(--orange);
+}
+[data-theme="light"] .skill-badge {
+  border-radius: 4px;
+  border-color: rgba(0,0,0,0.10);
+  background: rgba(0,0,0,0.03);
+}
+
+/* ── Certifications — shadow cards ───────────────────────────── */
+[data-theme="light"] .cert-card {
+  background: #fff;
+  border-color: rgba(0,0,0,0.07);
+  box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+}
+[data-theme="light"] .cert-card:hover {
+  box-shadow: 0 4px 20px rgba(249,115,22,0.12);
+  border-color: rgba(249,115,22,0.22);
+}
+
+/* ── Experience — ruled timeline ─────────────────────────────── */
+[data-theme="light"] .exp-list { margin-top: 3rem; }
+[data-theme="light"] .exp-item {
+  border-top: 1px solid var(--bdr);
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+[data-theme="light"] .exp-item:last-child { border-bottom: 1px solid var(--bdr); }
+[data-theme="light"] .exp-item:hover { background: rgba(249,115,22,0.02); }
+[data-theme="light"] .exp-company { font-weight: 700; color: var(--text); }
+[data-theme="light"] .exp-achievement { color: var(--text-2); }
+
+/* ── Projects — white shadow cards ───────────────────────────── */
+[data-theme="light"] .pf-card {
+  background: #fff;
+  border-color: rgba(0,0,0,0.07);
+  box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+}
+[data-theme="light"] .pf-card:hover { box-shadow: 0 4px 20px rgba(249,115,22,0.10); }
+[data-theme="light"] .pf-tag {
+  background: rgba(0,0,0,0.05);
+  border-color: rgba(0,0,0,0.10);
+  color: var(--text-2);
+}
+
+/* ── Contact ──────────────────────────────────────────────────── */
+[data-theme="light"] .contact-section { background: #fafafa; }
+
+/* ── Footer ───────────────────────────────────────────────────── */
+[data-theme="light"] .ft-bottom { border-color: rgba(0,0,0,0.09); }
+
+/* ── FrontGate ────────────────────────────────────────────────── */
+[data-theme="light"] .opg-icon-box { background: var(--orange); }
+[data-theme="light"] .opg-typed { color: var(--text); }
+[data-theme="light"] .opg-label { color: var(--text-2); }
+[data-theme="light"] .opg-prompt { color: var(--orange); }
+[data-theme="light"] .opg-line { color: var(--text-2); border-color: rgba(0,0,0,0.08); }
