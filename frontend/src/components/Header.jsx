@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Cloud, Menu, X } from 'lucide-react';
+import { Cloud, Menu, X, Sun, Moon } from 'lucide-react';
 import { scrollToSectionById } from '../lib/sectionScroll';
+import { useTheme } from '../hooks/useTheme';
 
 const NAV = [
   { id: 'about', label: 'About' },
@@ -16,6 +17,7 @@ const NAV = [
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { theme, toggle } = useTheme();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -49,6 +51,14 @@ const Header = () => {
           ))}
         </nav>
 
+        <button
+          className="hdr-theme-toggle"
+          onClick={toggle}
+          aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+        >
+          {theme === 'dark' ? <Sun size={16} strokeWidth={2} /> : <Moon size={16} strokeWidth={2} />}
+        </button>
+
         <button className="hdr-cta" onClick={() => go('contact')}>
           Hire Me
         </button>
@@ -68,7 +78,8 @@ const Header = () => {
           animate={{ opacity: 1, y: 0 }}
           style={{
             position: 'absolute', top: '60px', left: 0, right: 0,
-            background: 'rgba(0,0,0,0.95)', backdropFilter: 'blur(20px)',
+            background: theme === 'dark' ? 'rgba(0,0,0,0.95)' : 'rgba(245,245,245,0.97)',
+            backdropFilter: 'blur(20px)',
             borderBottom: '1px solid var(--bdr)', padding: '1rem',
             display: 'flex', flexDirection: 'column', gap: '0.25rem',
           }}

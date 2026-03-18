@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
+import { useTheme } from './hooks/useTheme';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Header from './components/Header';
@@ -18,6 +19,7 @@ import { Toaster } from './components/ui/toaster';
 import { scrollToSectionById } from './lib/sectionScroll';
 
 const Home = () => {
+  useTheme(); // initialises theme from localStorage / system preference on mount
   const [gateDone, setGateDone] = useState(false);
   const [scrollPct, setScrollPct] = useState(0);
   const [cursor, setCursor] = useState({ x: -300, y: -300 });
