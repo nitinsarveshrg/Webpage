@@ -310,7 +310,7 @@ body::after {
 .marquee-wrap:hover .marquee-track { animation-play-state: paused; }
 .marquee-item {
   font-family: var(--mono); font-size: 0.65rem; font-weight: 500;
-  letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-3);
+  letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-2);
   padding: 0 2rem; white-space: nowrap; transition: color 200ms ease;
 }
 .marquee-item:hover { color: var(--orange); }
@@ -355,6 +355,7 @@ body::after {
   background: var(--bg);
   position: relative;
   z-index: 1;
+  padding-top: clamp(3rem, 6vh, 5rem);
 }
 
 .ab-layout {
@@ -381,11 +382,12 @@ body::after {
 .ab-metric {
   padding: 1.75rem;
   border: 1px solid var(--bdr);
+  border-left: 2px solid rgba(249,115,22,0.35);
   border-radius: 12px;
   background: rgba(255,255,255,0.02);
-  transition: border-color 250ms ease, background 250ms ease;
+  transition: border-color 250ms ease, background 250ms ease, border-left-color 250ms ease;
 }
-.ab-metric:hover { border-color: rgba(249,115,22,0.20); background: rgba(249,115,22,0.03); }
+.ab-metric:hover { border-color: rgba(249,115,22,0.20); border-left-color: rgba(249,115,22,0.7); background: rgba(249,115,22,0.03); }
 
 .ab-metric-val {
   display: block;
