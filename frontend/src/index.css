@@ -931,10 +931,10 @@ body::after {
 }
 [data-theme="light"] .section-label::before { background: rgba(0,0,0,0.25); width: 28px; }
 
-/* Section headings — dramatically larger */
+/* Section headings — slightly larger than dark, still controlled */
 [data-theme="light"] .section-heading {
-  font-size: clamp(2.6rem, 7vw, 6rem);
-  font-weight: 900; letter-spacing: -0.04em; line-height: 1.0;
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  font-weight: 900; letter-spacing: -0.04em; line-height: 1.05;
 }
 [data-theme="light"] .section-heading em { color: var(--orange); font-style: italic; }
 
@@ -965,41 +965,37 @@ body::after {
   padding-left: 1.25rem;
 }
 
-/* NITIN — warm near-black gradient, tight, ultra-bold */
+/* NITIN — solid near-black, bold, tight */
 [data-theme="light"] .hero-n1 {
-  background: linear-gradient(175deg, #0a0a0a 40%, #2d1200 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-size: clamp(2.6rem, 7.5vw, 6rem);
+  color: #0a0a0a;
+  font-size: clamp(2.8rem, 8.5vw, 7rem);
   font-weight: 900;
   letter-spacing: -0.04em;
   line-height: 0.88;
 }
 
-/* SARVESH — solid orange italic with warm glow */
+/* SARVESH — solid orange, no italic */
 [data-theme="light"] .hero-n2 {
   background: none;
   -webkit-text-fill-color: var(--orange);
   color: var(--orange);
-  font-size: clamp(2.2rem, 6.2vw, 5rem);
+  font-size: clamp(2.4rem, 7vw, 5.8rem);
   font-weight: 900;
-  font-style: italic;
-  letter-spacing: -0.03em;
+  font-style: normal;
+  letter-spacing: -0.04em;
   line-height: 0.88;
-  text-shadow: 0 4px 28px rgba(249,115,22,0.28);
 }
 
-/* RAAJAGOPAL — wide-tracked italic outline stamp */
+/* RAAJAGOPAL — outline ghost, tight tracking */
 [data-theme="light"] .hero-n3 {
   display: block;
   color: transparent;
-  -webkit-text-stroke: 2px rgba(0,0,0,0.28);
-  font-size: clamp(1.6rem, 4.8vw, 3.8rem);
+  -webkit-text-stroke: 2px rgba(0,0,0,0.30);
+  font-size: clamp(1.8rem, 5.5vw, 4.4rem);
   font-weight: 900;
-  font-style: italic;
-  letter-spacing: 0.10em;
-  line-height: 0.95;
+  font-style: normal;
+  letter-spacing: -0.01em;
+  line-height: 0.92;
 }
 
 [data-theme="light"] .hero-bottom-ui { align-items: flex-start; margin-top: 0.5rem; }
@@ -1008,7 +1004,29 @@ body::after {
   text-align: left; font-size: clamp(1rem, 1.8vw, 1.2rem);
 }
 [data-theme="light"] .hero-actions { justify-content: flex-start; }
-[data-theme="light"] .hero-scroll { align-items: flex-start; color: rgba(0,0,0,0.35); }
+/* Scroll indicator — horizontal breathing line replaces bounce chevron */
+[data-theme="light"] .hero-scroll {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.6rem;
+  animation: none;
+  color: rgba(0,0,0,0.38);
+  font-size: 0.55rem;
+  letter-spacing: 0.22em;
+}
+[data-theme="light"] .hero-scroll > svg { display: none; }
+[data-theme="light"] .hero-scroll::after {
+  content: '';
+  display: block;
+  height: 1.5px;
+  background: var(--orange);
+  border-radius: 99px;
+  animation: line-breathe 2.2s ease-in-out infinite;
+}
+@keyframes line-breathe {
+  0%, 100% { width: 14px; opacity: 0.35; }
+  50%       { width: 44px; opacity: 1; }
+}
 
 [data-theme="light"] .btn-primary { box-shadow: 0 4px 20px rgba(249,115,22,0.35); }
 [data-theme="light"] .btn-ghost { border-color: rgba(0,0,0,0.22); color: #0a0a0a; }
@@ -1465,16 +1483,17 @@ body::after {
 }
 
 /* ── Section headings — underline slide on hover ─────────────── */
+/* Section heading hover — underline slides in */
 [data-theme="light"] .section-heading {
   display: inline-block;
   background-image: linear-gradient(var(--orange), var(--orange));
   background-repeat: no-repeat;
   background-size: 0% 3px;
-  background-position: 0 100%;
+  background-position: 0 105%;
   transition: background-size 400ms ease;
   padding-bottom: 4px;
 }
-[data-theme="light"] .section-heading:hover { background-size: 60% 3px; }
+[data-theme="light"] .section-heading:hover { background-size: 55% 3px; }
 
 /* ── Marquee ticker — orange gradient fade on edges ──────────── */
 [data-theme="light"] .marquee-wrap {
