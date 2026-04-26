@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 
 const HOBBIES = [
@@ -35,19 +35,31 @@ const HOBBIES = [
 const inView = (delay = 0) => ({
   initial: { opacity: 0, y: 56, scale: 0.97 },
   whileInView: { opacity: 1, y: 0, scale: 1 },
-  viewport: { once: false, amount: 0.1 },
+  viewport: { once: true, amount: 0.3 },
   transition: { duration: 0.9, ease: [0.16, 0.86, 0.24, 1], delay },
 });
 
-const HobbyCard = ({ h, delay }) => {
+const HobbyCard = ({ h, delay, index }) => {
   const [flipped, setFlipped] = useState(false);
+  const peeked = useRef(false);
+
+  const handleViewportEnter = () => {
+    if (peeked.current) return;
+    peeked.current = true;
+    // wait for entrance animation to settle, then stagger peek per card
+    const wait = (delay + 0.95 + index * 0.18) * 1000;
+    setTimeout(() => {
+      setFlipped(true);
+      setTimeout(() => setFlipped(false), 1800);
+    }, wait);
+  };
 
   return (
     <motion.div
       className="os-card-wrap"
       {...inView(delay)}
+      onViewportEnter={handleViewportEnter}
       onClick={() => setFlipped((v) => !v)}
-      title="Click to flip"
     >
       <div className={`os-card-inner${flipped ? ' os-flipped' : ''}`}>
         {/* Front */}
@@ -82,7 +94,7 @@ const OffShift = () => (
 
       <div className="os-grid">
         {HOBBIES.map((h, i) => (
-          <HobbyCard key={h.title} h={h} delay={0.12 + i * 0.1} />
+          <HobbyCard key={h.title} h={h} delay={0.12 + i * 0.1} index={i} />
         ))}
       </div>
 
