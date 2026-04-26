@@ -56,17 +56,17 @@
   --text-3:   rgba(17,17,16,0.38);
   --ora-lo:   rgba(249,115,22,0.09);
   --serif:    'Instrument Serif', 'Georgia', serif;
-  --grid-ln:  rgba(0,0,0,0.065);
 }
 
-/* Fine cross-hair grid background — replaces dot pattern in light mode */
+/* Green terminal cross-hair grid — visible in light mode */
 [data-theme="light"] body {
   background-color: #f4f3ef;
   background-image:
-    linear-gradient(var(--grid-ln) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-ln) 1px, transparent 1px);
-  background-size: 60px 60px;
-  background-position: -1px -1px;
+    linear-gradient(rgba(34,197,94,0.13) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34,197,94,0.13) 1px, transparent 1px),
+    radial-gradient(circle, rgba(34,197,94,0.18) 1px, transparent 1px);
+  background-size: 60px 60px, 60px 60px, 30px 30px;
+  background-position: -1px -1px, -1px -1px, 0 0;
 }
 
 /* Left/right frame border around the whole page */
@@ -160,6 +160,78 @@
   background: rgba(255,255,255,0.80);
   border-color: rgba(0,0,0,0.09);
   border-left: 2px solid var(--orange);
+}
+
+/* ── Terminal / cyber elements — light mode visibility ───────── */
+
+/* Corner brackets: brighter green, visible without hover */
+[data-theme="light"] .cert-card::before,
+[data-theme="light"] .skill-group-card::before,
+[data-theme="light"] .proj-card::before,
+[data-theme="light"] .exp-item::before,
+[data-theme="light"] .ab-metric::before,
+[data-theme="light"] .edu-item::before {
+  border-color: rgba(34,197,94,0.35);
+  opacity: 1;
+}
+[data-theme="light"] .cert-card::after,
+[data-theme="light"] .skill-group-card::after,
+[data-theme="light"] .proj-card::after,
+[data-theme="light"] .ab-metric::after {
+  border-color: rgba(34,197,94,0.35);
+  opacity: 1;
+}
+[data-theme="light"] .cert-card:hover::before,
+[data-theme="light"] .skill-group-card:hover::before,
+[data-theme="light"] .proj-card:hover::before,
+[data-theme="light"] .exp-item:hover::before,
+[data-theme="light"] .ab-metric:hover::before,
+[data-theme="light"] .cert-card:hover::after,
+[data-theme="light"] .skill-group-card:hover::after,
+[data-theme="light"] .proj-card:hover::after,
+[data-theme="light"] .ab-metric:hover::after {
+  border-color: rgba(34,197,94,0.85);
+  opacity: 1;
+}
+
+/* Card hover: strong green glow */
+[data-theme="light"] .cert-card:hover,
+[data-theme="light"] .proj-card:hover,
+[data-theme="light"] .ab-metric:hover {
+  box-shadow: 0 0 0 1px rgba(34,197,94,0.30), 0 8px 32px rgba(34,197,94,0.12) !important;
+}
+
+/* Scan sweep: stronger green tint in light */
+[data-theme="light"] .os-card-front .os-scan {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(34,197,94,0.12) 50%,
+    transparent 100%
+  );
+}
+
+/* Section label cursor — more visible green */
+[data-theme="light"] .section-label::after {
+  opacity: 0.9;
+}
+
+/* Off-shift terminal line — solid green in light */
+[data-theme="light"] .os-terminal-line {
+  color: #16a34a;
+  opacity: 1;
+}
+[data-theme="light"] .os-cursor { color: #16a34a; }
+
+/* Off-shift card back: green tint surface */
+[data-theme="light"] .os-card-back {
+  background: rgba(34,197,94,0.07);
+  border-color: rgba(34,197,94,0.30);
+}
+
+/* Flip hints: bright green mono */
+[data-theme="light"] .os-flip-hint {
+  color: rgba(22,163,74,0.75);
 }
 
 /* ── Header: paper feel, border-bottom only ──────────────────── */
