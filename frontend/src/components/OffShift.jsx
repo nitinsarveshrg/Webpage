@@ -39,6 +39,37 @@ const inView = (delay = 0) => ({
   transition: { duration: 0.9, ease: [0.16, 0.86, 0.24, 1], delay },
 });
 
+const TERMINAL_TEXT = '> personal.log — decrypted ✓';
+
+const TerminalLine = () => {
+  const [text, setText] = useState('');
+  const entered = useRef(false);
+
+  const handleEnter = () => {
+    if (entered.current) return;
+    entered.current = true;
+    let i = 0;
+    const tick = setInterval(() => {
+      setText(TERMINAL_TEXT.slice(0, ++i));
+      if (i >= TERMINAL_TEXT.length) clearInterval(tick);
+    }, 42);
+  };
+
+  return (
+    <motion.div
+      className="os-terminal-line"
+      initial={{ opacity: 0, y: 6 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.8 }}
+      transition={{ duration: 0.5, delay: 0.6 }}
+      onViewportEnter={handleEnter}
+    >
+      <span className="os-terminal-text">{text}</span>
+      <span className="os-cursor" aria-hidden="true">▌</span>
+    </motion.div>
+  );
+};
+
 const HobbyCard = ({ h, delay, index }) => {
   const [flipped, setFlipped] = useState(false);
   const peeked = useRef(false);
@@ -46,7 +77,6 @@ const HobbyCard = ({ h, delay, index }) => {
   const handleViewportEnter = () => {
     if (peeked.current) return;
     peeked.current = true;
-    // wait for entrance animation to settle, then stagger peek per card
     const wait = (delay + 0.95 + index * 0.18) * 1000;
     setTimeout(() => {
       setFlipped(true);
@@ -64,16 +94,17 @@ const HobbyCard = ({ h, delay, index }) => {
       <div className={`os-card-inner${flipped ? ' os-flipped' : ''}`}>
         {/* Front */}
         <div className="os-card os-card-front">
+          <div className="os-scan" aria-hidden="true" />
           <span className="os-icon" aria-hidden="true">{h.icon}</span>
           <h3 className="os-title">{h.title}</h3>
           <p className="os-desc">{h.desc}</p>
-          <span className="os-flip-hint">tap to flip</span>
+          <span className="os-flip-hint">$ ./flip --reveal</span>
         </div>
         {/* Back */}
         <div className="os-card os-card-back">
           <span className="os-icon" aria-hidden="true">{h.backIcon}</span>
           <p className="os-confession">"{h.confession}"</p>
-          <span className="os-flip-hint">tap to flip back</span>
+          <span className="os-flip-hint">$ ./flip --back</span>
         </div>
       </div>
     </motion.div>
@@ -90,6 +121,7 @@ const OffShift = () => (
         <h2 className="section-heading">
           When I'm not <em>on call.</em>
         </h2>
+        <TerminalLine />
       </motion.div>
 
       <div className="os-grid">
