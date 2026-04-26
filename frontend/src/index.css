@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=JetBrains+Mono:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=JetBrains+Mono:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -41,25 +41,160 @@
   --ease-expo:   cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-/* ── Light theme overrides ───────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════
+   LIGHT THEME — daneshwar-inspired editorial × terminal aesthetic
+   ══════════════════════════════════════════════════════════════ */
 [data-theme="light"] {
-  --bg:     #f5f5f5;
-  --bg2:    #ebebeb;
-  --black:  #f5f5f5;
-  --sur:    rgba(245,245,245,0.95);
-  --bdr:    rgba(0,0,0,0.09);
-  --bdr-hi: rgba(249,115,22,0.30);
-  --text:   #0f0f0f;
-  --text-2: rgba(0,0,0,0.60);
-  --text-3: rgba(0,0,0,0.42);
-  --ora-lo: rgba(249,115,22,0.10);
+  --bg:       #f4f3ef;   /* warm paper */
+  --bg2:      #eceae4;
+  --black:    #f4f3ef;
+  --sur:      rgba(244,243,239,0.96);
+  --bdr:      rgba(0,0,0,0.10);
+  --bdr-hi:   rgba(249,115,22,0.35);
+  --text:     #111110;
+  --text-2:   rgba(17,17,16,0.60);
+  --text-3:   rgba(17,17,16,0.38);
+  --ora-lo:   rgba(249,115,22,0.09);
+  --serif:    'Instrument Serif', 'Georgia', serif;
+  --grid-ln:  rgba(0,0,0,0.065);
 }
 
-/* light mode: softer circuit grid on body */
+/* Fine cross-hair grid background — replaces dot pattern in light mode */
 [data-theme="light"] body {
+  background-color: #f4f3ef;
   background-image:
-    radial-gradient(circle, rgba(34,197,94,0.10) 1px, transparent 1px),
-    radial-gradient(circle, rgba(34,197,94,0.05) 1px, transparent 1px);
+    linear-gradient(var(--grid-ln) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-ln) 1px, transparent 1px);
+  background-size: 60px 60px;
+  background-position: -1px -1px;
+}
+
+/* Left/right frame border around the whole page */
+[data-theme="light"] .nx-root {
+  border-left:  1px solid rgba(0,0,0,0.10);
+  border-right: 1px solid rgba(0,0,0,0.10);
+  max-width: 1440px;
+  margin-inline: auto;
+}
+
+/* ── Section labels: § prefix, green accent ─────────────────── */
+[data-theme="light"] .section-label {
+  color: rgba(17,17,16,0.45);
+  letter-spacing: 0.18em;
+}
+[data-theme="light"] .section-label::before {
+  content: '§';
+  display: inline-block;
+  width: auto; height: auto;
+  background: none;
+  color: var(--green);
+  font-family: var(--mono);
+  font-size: 1em;
+  margin-right: 0.5em;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+}
+
+/* ── Section headings: Instrument Serif italic ───────────────── */
+[data-theme="light"] .section-heading {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+}
+[data-theme="light"] .section-heading em {
+  font-style: normal;
+  color: var(--orange);
+}
+
+/* ── Big numbers: Instrument Serif italic ────────────────────── */
+[data-theme="light"] .ab-metric-val {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+/* ── Cards: sharp 4 px corners, fine border lines ────────────── */
+[data-theme="light"] .cert-card,
+[data-theme="light"] .skill-group-card,
+[data-theme="light"] .proj-card,
+[data-theme="light"] .os-card,
+[data-theme="light"] .ab-metric {
+  border-radius: 4px;
+  border-width: 1px;
+}
+
+/* ── Sections: top border separator ─────────────────────────── */
+[data-theme="light"] .nx-section {
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+
+/* ── Skill group cards: terminal left-tab accent ─────────────── */
+[data-theme="light"] .skill-group-card {
+  border-left: 2px solid var(--green);
+  background: rgba(255,255,255,0.70);
+}
+[data-theme="light"] .skill-group-label {
+  color: var(--green);
+}
+
+/* ── Project cards: white surface ────────────────────────────── */
+[data-theme="light"] .proj-card {
+  background: rgba(255,255,255,0.80);
+}
+[data-theme="light"] .proj-card:hover {
+  border-color: var(--orange);
+  box-shadow: 0 4px 24px rgba(249,115,22,0.10);
+}
+[data-theme="light"] .proj-title { color: #111110; }
+
+/* ── Cert cards: white surface ───────────────────────────────── */
+[data-theme="light"] .cert-card {
+  background: rgba(255,255,255,0.80);
+}
+
+/* ── Metrics: white surface ──────────────────────────────────── */
+[data-theme="light"] .ab-metric {
+  background: rgba(255,255,255,0.80);
+  border-color: rgba(0,0,0,0.09);
+  border-left: 2px solid var(--orange);
+}
+
+/* ── Header: paper feel, border-bottom only ──────────────────── */
+[data-theme="light"] .hdr-bar {
+  background: rgba(244,243,239,0.94);
+  border-bottom: 1px solid rgba(0,0,0,0.10);
+  box-shadow: none;
+}
+[data-theme="light"] .hdr-bar.scrolled {
+  background: rgba(244,243,239,0.97);
+  box-shadow: none;
+  border-bottom-color: rgba(0,0,0,0.13);
+}
+
+/* ── Hero name: Instrument Serif italic in light ─────────────── */
+[data-theme="light"] .hero-n1,
+[data-theme="light"] .hero-n2 {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+}
+
+/* ── Contact social links: bordered list rows ────────────────── */
+[data-theme="light"] .contact-social-link {
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  border-radius: 0;
+  padding: 14px 0;
+  background: none;
+}
+
+/* ── Footer: fine top border ─────────────────────────────────── */
+[data-theme="light"] .ft-footer {
+  border-top: 1px solid rgba(0,0,0,0.10);
+  background: #f4f3ef;
 }
 
 /* ── Reset ───────────────────────────────────────────────────── */
@@ -945,19 +1080,36 @@ body::after {
 /* ── Global base ──────────────────────────────────────────────── */
 [data-theme="light"] body { background: #efefef; }
 
-/* Section labels — bolder, uppercase, bigger */
+/* Section labels — § prefix, editorial style */
 [data-theme="light"] .section-label {
-  font-size: 0.68rem; font-weight: 700;
-  letter-spacing: 0.22em; color: rgba(0,0,0,0.38);
+  font-size: 0.65rem; font-weight: 400;
+  letter-spacing: 0.18em; color: rgba(17,17,16,0.45);
 }
-[data-theme="light"] .section-label::before { background: rgba(0,0,0,0.25); width: 28px; }
+[data-theme="light"] .section-label::before {
+  content: '§' !important;
+  display: inline-block !important;
+  width: auto !important; height: auto !important;
+  background: none !important;
+  color: var(--green) !important;
+  font-family: var(--mono) !important;
+  font-size: 1em !important;
+  margin-right: 0.5em !important;
+}
 
-/* Section headings — slightly larger than dark, still controlled */
+/* Section headings — Plus Jakarta Sans bold, em gets Instrument Serif italic */
 [data-theme="light"] .section-heading {
-  font-size: clamp(2rem, 4.5vw, 3.5rem);
-  font-weight: 900; letter-spacing: -0.04em; line-height: 1.05;
+  font-family: var(--sans);
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 800; letter-spacing: -0.04em; line-height: 1.05;
+  font-style: normal;
 }
-[data-theme="light"] .section-heading em { color: var(--orange); font-style: italic; }
+[data-theme="light"] .section-heading em {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--orange);
+  letter-spacing: -0.02em;
+}
 
 /* ════════════════════════════════════════════════════════════════
    HERO — left-aligned, full name, warm gradient bg
@@ -1084,10 +1236,13 @@ body::after {
 }
 [data-theme="light"] .ab-metric:nth-child(odd) { border-left: none; }
 [data-theme="light"] .ab-metric:hover { background: rgba(249,115,22,0.05); }
-/* HUGE stat numbers */
+/* HUGE stat numbers — Instrument Serif italic like daneshwar */
 [data-theme="light"] .ab-metric-val {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
   font-size: clamp(2.8rem, 6vw, 5rem);
-  font-weight: 900; letter-spacing: -0.05em;
+  letter-spacing: -0.03em;
 }
 [data-theme="light"] .ab-metric-lbl {
   color: rgba(0,0,0,0.40); margin-top: 0.5rem;
@@ -1098,9 +1253,8 @@ body::after {
    CERTIFICATIONS — cream bg, bold purple
    ════════════════════════════════════════════════════════════════ */
 [data-theme="light"] .cert-section { background: #fdf6ee; }
-[data-theme="light"] .cert-section .section-label { color: #7c3aed; font-weight: 700; }
-[data-theme="light"] .cert-section .section-label::before { background: #7c3aed; }
-[data-theme="light"] .cert-section .section-heading em { color: #7c3aed; }
+[data-theme="light"] .cert-section .section-label { color: rgba(17,17,16,0.45); font-weight: 400; }
+[data-theme="light"] .cert-section .section-heading em { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; color: #7c3aed; }
 
 [data-theme="light"] .cert-grid { gap: 1.25rem; }
 [data-theme="light"] .cert-card {
@@ -1119,9 +1273,8 @@ body::after {
    SKILLS — slate bg, bold cyan
    ════════════════════════════════════════════════════════════════ */
 [data-theme="light"] .skills-section { background: #f0f6fa; }
-[data-theme="light"] .skills-section .section-label { color: #0e7490; font-weight: 700; }
-[data-theme="light"] .skills-section .section-label::before { background: #0e7490; }
-[data-theme="light"] .skills-section .section-heading em { color: #0e7490; }
+[data-theme="light"] .skills-section .section-label { color: rgba(17,17,16,0.45); font-weight: 400; }
+[data-theme="light"] .skills-section .section-heading em { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; color: #0e7490; }
 
 [data-theme="light"] .skills-grid {
   display: flex; flex-direction: column; gap: 0;
@@ -1161,7 +1314,7 @@ body::after {
    EXPERIENCE — white, orange company names, big titles
    ════════════════════════════════════════════════════════════════ */
 [data-theme="light"] .exp-section { background: #ffffff; }
-[data-theme="light"] .exp-section .section-heading em { color: var(--orange); }
+[data-theme="light"] .exp-section .section-heading em { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; color: var(--orange); }
 
 [data-theme="light"] .exp-list { margin-top: 3rem; }
 [data-theme="light"] .exp-item {
@@ -1187,7 +1340,7 @@ body::after {
    PROJECTS — warm cream, strong orange cards
    ════════════════════════════════════════════════════════════════ */
 [data-theme="light"] .projects-section { background: #fdf6ee; }
-[data-theme="light"] .projects-section .section-heading em { color: var(--orange); }
+[data-theme="light"] .projects-section .section-heading em { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; color: var(--orange); }
 
 [data-theme="light"] .pf-card {
   background: #fff; border: none;
@@ -1294,9 +1447,8 @@ body::after {
 
 /* ── Education — green card treatment ────────────────────────── */
 [data-theme="light"] .edu-section { background: #f0f6fa; }
-[data-theme="light"] .edu-section .section-label { color: #16a34a; font-weight: 700; }
-[data-theme="light"] .edu-section .section-label::before { background: #16a34a; }
-[data-theme="light"] .edu-section .section-heading em { color: #16a34a; }
+[data-theme="light"] .edu-section .section-label { color: rgba(17,17,16,0.45); font-weight: 400; }
+[data-theme="light"] .edu-section .section-heading em { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; color: #16a34a; }
 [data-theme="light"] .edu-list { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 3rem; }
 [data-theme="light"] .edu-item {
   background: #fff;
@@ -1325,8 +1477,7 @@ body::after {
   background: #0a0a0a;
   border-top: 4px solid var(--orange);
 }
-[data-theme="light"] .contact-section .section-label { color: rgba(255,255,255,0.38); }
-[data-theme="light"] .contact-section .section-label::before { background: var(--orange); }
+[data-theme="light"] .contact-section .section-label { color: rgba(255,255,255,0.55); }
 [data-theme="light"] .contact-section .section-heading { color: #ffffff; }
 [data-theme="light"] .contact-section .section-heading em { color: var(--orange); font-style: italic; }
 [data-theme="light"] .contact-section .section-heading::before {
@@ -1774,7 +1925,7 @@ body::after {
 /* light theme overrides */
 [data-theme="light"] .off-shift-section .section-label { color: var(--orange); font-weight: 700; }
 [data-theme="light"] .off-shift-section .section-label::before { background: var(--orange); }
-[data-theme="light"] .off-shift-section .section-heading em { color: var(--orange); }
+[data-theme="light"] .off-shift-section .section-heading em { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; color: var(--orange); }
 [data-theme="light"] .os-card {
   background: #fff;
   border-color: rgba(0,0,0,0.08);
