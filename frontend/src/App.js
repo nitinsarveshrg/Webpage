@@ -12,6 +12,7 @@ import Projects from './components/Projects';
 import Experience from './components/Experience';
 import Contact from './components/Contact';
 import Education from './components/Education';
+import OffShift from './components/OffShift';
 import Footer from './components/Footer';
 import CloudParticles from './components/CloudParticles';
 import FrontGate from './components/FrontGate';
@@ -87,6 +88,7 @@ const Home = () => {
         <Experience />
         <Projects />
         <Education />
+        <OffShift />
         <Contact />
       </main>
 

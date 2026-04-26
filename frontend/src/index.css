@@ -1524,6 +1524,61 @@ body::after {
   box-shadow: 0 8px 24px rgba(249,115,22,0.40);
 }
 
+/* ── Off Shift section ───────────────────────────────────────── */
+.os-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.os-card {
+  background: var(--bg2);
+  border: 1px solid var(--bdr);
+  border-radius: 16px;
+  padding: 2rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: border-color 250ms ease, transform 250ms var(--ease-out);
+}
+.os-card:hover {
+  border-color: var(--bdr-hi);
+  transform: translateY(-4px);
+}
+
+.os-icon {
+  font-size: 2.4rem;
+  line-height: 1;
+}
+
+.os-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.os-desc {
+  font-size: 0.875rem;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+/* light theme overrides */
+[data-theme="light"] .off-shift-section .section-label { color: var(--orange); font-weight: 700; }
+[data-theme="light"] .off-shift-section .section-label::before { background: var(--orange); }
+[data-theme="light"] .off-shift-section .section-heading em { color: var(--orange); }
+[data-theme="light"] .os-card {
+  background: #fff;
+  border-color: rgba(0,0,0,0.08);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+[data-theme="light"] .os-card:hover {
+  border-color: var(--orange);
+  box-shadow: 0 8px 28px rgba(249,115,22,0.14);
+}
+
 /* ── Smooth inter-section divider lines ──────────────────────── */
 [data-theme="light"] .nx-section {
   position: relative;
