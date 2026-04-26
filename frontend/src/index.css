@@ -55,12 +55,24 @@
   --ora-lo: rgba(249,115,22,0.10);
 }
 
+/* light mode: softer circuit grid on body */
+[data-theme="light"] body {
+  background-image:
+    radial-gradient(circle, rgba(34,197,94,0.10) 1px, transparent 1px),
+    radial-gradient(circle, rgba(34,197,94,0.05) 1px, transparent 1px);
+}
+
 /* ── Reset ───────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 html, body, #root, .App { width: 100%; min-height: 100%; }
 body {
-  background: var(--black);
+  background-color: var(--black);
+  background-image:
+    radial-gradient(circle, rgba(34,197,94,0.07) 1px, transparent 1px),
+    radial-gradient(circle, rgba(34,197,94,0.035) 1px, transparent 1px);
+  background-size: 28px 28px, 56px 56px;
+  background-position: 0 0, 14px 14px;
   color: var(--text);
   font-family: var(--sans);
   -webkit-font-smoothing: antialiased;
@@ -180,6 +192,15 @@ body::after {
 }
 .section-label::before {
   content: ''; width: 20px; height: 1px; background: var(--orange);
+}
+.section-label::after {
+  content: '▌';
+  font-family: var(--mono);
+  font-size: 0.7em;
+  color: var(--green);
+  opacity: 0.7;
+  margin-left: 2px;
+  animation: os-blink 1s step-end infinite;
 }
 
 /* Section heading */
@@ -1524,24 +1545,74 @@ body::after {
   box-shadow: 0 8px 24px rgba(249,115,22,0.40);
 }
 
-/* ── Off Shift section ───────────────────────────────────────── */
-
-/* circuit dot-grid background */
-.off-shift-section {
+/* ── Global cybersecurity card corners + glow ────────────────── */
+.cert-card,
+.skill-group-card,
+.proj-card,
+.ab-metric,
+.edu-item {
   position: relative;
 }
-.off-shift-section::before {
+
+/* top-left bracket */
+.cert-card::before,
+.skill-group-card::before,
+.proj-card::before,
+.exp-item::before,
+.ab-metric::before,
+.edu-item::before {
   content: '';
   position: absolute;
-  inset: 0;
-  background-image:
-    radial-gradient(circle, rgba(34,197,94,0.13) 1px, transparent 1px),
-    radial-gradient(circle, rgba(34,197,94,0.06) 1px, transparent 1px);
-  background-size: 28px 28px, 56px 56px;
-  background-position: 0 0, 14px 14px;
+  top: 9px; left: 9px;
+  width: 13px; height: 13px;
+  border-top: 1.5px solid var(--green);
+  border-left: 1.5px solid var(--green);
+  opacity: 0;
+  transition: opacity 280ms ease;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
 }
+
+/* bottom-right bracket */
+.cert-card::after,
+.skill-group-card::after,
+.proj-card::after,
+.ab-metric::after {
+  content: '';
+  position: absolute;
+  bottom: 9px; right: 9px;
+  width: 13px; height: 13px;
+  border-bottom: 1.5px solid var(--green);
+  border-right: 1.5px solid var(--green);
+  opacity: 0;
+  transition: opacity 280ms ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cert-card:hover::before,
+.skill-group-card:hover::before,
+.proj-card:hover::before,
+.exp-item:hover::before,
+.ab-metric:hover::before,
+.edu-item:hover::before,
+.cert-card:hover::after,
+.skill-group-card:hover::after,
+.proj-card:hover::after,
+.ab-metric:hover::after {
+  opacity: 0.65;
+}
+
+/* green glow on hover for all cards */
+.cert-card:hover,
+.skill-group-card:hover,
+.proj-card:hover,
+.ab-metric:hover {
+  box-shadow: 0 0 0 1px rgba(34,197,94,0.10), 0 8px 32px rgba(34,197,94,0.05);
+}
+
+/* ── Off Shift section ───────────────────────────────────────── */
+.off-shift-section { position: relative; }
 .off-shift-section .content-wrap { position: relative; z-index: 1; }
 
 /* typing terminal line */
