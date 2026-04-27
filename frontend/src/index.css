@@ -2063,3 +2063,701 @@ body::after {
 }
 [data-theme="light"] .cert-card:hover,
 [data-theme="light"] .edu-item:hover { animation: none; }
+
+/* ══════════════════════════════════════════════════════════════
+   DANESHWAR-INSPIRED LIGHT THEME
+   Warm cream paper × dark ink × Instrument Serif × JetBrains Mono
+   64px fixed grid · § section tags · flat dark-bordered panels
+   ══════════════════════════════════════════════════════════════ */
+
+html[data-theme="light"] {
+  --bg:    #f2efea;
+  --bg2:   #ede9e3;
+  --black: #f2efea;
+  --sur:   rgba(242,239,234,0.97);
+  --bdr:   rgba(22,24,25,0.10);
+  --bdr-hi:rgba(22,24,25,0.22);
+  --text:  #16181a;
+  --text-2:rgba(22,24,25,0.62);
+  --text-3:rgba(22,24,25,0.40);
+  --ora-lo:rgba(22,24,25,0.05);
+  --green: #22c55e;
+  --serif: "Instrument Serif", Georgia, serif;
+}
+
+/* 64px dark grid — daneshwar signature */
+html[data-theme="light"] body {
+  background-color: #f2efea;
+  background-image:
+    linear-gradient(rgba(22,24,25,0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(22,24,25,0.055) 1px, transparent 1px);
+  background-size: 64px 64px;
+  background-attachment: fixed;
+  color: #16181a;
+}
+html[data-theme="light"] body::before { display: none; }
+
+/* ── Header ───────────────────────────────────────────────────── */
+html[data-theme="light"] .hdr-bar {
+  background: rgba(242,239,234,0.92);
+  border-bottom: 1px solid rgba(22,24,25,0.10);
+  box-shadow: none;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+html[data-theme="light"] .hdr-bar.scrolled {
+  background: rgba(242,239,234,0.97);
+  border-bottom: 1px solid rgba(22,24,25,0.14);
+  box-shadow: none;
+}
+html[data-theme="light"] .hdr-logo {
+  background: #16181a;
+  color: #f2efea;
+  border-radius: 4px;
+}
+html[data-theme="light"] .hdr-name {
+  font-family: var(--mono);
+  font-size: 0.80rem;
+  color: #16181a;
+}
+html[data-theme="light"] .hdr-brand { font-family: var(--mono); }
+html[data-theme="light"] .hdr-brand .hdr-name::before { content: none; }
+html[data-theme="light"] .hdr-nav a {
+  color: rgba(22,24,25,0.60);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+}
+html[data-theme="light"] .hdr-nav a:hover {
+  color: #16181a;
+  background: rgba(22,24,25,0.06);
+}
+html[data-theme="light"] .hdr-nav a::after { display: none; }
+html[data-theme="light"] .hdr-theme-toggle {
+  border-color: rgba(22,24,25,0.14);
+  color: rgba(22,24,25,0.55);
+}
+html[data-theme="light"] .hdr-theme-toggle:hover {
+  border-color: rgba(22,24,25,0.28);
+  background: rgba(22,24,25,0.06);
+  color: #16181a;
+}
+html[data-theme="light"] .hdr-cta {
+  background: #16181a;
+  color: #f2efea;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+html[data-theme="light"] .hdr-cta:hover {
+  background: #2c2e32;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(22,24,25,0.20);
+}
+
+/* ── Section labels: § prefix ─────────────────────────────────── */
+html[data-theme="light"] .section-label {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  color: rgba(22,24,25,0.45);
+  text-transform: uppercase;
+}
+html[data-theme="light"] .section-label::before {
+  content: '§ ' !important;
+  display: inline !important;
+  width: auto !important; height: auto !important;
+  background: none !important;
+  color: #22c55e !important;
+  font-family: var(--mono) !important;
+  font-size: 1em !important;
+  margin-right: 0 !important;
+  font-weight: 600 !important;
+}
+html[data-theme="light"] .section-label::after { content: none !important; }
+
+/* ── Section headings: mono label + Instrument Serif italic em ── */
+html[data-theme="light"] .section-heading {
+  font-family: var(--mono);
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  color: rgba(22,24,25,0.55);
+  background-image: none;
+  display: block;
+  padding-bottom: 0;
+}
+html[data-theme="light"] .section-heading em {
+  display: block;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  color: #16181a;
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  margin-top: 0.15em;
+}
+html[data-theme="light"] .section-heading:hover {
+  text-shadow: none;
+  background-size: unset;
+}
+
+/* ── Sections: ink divider lines ─────────────────────────────── */
+html[data-theme="light"] .nx-section {
+  border-top: 1px solid rgba(22,24,25,0.10);
+}
+/* wipe hex watermarks */
+html[data-theme="light"] .ab-section::after,
+html[data-theme="light"] .cert-section::after,
+html[data-theme="light"] .skills-section::after,
+html[data-theme="light"] .exp-section::after,
+html[data-theme="light"] .projects-section::after,
+html[data-theme="light"] .edu-section::after,
+html[data-theme="light"] .off-shift-section::after { content: none; }
+
+/* ── Hero ─────────────────────────────────────────────────────── */
+html[data-theme="light"] .hero-section {
+  background: transparent;
+  background-image: none;
+  padding-left: clamp(1.5rem, 5vw, 4rem);
+  padding-right: clamp(1.5rem, 5vw, 4rem);
+}
+html[data-theme="light"] .hero-glow { display: none; }
+html[data-theme="light"] .hero-ui-layer { justify-content: flex-start; }
+html[data-theme="light"] .hero-pill {
+  background: transparent;
+  border: 1px solid rgba(22,24,25,0.14);
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: rgba(22,24,25,0.55);
+  padding: 4px 10px;
+  font-weight: 500;
+}
+html[data-theme="light"] .hero-pill::before { content: none; }
+html[data-theme="light"] .hero-pill::after  { content: none; }
+html[data-theme="light"] .hero-pill-dot { background: #22c55e; }
+
+/* Name: left-aligned, Instrument Serif italic */
+html[data-theme="light"] .hero-name-wrap {
+  align-items: flex-start;
+  gap: 0;
+  border-left: none;
+  padding-left: 0;
+  animation: none;
+  box-shadow: none;
+}
+html[data-theme="light"] .hero-name-wrap::after { display: none; }
+
+html[data-theme="light"] .hero-n1 {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(3.8rem, 11vw, 10rem);
+  letter-spacing: -0.04em;
+  line-height: 0.90;
+  color: #16181a;
+}
+html[data-theme="light"] .hero-n2 {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(3.2rem, 9.5vw, 8.5rem);
+  letter-spacing: -0.04em;
+  line-height: 0.90;
+  background: none;
+  -webkit-text-fill-color: #16181a;
+  color: #16181a;
+  -webkit-text-stroke: 0;
+}
+html[data-theme="light"] .hero-n3 {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(2.2rem, 6.5vw, 6rem);
+  letter-spacing: -0.03em;
+  line-height: 0.92;
+  color: rgba(22,24,25,0.28);
+  -webkit-text-stroke: 0;
+  -webkit-text-fill-color: rgba(22,24,25,0.28);
+}
+
+html[data-theme="light"] .hero-bottom-ui { align-items: flex-start; }
+html[data-theme="light"] .hero-tagline {
+  font-family: var(--mono);
+  font-size: clamp(0.80rem, 1.4vw, 0.92rem);
+  color: rgba(22,24,25,0.50);
+  text-align: left;
+  max-width: 44ch;
+  line-height: 1.65;
+}
+html[data-theme="light"] .hero-actions { justify-content: flex-start; }
+html[data-theme="light"] .hero-cyber-bar    { display: none; }
+html[data-theme="light"] .hero-cyber-status { display: none; }
+html[data-theme="light"] .hero-scroll {
+  color: rgba(22,24,25,0.35);
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  animation: bounce-down 2s ease-in-out infinite;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+html[data-theme="light"] .hero-scroll > svg { display: block; }
+html[data-theme="light"] .hero-scroll::after { display: none; }
+
+/* ── Buttons ──────────────────────────────────────────────────── */
+html[data-theme="light"] .btn-primary {
+  background: #16181a;
+  color: #f2efea;
+  border-radius: 3px;
+  box-shadow: none;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+}
+html[data-theme="light"] .btn-primary:hover {
+  background: #2c2e32;
+  box-shadow: 0 4px 20px rgba(22,24,25,0.20);
+  transform: translateY(-1px);
+}
+html[data-theme="light"] .btn-ghost {
+  border-color: rgba(22,24,25,0.20);
+  color: #16181a;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  background: transparent;
+}
+html[data-theme="light"] .btn-ghost:hover {
+  border-color: rgba(22,24,25,0.40);
+  background: rgba(22,24,25,0.05);
+  color: #16181a;
+  transform: translateY(-1px);
+}
+
+/* ── Marquee ──────────────────────────────────────────────────── */
+html[data-theme="light"] .marquee-wrap {
+  border-top: 1px solid rgba(22,24,25,0.10);
+  border-bottom: 1px solid rgba(22,24,25,0.10);
+  background: transparent;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+html[data-theme="light"] .marquee-item {
+  color: rgba(22,24,25,0.42);
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 0.65rem;
+}
+html[data-theme="light"] .marquee-item:hover { color: #16181a; }
+html[data-theme="light"] .marquee-dot { color: #22c55e; opacity: 0.7; }
+
+/* ── About ────────────────────────────────────────────────────── */
+html[data-theme="light"] .ab-section { background: #f2efea; }
+html[data-theme="light"] .ab-body p {
+  color: rgba(22,24,25,0.65);
+  font-size: clamp(0.92rem, 1.5vw, 1.02rem);
+  line-height: 1.80;
+}
+html[data-theme="light"] .ab-body p:first-child {
+  font-family: var(--mono);
+  border-left: 2px solid rgba(22,24,25,0.18);
+  padding-left: 1rem;
+  line-height: 1.65;
+}
+html[data-theme="light"] .ab-metrics {
+  border-top: 1px solid rgba(22,24,25,0.12);
+  gap: 0;
+  grid-template-columns: 1fr 1fr;
+}
+html[data-theme="light"] .ab-metric {
+  border: none;
+  border-bottom: 1px solid rgba(22,24,25,0.10);
+  border-left: 1px solid rgba(22,24,25,0.10);
+  border-radius: 0;
+  padding: 1.75rem 1.5rem 1.5rem;
+  background: transparent;
+  animation: none;
+  box-shadow: none;
+}
+html[data-theme="light"] .ab-metric::before,
+html[data-theme="light"] .ab-metric::after { display: none; }
+html[data-theme="light"] .ab-metric:nth-child(odd) { border-left: none; }
+html[data-theme="light"] .ab-metric:hover { background: rgba(22,24,25,0.03); box-shadow: none; }
+html[data-theme="light"] .ab-metric-val {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  color: #16181a;
+  letter-spacing: -0.04em;
+}
+html[data-theme="light"] .ab-metric-val::before { content: none; }
+html[data-theme="light"] .ab-metric-lbl {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: rgba(22,24,25,0.42);
+  letter-spacing: 0.12em;
+  margin-top: 0.4rem;
+}
+
+/* ── Certifications ───────────────────────────────────────────── */
+html[data-theme="light"] .cert-section { background: #ede9e3; }
+html[data-theme="light"] .cert-card {
+  background: #f2efea;
+  border: 1px solid rgba(22,24,25,0.12);
+  border-radius: 0;
+  border-left: 1px solid rgba(22,24,25,0.12);
+  box-shadow: none;
+  animation: none;
+  transform: none;
+}
+html[data-theme="light"] .cert-card::before,
+html[data-theme="light"] .cert-card::after { display: none; }
+html[data-theme="light"] .cert-card:hover {
+  border-color: rgba(22,24,25,0.28);
+  box-shadow: 0 2px 16px rgba(22,24,25,0.10);
+  transform: translateY(-2px);
+  animation: none;
+}
+html[data-theme="light"] .cert-name   { color: #16181a; font-family: var(--mono); font-weight: 700; }
+html[data-theme="light"] .cert-issuer { color: rgba(22,24,25,0.52); font-family: var(--mono); }
+html[data-theme="light"] .cert-date   { color: rgba(22,24,25,0.42); font-family: var(--mono); }
+html[data-theme="light"] .cert-badge  { background: rgba(22,24,25,0.08); color: #16181a; border-radius: 3px; }
+html[data-theme="light"] .cert-verify-link {
+  color: #22c55e;
+  font-family: var(--mono);
+}
+html[data-theme="light"] .cert-verify-link::before { content: none; }
+
+/* ── Skills ───────────────────────────────────────────────────── */
+html[data-theme="light"] .skills-section { background: #f2efea; }
+html[data-theme="light"] .skills-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid rgba(22,24,25,0.12);
+}
+html[data-theme="light"] .skill-group-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 2.5rem;
+  padding: 1.4rem 0;
+  border: none;
+  border-bottom: 1px solid rgba(22,24,25,0.10);
+  border-radius: 0;
+  background: transparent;
+  transition: background 200ms ease, padding-left 200ms ease;
+  border-left: none;
+  box-shadow: none;
+  animation: none;
+}
+html[data-theme="light"] .skill-group-card::before,
+html[data-theme="light"] .skill-group-card::after { display: none; }
+html[data-theme="light"] .skill-group-card:hover {
+  background: rgba(22,24,25,0.03);
+  padding-left: 0.5rem;
+  box-shadow: none;
+}
+html[data-theme="light"] .skill-group-label {
+  width: 150px;
+  flex-shrink: 0;
+  margin-bottom: 0;
+  padding-top: 0.15rem;
+  color: rgba(22,24,25,0.55);
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 0.70rem;
+  letter-spacing: 0.10em;
+}
+html[data-theme="light"] .skill-group-label::before { content: none; }
+html[data-theme="light"] .skill-badge {
+  border-radius: 2px;
+  border-color: rgba(22,24,25,0.14);
+  background: rgba(22,24,25,0.04);
+}
+html[data-theme="light"] .skill-badge:hover {
+  border-color: rgba(22,24,25,0.30);
+  background: rgba(22,24,25,0.08);
+  box-shadow: none;
+}
+html[data-theme="light"] .skill-badge-name { color: #16181a; }
+html[data-theme="light"] .skill-badge-tier {
+  border-radius: 2px !important;
+  font-family: var(--mono) !important;
+  font-size: 0.57rem !important;
+  letter-spacing: 0.04em !important;
+}
+html[data-theme="light"] .skill-badge-tier::before { content: none; }
+html[data-theme="light"] .skill-badge-tier::after  { content: none; }
+html[data-theme="light"] .skill-badge--expert    .skill-badge-tier { background: rgba(34,197,94,0.15); color: #15803d; }
+html[data-theme="light"] .skill-badge--advanced  .skill-badge-tier { background: rgba(22,24,25,0.10); color: rgba(22,24,25,0.65); }
+html[data-theme="light"] .skill-badge--proficient .skill-badge-tier { background: rgba(22,24,25,0.07); color: rgba(22,24,25,0.50); }
+html[data-theme="light"] .skill-badge--intermediate .skill-badge-tier { background: rgba(22,24,25,0.05); color: rgba(22,24,25,0.42); }
+
+/* ── Experience ───────────────────────────────────────────────── */
+html[data-theme="light"] .exp-section { background: #ede9e3; }
+html[data-theme="light"] .exp-list { margin-top: 3rem; }
+html[data-theme="light"] .exp-item {
+  border-top: 1px solid rgba(22,24,25,0.10);
+  border-left: none !important;
+  padding-left: 0 !important;
+  padding-top: 2.25rem;
+  padding-bottom: 2.25rem;
+}
+html[data-theme="light"] .exp-item::before,
+html[data-theme="light"] .exp-item::after { display: none; }
+html[data-theme="light"] .exp-item:last-child { border-bottom: 1px solid rgba(22,24,25,0.10); }
+html[data-theme="light"] .exp-item:hover { background: rgba(22,24,25,0.03); }
+html[data-theme="light"] .exp-period {
+  font-family: var(--mono);
+  color: rgba(22,24,25,0.45);
+  font-size: 0.65rem;
+  letter-spacing: 0.10em;
+  display: inline-block;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+html[data-theme="light"] .exp-company {
+  font-family: var(--mono);
+  color: rgba(22,24,25,0.60);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+html[data-theme="light"] .exp-location { color: rgba(22,24,25,0.40); font-size: 0.75rem; }
+html[data-theme="light"] .exp-title {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  color: #16181a;
+  letter-spacing: -0.02em;
+}
+html[data-theme="light"] .exp-desc { color: rgba(22,24,25,0.60); font-size: 0.90rem; line-height: 1.70; }
+html[data-theme="light"] .exp-achievement { color: rgba(22,24,25,0.58); }
+html[data-theme="light"] .exp-achievement::before { color: #22c55e; }
+
+/* ── Projects ─────────────────────────────────────────────────── */
+html[data-theme="light"] .projects-section { background: #f2efea; }
+html[data-theme="light"] .pf-btn {
+  border-color: rgba(22,24,25,0.16);
+  border-radius: 3px;
+  color: rgba(22,24,25,0.55);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+html[data-theme="light"] .pf-btn::before { content: none; }
+html[data-theme="light"] .pf-btn:hover { border-color: rgba(22,24,25,0.36); color: #16181a; }
+html[data-theme="light"] .pf-btn.active { background: #16181a; color: #f2efea; border-color: #16181a; }
+html[data-theme="light"] .proj-card {
+  background: #ede9e3;
+  border: 1px solid rgba(22,24,25,0.12);
+  border-radius: 0;
+  box-shadow: none;
+  animation: none;
+}
+html[data-theme="light"] .proj-card::before,
+html[data-theme="light"] .proj-card::after { display: none; }
+html[data-theme="light"] .proj-card:hover {
+  border-color: rgba(22,24,25,0.28);
+  background: #e8e4de;
+  box-shadow: 0 2px 16px rgba(22,24,25,0.10);
+  transform: translateY(-2px);
+}
+html[data-theme="light"] .proj-title {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  color: #16181a;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+}
+html[data-theme="light"] .proj-desc { color: rgba(22,24,25,0.60); }
+html[data-theme="light"] .proj-tag {
+  background: transparent;
+  border-color: rgba(22,24,25,0.16);
+  color: rgba(22,24,25,0.50);
+  font-family: var(--mono);
+  border-radius: 2px;
+}
+html[data-theme="light"] .proj-link       { color: rgba(22,24,25,0.42); font-family: var(--mono); }
+html[data-theme="light"] .proj-link:hover  { color: #22c55e; }
+html[data-theme="light"] .proj-highlight::before { color: #22c55e; }
+
+/* ── Education ────────────────────────────────────────────────── */
+html[data-theme="light"] .edu-section { background: #ede9e3; }
+html[data-theme="light"] .edu-list { gap: 0; margin-top: 3rem; }
+html[data-theme="light"] .edu-item {
+  background: transparent;
+  border: none;
+  border-top: 1px solid rgba(22,24,25,0.10);
+  border-radius: 0;
+  border-left: none;
+  padding: 2rem 0;
+  box-shadow: none;
+  animation: none;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 3rem;
+}
+html[data-theme="light"] .edu-item::before,
+html[data-theme="light"] .edu-item::after { display: none; }
+html[data-theme="light"] .edu-item:hover { background: rgba(22,24,25,0.03); box-shadow: none; animation: none; }
+html[data-theme="light"] .edu-institution {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: rgba(22,24,25,0.50);
+  font-weight: 500;
+}
+html[data-theme="light"] .edu-degree {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+  color: #16181a;
+  letter-spacing: -0.02em;
+  margin-top: 0.35rem;
+}
+html[data-theme="light"] .edu-period   { font-family: var(--mono); color: rgba(22,24,25,0.45); font-size: 0.65rem; letter-spacing: 0.10em; }
+html[data-theme="light"] .edu-location { color: rgba(22,24,25,0.40); font-size: 0.75rem; }
+html[data-theme="light"] .edu-gpa {
+  background: transparent;
+  border: 1px solid rgba(22,24,25,0.16);
+  border-radius: 2px;
+  color: rgba(22,24,25,0.55);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+}
+
+/* ── Contact (dark panel) ─────────────────────────────────────── */
+html[data-theme="light"] .contact-section {
+  background: #16181a;
+  border-top: 1px solid rgba(22,24,25,0.20);
+}
+html[data-theme="light"] .contact-section .section-label { color: rgba(242,239,234,0.45); }
+html[data-theme="light"] .contact-section .section-label::before { color: #22c55e !important; }
+html[data-theme="light"] .contact-section .section-heading { color: #f2efea; }
+html[data-theme="light"] .contact-section .section-heading em { color: #f2efea; }
+html[data-theme="light"] .contact-statement {
+  font-family: var(--mono);
+  color: rgba(242,239,234,0.72);
+  font-size: clamp(1.2rem, 2.5vw, 1.9rem);
+}
+html[data-theme="light"] .contact-statement span { color: #22c55e; }
+html[data-theme="light"] .contact-social-link {
+  border-color: rgba(242,239,234,0.12);
+  color: rgba(242,239,234,0.60);
+  border-radius: 3px;
+  padding: 1rem 1.25rem;
+  background: transparent;
+}
+html[data-theme="light"] .contact-social-link:hover {
+  border-color: rgba(242,239,234,0.28);
+  background: rgba(242,239,234,0.06);
+  color: #f2efea;
+  transform: translateX(4px);
+}
+html[data-theme="light"] .contact-social-name { color: #f2efea; }
+html[data-theme="light"] .contact-social-handle { color: rgba(242,239,234,0.38); }
+html[data-theme="light"] .contact-section .form-label { color: rgba(242,239,234,0.40); font-family: var(--mono); }
+html[data-theme="light"] .contact-section .form-input,
+html[data-theme="light"] .contact-section .form-textarea {
+  background: rgba(242,239,234,0.05);
+  border-color: rgba(242,239,234,0.12);
+  border-radius: 3px;
+  color: #f2efea;
+}
+html[data-theme="light"] .contact-section .form-input::placeholder,
+html[data-theme="light"] .contact-section .form-textarea::placeholder { color: rgba(242,239,234,0.28); }
+html[data-theme="light"] .contact-section .form-input:focus,
+html[data-theme="light"] .contact-section .form-textarea:focus {
+  border-color: rgba(242,239,234,0.35);
+  background: rgba(242,239,234,0.08);
+}
+html[data-theme="light"] .contact-section .btn-primary {
+  background: #f2efea;
+  color: #16181a;
+  box-shadow: none;
+}
+html[data-theme="light"] .contact-section .btn-primary:hover {
+  background: #e8e4de;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+}
+
+/* ── Footer (dark panel) ──────────────────────────────────────── */
+html[data-theme="light"] .ft-footer {
+  background: #16181a;
+  border-top-color: rgba(242,239,234,0.08);
+}
+html[data-theme="light"] .ft-logo { background: rgba(242,239,234,0.12); color: #f2efea; border-radius: 4px; }
+html[data-theme="light"] .ft-brand-name { color: #f2efea; }
+html[data-theme="light"] .ft-brand-role { color: rgba(242,239,234,0.45); }
+html[data-theme="light"] .ft-brand-bio  { color: rgba(242,239,234,0.35); }
+html[data-theme="light"] .ft-nav-title,
+html[data-theme="light"] .ft-social-title { color: rgba(242,239,234,0.30); }
+html[data-theme="light"] .ft-nav button { color: rgba(242,239,234,0.52); }
+html[data-theme="light"] .ft-nav button:hover { color: #f2efea; }
+html[data-theme="light"] .ft-social-links a { color: rgba(242,239,234,0.52); }
+html[data-theme="light"] .ft-social-links a:hover { color: #f2efea; }
+html[data-theme="light"] .ft-divider { border-color: rgba(242,239,234,0.08); }
+html[data-theme="light"] .ft-copy,
+html[data-theme="light"] .ft-made { color: rgba(242,239,234,0.28); }
+html[data-theme="light"] .ft-made span { color: rgba(242,239,234,0.50); }
+
+/* ── Off-Shift ────────────────────────────────────────────────── */
+html[data-theme="light"] .off-shift-section { background: #ede9e3; }
+html[data-theme="light"] .os-terminal-line { color: rgba(22,24,25,0.45); opacity: 1; }
+html[data-theme="light"] .os-cursor { color: #22c55e; }
+html[data-theme="light"] .os-card {
+  background: #f2efea;
+  border: 1px solid rgba(22,24,25,0.12);
+  border-radius: 0;
+  box-shadow: none;
+}
+html[data-theme="light"] .os-card-back {
+  background: #ede9e3;
+  border-color: rgba(22,24,25,0.16);
+}
+html[data-theme="light"] .os-card-front::before,
+html[data-theme="light"] .os-card-front::after { display: none; }
+html[data-theme="light"] .os-card-wrap:hover .os-card {
+  border-color: rgba(22,24,25,0.28);
+  box-shadow: 0 2px 16px rgba(22,24,25,0.08);
+}
+html[data-theme="light"] .os-title { color: #16181a; }
+html[data-theme="light"] .os-desc  { color: rgba(22,24,25,0.58); }
+html[data-theme="light"] .os-confession { color: rgba(22,24,25,0.58); }
+html[data-theme="light"] .os-flip-hint  { color: rgba(22,24,25,0.32); }
+html[data-theme="light"] .os-card-front .os-scan {
+  background: linear-gradient(180deg, transparent 0%, rgba(22,24,25,0.04) 50%, transparent 100%);
+}
+
+/* ── FrontGate overlay ────────────────────────────────────────── */
+html[data-theme="light"] .opg-overlay { background: #f2efea; }
+html[data-theme="light"] .opg-icon-box { background: #16181a; color: #f2efea; }
+html[data-theme="light"] .opg-ring { border-color: rgba(22,24,25,0.22); }
+html[data-theme="light"] .opg-label { color: rgba(22,24,25,0.45); }
+html[data-theme="light"] .opg-typed { color: #16181a; font-weight: 700; }
+html[data-theme="light"] .opg-prompt { color: #22c55e; }
+html[data-theme="light"] .opg-line { color: rgba(22,24,25,0.55); border-color: rgba(22,24,25,0.10); }
+html[data-theme="light"] .opg-bar { background: linear-gradient(90deg, #22c55e, #86efac); }
+
+/* ── Global utilities ─────────────────────────────────────────── */
+html[data-theme="light"] ::selection {
+  background: rgba(22,24,25,0.12);
+  color: #16181a;
+}
+html[data-theme="light"] ::-webkit-scrollbar { width: 5px; }
+html[data-theme="light"] ::-webkit-scrollbar-track { background: #ede9e3; }
+html[data-theme="light"] ::-webkit-scrollbar-thumb { background: rgba(22,24,25,0.22); border-radius: 0; }
+html[data-theme="light"] ::-webkit-scrollbar-thumb:hover { background: rgba(22,24,25,0.42); }
+html[data-theme="light"] .nx-cursor-glow { display: none; }
+html[data-theme="light"] .nx-progress { background: linear-gradient(90deg, #22c55e, #86efac); }
+html[data-theme="light"] .gradient-line {
+  background: linear-gradient(90deg, transparent, rgba(22,24,25,0.15), transparent);
+}
+html[data-theme="light"] .cloud-canvas { opacity: 0.06; filter: invert(1); }
