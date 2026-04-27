@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import { inView } from '../lib/animations';
 
 const METRICS = [
   { val: 5, suffix: '+', lbl: 'Years Cloud & DevOps' },
@@ -36,13 +37,6 @@ const CountUp = ({ target, suffix }) => {
 
   return <span ref={ref} className="ab-metric-val">{count}{suffix}</span>;
 };
-
-const inView = (delay = 0) => ({
-  initial: { opacity: 0, y: 56, scale: 0.97 },
-  whileInView: { opacity: 1, y: 0, scale: 1 },
-  viewport: { once: false, amount: 0.1 },
-  transition: { duration: 0.9, ease: [0.16, 0.86, 0.24, 1], delay },
-});
 
 const About = () => (
   <section id="about" className="nx-section ab-section">

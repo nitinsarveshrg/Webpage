@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Github } from 'lucide-react';
 import { portfolioData } from '../mock';
+import { inView } from '../lib/animations';
 
 const FILTERS = ['All', 'AWS', 'Automation', 'Testing', 'Web', 'Platform'];
 const GITHUB_USER = 'nitinsarveshrg';
@@ -41,13 +42,6 @@ const matchFilter = (p, f) => {
 
 const repoName = (url = '') => { const m = url.match(/github\.com\/[^/]+\/([^/?#]+)/i); return m ? m[1] : ''; };
 const toTitle = (n = '') => n.replace(/[-_]+/g, ' ').trim().replace(/\b\w/g, (c) => c.toUpperCase());
-
-const inView = (delay = 0) => ({
-  initial: { opacity: 0, y: 56, scale: 0.97 },
-  whileInView: { opacity: 1, y: 0, scale: 1 },
-  viewport: { once: false, amount: 0.06 },
-  transition: { duration: 0.8, ease: [0.16, 0.86, 0.24, 1], delay },
-});
 
 const Projects = () => {
   const [filter, setFilter] = useState('All');

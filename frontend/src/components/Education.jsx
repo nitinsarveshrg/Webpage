@@ -3,12 +3,7 @@ import { motion } from 'framer-motion';
 import { GraduationCap } from 'lucide-react';
 import { portfolioData } from '../mock';
 
-const inView = (delay = 0) => ({
-  initial: { opacity: 0, y: 56, scale: 0.97 },
-  whileInView: { opacity: 1, y: 0, scale: 1 },
-  viewport: { once: false, amount: 0.08 },
-  transition: { duration: 0.9, ease: [0.16, 0.86, 0.24, 1], delay },
-});
+import { inView } from '../lib/animations';
 
 const Education = () => (
   <section id="education" className="nx-section edu-section">

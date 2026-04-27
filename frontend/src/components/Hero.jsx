@@ -2,18 +2,13 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { scrollToSectionById } from '../lib/sectionScroll';
+import { fade } from '../lib/animations';
 
 const MARQUEE_ITEMS = [
   'AWS', 'Kubernetes', 'Terraform', 'Docker', 'GitHub Actions',
   'ArgoCD', 'Prometheus', 'Grafana', 'Python', 'ECS', 'Helm', 'Ansible',
   'CloudWatch', 'Jenkins', 'Bash', 'Fargate', 'Linux', 'Datadog',
 ];
-
-const fade = (delay = 0) => ({
-  initial: { opacity: 0, y: 28 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.9, ease: [0.16, 0.86, 0.24, 1], delay },
-});
 
 const Hero = () => {
   const heroRef = useRef(null);

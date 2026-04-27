@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { inView } from '../lib/animations';
 
 const CATEGORIES = [
   {
@@ -60,13 +61,6 @@ const proficiency = (level) => {
   if (level >= 70) return { text: 'Proficient', tier: 'proficient' };
   return { text: 'Intermediate', tier: 'intermediate' };
 };
-
-const inView = (delay = 0) => ({
-  initial: { opacity: 0, y: 40 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.1 },
-  transition: { duration: 0.7, ease: [0.16, 0.86, 0.24, 1], delay },
-});
 
 const Skills = () => (
   <section id="skills" className="nx-section skills-section">

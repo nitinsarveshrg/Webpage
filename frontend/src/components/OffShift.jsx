@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import { inView } from '../lib/animations';
 
 const HOBBIES = [
   {
@@ -31,13 +32,6 @@ const HOBBIES = [
     confession: 'My infra runbooks are literally named after F1 circuits. Yes, "Monaco" is the tricky one.',
   },
 ];
-
-const inView = (delay = 0) => ({
-  initial: { opacity: 0, y: 56, scale: 0.97 },
-  whileInView: { opacity: 1, y: 0, scale: 1 },
-  viewport: { once: true, amount: 0.3 },
-  transition: { duration: 0.9, ease: [0.16, 0.86, 0.24, 1], delay },
-});
 
 const TERMINAL_TEXT = '> personal.log — decrypted ✓';
 
