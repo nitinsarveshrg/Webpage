@@ -5,10 +5,10 @@ const isLight = () =>
 export const inView = (delay = 0) => {
   if (isLight()) {
     return {
-      initial:      { clipPath: 'inset(0 100% 0 0)' },
-      whileInView:  { clipPath: 'inset(0 0% 0 0)' },
+      initial:      { opacity: 0 },
+      whileInView:  { opacity: 1 },
       viewport:     { once: false, amount: 0.05 },
-      transition:   { duration: 0.55, ease: [0, 0, 1, 1], delay: delay * 0.5 },
+      transition:   { duration: 0.18, ease: 'linear', delay: delay * 0.5 },
     };
   }
   return {
@@ -22,9 +22,9 @@ export const inView = (delay = 0) => {
 export const fade = (delay = 0) => {
   if (isLight()) {
     return {
-      initial:    { clipPath: 'inset(0 100% 0 0)' },
-      animate:    { clipPath: 'inset(0 0% 0 0)' },
-      transition: { duration: 0.55, ease: [0, 0, 1, 1], delay: delay * 0.4 },
+      initial:    { opacity: 0 },
+      animate:    { opacity: 1 },
+      transition: { duration: 0.18, ease: 'linear', delay: delay * 0.4 },
     };
   }
   return {

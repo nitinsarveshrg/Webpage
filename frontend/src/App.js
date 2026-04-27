@@ -62,6 +62,30 @@ const Home = () => {
     return () => window.removeEventListener('pointermove', onMove);
   }, [isLocked]);
 
+  // Terminal scan effect — light mode only
+  useEffect(() => {
+    if (isLocked) return undefined;
+    const sections = document.querySelectorAll('.nx-section');
+    const obs = new IntersectionObserver(
+      (entries) => {
+        if (document.documentElement.dataset.theme !== 'light') return;
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target;
+            el.classList.remove('term-scan');
+            void el.offsetWidth; // restart animation
+            el.classList.add('term-scan');
+          } else {
+            entry.target.classList.remove('term-scan');
+          }
+        });
+      },
+      { threshold: 0.08 }
+    );
+    sections.forEach((s) => obs.observe(s));
+    return () => obs.disconnect();
+  }, [isLocked]);
+
   return (
     <div className="nx-root">
       {/* Scroll progress */}

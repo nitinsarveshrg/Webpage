@@ -2761,3 +2761,31 @@ html[data-theme="light"] .gradient-line {
   background: linear-gradient(90deg, transparent, rgba(22,24,25,0.15), transparent);
 }
 html[data-theme="light"] .cloud-canvas { opacity: 0.06; filter: invert(1); }
+
+/* ── Terminal scan line — sweeps through each section on scroll ── */
+html[data-theme="light"] .nx-section.term-scan::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #22c55e 20%, #86efac 50%, #22c55e 80%, transparent 100%);
+  animation: term-scanline 0.85s ease-in-out forwards;
+  z-index: 20;
+  pointer-events: none;
+}
+
+@keyframes term-scanline {
+  0%   { transform: translateY(0);     opacity: 1;   }
+  70%  { opacity: 0.8; }
+  100% { transform: translateY(100vh); opacity: 0;   }
+}
+
+/* Typewriter cursor blinks at section label when scanning */
+html[data-theme="light"] .nx-section.term-scan .section-label::after {
+  content: '▌' !important;
+  font-family: var(--mono);
+  font-size: 0.9em;
+  color: #22c55e;
+  margin-left: 4px;
+  animation: os-blink 0.5s step-end 4;
+}
