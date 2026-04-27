@@ -1535,9 +1535,14 @@ body::after {
 
 /* ── Hire Me button ───────────────────────────────────────────── */
 [data-theme="light"] .hdr-cta {
-  transition: transform 200ms var(--ease-out), box-shadow 200ms ease;
+  background: var(--green);
+  color: #fff;
+  border-radius: 2px;
+  font-family: var(--mono);
+  transition: transform 200ms var(--ease-out), box-shadow 200ms ease, background 150ms ease;
 }
 [data-theme="light"] .hdr-cta:hover {
+  background: #16a34a;
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(34,197,94,0.40);
 }
@@ -1788,3 +1793,273 @@ body::after {
 [data-theme="light"] .nx-section {
   position: relative;
 }
+
+/* ══════════════════════════════════════════════════════════════
+   CYBERSECURITY DETAILING — light theme
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── CRT scan lines over whole page ─────────────────────────── */
+[data-theme="light"] body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 9991; pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(34,197,94,0.022) 3px,
+    rgba(34,197,94,0.022) 4px
+  );
+}
+
+/* ── Section label: full terminal path ───────────────────────── */
+[data-theme="light"] .section-label::before {
+  content: '~/portfolio $ ' !important;
+  color: rgba(22,163,74,0.80) !important;
+  font-weight: 500 !important;
+}
+
+/* ── Section label: [OK] status badge ───────────────────────── */
+[data-theme="light"] .section-label::after {
+  content: ' [OK]';
+  font-family: var(--mono);
+  font-size: 0.75em;
+  color: rgba(34,197,94,0.55);
+  margin-left: 0.6em;
+  letter-spacing: 0.04em;
+  animation: none;
+  vertical-align: middle;
+}
+
+/* ── Hex watermark on alternating sections ───────────────────── */
+[data-theme="light"] .ab-section       { --hex: "0x0001"; }
+[data-theme="light"] .cert-section     { --hex: "0x0002"; }
+[data-theme="light"] .skills-section   { --hex: "0x0003"; }
+[data-theme="light"] .exp-section      { --hex: "0x0004"; }
+[data-theme="light"] .projects-section { --hex: "0x0005"; }
+[data-theme="light"] .edu-section      { --hex: "0x0006"; }
+[data-theme="light"] .off-shift-section{ --hex: "0x0007"; }
+
+[data-theme="light"] .ab-section::after,
+[data-theme="light"] .cert-section::after,
+[data-theme="light"] .skills-section::after,
+[data-theme="light"] .exp-section::after,
+[data-theme="light"] .projects-section::after,
+[data-theme="light"] .edu-section::after,
+[data-theme="light"] .off-shift-section::after {
+  content: var(--hex);
+  position: absolute;
+  bottom: 1.5rem; right: 2rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: rgba(34,197,94,0.18);
+  letter-spacing: 0.08em;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Cards: green inset terminal chrome ─────────────────────── */
+[data-theme="light"] .cert-card,
+[data-theme="light"] .proj-card,
+[data-theme="light"] .edu-item,
+[data-theme="light"] .ab-metric {
+  box-shadow: inset 0 1px 0 rgba(34,197,94,0.18);
+}
+
+[data-theme="light"] .cert-card:hover,
+[data-theme="light"] .proj-card:hover,
+[data-theme="light"] .edu-item:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(34,197,94,0.40),
+    0 0 0 1px rgba(34,197,94,0.30),
+    0 8px 28px rgba(34,197,94,0.12);
+}
+
+/* ── Skill tier badges: terminal tag style ───────────────────── */
+[data-theme="light"] .skill-badge-tier {
+  font-family: var(--mono) !important;
+  border-radius: 0 !important;
+  letter-spacing: 0.04em !important;
+  font-size: 0.58rem !important;
+}
+[data-theme="light"] .skill-badge-tier::before { content: '['; }
+[data-theme="light"] .skill-badge-tier::after  { content: ']'; }
+
+/* ── Experience: log-entry left border ───────────────────────── */
+[data-theme="light"] .exp-item {
+  border-left: 2px solid rgba(34,197,94,0.15) !important;
+  padding-left: 1.5rem !important;
+  position: relative;
+}
+[data-theme="light"] .exp-item::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -1px;
+  width: 2px; height: 100%;
+  background: linear-gradient(180deg, var(--green) 0%, rgba(34,197,94,0.12) 100%);
+  pointer-events: none; z-index: 1;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+[data-theme="light"] .exp-item:hover::before { opacity: 1; }
+
+/* ── Experience: [YYYY–YYYY] period chip ─────────────────────── */
+[data-theme="light"] .exp-period {
+  display: inline-block;
+  background: rgba(34,197,94,0.08);
+  border: 1px solid rgba(34,197,94,0.22);
+  border-radius: 2px;
+  padding: 1px 8px;
+  font-size: 0.72rem !important;
+}
+
+/* ── Metric values: >> prefix ────────────────────────────────── */
+[data-theme="light"] .ab-metric-val::before {
+  content: '>> ';
+  font-size: 0.45em;
+  color: rgba(34,197,94,0.50);
+  vertical-align: middle;
+  letter-spacing: 0;
+}
+
+/* ── Cert verify link: terminal arrow ───────────────────────── */
+[data-theme="light"] .cert-verify-link {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: #16a34a !important;
+}
+[data-theme="light"] .cert-verify-link::before { content: '$ '; opacity: 0.6; }
+
+/* ── Skill-group hover: indent + prefix ─────────────────────── */
+[data-theme="light"] .skill-group-label::before {
+  content: '> ';
+  color: rgba(34,197,94,0.50);
+}
+
+/* ── Section heading: monospace underline on hover ───────────── */
+[data-theme="light"] .section-heading:hover {
+  text-shadow: 0 0 20px rgba(34,197,94,0.15);
+}
+
+/* ── Hero pill: terminal ONLINE status ───────────────────────── */
+[data-theme="light"] .hero-pill {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  border-radius: 2px;
+  padding: 4px 12px;
+}
+[data-theme="light"] .hero-pill::before {
+  content: '[STATUS: ';
+  color: rgba(34,197,94,0.60);
+}
+[data-theme="light"] .hero-pill::after {
+  content: ']';
+  color: rgba(34,197,94,0.60);
+}
+
+/* ── Hero terminal init row ──────────────────────────────────── */
+.hero-cyber-bar {
+  display: none;
+}
+[data-theme="light"] .hero-cyber-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: rgba(34,197,94,0.65);
+  margin-bottom: 1rem;
+  letter-spacing: 0.03em;
+}
+[data-theme="light"] .hero-cyber-bar-path { color: #16a34a; }
+[data-theme="light"] .hero-cyber-bar-cmd  { color: rgba(10,26,13,0.75); }
+[data-theme="light"] .hero-cyber-cursor   {
+  display: inline-block;
+  width: 8px; height: 14px;
+  background: var(--green);
+  animation: os-blink 1s step-end infinite;
+  vertical-align: middle;
+  margin-left: 2px;
+}
+
+/* ── Hero status strip ───────────────────────────────────────── */
+.hero-cyber-status {
+  display: none;
+}
+[data-theme="light"] .hero-cyber-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+}
+[data-theme="light"] .hcs-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(34,197,94,0.08);
+  border: 1px solid rgba(34,197,94,0.22);
+  border-radius: 2px;
+  padding: 2px 8px;
+  color: rgba(10,26,13,0.65);
+}
+[data-theme="light"] .hcs-chip em {
+  font-style: normal;
+  color: #16a34a;
+  font-weight: 700;
+}
+[data-theme="light"] .hcs-dot {
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: os-blink 1.4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+/* ── Project filter buttons: terminal style ─────────────────── */
+[data-theme="light"] .pf-btn {
+  border-radius: 2px !important;
+  font-family: var(--mono) !important;
+  font-size: 0.72rem !important;
+}
+[data-theme="light"] .pf-btn::before { content: './'; color: rgba(34,197,94,0.45); }
+
+/* ── Header: mono brand name ─────────────────────────────────── */
+[data-theme="light"] .hdr-brand { font-family: var(--mono); }
+[data-theme="light"] .hdr-brand .hdr-name::before {
+  content: 'user@';
+  color: rgba(34,197,94,0.50);
+  font-size: 0.8em;
+}
+[data-theme="light"] .hdr-logo {
+  background: rgba(34,197,94,0.15);
+  border: 1px solid rgba(34,197,94,0.30);
+  color: #16a34a;
+}
+
+/* ── Hire Me button: terminal CTA (font/radius supplement) ──── */
+[data-theme="light"] .hdr-cta {
+  font-family: var(--mono) !important;
+  border-radius: 2px !important;
+}
+
+/* ── Scrollbar track: terminal feel ─────────────────────────── */
+[data-theme="light"] ::-webkit-scrollbar-track { background: #f0fdf4; }
+
+/* ── Off-shift card corners: always visible in light ─────────── */
+[data-theme="light"] .os-card-front::before,
+[data-theme="light"] .os-card-front::after { opacity: 0.6; }
+
+/* ── Green glow on active scan ───────────────────────────────── */
+@keyframes cyber-pulse {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(34,197,94,0.20); }
+  50%       { box-shadow: 0 0 0 1px rgba(34,197,94,0.50), 0 0 18px rgba(34,197,94,0.12); }
+}
+[data-theme="light"] .cert-card,
+[data-theme="light"] .edu-item {
+  animation: cyber-pulse 4s ease-in-out infinite;
+}
+[data-theme="light"] .cert-card:hover,
+[data-theme="light"] .edu-item:hover { animation: none; }

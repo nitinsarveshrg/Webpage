@@ -48,11 +48,18 @@ const Hero = () => {
             aria-hidden="true"
           />
 
+          {/* Terminal init bar — visible only in light/terminal mode */}
+          <motion.div className="hero-cyber-bar" style={{ opacity: uiOpacity }} {...fade(0.05)}>
+            <span className="hero-cyber-bar-path">nitin@portfolio:~$</span>
+            <span className="hero-cyber-bar-cmd">./load_portfolio.sh --env=prod</span>
+            <span className="hero-cyber-cursor" aria-hidden="true" />
+          </motion.div>
+
           {/* Row 1 — availability pill */}
           <motion.div className="hero-ui-layer" style={{ opacity: uiOpacity }} {...fade(0.15)}>
             <div className="hero-pill">
               <span className="hero-pill-dot" aria-hidden="true" />
-              Available for hire · Toronto, Canada · Cloud / DevOps / SRE
+              ONLINE · Toronto, Canada · Cloud / DevOps / SRE
             </div>
           </motion.div>
 
@@ -80,6 +87,13 @@ const Hero = () => {
               <button className="btn-ghost" onClick={() => scrollToSectionById('contact')}>
                 Hire Me →
               </button>
+            </div>
+            <div className="hero-cyber-status" aria-hidden="true">
+              <span className="hcs-chip"><span className="hcs-dot" />STATUS <em>ONLINE</em></span>
+              <span className="hcs-chip">UPTIME <em>99.9%</em></span>
+              <span className="hcs-chip">ROLE <em>SRE / DevOps</em></span>
+              <span className="hcs-chip">LOCATION <em>YYZ</em></span>
+              <span className="hcs-chip">CERTS <em>3x ACTIVE</em></span>
             </div>
             <div className="hero-scroll">
               <span>scroll</span>
