@@ -2781,7 +2781,7 @@ html[data-theme="light"] .nx-section:not(.contact-section) > .content-wrap {
   /* overflow: clip allows sticky children while still clipping to radius */
   overflow: hidden;
   overflow: clip;
-  padding-bottom: 2.5rem;
+  padding-bottom: 4rem;
   background: #f5f2ed;
   /* no padding-top — section-label is in-flow and provides the 40px */
 }
@@ -2846,49 +2846,3 @@ html[data-theme="light"] .nx-section:not(.contact-section) > .content-wrap > .se
   margin-top: 2rem;
 }
 
-/* ── Terminal scan effects on viewport entry / exit ──────────── */
-
-/* Title bar pulses brighter green */
-html[data-theme="light"] .nx-section.term-scan:not(.contact-section) > .content-wrap > .section-label {
-  animation: term-header-flash 0.9s ease-out forwards;
-}
-@keyframes term-header-flash {
-  0%   { background: #16181a; }
-  15%  { background: #0d3010; }
-  40%  { background: #155c18; }
-  70%  { background: #0d3010; }
-  100% { background: #16181a; }
-}
-
-/* Blinking cursor persists during scan */
-html[data-theme="light"] .nx-section.term-scan:not(.contact-section) > .content-wrap > .section-label::after {
-  content: ' ▌' !important;
-  color: #28c840;
-  animation: os-blink 0.45s step-end 8;
-}
-
-/* Green scan line sweeps top → bottom across the panel content */
-html[data-theme="light"] .nx-section.term-scan:not(.contact-section) > .content-wrap::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 40px;
-  height: 3px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(40, 200, 64, 0.5) 20%,
-    rgba(40, 200, 64, 0.9) 50%,
-    rgba(40, 200, 64, 0.5) 80%,
-    transparent 100%
-  );
-  animation: scanline-sweep 0.85s ease-in-out forwards;
-  z-index: 5;
-  pointer-events: none;
-}
-@keyframes scanline-sweep {
-  0%   { transform: translateY(0);     opacity: 1;   }
-  85%  { transform: translateY(80vh);  opacity: 0.4; }
-  100% { transform: translateY(80vh);  opacity: 0;   }
-}
