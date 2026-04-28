@@ -7,6 +7,7 @@ import { inView } from '../lib/animations';
 const FILTERS = ['All', 'AWS', 'Automation', 'Testing', 'Web', 'Platform'];
 const GITHUB_USER = 'nitinsarveshrg';
 const GITHUB_API = `https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=updated`;
+const EXCLUDED_REPOS = ['Webpage', 'Job-Tracker', 'job-tracker', 'webpage'];
 
 const SKILL_MAP = {
   AWS: ['aws', 'ecs', 'ecr', 'fargate', 'cloudwatch'],
@@ -49,7 +50,9 @@ const Projects = () => {
   const [syncing, setSyncing] = useState(true);
 
   const fallback = useMemo(
-    () => (portfolioData.projects || []).map((p) => ({ ...p, matchedSkills: deriveSkills(p) })),
+    () => (portfolioData.projects || [])
+      .filter((p) => !EXCLUDED_REPOS.some(x => x.toLowerCase() === repoName(p.github || '').toLowerCase() || x.toLowerCase() === p.title?.toLowerCase()))
+      .map((p) => ({ ...p, matchedSkills: deriveSkills(p) })),
     []
   );
 
@@ -60,7 +63,7 @@ const Projects = () => {
       try {
         const res = await fetch(GITHUB_API, { headers: { Accept: 'application/vnd.github+json' } });
         if (!res.ok) throw new Error(`GitHub ${res.status}`);
-        const repos = (await res.json()).filter((r) => !r.fork && !r.archived);
+        const repos = (await res.json()).filter((r) => !r.fork && !r.archived && !EXCLUDED_REPOS.some(x => x.toLowerCase() === r.name.toLowerCase()));
         const langData = await Promise.all(repos.map(async (r) => {
           try { const lr = await fetch(r.languages_url, { headers: { Accept: 'application/vnd.github+json' } }); return [r.name, lr.ok ? Object.keys(await lr.json()) : []]; }
           catch { return [r.name, []]; }
