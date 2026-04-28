@@ -2559,12 +2559,20 @@ html[data-theme="light"] .pf-btn {
 html[data-theme="light"] .pf-btn::before { content: none; }
 html[data-theme="light"] .pf-btn:hover { border-color: rgba(22,24,25,0.36); color: #16181a; }
 html[data-theme="light"] .pf-btn.active { background: #16181a; color: #f2efea; border-color: #16181a; }
+/* Cards self-size to their content — no stretching to match row height */
+html[data-theme="light"] .projects-grid {
+  align-items: start;
+}
 html[data-theme="light"] .proj-card {
   background: #ede9e3;
   border: 1px solid rgba(22,24,25,0.12);
   border-radius: 0;
   box-shadow: none;
   animation: none;
+  height: auto;
+}
+html[data-theme="light"] .proj-desc {
+  flex: unset;
 }
 html[data-theme="light"] .proj-card::before,
 html[data-theme="light"] .proj-card::after { display: none; }
