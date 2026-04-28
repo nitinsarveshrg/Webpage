@@ -2221,8 +2221,8 @@ html[data-theme="light"] .off-shift-section::after { content: none; }
 html[data-theme="light"] .hero-section {
   background: transparent;
   background-image: none;
-  padding-left: clamp(1.5rem, 5vw, 4rem);
-  padding-right: clamp(1.5rem, 5vw, 4rem);
+  padding-left: clamp(0.75rem, 2.5vw, 2.5rem);
+  padding-right: 0;
 }
 html[data-theme="light"] .hero-glow { display: none; }
 html[data-theme="light"] .hero-ui-layer { justify-content: flex-start; }
@@ -2255,18 +2255,18 @@ html[data-theme="light"] .hero-n1 {
   font-family: "Instrument Serif", Georgia, serif;
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(3.8rem, 11vw, 10rem);
+  font-size: clamp(4rem, 26vw, 34rem);
   letter-spacing: -0.04em;
-  line-height: 0.90;
+  line-height: 0.88;
   color: #16181a;
 }
 html[data-theme="light"] .hero-n2 {
   font-family: "Instrument Serif", Georgia, serif;
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(3.2rem, 9.5vw, 8.5rem);
+  font-size: clamp(3.5rem, 22vw, 29rem);
   letter-spacing: -0.04em;
-  line-height: 0.90;
+  line-height: 0.88;
   background: none;
   -webkit-text-fill-color: #16181a;
   color: #16181a;
@@ -2276,12 +2276,12 @@ html[data-theme="light"] .hero-n3 {
   font-family: "Instrument Serif", Georgia, serif;
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(2.2rem, 6.5vw, 6rem);
+  font-size: clamp(2.5rem, 15vw, 20rem);
   letter-spacing: -0.03em;
-  line-height: 0.92;
-  color: rgba(22,24,25,0.28);
+  line-height: 0.90;
+  color: rgba(22,24,25,0.22);
   -webkit-text-stroke: 0;
-  -webkit-text-fill-color: rgba(22,24,25,0.28);
+  -webkit-text-fill-color: rgba(22,24,25,0.22);
 }
 
 html[data-theme="light"] .hero-bottom-ui { align-items: flex-start; }
@@ -2832,19 +2832,49 @@ html[data-theme="light"] .nx-section:not(.contact-section) > .content-wrap .sect
   margin-top: 0;
 }
 
-/* ── Terminal scan flash — bar briefly turns green on entry ───── */
+/* ── Terminal scan effects on viewport entry / exit ──────────── */
+
+/* Title bar pulses brighter green */
 html[data-theme="light"] .nx-section.term-scan:not(.contact-section) > .content-wrap > .section-label {
-  animation: term-header-flash 0.6s ease-out forwards;
+  animation: term-header-flash 0.9s ease-out forwards;
 }
 @keyframes term-header-flash {
   0%   { background: #16181a; }
-  30%  { background: #1e3a22; }
+  15%  { background: #0d3010; }
+  40%  { background: #155c18; }
+  70%  { background: #0d3010; }
   100% { background: #16181a; }
 }
 
-/* Blinking cursor on section entry */
+/* Blinking cursor persists during scan */
 html[data-theme="light"] .nx-section.term-scan:not(.contact-section) > .content-wrap > .section-label::after {
   content: ' ▌' !important;
   color: #28c840;
-  animation: os-blink 0.5s step-end 5;
+  animation: os-blink 0.45s step-end 8;
+}
+
+/* Green scan line sweeps top → bottom across the panel content */
+html[data-theme="light"] .nx-section.term-scan:not(.contact-section) > .content-wrap::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 40px;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(40, 200, 64, 0.5) 20%,
+    rgba(40, 200, 64, 0.9) 50%,
+    rgba(40, 200, 64, 0.5) 80%,
+    transparent 100%
+  );
+  animation: scanline-sweep 0.85s ease-in-out forwards;
+  z-index: 5;
+  pointer-events: none;
+}
+@keyframes scanline-sweep {
+  0%   { transform: translateY(0);     opacity: 1;   }
+  85%  { transform: translateY(80vh);  opacity: 0.4; }
+  100% { transform: translateY(80vh);  opacity: 0;   }
 }
