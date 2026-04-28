@@ -76,6 +76,7 @@
   border-right: 1px solid rgba(34,197,94,0.15);
   max-width: 1440px;
   margin-inline: auto;
+  overflow: clip; /* clip without creating scroll container, allows sticky children */
 }
 
 /* ── Section labels: $ prompt ─────────────────────────────────── */
@@ -2207,6 +2208,10 @@ html[data-theme="light"] .section-heading:hover {
 /* ── Sections: ink divider lines ─────────────────────────────── */
 html[data-theme="light"] .nx-section {
   border-top: 1px solid rgba(22,24,25,0.10);
+  overflow: visible; /* allow position:sticky on .section-label inside .content-wrap */
+}
+html[data-theme="light"] .contact-section {
+  overflow: hidden; /* contact section needs clipping for its decorative elements */
 }
 /* wipe hex watermarks */
 html[data-theme="light"] .ab-section::after,
@@ -2221,11 +2226,10 @@ html[data-theme="light"] .off-shift-section::after { content: none; }
 html[data-theme="light"] .hero-section {
   background: transparent;
   background-image: none;
-  padding-left: clamp(0.75rem, 2.5vw, 2.5rem);
-  padding-right: 0;
+  padding-left: clamp(1.5rem, 5vw, 4rem);
+  padding-right: clamp(1.5rem, 5vw, 4rem);
 }
 html[data-theme="light"] .hero-glow { display: none; }
-html[data-theme="light"] .hero-ui-layer { justify-content: flex-start; }
 html[data-theme="light"] .hero-pill {
   background: transparent;
   border: 1px solid rgba(22,24,25,0.14);
@@ -2240,9 +2244,9 @@ html[data-theme="light"] .hero-pill::before { content: none; }
 html[data-theme="light"] .hero-pill::after  { content: none; }
 html[data-theme="light"] .hero-pill-dot { background: #22c55e; }
 
-/* Name: left-aligned, Instrument Serif italic */
+/* Name: centered, Instrument Serif italic — proportional to dark mode */
 html[data-theme="light"] .hero-name-wrap {
-  align-items: flex-start;
+  align-items: center;
   gap: 0;
   border-left: none;
   padding-left: 0;
@@ -2255,18 +2259,18 @@ html[data-theme="light"] .hero-n1 {
   font-family: "Instrument Serif", Georgia, serif;
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(4rem, 26vw, 34rem);
+  font-size: clamp(3.8rem, 11vw, 10rem);
   letter-spacing: -0.04em;
-  line-height: 0.88;
+  line-height: 0.90;
   color: #16181a;
 }
 html[data-theme="light"] .hero-n2 {
   font-family: "Instrument Serif", Georgia, serif;
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(3.5rem, 22vw, 29rem);
+  font-size: clamp(3.2rem, 9.5vw, 8.5rem);
   letter-spacing: -0.04em;
-  line-height: 0.88;
+  line-height: 0.90;
   background: none;
   -webkit-text-fill-color: #16181a;
   color: #16181a;
@@ -2276,24 +2280,24 @@ html[data-theme="light"] .hero-n3 {
   font-family: "Instrument Serif", Georgia, serif;
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(2.5rem, 15vw, 20rem);
+  font-size: clamp(2.2rem, 6.5vw, 6rem);
   letter-spacing: -0.03em;
-  line-height: 0.90;
-  color: rgba(22,24,25,0.22);
+  line-height: 0.92;
+  color: rgba(22,24,25,0.28);
   -webkit-text-stroke: 0;
-  -webkit-text-fill-color: rgba(22,24,25,0.22);
+  -webkit-text-fill-color: rgba(22,24,25,0.28);
 }
 
-html[data-theme="light"] .hero-bottom-ui { align-items: flex-start; }
+html[data-theme="light"] .hero-bottom-ui { align-items: center; }
+html[data-theme="light"] .hero-actions { justify-content: center; }
 html[data-theme="light"] .hero-tagline {
   font-family: var(--mono);
   font-size: clamp(0.80rem, 1.4vw, 0.92rem);
   color: rgba(22,24,25,0.50);
-  text-align: left;
+  text-align: center;
   max-width: 44ch;
   line-height: 1.65;
 }
-html[data-theme="light"] .hero-actions { justify-content: flex-start; }
 html[data-theme="light"] .hero-cyber-bar    { display: none; }
 html[data-theme="light"] .hero-cyber-status { display: none; }
 html[data-theme="light"] .hero-scroll {
