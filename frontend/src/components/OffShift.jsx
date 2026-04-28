@@ -110,8 +110,8 @@ const OffShift = () => (
     <div className="section-anchor" aria-hidden="true" />
     <div className="content-wrap">
 
+      <div className="section-label">Off Shift</div>
       <motion.div {...inView(0)}>
-        <div className="section-label">Off Shift</div>
         <h2 className="section-heading">
           When I'm not <em>on call.</em>
         </h2>

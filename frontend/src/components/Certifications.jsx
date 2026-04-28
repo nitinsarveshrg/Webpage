@@ -10,8 +10,8 @@ const Certifications = () => (
     <div className="section-anchor" aria-hidden="true" />
     <div className="content-wrap">
 
+      <div className="section-label">Credentials</div>
       <motion.div {...inView(0)}>
-        <div className="section-label">Credentials</div>
         <h2 className="section-heading">
           Industry<br /><em>certifications.</em>
         </h2>

@@ -9,8 +9,8 @@ const Experience = () => (
     <div className="section-anchor" aria-hidden="true" />
     <div className="content-wrap">
 
+      <div className="section-label">Experience</div>
       <motion.div {...inView(0)}>
-        <div className="section-label">Experience</div>
         <h2 className="section-heading">
           Impact<br /><em>timeline.</em>
         </h2>

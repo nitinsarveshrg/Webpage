@@ -2763,21 +2763,22 @@ html[data-theme="light"] .gradient-line {
 html[data-theme="light"] .cloud-canvas { opacity: 0.06; filter: invert(1); }
 
 /* ══════════════════════════════════════════════════════════════
-   TERMINAL WINDOW PANELS — each section wrapped in term chrome
+   TERMINAL WINDOW PANELS — macOS-style chrome on every section
+   except contact (which is already a dark panel)
    ══════════════════════════════════════════════════════════════ */
 
-/* Content wrap becomes a terminal window */
-html[data-theme="light"] .nx-section > .content-wrap {
+html[data-theme="light"] .nx-section:not(.contact-section) > .content-wrap {
   position: relative;
   border: 1px solid rgba(22,24,25,0.14);
   border-radius: 8px;
   overflow: hidden;
-  padding-top: 52px; /* room for the dark title bar */
+  padding-top: 56px;
+  padding-bottom: 2.5rem;
   background: #f5f2ed;
 }
 
 /* Dark terminal title bar */
-html[data-theme="light"] .nx-section > .content-wrap::before {
+html[data-theme="light"] .nx-section:not(.contact-section) > .content-wrap::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
@@ -2788,7 +2789,7 @@ html[data-theme="light"] .nx-section > .content-wrap::before {
 }
 
 /* Traffic-light dots */
-html[data-theme="light"] .nx-section > .content-wrap::after {
+html[data-theme="light"] .nx-section:not(.contact-section) > .content-wrap::after {
   content: '';
   position: absolute;
   top: 14px; left: 16px;
@@ -2799,32 +2800,47 @@ html[data-theme="light"] .nx-section > .content-wrap::after {
   z-index: 3;
 }
 
-/* Mono window label in title bar — shown after the dots */
-html[data-theme="light"] .nx-section > .content-wrap .section-label {
+/* Section label sits in title bar — it is now a direct child of
+   content-wrap (outside the opacity-animated motion.div) so it
+   is always visible when the panel is in view */
+html[data-theme="light"] .nx-section:not(.contact-section) > .content-wrap > .section-label {
   position: absolute;
-  top: 12px;
-  left: 72px;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding-left: 72px;
   z-index: 4;
-  color: rgba(242,239,234,0.50) !important;
   font-size: 0.60rem;
   letter-spacing: 0.18em;
+  color: rgba(242,239,234,0.55) !important;
+  text-transform: uppercase;
   margin: 0;
   pointer-events: none;
 }
-html[data-theme="light"] .nx-section > .content-wrap .section-label::before {
+html[data-theme="light"] .nx-section:not(.contact-section) > .content-wrap > .section-label::before {
+  content: '§ ' !important;
+  display: inline !important;
+  width: auto !important; height: auto !important;
+  background: none !important;
   color: #28c840 !important;
+  font-size: 1em !important;
+  margin-right: 0 !important;
+  font-weight: 600 !important;
 }
-html[data-theme="light"] .nx-section > .content-wrap .section-label::after {
+html[data-theme="light"] .nx-section:not(.contact-section) > .content-wrap > .section-label::after {
   content: none !important;
 }
 
-/* Section heading stays in content area below bar */
-html[data-theme="light"] .nx-section > .content-wrap .section-heading {
-  margin-top: 2rem;
+/* Heading sits below the dark bar with breathing room */
+html[data-theme="light"] .nx-section:not(.contact-section) > .content-wrap .section-heading {
+  margin-top: 1.5rem;
 }
 
-/* ── Terminal scan line sweeps on scroll entry ────────────────── */
-html[data-theme="light"] .nx-section.term-scan > .content-wrap::before {
+/* ── Terminal scan flash on scroll entry ──────────────────────── */
+html[data-theme="light"] .nx-section.term-scan:not(.contact-section) > .content-wrap::before {
   animation: term-header-flash 0.6s ease-out forwards;
 }
 @keyframes term-header-flash {
@@ -2833,8 +2849,8 @@ html[data-theme="light"] .nx-section.term-scan > .content-wrap::before {
   100% { background: #16181a; }
 }
 
-/* Blinking cursor in header when scanning */
-html[data-theme="light"] .nx-section.term-scan > .content-wrap .section-label::after {
+/* Blinking cursor in title bar during scan */
+html[data-theme="light"] .nx-section.term-scan:not(.contact-section) > .content-wrap > .section-label::after {
   content: ' ▌' !important;
   color: #28c840;
   animation: os-blink 0.5s step-end 5;

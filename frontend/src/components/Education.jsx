@@ -10,11 +10,11 @@ const Education = () => (
     <div className="section-anchor" aria-hidden="true" />
     <div className="content-wrap">
 
+      <div className="section-label">
+        <GraduationCap size={11} style={{ display: 'inline', marginRight: '0.3rem' }} />
+        Education
+      </div>
       <motion.div {...inView(0)}>
-        <div className="section-label">
-          <GraduationCap size={11} style={{ display: 'inline', marginRight: '0.3rem' }} />
-          Education
-        </div>
         <h2 className="section-heading">
           Academic<br /><em>background.</em>
         </h2>

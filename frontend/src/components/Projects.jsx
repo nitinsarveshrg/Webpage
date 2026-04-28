@@ -93,8 +93,8 @@ const Projects = () => {
       <div className="section-anchor" aria-hidden="true" />
       <div className="content-wrap">
 
+        <div className="section-label">Projects</div>
         <motion.div {...inView(0)}>
-          <div className="section-label">Projects</div>
           <h2 className="section-heading">
             Work in<br /><em>production.</em>
           </h2>

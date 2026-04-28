@@ -67,8 +67,8 @@ const Skills = () => (
     <div className="section-anchor" aria-hidden="true" />
     <div className="content-wrap">
 
+      <div className="section-label">Skills</div>
       <motion.div {...inView(0)}>
-        <div className="section-label">Skills</div>
         <h2 className="section-heading">
           Full-stack<br /><em>infrastructure.</em>
         </h2>
