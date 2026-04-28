@@ -2569,7 +2569,8 @@ html[data-theme="light"] .proj-card {
   border-radius: 0;
   box-shadow: none;
   animation: none;
-  height: auto;
+  height: auto !important;
+  align-self: start;
 }
 html[data-theme="light"] .proj-desc {
   flex: unset;
