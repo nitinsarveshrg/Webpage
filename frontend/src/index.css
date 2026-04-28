@@ -2574,6 +2574,16 @@ html[data-theme="light"] .proj-card {
 html[data-theme="light"] .proj-desc {
   flex: unset;
 }
+/* Remove auto-margin that creates a gap when tags div is empty */
+html[data-theme="light"] .proj-tags {
+  margin-top: 0.75rem;
+}
+html[data-theme="light"] .proj-tags:empty {
+  display: none;
+}
+html[data-theme="light"] .proj-links {
+  margin-top: 0.75rem;
+}
 html[data-theme="light"] .proj-card::before,
 html[data-theme="light"] .proj-card::after { display: none; }
 html[data-theme="light"] .proj-card:hover {
